@@ -4,3 +4,8 @@ source 'http://rubygems.org'
 gem 'sinatra-synchrony'
 gem 'em-mongo'
 gem 'thin'
+
+group :test do
+  gem 'colorific'
+  gem 'mongo'
+end
