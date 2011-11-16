@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'mongo'
 require 'colorific'
-require File.dirname(__FILE__) + '/../db/mongo'
+require File.dirname(__FILE__) + '/../../api/mongo'
 
 
 describe API::Mongo do
@@ -11,7 +11,7 @@ describe API::Mongo do
     db = Mongo::Connection.new.db('mongo-test')
     @coll = db.collection('images')
     # insert a sample image
-    sample = {
+    @sample = {
         name: 'testsample',
         architecture: 'arch',
         access: 'public',
@@ -19,7 +19,7 @@ describe API::Mongo do
         disk: 'disk',
         store: 'store'
     }
-    @coll.insert(sample)
+    @coll.insert(@sample)
   end
 
   after do
@@ -27,10 +27,11 @@ describe API::Mongo do
     @coll.drop
   end
 
+
   describe 'configure database' do
     it "should create a database connection and return the db object" do
       EventMachine.synchrony do
-        db = API::Mongo.configure_db(nil, 'mongo-test')
+        db = API::Mongo.configure_db('mongo-test')
         db.must_be_instance_of EM::Mongo::Database
         EventMachine.stop
       end
@@ -38,18 +39,19 @@ describe API::Mongo do
 
     it "should create a database connection to a specific collection" do
       EventMachine.synchrony do
-        coll = API::Mongo.configure_db('images', 'mongo-test')
+        coll = API::Mongo.configure_db('mongo-test', :coll => 'images')
         coll.must_be_instance_of EM::Mongo::Collection
         EventMachine.stop
       end
     end
   end
 
+
   describe 'configure counters' do
     it "should configure the counters collection" do
       EventMachine.synchrony do
         API::Mongo.configure_counters('mongo-test')
-        coll = API::Mongo.configure_db('counters', 'mongo-test')
+        coll = API::Mongo.configure_db('mongo-test', :coll => 'counters')
         id = coll.find[0]['count']
         id.must_be_instance_of Fixnum
         EventMachine.stop
@@ -57,9 +59,11 @@ describe API::Mongo do
     end
   end
 
+
   describe 'validate data' do
     # TODO
   end
+
 
   describe 'post a new image metadata' do
     it "should post a new image given its metadata" do
@@ -77,7 +81,12 @@ describe API::Mongo do
         EventMachine.stop
       end
     end
+
+    it "should return nil if image validation fails" do
+      skip
+    end
   end
+
 
   describe 'get all public images' do
     it "should return am array with all public images metadata" do
@@ -90,39 +99,94 @@ describe API::Mongo do
         EventMachine.stop
       end
     end
-  end
 
-  describe 'get an image by its id' do
-    it "should return an array with the image metadata with the given id" do
+    it "should return nil if there is no public image" do
       EventMachine.synchrony do
-        # capture the previous inserted sample image
-        db = API::Mongo.configure_db('images', 'mongo-test')
-        sample = db.find({name: 'testsample'}).first
-        id = sample['_id']
-        # now find it by id
-        img = API::Mongo.get_image(id, 'mongo-test')
-        img.must_be_instance_of Array
-        img.first['name'].must_equal 'testsample'
+        # remove all images and insert one private
+        images = API::Mongo.configure_db('mongo-test', :coll => 'images')
+        images.remove({})
+        API::Mongo.post_image({access: 'private'}, 'mongo-test')
+        # try to find public images should fail
+        pub = API::Mongo.get_public_images('mongo-test')
+        pub.must_be_instance_of NilClass
         EventMachine.stop
       end
     end
   end
+
+
+  describe 'get an image by its id' do
+    it "should return the image metadata with the given id" do
+      EventMachine.synchrony do
+        # capture the previous inserted sample image
+        db = API::Mongo.configure_db('mongo-test', :coll => 'images')
+        sample = db.find({name: 'testsample'}).first
+        id = sample['_id']
+        # now find it by id
+        img = API::Mongo.get_image(id, 'mongo-test')
+        img.must_be_instance_of BSON::OrderedHash
+        img['name'].must_equal 'testsample'
+        EventMachine.stop
+      end
+    end
+
+    it "should return nil if image not found" do
+      EventMachine.synchrony do
+        img = API::Mongo.get_image(1000, 'mongo-test')
+        img.must_be_instance_of NilClass
+        EventMachine.stop
+      end
+    end
+  end
+
 
   describe 'delete an image by its id' do
     it "should delete an image with the given id and return its metadata" do
       EventMachine.synchrony do
         # capture the previous inserted sample image
-        db = API::Mongo.configure_db('images', 'mongo-test')
+        db = API::Mongo.configure_db('mongo-test', :coll => 'images')
         sample = db.find({name: 'testsample'}).first
         id = sample['_id']
         # now delete it by id
         img = API::Mongo.delete_image(id, 'mongo-test')
-        img.must_be_instance_of Array
-        img.size.must_equal 1
-        img.first['_id'].must_equal id
+        img.must_be_instance_of BSON::OrderedHash
+        img['_id'].must_equal id
         EventMachine.stop
       end
     end
 
+    it "should return nil if image not found" do
+      EventMachine.synchrony do
+        img = API::Mongo.delete_image(1000, 'mongo-test')
+        img.must_be_instance_of NilClass
+        EventMachine.stop
+      end
+    end
+  end
+
+
+  describe 'update an image by its id and new metadata' do
+    it "should update an image metadata and return it" do
+      EventMachine.synchrony do
+        up = {
+            name: 'Ubuntu xyz',
+            architecture: 'i386',
+            a: 'y'
+        }
+        # retrieve sample image id and its metadata
+        db = API::Mongo.configure_db('mongo-test', :coll => 'images')
+        sample = db.find({name: 'testsample'}).first
+        id = sample['_id']
+        # update it with up
+        update = API::Mongo.put_image(id, up, 'mongo-test')
+        update.must_be_instance_of BSON::OrderedHash
+        update.must_equal sample.merge!(JSON.parse(up.to_json))
+        EventMachine.stop
+      end
+    end
+
+    it "should return nil if image validation fails" do
+      skip
+    end
   end
 end

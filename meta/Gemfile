@@ -5,6 +5,13 @@ gem 'sinatra-synchrony'
 gem 'em-mongo'
 gem 'thin'
 
+group :development do
+  gem 'guard'
+  gem 'guard-minitest'
+  gem 'rb-fsevent', :require => false
+  gem 'growl_notify' # => brew install growlnotify
+end
+
 group :test do
   gem 'colorific'
   gem 'mongo'
