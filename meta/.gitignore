@@ -2,8 +2,10 @@
 *.gem
 *.rbc
 pickaxe
+_old
 .idea
 testing.rb
+README.md
 .bundle
 .config
 .yardoc

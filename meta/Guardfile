@@ -1,15 +1,24 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard 'minitest' do
+#guard 'minitest' do
   # with Minitest::Unit
   # watch(%r|^test/test_(.*)\.rb|)
   # watch(%r|^lib/(.*)([^/]+)\.rb|)     { |m| "test/#{m[1]}test_#{m[2]}.rb" }
   # watch(%r|^test/test_helper\.rb|)    { "test" }
 
   # with Minitest::Spec
-  watch(%r|^spec/(.*)_spec\.rb|)
+  #watch(%r|^spec/(.*)_spec\.rb|)
   # watch(%r|^lib/(.*)\.rb|)            { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r|^api/(.*)\.rb|)            { |m| "spec/api/#{m[1]}_spec.rb" }
+  #watch(%r|^api/(.*)\.rb|)            { |m| "spec/api/#{m[1]}_spec.rb" }
+  #watch(%r|^spec/spec_helper\.rb|)    { "spec" }
+#end
+
+guard 'rspec', :cli => "--color --format nested --fail-fast" do
+  watch(%r|^spec/(.*)_spec\.rb|)
+  watch(%r|^spec/backends/(.*)_spec\.rb|)
+  watch(%r|^lib/(.*)\.rb|)                    { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r|^lib/registry/backends/(.*)\.rb|)  { |m| "spec/backends/#{m[1]}_spec.rb" }
+  watch(%r|^lib/registry/(.*)\.rb|)           { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r|^spec/spec_helper\.rb|)    { "spec" }
 end

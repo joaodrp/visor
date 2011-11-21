@@ -1,1 +1,1 @@
-$LOAD_PATH << '../'
+require File.expand_path '../../lib/registry', __FILE__

@@ -1,7 +1,20 @@
+#!/usr/bin/env rake
+require "bundler/gem_tasks"
 require 'rake/testtask'
 
-Rake::TestTask.new do |t|
+Rake::TestTask.new(:all) do |t|
   t.libs.push "lib"
   t.test_files = FileList['spec/*/*_spec.rb']
-  #t.verbose = true
+end
+
+desc "Generate YARD documentation"
+task :ydoc do
+  require File.join(File.dirname(__FILE__), 'lib', 'registry')
+  system "yardoc --private lib/**/*.rb lib/registry/**/*.rb --title cbolt"
+end
+
+task :default => :list
+
+task :list do
+  system 'rake -T'
 end
