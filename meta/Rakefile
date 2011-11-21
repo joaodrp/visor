@@ -1,6 +1,7 @@
 #!/usr/bin/env rake
 require "bundler/gem_tasks"
 require 'rake/testtask'
+require 'fileutils'
 
 Rake::TestTask.new(:all) do |t|
   t.libs.push "lib"
@@ -10,7 +11,10 @@ end
 desc "Generate YARD documentation"
 task :ydoc do
   require File.join(File.dirname(__FILE__), 'lib', 'registry')
-  system "yardoc --private lib/**/*.rb lib/registry/**/*.rb --title cbolt --main README.md"
+  output = "~/workspace/gh-pages/cbolt/"
+  system "rm -rf #{output}*"
+  system "yardoc --private lib/**/*.rb lib/registry/**/*.rb -o #{output} --no-save --title CBOLT --main ../README.md"
+  system "cd #{output} && git add . && git commit -am 'documentation updated' && git push origin gh-pages"
 end
 
 task :default => :list
