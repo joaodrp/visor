@@ -4,6 +4,7 @@ source 'http://rubygems.org'
 #gemspec
 gem 'mongo'
 gem 'bson_ext'
+gem 'sinatra'
 
 group :development do
   gem 'guard'

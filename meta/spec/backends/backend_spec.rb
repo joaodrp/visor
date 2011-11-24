@@ -78,7 +78,7 @@ module Registry::Backends
     describe "#validate_data" do
       context "from a post operation" do
         it "should validate that no read-only field is setted" do
-          Registry::READONLY.each do |field|
+          Registry::Backends::Backend::READONLY.each do |field|
             ro = @sample3.merge(field.to_sym => 'this is a r-o field!!')
             l = lambda { @conn.validate_data(ro, :post) }
             l.should raise_error(Registry::Invalid, /#{field}/)
@@ -86,7 +86,7 @@ module Registry::Backends
         end
 
         it "should validate that all mandatory fields are setted" do
-          Registry::MANDATORY.each do |field|
+          Registry::Backends::Backend::MANDATORY.each do |field|
             mand = @sample3.select { |k, v| k != field.to_sym }
             l = lambda { @conn.validate_data(mand, :post) }
             l.should raise_error(Registry::Invalid, /#{field}/)
@@ -131,7 +131,7 @@ module Registry::Backends
 
       context "from a put operation" do
         it "should validate that no read-only field is setted" do
-          Registry::READONLY.each do |field|
+          Registry::Backends::Backend::READONLY.each do |field|
             ro = @sample3.merge(field.to_sym => 'this is a r-o field!!')
             l = lambda { @conn.validate_data(ro, :put) }
             l.should raise_error(Registry::Invalid, /#{field}/)

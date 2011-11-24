@@ -1,21 +1,65 @@
 module Registry
   module Backends
     class Backend
+      # TODO: order fields in hashes
+        # {:a => 'x', :b => 'y', :c => 'z'}
+        # {:b => 'y', :a => 'x'}
+        # =>
+        # {:a => 'x', :b => 'y', :c => 'z'}
+        # {:a => 'x', :b => 'y', :c => '-'}
+
+      # Keys validation
+      #
+      # Presentation order and default value:
+      # _id
+      # uri
+      # name
+      # architecture
+      # access
+      # status<locked>
+      # kernel<->
+      # ramdisk<->
+      # type<->
+      # format<->
+      # size<->
+      # owner
+      # uploaded_at<->
+      # updated_at<->
+      # accessed_at<->, access_count<0>, checksum
+      # others
+      #
+      # mandatory attributes
+      MANDATORY = [:name, :architecture, :access]
+      # read-only attributes
+      READONLY = [:_id, :uri, :owner, :status, :size, :uploaded_at, :updated_at, :accessed_at, :access_count, :checksum]
+
+      # Values validation
+      #
+      # architecture options
+      ARCH = %w[i386 x86_64]
+      # access options
+      ACCESS = %w[public private]
+      # possible disk formats
+      FORMATS = %w[none iso vhd vdi vmdk ami aki ari]
+      # possible types
+      TYPES = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
+      # possible status
+      STATUS = %w[locked uploading error available]
+      # possible storages
+      STORES = %w[s3 swift cumulus hdfs fs]
 
       attr_reader :db, :host, :port
 
-      # Initializes a MongoDB Backend instance.
+      # Initializes a Backend instance.
       #
-      # @option [Hash] opts Any of the available options can be passed.
+      # @param db [Object] The database to use.
+      # @param host [Object] The host address.
+      # @param port [Object] The host port.
       #
-      # @option opts [String] :db (MONGO_DB) The wanted database.
-      # @option opts [String] :host (MONGO_IP) The host address.
-      # @option opts [Integer] :port (MONGO_PORT) The port to be used.
-      #
-      def initialize(opts = {})
-        @db   = opts[:db]   || MONGO_DB
-        @host = opts[:host] || MONGO_IP
-        @port = opts[:port] || MONGO_PORT
+      def initialize(db, host, port)
+        @db   = db
+        @host = host
+        @port = port
       end
 
       # Set protected fields value from all kind of operations.

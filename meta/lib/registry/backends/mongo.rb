@@ -1,6 +1,16 @@
 module Registry
   module Backends
     class MongoDB < Backend
+      #TODO: get images that match zero or more filters
+        # hash with filter keys and values.
+        # image attribute by which results should be sorted
+
+      # Default database
+      MONGO_DB = 'cbolt'
+      # Default host address
+      MONGO_IP = '127.0.0.1'
+      # Default host port
+      MONGO_PORT = 27017
 
       # Initializes a MongoDB Backend instance
       #
@@ -11,21 +21,23 @@ module Registry
       # @option opts [Integer] :port (MONGO_PORT) The port to be used.
       #
       def initialize(opts = {})
-        super opts
+        db   = opts[:db]   || MONGO_DB
+        host = opts[:host] || MONGO_IP
+        port = opts[:port] || MONGO_PORT
+        super(db, host, port)
       end
 
       # Establishes and returns a MongoDB database connection.
       #
       # @param [String] coll (Nil) The wanted collection.
       #
-      # @return [Mongo:DB] If no collection is provided it returns a database object.
-      # @return [Mongo::Collection] If a collection is provided it returns a collection object.
+      # @return [Mongo:DB, Mongo::Collection] It returns a database object or a collection object.
       #
       def connection(coll = nil)
-        if coll.nil?
-          Mongo::Connection.new(@host, @port).db(@db)
-        else
+        if coll
           Mongo::Connection.new(@host, @port).db(@db).collection(coll.to_s)
+        else
+          Mongo::Connection.new(@host, @port).db(@db)
         end
       end
 
@@ -137,3 +149,4 @@ module Registry
     end
   end
 end
+

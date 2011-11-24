@@ -30,7 +30,7 @@ module Registry::Backends
     describe "#initialize" do
       it "should instantiate a new onject" do
         @conn.db.should == 'mongo-test'
-        @conn.host.should == Registry::MONGO_IP
+        @conn.host.should == Registry::Backends::MongoDB::MONGO_IP
       end
     end
 

@@ -13,7 +13,6 @@ module Registry
   #
   $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-  require 'registry/constants'
   require 'registry/exceptions'
   require 'registry/extensions/hash'
   require 'registry/extensions/string'
