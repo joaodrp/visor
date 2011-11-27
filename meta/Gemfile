@@ -4,7 +4,8 @@ source 'http://rubygems.org'
 #gemspec
 gem 'mongo'
 gem 'bson_ext'
-gem 'sinatra'
+gem 'sinatra', :require => 'sinatra/base'
+gem 'thin'
 
 group :development do
   gem 'guard'
@@ -17,4 +18,5 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'rack-test', :require => 'rack/test'
 end

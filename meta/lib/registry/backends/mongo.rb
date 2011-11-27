@@ -1,9 +1,6 @@
-module Registry
+module Cbolt
   module Backends
     class MongoDB < Backend
-      #TODO: get images that match zero or more filters
-        # hash with filter keys and values.
-        # image attribute by which results should be sorted
 
       # Default database
       MONGO_DB = 'cbolt'
@@ -21,7 +18,7 @@ module Registry
       # @option opts [Integer] :port (MONGO_PORT) The port to be used.
       #
       def initialize(opts = {})
-        db   = opts[:db]   || MONGO_DB
+        db = opts[:db] || MONGO_DB
         host = opts[:host] || MONGO_IP
         port = opts[:port] || MONGO_PORT
         super(db, host, port)
@@ -41,29 +38,29 @@ module Registry
         end
       end
 
-      # Increment the counters collection, which will handle the atomic increment of _id
-      # instead of using the default Mongo OID. This _id will be assigned to images at insert time.
-      #
-      # @param [String] name The target collection.
-      #
-      # @return [Integer] The next sequential _id.
-      #
-      def counters(name)
-        counts = connection :counters
-        ret = counts.find_and_modify(:query => {:_id => name.to_s},
-                                     :update => {:$inc => {:next => 1}},
-                                     :new => true, :upsert => true)
-        ret['next']
-      end
-
       # Returns an array with the public images metadata.
       #
       # @return [Array] The public images metadata
       # @raise [NotFound] If there is no public images.
       #
-      def get_public_images
-        images = connection(:images)
-        pub = images.find({:access => 'public'}, :sort => '_id').to_a
+      def get_public_images(brief = false, filters = {})
+        images = connection :images
+        # assemble default filter
+        base = {:access => 'public'}
+        sort = filters.delete :sort || '_id'
+        # return brief information
+        if brief
+          pub = images.find(base, {:fields => BRIEF, :sort => sort}).to_a
+          # return with filters
+        elsif !filters.empty?
+          pub = images.find(base.merge(filters), :sort => sort).to_a
+          exclude_details(pub)
+          # return detailed information
+        else
+          pub = images.find(base, :sort => sort).to_a
+          exclude_details(pub)
+        end
+
         raise NotFound, "No public images found." if pub.empty?
         pub
       end
@@ -76,11 +73,13 @@ module Registry
       # @raise [NotFound] If image not found.
       #
       def get_image(id)
-        images = connection(:images)
+        images = connection :images
+        id.is_a?(BSON::ObjectId) ? id : id = id.to_i
         img = images.find(:_id => id).to_a.first
         raise NotFound, "No image found with id '#{id}'." if img.nil?
-        set_protected(img, :get)
+        set_protected :get, img
         images.update({:_id => id}, img, {:upsert => 'true'})
+        exclude_details(img)
         img
       end
 
@@ -91,7 +90,8 @@ module Registry
       # @raise [NotFound] If image not found.
       #
       def delete_image(id)
-        images = connection(:images)
+        images = connection :images
+        id.is_a?(BSON::ObjectId) ? id : id = id.to_i
         img = images.find(:_id => id).to_a.first
         raise NotFound, "No image found with id '#{id}'." if img.nil?
         images.remove(:_id => id)
@@ -118,10 +118,10 @@ module Registry
       # @raise [Invalid] If image meta validation fails.
       #
       def post_image(meta, opts = {})
-        validate_data(meta, :post)
+        validate_data :post, meta
         meta = {:_id => counters(:images)}.merge!(meta)
-        set_protected(meta, :post, opts)
-        images = connection(:images)
+        set_protected :post, meta, opts
+        images = connection :images
         images.insert(meta)
       end
 
@@ -135,10 +135,11 @@ module Registry
       # @raise [NotFound] If image not found.
       #
       def put_image(id, update)
-        validate_data(update, :put)
-        set_protected(update, :put)
-        images = connection(:images)
+        validate_data :put, update
+        set_protected :put, update
+        images = connection :images
         # find image to update
+        id.is_a?(BSON::ObjectId) ? id : id = id.to_i
         img = images.find(:_id => id).to_a.first
         raise NotFound, "No image found with id '#{id}'." if img.nil?
         # update image's metadata
@@ -146,6 +147,31 @@ module Registry
         images.update({:_id => id}, img, {:upsert => 'true'})
         img
       end
+
+
+      private
+      # Increment the counters collection, which will handle the atomic increment of _id
+      # instead of using the default Mongo OID. This _id will be assigned to images at insert time.
+      #
+      # @param [String] name The target collection.
+      #
+      # @return [Integer] The next sequential _id.
+      #
+      def counters(name)
+        counts = connection :counters
+        counts.find_and_modify(:query => {:_id => name.to_s},
+                               :update => {:$inc => {:next => 1}},
+                               :new => true, :upsert => true)['next']
+      end
+
+      def exclude_details(obj)
+        if obj.is_a?(Array)
+          obj.each { |h| DETAIL_EXC.each { |attr| h.delete(attr.to_s) } }
+        else
+          DETAIL_EXC.each { |attr| obj.delete(attr) }
+        end
+      end
+
     end
   end
 end

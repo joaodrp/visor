@@ -1,52 +1,33 @@
-module Registry
+module Cbolt
   module Backends
     class Backend
       # TODO: order fields in hashes
-        # {:a => 'x', :b => 'y', :c => 'z'}
-        # {:b => 'y', :a => 'x'}
-        # =>
-        # {:a => 'x', :b => 'y', :c => 'z'}
-        # {:a => 'x', :b => 'y', :c => '-'}
 
       # Keys validation
-      #
-      # Presentation order and default value:
-      # _id
-      # uri
-      # name
-      # architecture
-      # access
-      # status<locked>
-      # kernel<->
-      # ramdisk<->
-      # type<->
-      # format<->
-      # size<->
-      # owner
-      # uploaded_at<->
-      # updated_at<->
-      # accessed_at<->, access_count<0>, checksum
-      # others
       #
       # mandatory attributes
       MANDATORY = [:name, :architecture, :access]
       # read-only attributes
       READONLY = [:_id, :uri, :owner, :status, :size, :uploaded_at, :updated_at, :accessed_at, :access_count, :checksum]
+      # brief attributes (used to return only brief information about images)
+      BRIEF = [:_id, :name, :architecture, :type, :format, :store, :size]
+      # detail attributes to exclude from get detailed public images, this allows to show other custom attributes
+      DETAIL_EXC = [:owner, :uploaded_at, :accessed_at, :access_count, :checksum]
 
       # Values validation
       #
       # architecture options
-      ARCH = %w[i386 x86_64]
+      ARCHITECTURE = %w[i386 x86_64]
       # access options
       ACCESS = %w[public private]
       # possible disk formats
-      FORMATS = %w[none iso vhd vdi vmdk ami aki ari]
+      FORMAT = %w[none iso vhd vdi vmdk ami aki ari]
       # possible types
-      TYPES = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
+      TYPE = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
       # possible status
       STATUS = %w[locked uploading error available]
       # possible storages
-      STORES = %w[s3 swift cumulus hdfs fs]
+      STORE = %w[s3 swift cumulus hdfs fs]
 
       attr_reader :db, :host, :port
 
@@ -57,30 +38,9 @@ module Registry
       # @param port [Object] The host port.
       #
       def initialize(db, host, port)
-        @db   = db
+        @db = db
         @host = host
         @port = port
-      end
-
-      # Set protected fields value from all kind of operations.
-      # Being them the post, get and put operations.
-      #
-      # @param [Hash] meta The image metadata.
-      #
-      # @return [Hash] The image metadata filled with protected fields values.
-      #
-      def set_protected(meta, op, opts={})
-        meta.symbolize_keys!
-        case op
-          when :post
-            set_protected_post(meta, opts)
-          when :put
-            set_protected_put(meta)
-          when :get
-            set_protected_get(meta)
-          else
-            raise "Unhandled operation '#{op}'."
-        end
       end
 
       # Validates the image metadata according to the possible values (constants).
@@ -93,70 +53,77 @@ module Registry
       # @raise[Invalid] If some of the metadata fields do not respect the
       #   possible values, contains any read-only or misses any mandatory field.
       #
-      def validate_data(meta, op)
-        arch, access = meta[:architecture], meta[:access]
-        format, type = meta[:format], meta[:type]
-        store, kernel = meta[:store], meta[:kernel]
-        ramdisk = meta[:ramdisk]
+      def validate_data (op, meta)
+        arch, access, format = meta[:architecture], meta[:access], meta[:format]
+        type, store, kernel, ramdisk = meta[:type], meta[:store], meta[:kernel], meta[:ramdisk]
+        msg = ''
 
-        # assert that no read-only field is setted
         meta.each_key do |key|
-          if READONLY.include?(key)
-            raise Invalid, "The '#{key}' field is read-only."
-          end
+          msg += "The '#{key}' field is read-only.\n" if READONLY.include?(key)
         end
 
         if op == :post
-          # assert mandatory fields
           MANDATORY.each do |field|
-            unless meta.has_key?(field)
-              raise Invalid, "The '#{field}' field is required."
-            end
+            msg += "The '#{field}' field is required.\n" unless meta.has_key?(field)
           end
-          # assert architecture
-          unless ARCH.include?(arch)
-            msg = "Invalid image architecture '#{arch}'.\nAvailable options: #{ARCH.join(', ')}"
-            raise Invalid, msg
-          end
-          # assert access
-          unless ACCESS.include?(access)
-            msg = "Invalid image access '#{access}'.\nAvailable options: #{ACCESS.join(', ')}"
-            raise Invalid, msg
-          end
-          # assert format
-          unless FORMATS.include?(format) || format.nil?
-            msg = "Invalid image format '#{format}'.\nAvailable options: #{FORMATS.join(', ')}"
-            raise Invalid, msg
-          end
-          # assert type
-          unless TYPES.include?(type) || type.nil?
-            msg = "Invalid image type '#{type}'.\nAvailable options: #{TYPES.join(', ')}"
-            raise Invalid, msg
-          end
-          # assert store
-          unless STORES.include?(store) || store.nil?
-            msg = "Invalid image store '#{store}'.\nAvailable options: #{STORES.join(', ')}"
-            raise Invalid, msg
+          BRIEF.each do |field|
+            meta.merge!(field => '-') unless meta[field] || field == :_id
           end
         end
 
-        # assert kernel
+        unless ARCHITECTURE.include?(arch) || (arch.nil? && op == :put)
+          msg += invalid_options_for :architecture, arch
+        end
+        unless ACCESS.include?(access) || (access.nil? && op == :put)
+          msg += invalid_options_for :access, access
+        end
+        unless FORMAT.include?(format) || format.nil?
+          msg += invalid_options_for :format, format
+        end
+        unless TYPE.include?(type) || type.nil?
+          msg += invalid_options_for :type, type
+        end
+        unless STORE.include?(store) || store.nil?
+          msg += invalid_options_for :store, store
+        end
+
         unless kernel.nil?
           type = get_image(kernel)['type']
           if type != 'kernel' && format != 'aki'
-            raise Invalid, "The image with id #{kernel} is not a kernel image."
+            msg += "The image with id #{kernel} is not a kernel image.\n"
           end
         end
-        # assert ramdisk
         unless ramdisk.nil?
           type = get_image(ramdisk)['type']
           if type != 'ramdisk' && format != 'ari'
-            raise Invalid, "The image with id #{ramdisk} is not a ramdisk image."
+            msg += "The image with id #{ramdisk} is not a ramdisk image.\n"
           end
         end
+
+        raise Invalid, msg unless msg.empty?
+      end
+
+      # Set protected fields value from all kind of operations.
+      # Being them the post, get and put operations.
+      #
+      # @param [Hash] meta The image metadata.
+      #
+      # @return [Hash] The image metadata filled with protected fields values.
+      #
+      def set_protected(op, meta, opts = {})
+        meta.symbolize_keys!
+        set_protected_post(meta, opts) if op == :post
+        set_protected_put(meta) if op == :put
+        set_protected_get(meta) if op == :get
       end
 
       private
+
+      def invalid_options_for attr, value
+        options = self.class.const_get(attr.to_s.upcase).join(', ')
+        "Invalid image #{attr.to_s} '#{value}', available options:\n  #{options}\n"
+      end
+
       # Set protected fields value from a post operation.
       # Being them the uri, owner, size, status and updated_at.
       #
@@ -171,15 +138,13 @@ module Registry
       #
       def set_protected_post(meta, opts = {})
         # TODO uploaded_at, checksum
-        owner = opts[:owner] || nil # TODO validate owner user
-        size  = opts[:size]  || nil
-        uri   = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
+        owner = opts[:owner] # TODO validate owner user
+        size = opts[:size]
+        uri = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
 
-        meta.merge!(:uri => uri)
+        meta.merge!(:uri => uri, :status => 'locked', :updated_at => Time.now)
         meta.merge!(:owner => owner) unless owner.nil?
         meta.merge!(:size => size) unless size.nil?
-        meta.merge!(:status => 'locked')
-        meta.merge!(:updated_at => Time.now)
       end
 
       # Set protected fields value from a put operation.

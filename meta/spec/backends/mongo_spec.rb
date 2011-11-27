@@ -1,11 +1,11 @@
 require "spec_helper"
 require 'registry/backends/mongo'
 
-module Registry::Backends
+module Cbolt::Backends
   describe MongoDB do
 
     before(:each) do
-      @conn = Registry::Backends::MongoDB.new :db => 'mongo-test'
+      @conn = Cbolt::Backends::MongoDB.new :db => 'mongo-test'
       @sample = {
           :name => 'testsample',
           :architecture => 'i386',
@@ -18,8 +18,8 @@ module Registry::Backends
           :access => 'public',
           :type => 'kernel'
       }
-      @conn.connection(:images).insert(@sample)
-      @conn.connection(:counters).insert({:fake => 'none'})
+      @conn.post_image(@sample)
+      #@conn.connection(:counters).insert({:fake => 'none'})
     end
 
     after(:each) do
@@ -30,7 +30,7 @@ module Registry::Backends
     describe "#initialize" do
       it "should instantiate a new onject" do
         @conn.db.should == 'mongo-test'
-        @conn.host.should == Registry::Backends::MongoDB::MONGO_IP
+        @conn.host.should == Cbolt::Backends::MongoDB::MONGO_IP
       end
     end
 
@@ -43,14 +43,14 @@ module Registry::Backends
       end
     end
 
-    describe "#counters" do
-      it "should should return a sequential atomic id" do
-        a = @conn.counters('images')
-        b = @conn.counters('images')
-        a.should be_an_instance_of Fixnum
-        b.should be > a
-      end
-    end
+    #describe "#counters" do
+    #  it "should should return a sequential atomic id" do
+    #    a = @conn.counters('images')
+    #    b = @conn.counters('images')
+    #    a.should be_an_instance_of Fixnum
+    #    b.should be > a
+    #  end
+    #end
 
     describe "#get_public_images" do
       it "should return an array with all public images" do
@@ -62,9 +62,19 @@ module Registry::Backends
       it "should raise an exception if there are no public images" do
         @conn.delete_all!
         l = lambda { @conn.get_public_images }
-        l.should raise_error(Registry::NotFound, /public/)
+        l.should raise_error(Cbolt::NotFound, /public/)
       end
     end
+    
+    #describe "#get_brief" do
+    #  it "should only return brief attributes for each public image" do
+    #    images = @conn.get_brief
+    #    images.should be_instance_of Array
+    #    images.each do |img|
+    #      img.keys.should == Cbolt::Backends::Backend::BRIEF
+    #    end
+    #  end
+    #end
 
     describe "#get_image" do
       it "should return a bson hash with the asked image" do
@@ -78,7 +88,7 @@ module Registry::Backends
       it "should raise an exception if there image not found" do
         fake_id = 0
         l = lambda { @conn.get_image(fake_id) }
-        l.should raise_error(Registry::NotFound)
+        l.should raise_error(Cbolt::NotFound)
       end
     end
 
@@ -93,7 +103,7 @@ module Registry::Backends
       it "should raise an exception if image not found" do
         fake_id = 0
         l = lambda { @conn.delete_image(fake_id) }
-        l.should raise_error(Registry::NotFound)
+        l.should raise_error(Cbolt::NotFound)
       end
     end
 
@@ -113,25 +123,25 @@ module Registry::Backends
       it "should raise an exception if meta validation fails" do
         img = @sample2.merge(:status => 'status can not be set')
         l = lambda { @conn.post_image(img) }
-        l.should raise_error(Registry::Invalid, /status/)
+        l.should raise_error(Cbolt::Invalid, /status/)
       end
     end
 
     describe "#put_image" do
       it "should return a bson hash with updated image" do
         id = @conn.get_public_images.first['_id']
-        update = {:name => 'updated', :type => 'thisoneisnew'}
+        update = {:name => 'updated', :type => 'none'}
         img = @conn.put_image(id, update)
         img.should be_instance_of BSON::OrderedHash
         img['name'].should == 'updated'
-        img['type'].should == 'thisoneisnew'
+        img['type'].should == 'none'
       end
 
       it "should raise an exception if meta validation fails" do
         id = @conn.get_public_images.first['_id']
         update = {:status => 'status can not be set'}
         l = lambda { @conn.put_image(id, update) }
-        l.should raise_error(Registry::Invalid, /status/)
+        l.should raise_error(Cbolt::Invalid, /status/)
       end
     end
   end

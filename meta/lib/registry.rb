@@ -1,4 +1,4 @@
-module Registry
+module Cbolt
 
   # Version
   #
@@ -18,5 +18,6 @@ module Registry
   require 'registry/extensions/string'
   require 'registry/backends/backend'
   require 'registry/backends/mongo'
+  #require 'registry/server'
 
 end

@@ -1,4 +1,4 @@
-module Registry
+module Cbolt
 
   # raise if invalid data is provided within new metadata
   class Invalid < StandardError;
