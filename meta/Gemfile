@@ -4,8 +4,10 @@ source 'http://rubygems.org'
 #gemspec
 gem 'mongo'
 gem 'bson_ext'
+gem 'activemodel', :require => 'active_model'
 gem 'sinatra', :require => 'sinatra/base'
 gem 'thin'
+gem 'mongodb_model'
 
 group :development do
   gem 'guard'

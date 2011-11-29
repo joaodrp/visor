@@ -28,7 +28,7 @@ module Cbolt::Backends
 
 
     describe "#initialize" do
-      it "should instantiate a new onject" do
+      it "should instantiate a new object" do
         @conn.db.should == 'mongo-test'
         @conn.host.should == Cbolt::Backends::MongoDB::MONGO_IP
       end
@@ -82,13 +82,13 @@ module Cbolt::Backends
         id = @conn.get_public_images.first['_id']
         img = @conn.get_image(id)
         img.should be_instance_of BSON::OrderedHash
-        img[:_id].should == id
+        img['_id'].should == id
       end
 
       it "should raise an exception if there image not found" do
         fake_id = 0
         l = lambda { @conn.get_image(fake_id) }
-        l.should raise_error(Cbolt::NotFound)
+        l.should raise_error(Cbolt::NotFound, /id/)
       end
     end
 
@@ -103,7 +103,7 @@ module Cbolt::Backends
       it "should raise an exception if image not found" do
         fake_id = 0
         l = lambda { @conn.delete_image(fake_id) }
-        l.should raise_error(Cbolt::NotFound)
+        l.should raise_error(Cbolt::NotFound, /id/)
       end
     end
 
@@ -123,7 +123,7 @@ module Cbolt::Backends
       it "should raise an exception if meta validation fails" do
         img = @sample2.merge(:status => 'status can not be set')
         l = lambda { @conn.post_image(img) }
-        l.should raise_error(Cbolt::Invalid, /status/)
+        l.should raise_error(ArgumentError, /status/)
       end
     end
 
@@ -141,7 +141,7 @@ module Cbolt::Backends
         id = @conn.get_public_images.first['_id']
         update = {:status => 'status can not be set'}
         l = lambda { @conn.put_image(id, update) }
-        l.should raise_error(Cbolt::Invalid, /status/)
+        l.should raise_error(ArgumentError, /status/)
       end
     end
   end

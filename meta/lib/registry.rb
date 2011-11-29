@@ -8,6 +8,7 @@ module Cbolt
   #
   require 'mongo'
   require 'json'
+  require 'active_model'
 
   # Require libraries
   #
@@ -18,6 +19,6 @@ module Cbolt
   require 'registry/extensions/string'
   require 'registry/backends/backend'
   require 'registry/backends/mongo'
-  #require 'registry/server'
+  #require 'registry/image'
 
 end

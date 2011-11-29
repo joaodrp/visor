@@ -1,7 +1,7 @@
 module Cbolt
 
   # raise if invalid data is provided within new metadata
-  class Invalid < StandardError;
+  class Invalid < ArgumentError;
   end
 
   # raise if no image is found
