@@ -1,11 +1,12 @@
 require "spec_helper"
-require 'registry/backends/mongo'
+
+include Cbolt::Backends
 
 module Cbolt::Backends
   describe MongoDB do
-
+    # TODO: Test GET's with query parameters
     before(:each) do
-      @conn = Cbolt::Backends::MongoDB.new :db => 'mongo-test'
+      @conn = MongoDB.connect :db => 'mongo-test'
       @sample = {
           :name => 'testsample',
           :architecture => 'i386',
@@ -19,7 +20,6 @@ module Cbolt::Backends
           :type => 'kernel'
       }
       @conn.post_image(@sample)
-      #@conn.connection(:counters).insert({:fake => 'none'})
     end
 
     after(:each) do
@@ -30,7 +30,7 @@ module Cbolt::Backends
     describe "#initialize" do
       it "should instantiate a new object" do
         @conn.db.should == 'mongo-test'
-        @conn.host.should == Cbolt::Backends::MongoDB::MONGO_IP
+        @conn.host.should == MongoDB::MONGO_IP
       end
     end
 
@@ -42,15 +42,6 @@ module Cbolt::Backends
         @conn.connection(:images).should be_an_instance_of Mongo::Collection
       end
     end
-
-    #describe "#counters" do
-    #  it "should should return a sequential atomic id" do
-    #    a = @conn.counters('images')
-    #    b = @conn.counters('images')
-    #    a.should be_an_instance_of Fixnum
-    #    b.should be > a
-    #  end
-    #end
 
     describe "#get_public_images" do
       it "should return an array with all public images" do
@@ -64,17 +55,13 @@ module Cbolt::Backends
         l = lambda { @conn.get_public_images }
         l.should raise_error(Cbolt::NotFound, /public/)
       end
+
+      it "should return only brief information" do
+        pub = @conn.get_public_images(true)
+        pub.should be_an_instance_of Array
+        pub.each { |img| (img.keys & MongoDB::BRIEF).should be_empty }
+      end
     end
-    
-    #describe "#get_brief" do
-    #  it "should only return brief attributes for each public image" do
-    #    images = @conn.get_brief
-    #    images.should be_instance_of Array
-    #    images.each do |img|
-    #      img.keys.should == Cbolt::Backends::Backend::BRIEF
-    #    end
-    #  end
-    #end
 
     describe "#get_image" do
       it "should return a bson hash with the asked image" do
@@ -85,7 +72,7 @@ module Cbolt::Backends
         img['_id'].should == id
       end
 
-      it "should raise an exception if there image not found" do
+      it "should raise an exception if image not found" do
         fake_id = 0
         l = lambda { @conn.get_image(fake_id) }
         l.should raise_error(Cbolt::NotFound, /id/)
@@ -146,4 +133,3 @@ module Cbolt::Backends
     end
   end
 end
-

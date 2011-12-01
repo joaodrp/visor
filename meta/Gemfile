@@ -4,10 +4,8 @@ source 'http://rubygems.org'
 #gemspec
 gem 'mongo'
 gem 'bson_ext'
-gem 'activemodel', :require => 'active_model'
-gem 'sinatra', :require => 'sinatra/base'
-gem 'thin'
-gem 'mongodb_model'
+gem 'sinatra'
+#gem 'thin'
 
 group :development do
   gem 'guard'
@@ -16,6 +14,7 @@ group :development do
   gem 'growl_notify' # => brew install growlnotify
   gem 'yard'
   gem 'rdiscount'
+  gem 'sinatra-reloader'
 end
 
 group :test do

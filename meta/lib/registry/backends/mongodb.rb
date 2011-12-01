@@ -11,8 +11,6 @@ module Cbolt
       # Default MongoDB host port
       MONGO_PORT = 27017
 
-      attr_reader :db, :host, :port
-
       # Initializes a MongoDB Backend instance.
       #
       # @option [Hash] opts Any of the available options can be passed.
@@ -21,10 +19,15 @@ module Cbolt
       # @option opts [String] :host (MONGO_IP) The host address.
       # @option opts [Integer] :port (MONGO_PORT) The port to be used.
       #
-      def initialize(opts = {})
-        @db = opts[:db] || MONGO_DB
-        @host = opts[:host] || MONGO_IP
-        @port = opts[:port] || MONGO_PORT
+      def self.connect(opts = {})
+        db = opts[:db] || MONGO_DB
+        host = opts[:host] || MONGO_IP
+        port = opts[:port] || MONGO_PORT
+        self.new(db, host, port)
+      end
+
+      def initialize(db, host, port)
+        super db, host, port
       end
 
       # Establishes and returns a MongoDB database connection.
@@ -60,6 +63,38 @@ module Cbolt
         meta
       end
 
+      # Returns an array with the public images metadata.
+      #
+      # @param [TrueClass, FalseClass] brief (false) If true, the returned images will
+      #   only contain BRIEF attributes.
+      #
+      # @option [Hash] filters Image attributes for filtering the returned results.
+      #   Besides common attributes filters, the following options can be passed to.
+      #
+      # @option opts [String] :sort (_id) The image attribute to sort returned results.
+      #
+      # @return [Array] The public images metadata.
+      #
+      # @raise [NotFound] If there is no public images.
+      #
+      def get_public_images(brief = false, filters = {})
+        images = connection :images
+        validate_query_filters filters unless filters.empty?
+
+        sort = [(filters.delete('sort') || '_id'), (filters.delete('dir') || 'asc')]
+        filter = {access: 'public'}.merge(filters)
+
+        if brief
+          pub = images.find(filter, fields: BRIEF, sort: sort).to_a
+        else
+          pub = images.find(filter, fields: exclude, sort: sort).to_a
+        end
+
+        raise NotFound, "No public images found." if pub.empty? && filters.empty?
+        raise NotFound, "No public images found with given parameters." if pub.empty?
+        pub
+      end
+
       # Delete an image record.
       #
       # @param [Integer] id The image's id to remove.
@@ -85,35 +120,6 @@ module Cbolt
         conn = connection
         conn.collection('images').remove
         conn.collection('counters').remove
-      end
-
-      # Returns an array with the public images metadata.
-      #
-      # @param [TrueClass, FalseClass] brief (false) If true, the returned images will
-      #   only contain BRIEF attributes.
-      #
-      # @option [Hash] filters Image attributes for filtering the returned results.
-      #   Besides common attributes filters, the following options can be passed to.
-      #
-      # @option opts [String] :sort (_id) The image attribute to sort returned results.
-      #
-      # @return [Array] The public images metadata.
-      #
-      # @raise [NotFound] If there is no public images.
-      #
-      def get_public_images(brief = false, filters = {})
-        images = connection :images
-        filter = {access: 'public'}.merge(filters)
-        sort = filters.delete :sort || '_id'
-
-        if brief
-          pub = images.find(filter, fields: BRIEF, sort: sort).to_a
-        else
-          pub = images.find(filter, fields: exclude, sort: sort).to_a
-        end
-
-        raise NotFound, "No public images found." if pub.empty?
-        pub
       end
 
       # Create a new image record for the given metadata.

@@ -1,80 +1,197 @@
 require 'sinatra/base'
-require File.dirname(__FILE__) + '/../../lib/registry'
+require File.expand_path '../../registry', __FILE__
 
 module Cbolt
   module Registry
     class Server < Sinatra::Base
+      # TODO: Pass/retrieve metadata from GET/images/:id, POST and PUT in HTTP HEADERS so image can be further passed simultaniously throught BODY
+      # TODO: Rethink error handing, status codes and content-type
+      # http://glance.openstack.org/glanceapi.html
+      # http://www.sinatrarb.com/intro
 
+      include Cbolt::Backends
+
+      # Filters
+      # Configure database connection and JSON parsing options
       before do
-        @db = Cbolt::Backends::MongoDB.new
+        @db         = MongoDB.connect
+        @parse_opts = {:symbolize_names => true}
+
+        content_type :json
       end
 
-      # Get brief information about all public images
+      # Configure development environment
+      configure :development do
+        require 'sinatra/reloader'
+        register Sinatra::Reloader
+      end
+
+      # Routes
       #
-      # [{ '_id':<_id>,
-      #    'name':<name>,
-      #    'architecture':<architecture>,
-      #    'type':<type>,
-      #    'format':<format>,
-      #    'store':<type>
-      #  }, ...]
+
+      # @method get_all_brief
+      # @overload get '/'
+      #
+      # Get brief information about all public images.
+      #
+      #   { "images": [{
+      #       "_id"":<_id>,
+      #       "name":<name>,
+      #       "architecture":<architecture>,
+      #       "type":<type>,
+      #       "format":<format>,
+      #       "store":<type>
+      #       }, ...]}
+      #
+      # @param [String] Any available field values can be passed as query parameters,
+      #   plus the sort=<attribute> and dir=<asc/desc> parameters.
+      #
+      # @return [JSON] The public images brief metadata.
+      #
+      # @raise [HTTP Error 404] If there is no public images.
       #
       get '/' do
         begin
-          images = @db.get_public_images(true)
-          images.to_json
+          images = @db.get_public_images(true, params)
+          {images: images}.to_json
         rescue => e
-          error 400, e.message.to_json
+          error 404, e.message.to_json
         end
       end
 
-      # Get detailed information about all public images
+      # @method get_all_detail
+      # @overload get '/images'
       #
-      # [{ '_id':<_id>,
-      #    'uri':<uri>,
-      #    'name':<name>,
-      #    'architecture':<architecture>,
-      #    'access':<access>,
-      #    'status':<status>,
-      #    'size':<size>,
-      #    'type':<type>,
-      #    'format':<format>,
-      #    'store':<type>,
-      #    'updated_at':<updated_at>,
-      #    'others':<others>
-      #  }, ...]
+      # Get detailed information about all public images.
+      #
+      #   {"images": [{
+      #       "_id":<_id>,
+      #       "uri":<uri>,
+      #       "name":<name>,
+      #       "architecture":<architecture>,
+      #       "access":<access>,
+      #       "status":<status>,
+      #       "size":<size>,
+      #       "type":<type>,
+      #       "format":<format>,
+      #       "store":<type>,
+      #       "updated_at":<updated_at>,
+      #       "others":<others>
+      #       }, ...]}
+      #
+      # @param [String] Any available field values can be passed as query parameters,
+      #   plus the sort=<attribute> and dir=<asc/desc> parameters.
+      #
+      # @return [JSON] The public images detailed metadata.
+      #
+      # @raise [HTTP Error 404] If there is no public images.
       #
       get '/images' do
         begin
-          images = @db.get_public_images
-          images.to_json
+          images = @db.get_public_images(false, params)
+          {images: images}.to_json
         rescue
+          error 404, e.message.to_json
+        end
+      end
+
+      # @method get_detail
+      # @overload get '/images/:id'
+      #
+      # Get detailed information about a specific image.
+      #
+      #   {"images": {
+      #       "_id":<_id>,
+      #       "uri":<uri>,
+      #       "name":<name>,
+      #       "architecture":<architecture>,
+      #       "access":<access>,
+      #       "status":<status>,
+      #       "size":<size>,
+      #       "type":<type>,
+      #       "format":<format>,
+      #       "store":<type>,
+      #       "updated_at":<updated_at>,
+      #       "others":<others>
+      #   }}
+      #
+      # @param [Integer] id The wanted image id.
+      #
+      # @return [JSON] The image detailed metadata.
+      #
+      # @raise [HTTP Error 404] If image not found.
+      #
+      get '/images/:id' do |id|
+        content_type :json
+        begin
+          image = @db.get_image(id)
+          {image: image}.to_json
+        rescue => e
+          error 404, e.message.to_json
+        end
+      end
+
+      # @method post
+      # @overload post '/images'
+      #
+      # Create a new image metadata and returns it.
+      #
+      # @param [JSON] The image metadata.
+      #
+      # @return [JSON] The image detailed metadata.
+      #
+      # @raise [HTTP Error 400] Image metadata validation errors.
+      #
+      post '/images' do
+        begin
+          meta  = JSON.parse(request.body.read, @parse_opts)
+          id    = @db.post_image(meta[:image])
+          image = @db.get_image(id)
+          {image: image}.to_json
+        rescue => e
           error 400, e.message.to_json
         end
       end
 
-      # Get detailed information about a specific image
+      # @method put
+      # @overload put '/images/:id'
       #
-      # { '_id':<_id>,
-      #    'uri':<uri>,
-      #    'name':<name>,
-      #    'architecture':<architecture>,
-      #    'access':<access>,
-      #    'status':<status>,
-      #    'size':<size>,
-      #    'type':<type>,
-      #    'format':<format>,
-      #    'store':<type>,
-      #    'updated_at':<updated_at>,
-      #    'others':<others>
-      # }
+      # Update an existing image metadata and return it.
       #
-      get '/images/:id' do
+      # @param [Integer] id The wanted image id.
+      # @param [JSON] The image metadata update.
+      #
+      # @return [JSON] The image detailed metadata.
+      #
+      # @raise [HTTP Error 400] Image metadata update validation errors.
+      #
+      put '/images/:id' do |id|
         begin
-          res = @db.get_image(params[:id])
-          res.to_json
+          meta  = JSON.parse(request.body.read, @parse_opts)
+          image = @db.put_image(id, meta[:image])
+          {image: image}.to_json
         rescue => e
           error 400, e.message.to_json
+        end
+      end
+
+      # @method delete
+      # @overload delete '/images/:id'
+      #
+      # Delete an image metadata and return it.
+      #
+      # @param [Integer] id The image id to delete.
+      #
+      # @return [JSON] The image detailed metadata.
+      #
+      # @raise [HTTP Error 404] If image not found.
+      #
+      delete '/images/:id' do
+        begin
+          image = @db.delete_image(params[:id])
+          {image: image}.to_json
+        rescue => e
+          error 404, e.message.to_json
         end
       end
 
