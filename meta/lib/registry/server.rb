@@ -11,20 +11,20 @@ module Cbolt
 
       include Cbolt::Backends
 
+      DB = MongoDB.connect
+
       # Filters
       # Configure database connection and JSON parsing options
       before do
-        @db         = MongoDB.connect
         @parse_opts = {:symbolize_names => true}
-
         content_type :json
       end
 
       # Configure development environment
-      configure :development do
-        require 'sinatra/reloader'
-        register Sinatra::Reloader
-      end
+      #configure :development do
+      #  require 'sinatra/reloader'
+      #  register Sinatra::Reloader
+      #end
 
       # Routes
       #
@@ -52,7 +52,7 @@ module Cbolt
       #
       get '/' do
         begin
-          images = @db.get_public_images(true, params)
+          images = DB.get_public_images(true, params)
           {images: images}.to_json
         rescue => e
           error 404, e.message.to_json
@@ -88,7 +88,7 @@ module Cbolt
       #
       get '/images' do
         begin
-          images = @db.get_public_images(false, params)
+          images = DB.get_public_images(false, params)
           {images: images}.to_json
         rescue
           error 404, e.message.to_json
@@ -124,7 +124,7 @@ module Cbolt
       get '/images/:id' do |id|
         content_type :json
         begin
-          image = @db.get_image(id)
+          image = DB.get_image(id)
           {image: image}.to_json
         rescue => e
           error 404, e.message.to_json
@@ -145,8 +145,8 @@ module Cbolt
       post '/images' do
         begin
           meta  = JSON.parse(request.body.read, @parse_opts)
-          id    = @db.post_image(meta[:image])
-          image = @db.get_image(id)
+          id    = DB.post_image(meta[:image])
+          image = DB.get_image(id)
           {image: image}.to_json
         rescue => e
           error 400, e.message.to_json
@@ -168,7 +168,7 @@ module Cbolt
       put '/images/:id' do |id|
         begin
           meta  = JSON.parse(request.body.read, @parse_opts)
-          image = @db.put_image(id, meta[:image])
+          image = DB.put_image(id, meta[:image])
           {image: image}.to_json
         rescue => e
           error 400, e.message.to_json
@@ -188,17 +188,14 @@ module Cbolt
       #
       delete '/images/:id' do
         begin
-          image = @db.delete_image(params[:id])
+          image = DB.delete_image(params[:id])
           {image: image}.to_json
         rescue => e
           error 404, e.message.to_json
         end
       end
-
       run! if app_file == $0
-
     end
   end
 end
 
-#Server.run!

@@ -2,6 +2,8 @@ module Cbolt
   module Backends
     class MongoDB < Backend
 
+      #TODO: replace _id with SecureRandom.uuid
+
       # Connection constants
       #
       # Default MongoDB database

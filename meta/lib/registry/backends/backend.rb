@@ -75,7 +75,7 @@ module Cbolt
 
         assert_ramdisk_and_kernel_image(meta)
 
-        meta.set_blank_keys_value_to(BRIEF, [:_id], nil)
+        meta.set_blank_keys_value_to(BRIEF, [:_id], '-')
       end
 
       # Validates the image metadata for a put operation, based on possible keys and values.
@@ -105,7 +105,7 @@ module Cbolt
       #   possible values.
       #
       def validate_query_filters(filters)
-        filters.assert_valid_keys(FILTERS.collect { |el| el.to_s })
+        filters.assert_valid_keys(FILTERS)
 
       end
 

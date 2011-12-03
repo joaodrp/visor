@@ -99,5 +99,5 @@ class Hash
   def set_blank_keys_value_to(keys_to_set, keys_to_ignore, to_value)
     keys_to_set.each { |k| self.merge!(k => to_value) unless self[k] || keys_to_ignore.include?(k) }
   end
-
 end
+

@@ -7,7 +7,11 @@ module Cbolt
   # Require external libraries
   #
   require 'mongo'
-  require 'json'
+  require 'mysql2'
+
+  # Require standard libraries
+  #
+  require 'json' #TODO: try Yajl
 
   # Require libraries
   #
@@ -17,6 +21,6 @@ module Cbolt
   require 'registry/extensions/hash'
   require 'registry/extensions/string'
   require 'registry/backends/backend'
-  require 'registry/backends/mongodb'
-
+  require 'registry/backends/mongo_db'
+  require 'registry/backends/mysql_db'
 end
