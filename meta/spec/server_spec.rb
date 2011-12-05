@@ -1,15 +1,14 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-
 include Cbolt::Backends
 
 describe "Cbolt::Registry::Server" do
 
-  let(:parse_opts) { {:symbolize_names => true} }
+  let(:parse_opts) { {symbolize_names: true} }
 
-  let(:valid_meta) { {image: {name:         'server_spec',
+  let(:valid_meta) { {image: {name: 'server_spec',
                               architecture: 'i386',
-                              access:       'public'}} }
+                              access: 'public'}} }
 
   let(:valid_update) { {image: {architecture: 'x86_64'}} }
 
@@ -27,17 +26,15 @@ describe "Cbolt::Registry::Server" do
       get '/'
       last_response.should be_ok
       response = JSON.parse(last_response.body, parse_opts)
-      images   = response[:images]
+      images = response[:images]
       images.should be_instance_of Array
     end
 
     it "should return only brief information fields" do
       get '/'
       response = JSON.parse(last_response.body, parse_opts)
-      images   = response[:images]
-      images.each do |img|
-        img.keys.sort.should == Backend::BRIEF.sort
-      end
+      images = response[:images]
+      images.each { |img| (img.keys - Backend::BRIEF).should be_empty }
     end
   end
 
@@ -45,14 +42,14 @@ describe "Cbolt::Registry::Server" do
     it "should return an array of images" do
       get '/images'
       response = JSON.parse(last_response.body, parse_opts)
-      images   = response[:images]
+      images = response[:images]
       images.should be_instance_of Array
     end
 
     it "should return only detail information fields" do
       get '/images'
       response = JSON.parse(last_response.body, parse_opts)
-      images   = response[:images]
+      images = response[:images]
       images.each do |img|
         (img.keys & Backend::DETAIL_EXC).should be_empty
       end
@@ -63,7 +60,7 @@ describe "Cbolt::Registry::Server" do
     it "should return a hash with the given image meta" do
       get "/images/#{@valid_id}"
       response = JSON.parse(last_response.body, parse_opts)
-      image    = response[:image]
+      image = response[:image]
       image.should be_instance_of Hash
       image[:name].should == "server_spec"
     end
@@ -71,7 +68,7 @@ describe "Cbolt::Registry::Server" do
     it "should return only detail information fields" do
       get "/images/#{@valid_id}"
       response = JSON.parse(last_response.body, parse_opts)
-      image    = response[:image]
+      image = response[:image]
       (image.keys & Backend::DETAIL_EXC).should be_empty
     end
   end
@@ -82,9 +79,9 @@ describe "Cbolt::Registry::Server" do
       last_response.should be_ok
 
       response = JSON.parse(last_response.body, parse_opts)
-      image    = response[:image]
+      image = response[:image]
       image.should be_instance_of Hash
-      image[:_id].should be_instance_of Fixnum
+      image[:_id].should be_a String
       image[:name].should == "server_spec"
       delete "/images/#{image[:_id]}"
     end
@@ -96,9 +93,9 @@ describe "Cbolt::Registry::Server" do
       last_response.should be_ok
 
       response = JSON.parse(last_response.body, parse_opts)
-      image    = response[:image]
+      image = response[:image]
       image.should be_instance_of Hash
-      image[:_id].should be_instance_of Fixnum
+      image[:_id].should be_a String
       image[:architecture].should == "x86_64"
     end
   end
@@ -109,7 +106,7 @@ describe "Cbolt::Registry::Server" do
       last_response.should be_ok
 
       response = JSON.parse(last_response.body, parse_opts)
-      image    = response[:image]
+      image = response[:image]
       image.should be_instance_of Hash
       image[:_id].should == @valid_id
 

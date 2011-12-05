@@ -7,17 +7,17 @@ module Cbolt
       # Connection constants
       #
       # Default MySQL database
-      MYSQL_DB       = 'cbolt'
+      DEFAULT_DB = 'cbolt'
       # Default MySQL host address
-      MYSQL_IP       = '127.0.0.1'
+      DEFAULT_HOST = '127.0.0.1'
       # Default MySQL host port
-      MYSQL_PORT     = 3306
+      DEFAULT_PORT = 3306
       # Default MySQL user
-      MYSQL_USER     = 'cbolt'
+      DEFAULT_USER = 'cbolt'
       # Default MySQL password
-      MYSQL_PASSWORD = 'passwd'
+      DEFAULT_PASSWORD = 'passwd'
       # Images table schema
-      CREATE_TABLE   = <<-SQL
+      CREATE_TABLE = <<-SQL
         CREATE TABLE IF NOT EXISTS `cbolt`.`images` (
           `_id` VARCHAR(64) NOT NULL ,
           `name` VARCHAR(45) NOT NULL ,
@@ -49,14 +49,16 @@ module Cbolt
       # @option opts [Integer] :port (MYSQL_PORT) The port to be used.
       #
       def self.connect(opts = {})
-        db   = opts[:db] || MYSQL_DB
-        host = opts[:host] || MYSQL_IP
-        port = opts[:port] || MYSQL_PORT
-        self.new(db, host, port)
+        opts[:host] ||= DEFAULT_HOST
+        opts[:port] ||= DEFAULT_PORT
+        opts[:db] ||= DEFAULT_DB
+        opts[:user] ||= DEFAULT_USER
+        opts[:password] ||= DEFAULT_PASSWORD
+        self.new opts
       end
 
-      def initialize(db, host, port)
-        super db, host, port
+      def initialize(opts)
+        super opts
       end
 
       # Establishes and returns a MySQL database connection and
@@ -65,8 +67,8 @@ module Cbolt
       # @return [Mysql2::Client] It returns a database client object.
       #
       def connection
-        Mysql2::Client.new(host:     @host, port: @port, database: @db,
-                           username: MYSQL_USER, password: MYSQL_PASSWORD)
+        Mysql2::Client.new(host: @host, port: @port, database: @db,
+                           username: DEFAULT_USER, password: DEFAULT_PASSWORD)
       end
 
       # Returns the requested image metadata.
@@ -105,18 +107,12 @@ module Cbolt
       def get_public_images(brief = false, filters = {})
         validate_query_filters filters unless filters.empty?
 
-        sort   = [(filters.delete('sort') || '_id'), (filters.delete('dir') || 'asc')]
+        sort = [(filters.delete(:sort) || '_id'), (filters.delete(:dir) || 'asc')]
         filter = {access: 'public'}.merge(filters)
+        fields = brief ? BRIEF.join(', ') : exclude
 
-        if brief
-          pub = connection.query("SELECT #{BRIEF.join(', ')} FROM images
-                            WHERE #{to_sql_where(filter)}
-                            ORDER BY #{sort[0]} #{sort[1]}", symbolize_keys: true).to_a
-        else
-          pub = connection.query("SELECT #{exclude} FROM images
-                            WHERE #{to_sql_where(filter)}
-                            ORDER BY #{sort[0]} #{sort[1]}", symbolize_keys: true).to_a
-        end
+        pub = connection.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)} ORDER BY #{sort[0]} #{sort[1]}",
+                               symbolize_keys: true).to_a
 
         raise NotFound, "No public images found." if pub.empty? && filters.empty?
         raise NotFound, "No public images found with given parameters." if pub.empty?
@@ -262,7 +258,7 @@ module Cbolt
       #
       def set_protected_post meta, opts = {}
         owner, size = opts[:owner], opts[:size] # TODO validate owner user
-        uri         = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
+        uri = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
 
         meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
         meta.merge!(owner: owner) unless owner.nil?

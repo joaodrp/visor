@@ -40,7 +40,7 @@ module Cbolt
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
       FILTERS = ALL + [:sort, :dir]
 
-      attr_reader :db, :host, :port
+      attr_reader :db, :host, :port, :user, :password
 
       # Initializes a Backend instance.
       #
@@ -50,10 +50,12 @@ module Cbolt
       # @option opts [String] :host The host address.
       # @option opts [Integer] :port The port to be used.
       #
-      def initialize(db, host, port)
-        @db   = db
-        @host = host
-        @port = port
+      def initialize(opts)
+        @host = opts[:host]
+        @port = opts[:port]
+        @db   = opts[:db]
+        @user = opts[:user]
+        @password = opts[:password]
       end
 
       # Validates the image metadata for a post operation, based on possible keys and values.

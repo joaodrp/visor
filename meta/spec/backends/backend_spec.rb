@@ -13,7 +13,7 @@ module Cbolt::Backends
           format: 'iso'
       }
 
-      @backend = Backend.new(:fakedb, :fakehost, :fakeport)
+      @backend = Backend.new(host: 'fake', port: 'fake', db: 'fake')
     end
 
     describe "#validate_data_post" do

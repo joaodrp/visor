@@ -1,17 +1,23 @@
+require 'securerandom'
+
 module Cbolt
   module Backends
     class MongoDB < Backend
 
-      #TODO: replace _id with SecureRandom.uuid
-
       # Connection constants
       #
       # Default MongoDB database
-      MONGO_DB = 'cbolt'
+      DEFAULT_DB = 'cbolt'
       # Default MongoDB host address
-      MONGO_IP = '127.0.0.1'
+      DEFAULT_HOST = '127.0.0.1'
       # Default MongoDB host port
-      MONGO_PORT = 27017
+      DEFAULT_PORT = 27017
+      # Default MongoDB user
+      DEFAULT_USER = nil
+      # Default MongoDB password
+      DEFAULT_PASSWORD = nil
+      # Assembled MongoDB connection URI
+      CONNECTION_URI = "mongodb://#{DEFAULT_USER}:#{DEFAULT_PASSWORD}@#{DEFAULT_HOST}:#{DEFAULT_PORT}/#{DEFAULT_DB}"
 
       # Initializes a MongoDB Backend instance.
       #
@@ -22,14 +28,20 @@ module Cbolt
       # @option opts [Integer] :port (MONGO_PORT) The port to be used.
       #
       def self.connect(opts = {})
-        db = opts[:db] || MONGO_DB
-        host = opts[:host] || MONGO_IP
-        port = opts[:port] || MONGO_PORT
-        self.new(db, host, port)
+        opts[:host] ||= DEFAULT_HOST
+        opts[:port] ||= DEFAULT_PORT
+        opts[:db] ||= DEFAULT_DB
+        opts[:user] ||= DEFAULT_USER
+        opts[:password] ||= DEFAULT_PASSWORD
+        self.new opts
       end
 
-      def initialize(db, host, port)
-        super db, host, port
+      def initialize(opts)
+        super opts
+        #uri = URI.parse(ENV['MONGOHQ_URL'])
+        #conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
+        #@db = conn.db(uri.path.gsub(/^\//, ''))
+        #@collection = @db.collection("images")
       end
 
       # Establishes and returns a MongoDB database connection.
@@ -38,12 +50,10 @@ module Cbolt
       #
       # @return [Mongo:DB, Mongo::Collection] It returns a database object or a collection object.
       #
-      def connection(coll = nil)
-        if coll
-          Mongo::Connection.new(@host, @port).db(@db).collection(coll.to_s)
-        else
-          Mongo::Connection.new(@host, @port).db(@db)
-        end
+      def connection(coll = 'images')
+        db = Mongo::Connection.new(@host, @port).db(@db)
+        db.authenticate(@user, @password) if @user && @password
+        db.collection(coll)
       end
 
       # Returns the requested image metadata.
@@ -55,9 +65,7 @@ module Cbolt
       # @raise [NotFound] If image not found.
       #
       def get_image(id)
-        conn = connection :images
-        id = parse_id id
-
+        conn = connection
         meta = conn.find_one({_id: id}, fields: exclude)
         raise NotFound, "No image found with id '#{id}'." if meta.nil?
 
@@ -80,17 +88,13 @@ module Cbolt
       # @raise [NotFound] If there is no public images.
       #
       def get_public_images(brief = false, filters = {})
-        images = connection :images
         validate_query_filters filters unless filters.empty?
 
-        sort = [(filters.delete('sort') || '_id'), (filters.delete('dir') || 'asc')]
+        sort = [(filters.delete(:sort) || '_id'), (filters.delete(:dir) || 'asc')]
         filter = {access: 'public'}.merge(filters)
+        fields = brief ? BRIEF : exclude
 
-        if brief
-          pub = images.find(filter, fields: BRIEF, sort: sort).to_a
-        else
-          pub = images.find(filter, fields: exclude, sort: sort).to_a
-        end
+        pub = connection.find(filter, fields: fields, sort: sort).to_a
 
         raise NotFound, "No public images found." if pub.empty? && filters.empty?
         raise NotFound, "No public images found with given parameters." if pub.empty?
@@ -106,22 +110,17 @@ module Cbolt
       # @raise [NotFound] If image not found.
       #
       def delete_image(id)
-        conn = connection :images
-        id = parse_id id
-
-        img = conn.find_one({_id: id})
+        img = connection.find_one({_id: id})
         raise NotFound, "No image found with id '#{id}'." if img.nil?
 
-        conn.remove({_id: id})
+        connection.remove({_id: id})
         img
       end
 
       # Delete all images records.
       #
       def delete_all!
-        conn = connection
-        conn.collection('images').remove
-        conn.collection('counters').remove
+        connection.remove
       end
 
       # Create a new image record for the given metadata.
@@ -137,11 +136,10 @@ module Cbolt
       #
       def post_image(meta, opts = {})
         validate_data_post meta
-        conn = connection :images
 
-        meta = {_id: counters(:images)}.merge!(meta)
+        meta = {_id: SecureRandom.uuid}.merge!(meta)
         set_protected_post meta, opts
-        conn.insert(meta)
+        connection.insert(meta)
       end
 
       # Update an image's metadata.
@@ -155,43 +153,17 @@ module Cbolt
       #
       def put_image(id, update)
         validate_data_put update
-        conn = connection :images
 
-        id = parse_id id
-        img = conn.find_one({_id: id})
+        img = connection.find_one({_id: id})
         raise NotFound, "No image found with id '#{id}'." if img.nil?
 
         set_protected_put update
-        conn.update({_id: id}, :$set => update)
+        connection.update({_id: id}, :$set => update)
         img.merge(update.stringify_keys)
       end
 
 
       private
-
-      # Increment the counters collection, which will handle the atomic increment of _id
-      # instead of using the default Mongo OID. This _id will be assigned to images at insert time.
-      #
-      # @param [String] name The target collection.
-      #
-      # @return [Integer] The next sequential _id.
-      #
-      def counters(name)
-        counts = connection :counters
-        counts.find_and_modify(:query => {:_id => name.to_s},
-                               :update => {:$inc => {:next => 1}},
-                               :new => true, :upsert => true)['next']
-      end
-
-      # Parse the given id, being it a string, a fixnum or a BSON::ObjectId.
-      #
-      # @param [Fixnum, String, BSON::ObjectId] id The id to be parsed.
-      #
-      # @return [Fixnum, BSON::ObjectId] The parsed id.
-      #
-      def parse_id id
-        id.is_a?(BSON::ObjectId) ? id : id.to_i
-      end
 
       # Retrieve a hash with all fields that should not be retrieved from database.
       # This sets each key to 0, so Mongo ignores each one of the keys present in it.
