@@ -1,13 +1,12 @@
 require File.expand_path("../../spec_helper", __FILE__)
 
-include Cbolt::Backends
+include Cbolt::Registry::Backends
 
-module Cbolt::Backends
+module Cbolt::Registry::Backends
   describe MongoDB do
 
     let(:conn) { MongoDB.connect db: 'mongo-test' }
 
-    # TODO: Test GET's with query parameters
     before(:each) do
       sample = {
           :name => 'testsample',
@@ -90,7 +89,7 @@ module Cbolt::Backends
         conn.connection.insert(@sample)
         id = conn.get_public_images.first['_id']
         img = conn.get_image(id)
-        (img.keys & Backend::DETAIL_EXC).should be_empty
+        (img.keys & Base::DETAIL_EXC).should be_empty
       end
 
       it "should raise an exception if image not found" do

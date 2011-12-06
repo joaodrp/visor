@@ -1,8 +1,6 @@
-require 'securerandom'
-
-module Cbolt
+module Cbolt::Registry
   module Backends
-    class MongoDB < Backend
+    class MongoDB < Base
 
       # Connection constants
       #
@@ -59,7 +57,7 @@ module Cbolt
       # Returns the requested image metadata.
       #
       # @param [Integer] id The requested image's i
-      #
+        #
       # @return [BSON::OrderedHash] The requested image metadata.
       #
       # @raise [NotFound] If image not found.
@@ -67,7 +65,7 @@ module Cbolt
       def get_image(id)
         conn = connection
         meta = conn.find_one({_id: id}, fields: exclude)
-        raise NotFound, "No image found with id '#{id}'." if meta.nil?
+        raise Cbolt::NotFound, "No image found with id '#{id}'." if meta.nil?
 
         set_protected_get id, conn
         meta
@@ -75,7 +73,7 @@ module Cbolt
 
       # Returns an array with the public images metadata.
       #
-      # @param [TrueClass, FalseClass] brief (false) If true, the returned images will
+      # @param [true, false] brief (false) If true, the returned images will
       #   only contain BRIEF attributes.
       #
       # @option [Hash] filters Image attributes for filtering the returned results.
@@ -96,8 +94,8 @@ module Cbolt
 
         pub = connection.find(filter, fields: fields, sort: sort).to_a
 
-        raise NotFound, "No public images found." if pub.empty? && filters.empty?
-        raise NotFound, "No public images found with given parameters." if pub.empty?
+        raise Cbolt::NotFound, "No public images found." if pub.empty? && filters.empty?
+        raise Cbolt::NotFound, "No public images found with given parameters." if pub.empty?
         pub
       end
 
@@ -111,7 +109,7 @@ module Cbolt
       #
       def delete_image(id)
         img = connection.find_one({_id: id})
-        raise NotFound, "No image found with id '#{id}'." if img.nil?
+        raise Cbolt::NotFound, "No image found with id '#{id}'." unless img
 
         connection.remove({_id: id})
         img
@@ -155,7 +153,7 @@ module Cbolt
         validate_data_put update
 
         img = connection.find_one({_id: id})
-        raise NotFound, "No image found with id '#{id}'." if img.nil?
+        raise Cbolt::NotFound, "No image found with id '#{id}'." unless img
 
         set_protected_put update
         connection.update({_id: id}, :$set => update)
@@ -201,8 +199,8 @@ module Cbolt
         uri = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
 
         meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
-        meta.merge!(owner: owner) unless owner.nil?
-        meta.merge!(size: size) unless size.nil?
+        meta.merge!(owner: owner) if owner
+        meta.merge!(size: size) if size
       end
 
       # Set protected fields value from a get operation.

@@ -5,26 +5,25 @@ module Cbolt
   module Registry
     class Server < Sinatra::Base
       # TODO: Pass/retrieve metadata from GET/images/:id, POST and PUT in HTTP HEADERS so image can be further passed simultaniously throught BODY
-      # TODO: Rethink error handing, status codes and content-type
+      # TODO: Rethink error handing, status codes, content-type and / and /images to /index or HEAD
       # http://glance.openstack.org/glanceapi.html
       # http://www.sinatrarb.com/intro
 
-      include Cbolt::Backends
+      #configure :development do
+      #  require 'sinatra/reloader'
+      #  register Sinatra::Reloader
+      #end
+
+      include Cbolt::Registry::Backends
 
       DB = MongoDB.connect
 
       # Filters
       # Configure database connection and JSON parsing options
       before do
-        @parse_opts = {:symbolize_names => true}
+        @parse_opts = {symbolize_names: true}
         content_type :json
       end
-
-      # Configure development environment
-      #configure :development do
-      #  require 'sinatra/reloader'
-      #  register Sinatra::Reloader
-      #end
 
       # Routes
       #
@@ -144,8 +143,8 @@ module Cbolt
       #
       post '/images' do
         begin
-          meta  = JSON.parse(request.body.read, @parse_opts)
-          id    = DB.post_image(meta[:image])
+          meta = JSON.parse(request.body.read, @parse_opts)
+          id = DB.post_image(meta[:image])
           image = DB.get_image(id)
           {image: image}.to_json
         rescue => e
@@ -167,7 +166,7 @@ module Cbolt
       #
       put '/images/:id' do |id|
         begin
-          meta  = JSON.parse(request.body.read, @parse_opts)
+          meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
         rescue => e
@@ -194,8 +193,10 @@ module Cbolt
           error 404, e.message.to_json
         end
       end
-      run! if app_file == $0
     end
   end
 end
+
+Cbolt::Registry::Server.run! port: 3000, environment: :production if __FILE__ == $0
+
 

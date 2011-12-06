@@ -1,9 +1,8 @@
-require 'securerandom'
-
-module Cbolt
+module Cbolt::Registry
   module Backends
-    class MySQL < Backend
+    class MySQL < Base
 
+      #TODO: handle other fields, probably stored in 'others' collumn in plain json other: {a1: ..., a2: ...})
       # Connection constants
       #
       # Default MySQL database
@@ -39,6 +38,9 @@ module Cbolt
           PRIMARY KEY (`_id`) )
           ENGINE = InnoDB;
       SQL
+      #CREATE DATABASE cbolt;
+      #CREATE USER 'cbolt'@'localhost' IDENTIFIED BY 'cbolt';
+      #GRANT ALL PRIVILEGES ON cbolt.* TO 'cbolt'@'localhost';
 
       # Initializes a MySQL Backend instance.
       #
@@ -62,7 +64,7 @@ module Cbolt
       end
 
       # Establishes and returns a MySQL database connection and
-      #   creates Images table if it does not exists.
+      # creates Images table if it does not exists.
       #
       # @return [Mysql2::Client] It returns a database client object.
       #
@@ -83,7 +85,7 @@ module Cbolt
         conn = connection
         meta = conn.query("SELECT #{exclude} FROM images WHERE _id='#{id.to_s}'",
                           symbolize_keys: true).first
-        raise NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
+        raise Cbolt::NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
 
         set_protected_get id, conn
         conn.close
@@ -92,7 +94,7 @@ module Cbolt
 
       # Returns an array with the public images metadata.
       #
-      # @param [TrueClass, FalseClass] brief (false) If true, the returned images will
+      # @param [true, false] brief (false) If true, the returned images will
       #   only contain BRIEF attributes.
       #
       # @option [Hash] filters Image attributes for filtering the returned results.
@@ -114,8 +116,8 @@ module Cbolt
         pub = connection.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)} ORDER BY #{sort[0]} #{sort[1]}",
                                symbolize_keys: true).to_a
 
-        raise NotFound, "No public images found." if pub.empty? && filters.empty?
-        raise NotFound, "No public images found with given parameters." if pub.empty?
+        raise Cbolt::NotFound, "No public images found." if pub.empty? && filters.empty?
+        raise Cbolt::NotFound, "No public images found with given parameters." if pub.empty?
         connection.close
         pub
       end
@@ -130,7 +132,7 @@ module Cbolt
       #
       def delete_image(id)
         meta = connection.query("SELECT * FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
-        raise NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
+        raise Cbolt::NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
 
         connection.query "DELETE FROM images WHERE _id='#{id.to_s}'"
         connection.close
@@ -146,7 +148,7 @@ module Cbolt
 
       # Create a new image record for the given metadata.
       #
-      # @param [Hash] meta Tge metadata.
+      # @param [Hash] meta The metadata.
       # @option [Hash] opts Any of the available options can be passed.
       #
       # @option opts [String] :owner (Nil) The owner of the image.
@@ -180,7 +182,7 @@ module Cbolt
         validate_data_put update
 
         img = connection.query("SELECT * FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
-        raise NotFound, "No image found with id '#{id}'." if img.nil?
+        raise Cbolt::NotFound, "No image found with id '#{id}'." if img.nil?
 
         set_protected_put update
         connection.query "UPDATE images SET #{to_sql_update(update)} WHERE _id='#{id.to_s}'"
@@ -196,7 +198,7 @@ module Cbolt
       # @param [Hash] h The input hash.
       #
       # @return [String] A string as "k='v' AND k1='v1'",
-      #   only Strings or Times values are surrounded with ''.
+      #   only Strings or Times values are surrounded with '<value>'.
       #
       def to_sql_where(h)
         h.map { |k, v| (v.is_a?(String) or v.is_a?(Time)) ? "#{k}='#{v}'" : "#{k}=#{v}" }.join(' AND ')
@@ -207,7 +209,7 @@ module Cbolt
       # @param [Hash] h The input hash.
       #
       # @return [String] A string as "k='v', k1='v1'",
-      #   only Strings or Times values are surrounded with ''.
+      #   only Strings or Times values are surrounded with '<value>'.
       #
       def to_sql_update(h)
         h.map { |k, v| (v.is_a?(String) or v.is_a?(Time)) ? "#{k}='#{v}'" : "#{k}=#{v}" }.join(', ')
@@ -218,7 +220,7 @@ module Cbolt
       # @param [Hash] h The input hash.
       #
       # @return [String] A string as "(k, k1) VALUES ('v', 'v1')",
-      #   only Strings or Times values are surrounded with ''.
+      #   only Strings or Times values are surrounded with '<value>'.
       #
       def to_sql_insert(h)
         surround = h.values.map { |v| (v.is_a?(String) or v.is_a?(Time)) ? "'#{v}'" : v }

@@ -12,6 +12,7 @@ module Cbolt
   # Require standard libraries
   #
   require 'json' #TODO: try Yajl
+  require 'securerandom'
 
   # Require libraries
   #
@@ -20,7 +21,7 @@ module Cbolt
   require 'registry/exceptions'
   require 'registry/extensions/hash'
   require 'registry/extensions/string'
-  require 'registry/backends/backend'
+  require 'registry/backends/base'
   require 'registry/backends/mongo_db'
   require 'registry/backends/mysql_db'
 end

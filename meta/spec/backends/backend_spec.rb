@@ -1,9 +1,9 @@
 require File.expand_path("../../spec_helper", __FILE__)
 
-include Cbolt::Backends
+include Cbolt::Registry::Backends
 
-module Cbolt::Backends
-  describe Backend do
+module Cbolt::Registry::Backends
+  describe Base do
 
     before(:each) do
       @sample = {
@@ -13,19 +13,19 @@ module Cbolt::Backends
           format: 'iso'
       }
 
-      @backend = Backend.new(host: 'fake', port: 'fake', db: 'fake')
+      @backend = Base.new(host: 'fake', port: 'fake', db: 'fake')
     end
 
     describe "#validate_data_post" do
       it "should validate that no read-only field is setted" do
-        Backend::READONLY.each do |field|
+        Base::READONLY.each do |field|
           l = lambda { @backend.validate_data_post @sample.merge(field => 'some value') }
           l.should raise_error(ArgumentError, /#{field}/)
         end
       end
 
       it "should validate that all mandatory fields are setted" do
-        Backend::MANDATORY.each do |field|
+        Base::MANDATORY.each do |field|
           l = lambda { @backend.validate_data_post(@sample.select { |k, v| k != field }) }
           l.should raise_error(ArgumentError, /#{field}/)
         end
@@ -49,7 +49,7 @@ module Cbolt::Backends
 
     describe "#validate_data_put" do
       it "should validate that no read-only field is setted" do
-        Backend::READONLY.each do |field|
+        Base::READONLY.each do |field|
           l = lambda { @backend.validate_data_put @sample.merge(field => 'some value') }
           l.should raise_error(ArgumentError, /#{field}/)
         end

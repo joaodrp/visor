@@ -1,9 +1,8 @@
-module Cbolt
+module Cbolt::Registry
   module Backends
-    class Backend
-      # TODO: convert passed-in fields to their proper type (ex: convert size to Long)
-      # TODO: order fields in hashes?
+    class Base
 
+      #TODO: Rewrite ramdisk and kernel verification on each backend insted of here
       # Keys validation
       #
       # Mandatory attributes

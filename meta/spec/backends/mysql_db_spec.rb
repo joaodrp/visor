@@ -1,13 +1,12 @@
 require File.expand_path("../../spec_helper", __FILE__)
 
-include Cbolt::Backends
+include Cbolt::Registry::Backends
 
-module Cbolt::Backends
+module Cbolt::Registry::Backends
   describe MySQL do
 
     let(:conn) { MySQL.connect :db => 'cbolt_test' }
 
-    # TODO: Test GET's with query parameters
     before(:each) do
       post = {
           name:         'testsample',
@@ -52,7 +51,7 @@ module Cbolt::Backends
       it "should return only brief information" do
         pub = conn.get_public_images(true)
         pub.should be_an_instance_of Array
-        pub.each { |img| (img.keys - Backend::BRIEF).should be_empty }
+        pub.each { |img| (img.keys - Base::BRIEF).should be_empty }
       end
 
       it "should sort results if asked to" do
@@ -80,7 +79,7 @@ module Cbolt::Backends
       it "should return only detail information fields" do
         id = conn.get_public_images.first[:_id]
         img = conn.get_image(id)
-        (img.keys & Backend::DETAIL_EXC).should be_empty
+        (img.keys & Base::DETAIL_EXC).should be_empty
       end
 
       it "should raise an exception if image not found" do

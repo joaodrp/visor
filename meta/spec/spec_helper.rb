@@ -16,8 +16,7 @@ RSpec.configure do |conf|
   end
 end
 
-# set test environment
 set :environment, :test
-#set :run, false
-#set :raise_errors, true
-#set :logging, false
+set :run, false
+set :raise_errors, true
+set :logging, false
