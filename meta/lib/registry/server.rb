@@ -4,22 +4,35 @@ require File.expand_path '../../registry', __FILE__
 module Cbolt
   module Registry
     class Server < Sinatra::Base
-      # TODO: Pass/retrieve metadata from GET/images/:id, POST and PUT in HTTP HEADERS so image can be further passed simultaniously throught BODY
-      # TODO: Rethink error handing, status codes, content-type and / and /images to /index or HEAD
-      # http://glance.openstack.org/glanceapi.html
-      # http://www.sinatrarb.com/intro
-
-      #configure :development do
-      #  require 'sinatra/reloader'
-      #  register Sinatra::Reloader
-      #end
+      # TODO: Logging and caching
 
       include Cbolt::Registry::Backends
 
-      DB = MongoDB.connect
+      # Configuration
+      #
+      configure :development do
+        require 'sinatra/reloader'
+        register Sinatra::Reloader
+      end
+
+      configure do
+        enable :logging
+        #TODO: test this:
+        #enable :threaded
+        #disable :protection
+        DB = MongoDB.connect db: 'cbolt'
+      end
+
+      # helpers
+      #
+      helpers do
+        def bar(name)
+          "#{name}bar"
+        end
+      end
 
       # Filters
-      # Configure database connection and JSON parsing options
+      #
       before do
         @parse_opts = {symbolize_names: true}
         content_type :json
@@ -29,7 +42,7 @@ module Cbolt
       #
 
       # @method get_all_brief
-      # @overload get '/'
+      # @overload get '/images'
       #
       # Get brief information about all public images.
       #
@@ -49,17 +62,17 @@ module Cbolt
       #
       # @raise [HTTP Error 404] If there is no public images.
       #
-      get '/' do
+      get '/images' do
         begin
           images = DB.get_public_images(true, params)
           {images: images}.to_json
-        rescue => e
-          error 404, e.message.to_json
+        rescue Cbolt::NotFound => e
+          error 404, {message: e.message}.to_json
         end
       end
 
       # @method get_all_detail
-      # @overload get '/images'
+      # @overload get '/images/detail'
       #
       # Get detailed information about all public images.
       #
@@ -75,6 +88,8 @@ module Cbolt
       #       "format":<format>,
       #       "store":<type>,
       #       "updated_at":<updated_at>,
+      #       "kernel":<associated kernel>,
+      #       "ramdisk":<associated ramdisk>,
       #       "others":<others>
       #       }, ...]}
       #
@@ -85,12 +100,12 @@ module Cbolt
       #
       # @raise [HTTP Error 404] If there is no public images.
       #
-      get '/images' do
+      get '/images/detail' do
         begin
           images = DB.get_public_images(false, params)
           {images: images}.to_json
-        rescue
-          error 404, e.message.to_json
+        rescue Cbolt::NotFound => e
+          error 404, {message: e.message}.to_json
         end
       end
 
@@ -111,6 +126,8 @@ module Cbolt
       #       "format":<format>,
       #       "store":<type>,
       #       "updated_at":<updated_at>,
+      #       "kernel":<associated kernel>,
+      #       "ramdisk":<associated ramdisk>,
       #       "others":<others>
       #   }}
       #
@@ -121,12 +138,11 @@ module Cbolt
       # @raise [HTTP Error 404] If image not found.
       #
       get '/images/:id' do |id|
-        content_type :json
         begin
           image = DB.get_image(id)
           {image: image}.to_json
-        rescue => e
-          error 404, e.message.to_json
+        rescue Cbolt::NotFound => e
+          error 404, {message: e.message}.to_json
         end
       end
 
@@ -147,8 +163,8 @@ module Cbolt
           id = DB.post_image(meta[:image])
           image = DB.get_image(id)
           {image: image}.to_json
-        rescue => e
-          error 400, e.message.to_json
+        rescue ArgumentError => e
+          error 400, {message: e.message}.to_json
         end
       end
 
@@ -169,8 +185,8 @@ module Cbolt
           meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
-        rescue => e
-          error 400, e.message.to_json
+        rescue ArgumentError => e
+          error 400, {message: e.message}.to_json
         end
       end
 
@@ -189,14 +205,14 @@ module Cbolt
         begin
           image = DB.delete_image(params[:id])
           {image: image}.to_json
-        rescue => e
-          error 404, e.message.to_json
+        rescue Cbolt::NotFound => e
+          error 404, {message: e.message}.to_json
         end
       end
     end
   end
 end
 
-Cbolt::Registry::Server.run! port: 3000, environment: :production if __FILE__ == $0
+Cbolt::Registry::Server.run! port: 4567, environment: :development if __FILE__ == $0
 
 

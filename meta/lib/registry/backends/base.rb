@@ -6,36 +6,36 @@ module Cbolt::Registry
       # Keys validation
       #
       # Mandatory attributes
-      MANDATORY    = [:name, :architecture, :access]
+      MANDATORY = [:name, :architecture, :access]
       # Read-only attributes
-      READONLY     = [:_id, :uri, :owner, :status, :size, :created_at, :uploaded_at,
-                      :updated_at, :accessed_at, :access_count, :checksum]
+      READONLY = [:_id, :uri, :owner, :status, :size, :created_at, :uploaded_at,
+                  :updated_at, :accessed_at, :access_count, :checksum]
       # Optional attributes
-      OPTIONAL     = [:type, :format, :store]
+      OPTIONAL = [:type, :format, :store, :kernel, :ramdisk]
       # All attributes
-      ALL          = MANDATORY + OPTIONAL + READONLY
+      ALL = MANDATORY + OPTIONAL + READONLY
 
       # Values validation
       #
       # Architecture options
       ARCHITECTURE = %w[i386 x86_64]
       # Access options
-      ACCESS       = %w[public private]
+      ACCESS = %w[public private]
       # Possible disk formats
-      FORMAT       = %w[none iso vhd vdi vmdk ami aki ari]
+      FORMAT = %w[none iso vhd vdi vmdk ami aki ari]
       # Possible types
-      TYPE         = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
+      TYPE = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
       # Possible status
-      STATUS       = %w[locked uploading error available]
+      STATUS = %w[locked uploading error available]
       # Possible storages
-      STORE        = %w[s3 swift cumulus hdfs fs]
+      STORE = %w[s3 swift cumulus hdfs fs]
 
       # Presentation options
       #
       # Brief attributes used to return only brief information about images.
-      BRIEF        = [:_id, :name, :architecture, :type, :format, :store, :size]
+      BRIEF = [:_id, :name, :architecture, :type, :format, :store, :size]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
-      DETAIL_EXC   = [:owner, :created_at, :uploaded_at, :accessed_at, :access_count, :checksum]
+      DETAIL_EXC = [:owner, :created_at, :uploaded_at, :accessed_at, :access_count, :checksum]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
       FILTERS = ALL + [:sort, :dir]
 
@@ -52,7 +52,7 @@ module Cbolt::Registry
       def initialize(opts)
         @host = opts[:host]
         @port = opts[:port]
-        @db   = opts[:db]
+        @db = opts[:db]
         @user = opts[:user]
         @password = opts[:password]
       end
@@ -75,8 +75,7 @@ module Cbolt::Registry
         meta.assert_valid_values_for(:store, STORE)
 
         assert_ramdisk_and_kernel_image(meta)
-
-        meta.set_blank_keys_value_to(BRIEF, [:_id], '-')
+        #meta.set_blank_keys_value_to(OPTIONAL, [], 'none')
       end
 
       # Validates the image metadata for a put operation, based on possible keys and values.
@@ -106,6 +105,7 @@ module Cbolt::Registry
       #   possible values.
       #
       def validate_query_filters(filters)
+        filters.symbolize_keys!
         filters.assert_valid_keys(FILTERS)
 
       end

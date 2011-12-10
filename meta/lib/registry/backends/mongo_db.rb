@@ -57,7 +57,7 @@ module Cbolt::Registry
       # Returns the requested image metadata.
       #
       # @param [Integer] id The requested image's i
-        #
+      #
       # @return [BSON::OrderedHash] The requested image metadata.
       #
       # @raise [NotFound] If image not found.
@@ -217,4 +217,5 @@ module Cbolt::Registry
     end
   end
 end
+
 

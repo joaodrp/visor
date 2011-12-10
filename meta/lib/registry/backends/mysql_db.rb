@@ -2,7 +2,7 @@ module Cbolt::Registry
   module Backends
     class MySQL < Base
 
-      #TODO: handle other fields, probably stored in 'others' collumn in plain json other: {a1: ..., a2: ...})
+      #TODO: handle other fields, probably stored in 'others' collumn in plain json
       # Connection constants
       #
       # Default MySQL database
@@ -16,9 +16,9 @@ module Cbolt::Registry
       # Default MySQL password
       DEFAULT_PASSWORD = 'passwd'
       # Images table schema
-      CREATE_TABLE = <<-SQL
+      CREATE_TABLE = %[
         CREATE TABLE IF NOT EXISTS `cbolt`.`images` (
-          `_id` VARCHAR(64) NOT NULL ,
+          `_id` VARCHAR(32) NOT NULL ,
           `name` VARCHAR(45) NOT NULL ,
           `architecture` VARCHAR(45) NOT NULL ,
           `access` VARCHAR(45) NOT NULL ,
@@ -35,13 +35,17 @@ module Cbolt::Registry
           `type` VARCHAR(45) NULL ,
           `format` VARCHAR(45) NULL ,
           `store` VARCHAR(255) NULL ,
+          `kernel` VARCHAR(32) NULL ,
+          `ramdisk` VARCHAR(32) NULL ,
           PRIMARY KEY (`_id`) )
           ENGINE = InnoDB;
-      SQL
+      ]
+
       #CREATE DATABASE cbolt;
       #CREATE USER 'cbolt'@'localhost' IDENTIFIED BY 'cbolt';
+      #SET PASSWORD FOR 'cbolt'@'localhost' = PASSWORD('passwd');
       #GRANT ALL PRIVILEGES ON cbolt.* TO 'cbolt'@'localhost';
-
+	
       # Initializes a MySQL Backend instance.
       #
       # @option [Hash] opts Any of the available options can be passed.
@@ -83,8 +87,7 @@ module Cbolt::Registry
       #
       def get_image(id)
         conn = connection
-        meta = conn.query("SELECT #{exclude} FROM images WHERE _id='#{id.to_s}'",
-                          symbolize_keys: true).first
+        meta = conn.query("SELECT #{exclude} FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
         raise Cbolt::NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
 
         set_protected_get id, conn
@@ -259,12 +262,12 @@ module Cbolt::Registry
       # @return [Hash] The image metadata filled with protected fields values.
       #
       def set_protected_post meta, opts = {}
-        owner, size = opts[:owner], opts[:size] # TODO validate owner user
+        owner, size = opts[:owner], opts[:size]
         uri = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
 
         meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
-        meta.merge!(owner: owner) unless owner.nil?
-        meta.merge!(size: size) unless size.nil?
+        meta.merge!(owner: owner) if owner
+        meta.merge!(size: size) if size
       end
 
       # Set protected fields value from a get operation.
