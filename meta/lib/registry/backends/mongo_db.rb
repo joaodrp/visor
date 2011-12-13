@@ -1,3 +1,5 @@
+require 'mongo'
+
 module Cbolt::Registry
   module Backends
     class MongoDB < Base
@@ -36,6 +38,7 @@ module Cbolt::Registry
 
       def initialize(opts)
         super opts
+        @conn = connection
         #uri = URI.parse(ENV['MONGOHQ_URL'])
         #conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
         #@db = conn.db(uri.path.gsub(/^\//, ''))
@@ -44,14 +47,12 @@ module Cbolt::Registry
 
       # Establishes and returns a MongoDB database connection.
       #
-      # @param [String] coll (Nil) The wanted collection.
-      #
       # @return [Mongo:DB, Mongo::Collection] It returns a database object or a collection object.
       #
-      def connection(coll = 'images')
-        db = Mongo::Connection.new(@host, @port).db(@db)
+      def connection
+        db = Mongo::Connection.new(@host, @port, :pool_size => 10, :pool_timeout => 5).db(@db)
         db.authenticate(@user, @password) if @user && @password
-        db.collection(coll)
+        db.collection('images')
       end
 
       # Returns the requested image metadata.
@@ -63,11 +64,10 @@ module Cbolt::Registry
       # @raise [NotFound] If image not found.
       #
       def get_image(id)
-        conn = connection
-        meta = conn.find_one({_id: id}, fields: exclude)
+        meta = @conn.find_one({_id: id}, fields: exclude)
         raise Cbolt::NotFound, "No image found with id '#{id}'." if meta.nil?
 
-        set_protected_get id, conn
+        set_protected_get id
         meta
       end
 
@@ -92,10 +92,11 @@ module Cbolt::Registry
         filter = {access: 'public'}.merge(filters)
         fields = brief ? BRIEF : exclude
 
-        pub = connection.find(filter, fields: fields, sort: sort).to_a
+        pub = @conn.find(filter, fields: fields, sort: sort).to_a
 
         raise Cbolt::NotFound, "No public images found." if pub.empty? && filters.empty?
         raise Cbolt::NotFound, "No public images found with given parameters." if pub.empty?
+
         pub
       end
 
@@ -108,17 +109,17 @@ module Cbolt::Registry
       # @raise [NotFound] If image not found.
       #
       def delete_image(id)
-        img = connection.find_one({_id: id})
+        img = @conn.find_one({_id: id})
         raise Cbolt::NotFound, "No image found with id '#{id}'." unless img
 
-        connection.remove({_id: id})
+        @conn.remove({_id: id})
         img
       end
 
       # Delete all images records.
       #
       def delete_all!
-        connection.remove
+        @conn.remove
       end
 
       # Create a new image record for the given metadata.
@@ -137,7 +138,7 @@ module Cbolt::Registry
 
         meta = {_id: SecureRandom.uuid}.merge!(meta)
         set_protected_post meta, opts
-        connection.insert(meta)
+        @conn.insert(meta)
       end
 
       # Update an image's metadata.
@@ -152,11 +153,11 @@ module Cbolt::Registry
       def put_image(id, update)
         validate_data_put update
 
-        img = connection.find_one({_id: id})
+        img = @conn.find_one({_id: id})
         raise Cbolt::NotFound, "No image found with id '#{id}'." unless img
 
         set_protected_put update
-        connection.update({_id: id}, :$set => update)
+        @conn.update({_id: id}, :$set => update)
         img.merge(update.stringify_keys)
       end
 
@@ -178,8 +179,8 @@ module Cbolt::Registry
       # @param [Fixnum] id The id of the image being retrieved.
       # @param [Mongo::Connection] conn The connection to the database.
       #
-      def set_protected_get id, conn
-        conn.update({_id: id}, :$set => {accessed_at: Time.now}, :$inc => {access_count: 1})
+      def set_protected_get id
+        @conn.update({_id: id}, :$set => {accessed_at: Time.now}, :$inc => {access_count: 1})
       end
 
       # Set protected fields value from a post operation.
@@ -196,7 +197,10 @@ module Cbolt::Registry
       #
       def set_protected_post meta, opts = {}
         owner, size = opts[:owner], opts[:size] # TODO validate owner user
-        uri = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
+
+        host = Cbolt::Registry::Server::HOST
+        port = Cbolt::Registry::Server::PORT
+        uri = "http://#{host}:#{port}/images/#{meta[:_id]}"
 
         meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
         meta.merge!(owner: owner) if owner

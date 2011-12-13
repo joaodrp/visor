@@ -1,3 +1,5 @@
+require 'mysql2'
+
 module Cbolt::Registry
   module Backends
     class MySQL < Base
@@ -18,7 +20,7 @@ module Cbolt::Registry
       # Images table schema
       CREATE_TABLE = %[
         CREATE TABLE IF NOT EXISTS `cbolt`.`images` (
-          `_id` VARCHAR(32) NOT NULL ,
+          `_id` VARCHAR(36) NOT NULL ,
           `name` VARCHAR(45) NOT NULL ,
           `architecture` VARCHAR(45) NOT NULL ,
           `access` VARCHAR(45) NOT NULL ,

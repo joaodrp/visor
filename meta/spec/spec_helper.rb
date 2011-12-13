@@ -18,5 +18,6 @@ end
 
 set :environment, :test
 set :run, false
-set :raise_errors, true
+set :raise_errors, false
+set :show_exceptions, false
 set :logging, false

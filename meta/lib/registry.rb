@@ -6,8 +6,8 @@ module Cbolt
 
   # Require external libraries
   #
-  require 'mongo'
-  require 'mysql2'
+  #require 'mongo'
+  #require 'mysql2'
 
   # Require standard libraries
   #
@@ -18,6 +18,7 @@ module Cbolt
   #
   $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
+  require 'registry/client'
   require 'registry/exceptions'
   require 'registry/extensions/hash'
   require 'registry/extensions/string'

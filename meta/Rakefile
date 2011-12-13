@@ -13,7 +13,7 @@ task :ydoc do
   require File.join(File.dirname(__FILE__), 'lib', 'registry')
   output = "~/workspace/gh-pages/cbolt/"
   system "rm -rf #{output}*"
-  system "yardoc --private lib/**/*.rb lib/registry/**/*.rb -o #{output} --no-save --title CBOLT --main ../README.md"
+  system "yardoc --private lib/**/*.rb lib/registry/**/*.rb -o #{output} --no-save --title VISoR --main ../README.md"
   system "cd #{output} && git add . && git commit -am 'documentation updated' && git push origin gh-pages"
 end
 

@@ -2,20 +2,14 @@ require File.expand_path("../spec_helper", __FILE__)
 
 include Cbolt::Registry::Backends
 
-describe "Cbolt::Registry::Server" do
+describe Cbolt::Registry::Server do
 
   let(:parse_opts) { {symbolize_names: true} }
 
-  let(:valid_post) { {image: {name: 'server_spec',
-                              architecture: 'i386',
-                              access: 'public'}} }
-
-  let(:invalid_post) { {image: {name: 'server_spec',
-                                architecture: 'i386',
-                                access: 'this is not valid'}} }
+  let(:valid_post) { {image: {name: 'server_spec', architecture: 'i386', access: 'public'}} }
+  let(:invalid_post) { {image: {name: 'server_spec', architecture: 'i386', access: 'invalid'}} }
 
   let(:valid_update) { {image: {architecture: 'x86_64'}} }
-
   let(:invalid_update) { {image: {architecture: 'this is not valid'}} }
 
   $inserted_images_id = []

@@ -4,30 +4,39 @@ require File.expand_path '../../registry', __FILE__
 module Cbolt
   module Registry
     class Server < Sinatra::Base
-      # TODO: Logging and caching
+      # TODO: Logging, json compressing and caching
 
       include Cbolt::Registry::Backends
 
+      HOST = '0.0.0.0'
+      PORT = 4567
+
       # Configuration
       #
-      configure :development do
-        require 'sinatra/reloader'
-        register Sinatra::Reloader
-      end
-
       configure do
-        enable :logging
+        DB = MongoDB.connect db: 'cbolt'
+        Dir.mkdir('log') unless File.exists?('log')
+        disable :show_exceptions
         #TODO: test this:
         #enable :threaded
         #disable :protection
-        DB = MongoDB.connect db: 'cbolt'
+      end
+
+      configure :development do
+        require 'sinatra/reloader'
+        register Sinatra::Reloader
+        use Rack::CommonLogger, File.new('log/registry-server-dev.log', 'w')
+      end
+
+      configure :production do
+        use Rack::CommonLogger, File.new('log/registry-server-prod.log', 'w')
       end
 
       # helpers
       #
       helpers do
-        def bar(name)
-          "#{name}bar"
+        def json_error(code, message)
+          error code, {code: code, message: message}.to_json
         end
       end
 
@@ -67,7 +76,7 @@ module Cbolt
           images = DB.get_public_images(true, params)
           {images: images}.to_json
         rescue Cbolt::NotFound => e
-          error 404, {message: e.message}.to_json
+          json_error 404, e.message
         end
       end
 
@@ -105,7 +114,7 @@ module Cbolt
           images = DB.get_public_images(false, params)
           {images: images}.to_json
         rescue Cbolt::NotFound => e
-          error 404, {message: e.message}.to_json
+          json_error 404, e.message
         end
       end
 
@@ -142,7 +151,7 @@ module Cbolt
           image = DB.get_image(id)
           {image: image}.to_json
         rescue Cbolt::NotFound => e
-          error 404, {message: e.message}.to_json
+          json_error 404, e.message
         end
       end
 
@@ -163,8 +172,10 @@ module Cbolt
           id = DB.post_image(meta[:image])
           image = DB.get_image(id)
           {image: image}.to_json
+        rescue Cbolt::NotFound => e
+          json_error 404, e.message
         rescue ArgumentError => e
-          error 400, {message: e.message}.to_json
+          json_error 400, e.message
         end
       end
 
@@ -185,8 +196,10 @@ module Cbolt
           meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
+        rescue Cbolt::NotFound => e
+          json_error 404, e.message
         rescue ArgumentError => e
-          error 400, {message: e.message}.to_json
+          json_error 400, e.message
         end
       end
 
@@ -206,13 +219,35 @@ module Cbolt
           image = DB.delete_image(params[:id])
           {image: image}.to_json
         rescue Cbolt::NotFound => e
-          error 404, {message: e.message}.to_json
+          json_error 404, e.message
         end
       end
+
+      # misc handlers: error, not_found, etc.
+      get "*" do
+        json_error 404, 'Invalid operation or path.'
+      end
+
+      put "*" do
+        json_error 404, 'Invalid operation or path.'
+      end
+
+      post "*" do
+        json_error 404, 'Invalid operation or path.'
+      end
+
+      delete "*" do
+        json_error 404, 'Invalid operation or path.'
+      end
+
+      error do
+        json_error 500, env['sinatra.error'].message
+      end
+
     end
   end
 end
 
-Cbolt::Registry::Server.run! port: 4567, environment: :development if __FILE__ == $0
+Cbolt::Registry::Server.run! port: Cbolt::Registry::Server::PORT, environment: :development if __FILE__ == $0
 
 
