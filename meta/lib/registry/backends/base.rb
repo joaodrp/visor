@@ -1,4 +1,4 @@
-module Cbolt::Registry
+module Visor::Registry
   module Backends
     class Base
 
@@ -6,12 +6,12 @@ module Cbolt::Registry
       # Keys validation
       #
       # Mandatory attributes
-      MANDATORY = [:name, :architecture, :access]
+      MANDATORY = [:name, :architecture]
       # Read-only attributes
       READONLY = [:_id, :uri, :owner, :status, :size, :created_at, :uploaded_at,
                   :updated_at, :accessed_at, :access_count, :checksum]
       # Optional attributes
-      OPTIONAL = [:type, :format, :store, :kernel, :ramdisk]
+      OPTIONAL = [:access, :type, :format, :store, :kernel, :ramdisk]
       # All attributes
       ALL = MANDATORY + OPTIONAL + READONLY
 
@@ -33,9 +33,9 @@ module Cbolt::Registry
       # Presentation options
       #
       # Brief attributes used to return only brief information about images.
-      BRIEF = [:_id, :name, :architecture, :type, :format, :store, :size]
+      BRIEF = [:_id, :uri, :name, :architecture, :type, :format, :store, :size, :created_at]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
-      DETAIL_EXC = [:owner, :created_at, :uploaded_at, :accessed_at, :access_count, :checksum]
+      DETAIL_EXC = [:owner, :uploaded_at, :accessed_at, :access_count, :checksum]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
       FILTERS = ALL + [:sort, :dir]
 
@@ -75,7 +75,6 @@ module Cbolt::Registry
         meta.assert_valid_values_for(:store, STORE)
 
         assert_ramdisk_and_kernel_image(meta)
-        #meta.set_blank_keys_value_to(OPTIONAL, [], 'none')
       end
 
       # Validates the image metadata for a put operation, based on possible keys and values.

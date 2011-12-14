@@ -1,4 +1,4 @@
-module Cbolt
+module Visor
 
   # Version
   #

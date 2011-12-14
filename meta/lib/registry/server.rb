@@ -1,12 +1,12 @@
 require 'sinatra/base'
 require File.expand_path '../../registry', __FILE__
 
-module Cbolt
+module Visor
   module Registry
     class Server < Sinatra::Base
-      # TODO: Logging, json compressing and caching
+      # TODO: Logging, compressing and caching
 
-      include Cbolt::Registry::Backends
+      include Visor::Registry::Backends
 
       HOST = '0.0.0.0'
       PORT = 4567
@@ -75,7 +75,7 @@ module Cbolt
         begin
           images = DB.get_public_images(true, params)
           {images: images}.to_json
-        rescue Cbolt::NotFound => e
+        rescue Visor::NotFound => e
           json_error 404, e.message
         end
       end
@@ -113,7 +113,7 @@ module Cbolt
         begin
           images = DB.get_public_images(false, params)
           {images: images}.to_json
-        rescue Cbolt::NotFound => e
+        rescue Visor::NotFound => e
           json_error 404, e.message
         end
       end
@@ -150,7 +150,7 @@ module Cbolt
         begin
           image = DB.get_image(id)
           {image: image}.to_json
-        rescue Cbolt::NotFound => e
+        rescue Visor::NotFound => e
           json_error 404, e.message
         end
       end
@@ -169,10 +169,9 @@ module Cbolt
       post '/images' do
         begin
           meta = JSON.parse(request.body.read, @parse_opts)
-          id = DB.post_image(meta[:image])
-          image = DB.get_image(id)
+          image = DB.post_image(meta[:image])
           {image: image}.to_json
-        rescue Cbolt::NotFound => e
+        rescue Visor::NotFound => e
           json_error 404, e.message
         rescue ArgumentError => e
           json_error 400, e.message
@@ -196,7 +195,7 @@ module Cbolt
           meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
-        rescue Cbolt::NotFound => e
+        rescue Visor::NotFound => e
           json_error 404, e.message
         rescue ArgumentError => e
           json_error 400, e.message
@@ -218,7 +217,7 @@ module Cbolt
         begin
           image = DB.delete_image(params[:id])
           {image: image}.to_json
-        rescue Cbolt::NotFound => e
+        rescue Visor::NotFound => e
           json_error 404, e.message
         end
       end
@@ -248,6 +247,6 @@ module Cbolt
   end
 end
 
-Cbolt::Registry::Server.run! port: Cbolt::Registry::Server::PORT, environment: :development if __FILE__ == $0
+Visor::Registry::Server.run! port: Visor::Registry::Server::PORT, environment: :development if __FILE__ == $0
 
 

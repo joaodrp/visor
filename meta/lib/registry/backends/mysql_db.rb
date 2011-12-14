@@ -1,6 +1,6 @@
 require 'mysql2'
 
-module Cbolt::Registry
+module Visor::Registry
   module Backends
     class MySQL < Base
 
@@ -8,23 +8,28 @@ module Cbolt::Registry
       # Connection constants
       #
       # Default MySQL database
-      DEFAULT_DB = 'cbolt'
+      DEFAULT_DB = 'visor'
       # Default MySQL host address
       DEFAULT_HOST = '127.0.0.1'
       # Default MySQL host port
       DEFAULT_PORT = 3306
       # Default MySQL user
-      DEFAULT_USER = 'cbolt'
+      DEFAULT_USER = 'visor'
       # Default MySQL password
       DEFAULT_PASSWORD = 'passwd'
       # Images table schema
       CREATE_TABLE = %[
-        CREATE TABLE IF NOT EXISTS `cbolt`.`images` (
+        CREATE TABLE IF NOT EXISTS `visor`.`images` (
           `_id` VARCHAR(36) NOT NULL ,
+          `uri` VARCHAR(255) NULL ,
           `name` VARCHAR(45) NOT NULL ,
           `architecture` VARCHAR(45) NOT NULL ,
           `access` VARCHAR(45) NOT NULL ,
-          `uri` VARCHAR(255) NULL ,
+          `type` VARCHAR(45) NULL ,
+          `format` VARCHAR(45) NULL ,
+          `store` VARCHAR(255) NULL ,
+          `kernel` VARCHAR(32) NULL ,
+          `ramdisk` VARCHAR(32) NULL ,
           `owner` VARCHAR(45) NULL ,
           `status` VARCHAR(45) NULL ,
           `size` INT NULL ,
@@ -34,19 +39,14 @@ module Cbolt::Registry
           `accessed_at` DATETIME NULL ,
           `access_count` INT NULL DEFAULT 0 ,
           `checksum` VARCHAR(255) NULL ,
-          `type` VARCHAR(45) NULL ,
-          `format` VARCHAR(45) NULL ,
-          `store` VARCHAR(255) NULL ,
-          `kernel` VARCHAR(32) NULL ,
-          `ramdisk` VARCHAR(32) NULL ,
           PRIMARY KEY (`_id`) )
           ENGINE = InnoDB;
       ]
 
-      #CREATE DATABASE cbolt;
-      #CREATE USER 'cbolt'@'localhost' IDENTIFIED BY 'cbolt';
-      #SET PASSWORD FOR 'cbolt'@'localhost' = PASSWORD('passwd');
-      #GRANT ALL PRIVILEGES ON cbolt.* TO 'cbolt'@'localhost';
+      #CREATE DATABASE visor;
+      #CREATE USER 'visor'@'localhost' IDENTIFIED BY 'visor';
+      #SET PASSWORD FOR 'visor'@'localhost' = PASSWORD('passwd');
+      #GRANT ALL PRIVILEGES ON visor.* TO 'visor'@'localhost';
 	
       # Initializes a MySQL Backend instance.
       #
@@ -87,12 +87,12 @@ module Cbolt::Registry
       #
       # @raise [NotFound] If image not found.
       #
-      def get_image(id)
+      def get_image(id, pass_timestamps = false)
         conn = connection
-        meta = conn.query("SELECT #{exclude} FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
-        raise Cbolt::NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
+        meta = conn.query("SELECT #{exclude} FROM images WHERE _id='#{id}'", symbolize_keys: true).first
+        raise Visor::NotFound, "No image found with id '#{id}'." if meta.nil?
 
-        set_protected_get id, conn
+        set_protected_get(id, conn) unless pass_timestamps
         conn.close
         meta
       end
@@ -121,8 +121,8 @@ module Cbolt::Registry
         pub = connection.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)} ORDER BY #{sort[0]} #{sort[1]}",
                                symbolize_keys: true).to_a
 
-        raise Cbolt::NotFound, "No public images found." if pub.empty? && filters.empty?
-        raise Cbolt::NotFound, "No public images found with given parameters." if pub.empty?
+        raise Visor::NotFound, "No public images found." if pub.empty? && filters.empty?
+        raise Visor::NotFound, "No public images found with given parameters." if pub.empty?
         connection.close
         pub
       end
@@ -137,7 +137,7 @@ module Cbolt::Registry
       #
       def delete_image(id)
         meta = connection.query("SELECT * FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
-        raise Cbolt::NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
+        raise Visor::NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
 
         connection.query "DELETE FROM images WHERE _id='#{id.to_s}'"
         connection.close
@@ -171,7 +171,7 @@ module Cbolt::Registry
         keys_values = to_sql_insert(meta)
         connection.query "INSERT INTO images #{keys_values[0]} VALUES #{keys_values[1]}"
         connection.close
-        meta[:_id]
+        self.get_image(meta[:_id], true)
       end
 
       # Update an image's metadata.
@@ -187,12 +187,12 @@ module Cbolt::Registry
         validate_data_put update
 
         img = connection.query("SELECT * FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
-        raise Cbolt::NotFound, "No image found with id '#{id}'." if img.nil?
+        raise Visor::NotFound, "No image found with id '#{id}'." if img.nil?
 
         set_protected_put update
         connection.query "UPDATE images SET #{to_sql_update(update)} WHERE _id='#{id.to_s}'"
         connection.close
-        img.merge(update)
+        self.get_image(id, true)
       end
 
 
@@ -265,11 +265,15 @@ module Cbolt::Registry
       #
       def set_protected_post meta, opts = {}
         owner, size = opts[:owner], opts[:size]
-        uri = "http://#{@host}:#{@port}/images/#{meta[:_id]}"
 
-        meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
+        host = Visor::Registry::Server::HOST
+        port = Visor::Registry::Server::PORT
+        uri = "http://#{host}:#{port}/images/#{meta[:_id]}"
+
+        meta.merge!(access: 'public') unless meta[:access]
         meta.merge!(owner: owner) if owner
         meta.merge!(size: size) if size
+        meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
       end
 
       # Set protected fields value from a get operation.

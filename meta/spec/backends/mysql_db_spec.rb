@@ -1,11 +1,11 @@
 require File.expand_path("../../spec_helper", __FILE__)
 
-include Cbolt::Registry::Backends
+include Visor::Registry::Backends
 
-module Cbolt::Registry::Backends
+module Visor::Registry::Backends
   describe MySQL do
 
-    let(:conn) { MySQL.connect :db => 'cbolt_test' }
+    let(:conn) { MySQL.connect :db => 'visor_test' }
 
     before(:each) do
       post = {
@@ -30,7 +30,7 @@ module Cbolt::Registry::Backends
 
     describe "#initialize" do
       it "should instantiate a new object" do
-        conn.db.should == 'cbolt_test'
+        conn.db.should == 'visor_test'
         conn.host.should == MySQL::DEFAULT_HOST
       end
     end
@@ -64,7 +64,7 @@ module Cbolt::Registry::Backends
       it "should raise an exception if there are no public images" do
         conn.delete_all!
         l = lambda { conn.get_public_images }
-        l.should raise_error(Cbolt::NotFound, /public/)
+        l.should raise_error(Visor::NotFound, /public/)
       end
     end
 
@@ -85,7 +85,7 @@ module Cbolt::Registry::Backends
       it "should raise an exception if image not found" do
         fake_id = 0
         l       = lambda { conn.get_image(fake_id) }
-        l.should raise_error(Cbolt::NotFound, /id/)
+        l.should raise_error(Visor::NotFound, /id/)
       end
     end
 
@@ -100,7 +100,7 @@ module Cbolt::Registry::Backends
       it "should raise an exception if image not found" do
         fake_id = 0
         l       = lambda { conn.delete_image(fake_id) }
-        l.should raise_error(Cbolt::NotFound, /id/)
+        l.should raise_error(Visor::NotFound, /id/)
       end
     end
 
@@ -108,15 +108,15 @@ module Cbolt::Registry::Backends
       it "should delete all records in images and counters collection" do
         conn.delete_all!
         l = lambda { conn.get_public_images }
-        l.should raise_error(Cbolt::NotFound, /public/)
+        l.should raise_error(Visor::NotFound, /public/)
       end
     end
 
     describe "#post_image" do
-      it "should post an image and return its id" do
-        id = conn.post_image(@sample, method: 1)
-        id.should be_a(String)
-        id.length.should eq(36)
+      it "should post an image and return it" do
+        image = conn.post_image(@sample, method: 1)
+        image.should be_a(Hash)
+        image[:name].should == @sample[:name]
       end
 
       it "should raise an exception if meta validation fails" do

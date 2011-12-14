@@ -1,0 +1,28 @@
+# ========= Default always loaded configurations through all VISoR sub-systems =========
+#
+default:
+    # Set the default log date time format
+    log_datetime_format: "%Y-%m-%d %H:%M:%S"
+
+# ============= VISoR Registry =========================================================
+#
+visor_registry:
+    # Address to bind the registry server
+    bind_host: 0.0.0.0
+    # Port to bind the registry server
+    bind_port: 4567
+    # Backend settings
+    backend:
+        # Backend to use (available: MongoDB, MySQL)
+        adapter: mongodb
+        # Backend connection string (syntax: backend://user:pass@host:port/database)
+        #uri: mysql://visor:passwd@127.0.0.1:3306/visor
+        uri: mongodb://:@127.0.0.1:27017/visor
+    # Logging settings
+    log:
+        # Set the default log path
+        path: ~/.visor/logs
+        # Log file name
+        file: visor-registry.log
+        # Log level (available: INFO, DEBUG)
+        level: INFO

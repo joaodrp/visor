@@ -1,9 +1,9 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-module Cbolt::Registry
+module Visor::Registry
   describe Client do
 
-    include Cbolt::Registry
+    include Visor::Registry
 
     let(:client) { Client.new }
 
@@ -32,7 +32,7 @@ module Cbolt::Registry
       end
 
       it "should instantiate a new client with provided options" do
-        c = Cbolt::Registry::Client.new('1.1.1.1', 1, true)
+        c = Visor::Registry::Client.new(host: '1.1.1.1', port: 1, ssl: true)
         c.host.should == '1.1.1.1'
         c.port.should == 1
         c.ssl.should be_true
@@ -111,7 +111,7 @@ module Cbolt::Registry
 
       it "should raise an exception if image not found" do
         fake_id = 0
-        lambda { client.get_image(fake_id) }.should raise_error Cbolt::NotFound
+        lambda { client.get_image(fake_id) }.should raise_error Visor::NotFound
       end
     end
 
@@ -130,12 +130,12 @@ module Cbolt::Registry
       end
 
       it "should trully delete that image from database" do
-        lambda { client.get_image(@id) }.should raise_error Cbolt::NotFound
+        lambda { client.get_image(@id) }.should raise_error Visor::NotFound
       end
 
       it "should raise an exception if image not found" do
         fake_id = 0
-        lambda { client.delete_image(fake_id) }.should raise_error Cbolt::NotFound
+        lambda { client.delete_image(fake_id) }.should raise_error Visor::NotFound
       end
     end
 
@@ -155,7 +155,7 @@ module Cbolt::Registry
       end
 
       it "should raise an exception if meta validation fails" do
-        lambda { client.post_image(invalid_post) }.should raise_error Cbolt::Invalid
+        lambda { client.post_image(invalid_post) }.should raise_error Visor::Invalid
       end
     end
 
@@ -175,7 +175,7 @@ module Cbolt::Registry
       end
 
       it "should raise an exception if meta validation fails" do
-        lambda { client.put_image(@id, invalid_update) }.should raise_error Cbolt::Invalid
+        lambda { client.put_image(@id, invalid_update) }.should raise_error Visor::Invalid
       end
     end
   end

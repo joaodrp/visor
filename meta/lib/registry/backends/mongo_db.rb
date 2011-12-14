@@ -1,13 +1,13 @@
 require 'mongo'
 
-module Cbolt::Registry
+module Visor::Registry
   module Backends
     class MongoDB < Base
 
       # Connection constants
       #
       # Default MongoDB database
-      DEFAULT_DB = 'cbolt'
+      DEFAULT_DB = 'visor'
       # Default MongoDB host address
       DEFAULT_HOST = '127.0.0.1'
       # Default MongoDB host port
@@ -57,17 +57,17 @@ module Cbolt::Registry
 
       # Returns the requested image metadata.
       #
-      # @param [Integer] id The requested image's i
+      # @param [Integer] id The requested image's _id.
+      # @param [true, false] pass_timestamps If we want to pass timestamps setting step.
       #
       # @return [BSON::OrderedHash] The requested image metadata.
       #
       # @raise [NotFound] If image not found.
       #
-      def get_image(id)
+      def get_image(id, pass_timestamps = false)
         meta = @conn.find_one({_id: id}, fields: exclude)
-        raise Cbolt::NotFound, "No image found with id '#{id}'." if meta.nil?
-
-        set_protected_get id
+        raise Visor::NotFound, "No image found with id '#{id}'." if meta.nil?
+        set_protected_get id unless pass_timestamps
         meta
       end
 
@@ -94,8 +94,8 @@ module Cbolt::Registry
 
         pub = @conn.find(filter, fields: fields, sort: sort).to_a
 
-        raise Cbolt::NotFound, "No public images found." if pub.empty? && filters.empty?
-        raise Cbolt::NotFound, "No public images found with given parameters." if pub.empty?
+        raise Visor::NotFound, "No public images found." if pub.empty? && filters.empty?
+        raise Visor::NotFound, "No public images found with given parameters." if pub.empty?
 
         pub
       end
@@ -110,7 +110,7 @@ module Cbolt::Registry
       #
       def delete_image(id)
         img = @conn.find_one({_id: id})
-        raise Cbolt::NotFound, "No image found with id '#{id}'." unless img
+        raise Visor::NotFound, "No image found with id '#{id}'." unless img
 
         @conn.remove({_id: id})
         img
@@ -138,7 +138,8 @@ module Cbolt::Registry
 
         meta = {_id: SecureRandom.uuid}.merge!(meta)
         set_protected_post meta, opts
-        @conn.insert(meta)
+        id = @conn.insert(meta)
+        self.get_image(id, true)
       end
 
       # Update an image's metadata.
@@ -154,11 +155,11 @@ module Cbolt::Registry
         validate_data_put update
 
         img = @conn.find_one({_id: id})
-        raise Cbolt::NotFound, "No image found with id '#{id}'." unless img
+        raise Visor::NotFound, "No image found with id '#{id}'." unless img
 
         set_protected_put update
         @conn.update({_id: id}, :$set => update)
-        img.merge(update.stringify_keys)
+        self.get_image(id, true)
       end
 
 
@@ -184,7 +185,7 @@ module Cbolt::Registry
       end
 
       # Set protected fields value from a post operation.
-      # Being them the uri, owner, size, status and created_at.
+      # Being them the uri, owner, size, access, status and created_at.
       #
       # @param [Hash] meta The image metadata.
       #
@@ -198,13 +199,16 @@ module Cbolt::Registry
       def set_protected_post meta, opts = {}
         owner, size = opts[:owner], opts[:size] # TODO validate owner user
 
-        host = Cbolt::Registry::Server::HOST
-        port = Cbolt::Registry::Server::PORT
+        host = Visor::Registry::Server::HOST
+        port = Visor::Registry::Server::PORT
         uri = "http://#{host}:#{port}/images/#{meta[:_id]}"
 
-        meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
+        meta.merge!(access: 'public') unless meta[:access]
         meta.merge!(owner: owner) if owner
         meta.merge!(size: size) if size
+        meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
+
+        #meta.set_blank_keys_value_to(Base::BRIEF, [], nil)
       end
 
       # Set protected fields value from a get operation.

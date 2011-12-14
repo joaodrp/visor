@@ -1,4 +1,4 @@
-module Cbolt
+module Visor
 
   # raise if invalid data is provided within new metadata
   class Invalid < ArgumentError;

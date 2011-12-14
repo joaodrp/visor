@@ -12,7 +12,7 @@ RSpec.configure do |conf|
   conf.include Rack::Test::Methods
 
   def app
-    Cbolt::Registry::Server
+    Visor::Registry::Server
   end
 end
 

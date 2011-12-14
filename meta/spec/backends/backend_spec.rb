@@ -1,8 +1,8 @@
 require File.expand_path("../../spec_helper", __FILE__)
 
-include Cbolt::Registry::Backends
+include Visor::Registry::Backends
 
-module Cbolt::Registry::Backends
+module Visor::Registry::Backends
   describe Base do
 
     before(:each) do

@@ -3,7 +3,10 @@ require 'net/https'
 require 'uri'
 require 'json'
 
-module Cbolt
+# TODO: investigate example results for post(why it do not return created_at etc)
+# TODO: investigate example results for put(why it returns created_at and updates :access_count, etc)
+
+module Visor
   module Registry
 
     # The Client API for the VISoR Registry. This class supports all image metadata manipulation
@@ -12,14 +15,6 @@ module Cbolt
     # After Instantiate a Client object its possible to directly interact with the registry server and its
     # database backend.
     #
-    # @example Instantiating a new VISoR Registry Client:
-    #   client = Visor::Registry::Client.new('0.0.0.0', 4567)
-    #     => Visor::Registry::Client:0x007fb6da03fde8 @host="0.0.0.0", @port=4567, @ssl=false>
-
-    # @example Retrieve all public images brief metadata, descending sorted by their name:
-    #   client.get_images(sort: 'name', dir: 'desc')
-    #     => [{:_id=>"5e47a41e-7b94-4f65-824e-28f94e15bc6a", :name=>"Ubuntu 10.04", ... }, ... ]
-    #
     class Client
 
       DEFAULT_HOST = '0.0.0.0'
@@ -27,83 +22,112 @@ module Cbolt
 
       attr_reader :host, :port, :ssl
 
-      # Initializes a new Client object.
+      # Initializes a new new VISoR Registry Client.
       #
-      # @param host (DEFAULT_HOST) [String] The host address where VISoR registry server resides.
-      # @param port (DEFAULT_HOST) [Fixnum] The host port where VISoR registry server resides.
-      # @param ssl (false)[Object] If the connection show be made through HTTPS (SSL).
+      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
-      def initialize(host=nil, port=nil, ssl=false)
-        @host = host || DEFAULT_HOST
-        @port = port || DEFAULT_PORT
-        @ssl = ssl
+      # @example Instantiate a client with default values:
+      #   client = Visor::Registry::Client.new
+      #
+      # @example Instantiate a client with default values and SSL enabled:
+      #   client = Visor::Registry::Client.new(ssl: true)
+      #
+      # @example Instantiate a client with custom host and port:
+      #   client = Visor::Registry::Client.new(host: '127.0.0.1', port: 3000)
+      #
+      def initialize(opts = {})
+        @host = opts[:host] || DEFAULT_HOST
+        @port = opts[:port] || DEFAULT_PORT
+        @ssl = opts[:ssl] || false
       end
 
       # Retrieves brief metadata of all public images.
+      # Options for filtering the returned results can be passed in.
       #
-      # @option params ({}) [Hash] Image attributes for filtering the returned results.
-      #   Besides image attributes, the following options can be passed too.
+      # @option opts [String] :attribute_name The image attribute value to filter returned results.
+      # @option opts [String] :sort ("_id") The image attribute to sort returned results.
+      # @option opts [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
-      # @option opts :sort ('_id') [String] The image attribute to sort returned results.
-      # @option opts :dir ('asc') [String] The direction to sort results ('asc'/'desc').
+      # @example Retrieve all public images brief metadata:
+      #   client.get_images
+      #
+      #     # returns:
+      #     [<all images brief metadata>]
+      #
+      # @example Retrieve all public 32bit images brief metadata:
+      #   client.get_images(architecture: 'i386')
+      #
+      #     # returns something like:
+      #     [{:_id=>"28f94e15...", :architecture=>"i386", :name=>"Fedora 16"},
+      #      {:_id=>"8cb55bb6...", :architecture=>"i386", :name=>"Ubuntu 11.10 Desktop"}]
+      #
+      # @example Retrieve all public 64bit images brief metadata, descending sorted by their name:
+      #   client.get_images(architecture: 'x86_64', sort: 'name', dir: 'desc')
+      #
+      #     # returns something like:
+      #     [{:_id=>"5e47a41e...", :architecture=>"x86_64", :name=>"Ubuntu 10.04 Server"},
+      #      {:_id=>"069320f0...", :architecture=>"x86_64", :name=>"CentOS 6"}]
       #
       # @return [Array] All public images brief metadata.
+      #   Just {Visor::Registry::Backends::Base::BRIEF BRIEF} fields are returned.
       #
-      #   [{"_id"":<_id>,
-      #     "name":<name>,
-      #     "architecture":<architecture>,
-      #     "type":<type>,
-      #     "format":<format>,
-      #     "store":<type>
-      #    }, ...]}
+      # @raise [Visor::NotFound] If there are no public images registered on the server.
       #
-      # @raise[Visor::NotFound] If there are no public images registered on the server.
-      #
-      def get_images(params = {})
-        query = build_query(params)
+      def get_images(opts = {})
+        query = build_query(opts)
         request = Net::HTTP::Get.new("/images#{query}")
         do_request(request)
       end
 
       # Retrieves detailed metadata of all public images.
       #
-      # @option params ({}) [Hash] Image attributes for filtering the returned results.
-      #   Besides image attributes, the following options can be passed too.
+      # Filtering and querying works the same as with {#get_images}. The only difference is the number
+      # of disclosed attributes.
       #
-      # @option opts :sort ('_id') [String] The image attribute to sort returned results.
-      # @option opts :dir ('asc') [String] The direction to sort results ('asc'/'desc').
+      # @option opts [String] :attribute_name The image attribute value to filter returned results.
+      # @option opts [String] :sort ("_id") The image attribute to sort returned results.
+      # @option opts [String] :dir ("asc") The direction to sort results ("asc"/"desc").
+      #
+      # @example Retrieve all public images detailed metadata:
+      #   # request for it
+      #   client.get_images_detail
+      #   # returns an array of hashes with all public images metadata.
       #
       # @return [Array] All public images detailed metadata.
+      #   The {Visor::Registry::Backends::Base::DETAIL_EXC DETAIL_EXC} fields are excluded from results.
       #
-      #   [{"_id":<_id>,
-      #     "uri":<uri>,
-      #     "name":<name>,
-      #     "architecture":<architecture>,
-      #     "access":<access>,
-      #     "status":<status>,
-      #     "size":<size>,
-      #     "type":<type>,
-      #     "format":<format>,
-      #     "store":<type>,
-      #     "updated_at":<updated_at>,
-      #     "kernel":<associated kernel>,
-      #     "ramdisk":<associated ramdisk>,
-      #     "others":<others>
-      #    }, ...]}
+      # @raise [Visor::NotFound] If there are no public images registered on the server.
       #
-      # @raise[Visor::NotFound] If there are no public images registered on the server.
-      #
-      def get_images_detail(params = {})
-        query = build_query(params)
+      def get_images_detail(opts = {})
+        query = build_query(opts)
         request = Net::HTTP::Get.new("/images/detail#{query}")
         do_request(request)
       end
 
-      # Retrieves the image metadata with the given id.
+      # Retrieves detailed image metadata of the image with the given id.
       #
-      # @param id [Integer] The wanted image's _id.
+      # @param id [String] The wanted image's _id.
       #
-      # @return [Array] The requested image metadata.
+      # @example Retrieve the image metadata with _id value:
+      #   # wanted image _id
+      #   id = "5e47a41e-7b94-4f65-824e-28f94e15bc6a"
+      #   # ask for that image metadata
+      #   client.get_image(id)
+      #
+      #     # returns:
+      #     { :_id=>"2cceffc6-ebc5-4741-9653-745524e7ac30",
+      #       :name=>"Ubuntu 10.10",
+      #       :architecture=>"x86_64",
+      #       :access=>"public",
+      #       :uri=>"http://0.0.0.0:4567/images/2cceffc6-ebc5-4741-9653-745524e7ac30",
+      #       :format=>"iso",
+      #       :type=>"ramdisk",
+      #       :status=>"available",
+      #       :store=>"fs" }
+      #
+      # @return [Hash] The requested image metadata.
       #
       # @raise [Visor::NotFound] If image not found.
       #
@@ -116,6 +140,23 @@ module Cbolt
       #
       # @param meta [Hash] The image metadata.
       #
+      # @example Insert a sample image metadata:
+      #   # sample image metadata
+      #   meta = {name: 'example', architecture: 'i386', access: 'public'}
+      #   # insert the new image metadata
+      #   client.post_image(meta)
+      #
+      #     # returns:
+      #     { :_id=>"2373c3e5-b302-4529-8e23-c4ffc85e7613",
+      #       :name=>"example",
+      #       :architecture=>"i386",
+      #       :access=>"public",
+      #       :uri=>"http://0.0.0.0:4567/images/2373c3e5-b302-4529-8e23-c4ffc85e7613",
+      #       :status=>"locked",
+      #       :created_at=>"2011-12-13 19:19:26 UTC" }
+      #
+      # @return [Hash] The already inserted image metadata.
+      #
       # @raise [Visor::Invalid] If image meta validation fails.
       #
       def post_image(meta)
@@ -126,8 +167,26 @@ module Cbolt
 
       # Updates an image record with the given metadata and returns its metadata.
       #
-      # @param id [Integer] The image's _id which will be updated.
+      # @param id [String] The image's _id which will be updated.
       # @param meta [Hash] The image metadata.
+      #
+      # @example Update a sample image metadata:
+      #   # wanted image _id
+      #   id = "2373c3e5-b302-4529-8e23-c4ffc85e7613"
+      #   # update the image metadata with some new values
+      #   client.put_image(id, name: 'update example')
+      #
+      #     # returns:
+      #     { :_id=>"2373c3e5-b302-4529-8e23-c4ffc85e7613",
+      #       :name=>"update example",
+      #       :architecture=>"i386",
+      #       :access=>"public",
+      #       :uri=>"http://0.0.0.0:4567/images/2373c3e5-b302-4529-8e23-c4ffc85e7613",
+      #       :status=>"locked",
+      #       :created_at=>"2011-12-13 19:19:26 UTC",
+      #       :updated_at=>"2011-12-13 19:24:37 +0000" }
+      #
+      # @return [Hash] The already updated image metadata.
       #
       # @raise [Visor::Invalid] If image meta validation fails.
       # @raise [Visor::NotFound] If required image was not found.
@@ -140,7 +199,15 @@ module Cbolt
 
       # Removes an image record based on its _id and returns its metadata.
       #
-      # @param id [Integer] The image's _id which will be deleted.
+      # @param id [String] The image's _id which will be deleted.
+      #
+      # @example Delete an image metadata:
+      #   # wanted image _id
+      #   id = "2373c3e5-b302-4529-8e23-c4ffc85e7613"
+      #   # delete the image metadata, which returns it as it was before deletion
+      #   client.delete_image(id)
+      #
+      # @return [Hash] The already deleted image metadata. This is useful for recover on accidental delete.
       #
       # @raise [Visor::NotFound] If required image was not found.
       #
@@ -167,12 +234,12 @@ module Cbolt
 
       # Generate a valid URI query string from key/value pairs of the given hash.
       #
-      # @param params [Hash] The hash with the key/value pairs to generate query from.
+      # @param opts [Hash] The hash with the key/value pairs to generate query from.
       #
       # @return [String] The generated query in the form of "?k=v&k1=v1".
       #
-      def build_query(params)
-        params.empty? ? '' : '?' + URI.encode_www_form(params)
+      def build_query(opts)
+        opts.empty? ? '' : '?' + URI.encode_www_form(opts)
       end
 
       # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'
@@ -213,8 +280,8 @@ module Cbolt
         prepare_headers(request)
         response = http_or_https.request(request)
         case response
-          when Net::HTTPNotFound then raise Cbolt::NotFound, parse(:message, response)
-          when Net::HTTPBadRequest then raise Cbolt::Invalid, parse(:message, response)
+          when Net::HTTPNotFound then raise Visor::NotFound, parse(:message, response)
+          when Net::HTTPBadRequest then raise Visor::Invalid, parse(:message, response)
           else parse(:image, response) or parse(:images, response)
         end
       end

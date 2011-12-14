@@ -1,12 +1,12 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-include Cbolt::Registry::Backends
+include Visor::Registry::Backends
 
-describe Cbolt::Registry::Server do
+describe Visor::Registry::Server do
 
   let(:parse_opts) { {symbolize_names: true} }
 
-  let(:valid_post) { {image: {name: 'server_spec', architecture: 'i386', access: 'public'}} }
+  let(:valid_post) { {image: {name: 'server_spec', architecture: 'i386'}} }
   let(:invalid_post) { {image: {name: 'server_spec', architecture: 'i386', access: 'invalid'}} }
 
   let(:valid_update) { {image: {architecture: 'x86_64'}} }
