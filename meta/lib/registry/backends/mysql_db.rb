@@ -4,6 +4,8 @@ module Visor::Registry
   module Backends
     class MySQL < Base
 
+      include Visor::Common::Exception
+
       #TODO: handle other fields, probably stored in 'others' collumn in plain json
       # Connection constants
       #
@@ -90,7 +92,7 @@ module Visor::Registry
       def get_image(id, pass_timestamps = false)
         conn = connection
         meta = conn.query("SELECT #{exclude} FROM images WHERE _id='#{id}'", symbolize_keys: true).first
-        raise Visor::NotFound, "No image found with id '#{id}'." if meta.nil?
+        raise NotFound, "No image found with id '#{id}'." if meta.nil?
 
         set_protected_get(id, conn) unless pass_timestamps
         conn.close
@@ -121,8 +123,8 @@ module Visor::Registry
         pub = connection.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)} ORDER BY #{sort[0]} #{sort[1]}",
                                symbolize_keys: true).to_a
 
-        raise Visor::NotFound, "No public images found." if pub.empty? && filters.empty?
-        raise Visor::NotFound, "No public images found with given parameters." if pub.empty?
+        raise NotFound, "No public images found." if pub.empty? && filters.empty?
+        raise NotFound, "No public images found with given parameters." if pub.empty?
         connection.close
         pub
       end
@@ -137,7 +139,7 @@ module Visor::Registry
       #
       def delete_image(id)
         meta = connection.query("SELECT * FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
-        raise Visor::NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
+        raise NotFound, "No image found with id '#{id.to_s}'." if meta.nil?
 
         connection.query "DELETE FROM images WHERE _id='#{id.to_s}'"
         connection.close
@@ -187,7 +189,7 @@ module Visor::Registry
         validate_data_put update
 
         img = connection.query("SELECT * FROM images WHERE _id='#{id.to_s}'", symbolize_keys: true).first
-        raise Visor::NotFound, "No image found with id '#{id}'." if img.nil?
+        raise NotFound, "No image found with id '#{id}'." if img.nil?
 
         set_protected_put update
         connection.query "UPDATE images SET #{to_sql_update(update)} WHERE _id='#{id.to_s}'"

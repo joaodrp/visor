@@ -1,5 +1,6 @@
 require File.expand_path("../../spec_helper", __FILE__)
 
+include Visor::Common::Exception
 include Visor::Registry::Backends
 
 module Visor::Registry::Backends
@@ -72,7 +73,7 @@ module Visor::Registry::Backends
       it "should raise an exception if there are no public images" do
         conn.delete_all!
         l = lambda { conn.get_public_images }
-        l.should raise_error(Visor::NotFound, /public/)
+        l.should raise_error(NotFound, /public/)
       end
     end
 
@@ -95,7 +96,7 @@ module Visor::Registry::Backends
       it "should raise an exception if image not found" do
         fake_id = 0
         l = lambda { conn.get_image(fake_id) }
-        l.should raise_error(Visor::NotFound, /id/)
+        l.should raise_error(NotFound, /id/)
       end
     end
 
@@ -110,7 +111,7 @@ module Visor::Registry::Backends
       it "should raise an exception if image not found" do
         fake_id = 0
         l = lambda { conn.delete_image(fake_id) }
-        l.should raise_error(Visor::NotFound, /id/)
+        l.should raise_error(NotFound, /id/)
       end
     end
 

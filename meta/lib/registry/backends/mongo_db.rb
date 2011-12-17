@@ -4,6 +4,8 @@ module Visor::Registry
   module Backends
     class MongoDB < Base
 
+      include Visor::Common::Exception
+
       # Connection constants
       #
       # Default MongoDB database
@@ -66,7 +68,7 @@ module Visor::Registry
       #
       def get_image(id, pass_timestamps = false)
         meta = @conn.find_one({_id: id}, fields: exclude)
-        raise Visor::NotFound, "No image found with id '#{id}'." if meta.nil?
+        raise NotFound, "No image found with id '#{id}'." if meta.nil?
         set_protected_get id unless pass_timestamps
         meta
       end
@@ -94,8 +96,8 @@ module Visor::Registry
 
         pub = @conn.find(filter, fields: fields, sort: sort).to_a
 
-        raise Visor::NotFound, "No public images found." if pub.empty? && filters.empty?
-        raise Visor::NotFound, "No public images found with given parameters." if pub.empty?
+        raise NotFound, "No public images found." if pub.empty? && filters.empty?
+        raise NotFound, "No public images found with given parameters." if pub.empty?
 
         pub
       end
@@ -110,7 +112,7 @@ module Visor::Registry
       #
       def delete_image(id)
         img = @conn.find_one({_id: id})
-        raise Visor::NotFound, "No image found with id '#{id}'." unless img
+        raise NotFound, "No image found with id '#{id}'." unless img
 
         @conn.remove({_id: id})
         img
@@ -155,7 +157,7 @@ module Visor::Registry
         validate_data_put update
 
         img = @conn.find_one({_id: id})
-        raise Visor::NotFound, "No image found with id '#{id}'." unless img
+        raise NotFound, "No image found with id '#{id}'." unless img
 
         set_protected_put update
         @conn.update({_id: id}, :$set => update)

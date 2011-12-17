@@ -3,9 +3,6 @@ require 'net/https'
 require 'uri'
 require 'json'
 
-# TODO: investigate example results for post(why it do not return created_at etc)
-# TODO: investigate example results for put(why it returns created_at and updates :access_count, etc)
-
 module Visor
   module Registry
 
@@ -16,6 +13,8 @@ module Visor
     # database backend.
     #
     class Client
+
+      include Visor::Common::Exception
 
       DEFAULT_HOST = '0.0.0.0'
       DEFAULT_PORT = 4567
@@ -46,9 +45,9 @@ module Visor
       # Retrieves brief metadata of all public images.
       # Options for filtering the returned results can be passed in.
       #
-      # @option opts [String] :attribute_name The image attribute value to filter returned results.
-      # @option opts [String] :sort ("_id") The image attribute to sort returned results.
-      # @option opts [String] :dir ("asc") The direction to sort results ("asc"/"desc").
+      # @option query [String] :attribute_name The image attribute value to filter returned results.
+      # @option query [String] :sort ("_id") The image attribute to sort returned results.
+      # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
       # @example Retrieve all public images brief metadata:
       #   client.get_images
@@ -73,11 +72,11 @@ module Visor
       # @return [Array] All public images brief metadata.
       #   Just {Visor::Registry::Backends::Base::BRIEF BRIEF} fields are returned.
       #
-      # @raise [Visor::NotFound] If there are no public images registered on the server.
+      # @raise [NotFound] If there are no public images registered on the server.
       #
-      def get_images(opts = {})
-        query = build_query(opts)
-        request = Net::HTTP::Get.new("/images#{query}")
+      def get_images(query = {})
+        str = build_query(query)
+        request = Net::HTTP::Get.new("/images#{str}")
         do_request(request)
       end
 
@@ -86,9 +85,9 @@ module Visor
       # Filtering and querying works the same as with {#get_images}. The only difference is the number
       # of disclosed attributes.
       #
-      # @option opts [String] :attribute_name The image attribute value to filter returned results.
-      # @option opts [String] :sort ("_id") The image attribute to sort returned results.
-      # @option opts [String] :dir ("asc") The direction to sort results ("asc"/"desc").
+      # @option query [String] :attribute_name The image attribute value to filter returned results.
+      # @option query [String] :sort ("_id") The image attribute to sort returned results.
+      # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
       # @example Retrieve all public images detailed metadata:
       #   # request for it
@@ -98,11 +97,11 @@ module Visor
       # @return [Array] All public images detailed metadata.
       #   The {Visor::Registry::Backends::Base::DETAIL_EXC DETAIL_EXC} fields are excluded from results.
       #
-      # @raise [Visor::NotFound] If there are no public images registered on the server.
+      # @raise [NotFound] If there are no public images registered on the server.
       #
-      def get_images_detail(opts = {})
-        query = build_query(opts)
-        request = Net::HTTP::Get.new("/images/detail#{query}")
+      def get_images_detail(query = {})
+        str = build_query(query)
+        request = Net::HTTP::Get.new("/images/detail#{str}")
         do_request(request)
       end
 
@@ -129,7 +128,7 @@ module Visor
       #
       # @return [Hash] The requested image metadata.
       #
-      # @raise [Visor::NotFound] If image not found.
+      # @raise [NotFound] If image not found.
       #
       def get_image(id)
         request = Net::HTTP::Get.new("/images/#{id}")
@@ -157,7 +156,7 @@ module Visor
       #
       # @return [Hash] The already inserted image metadata.
       #
-      # @raise [Visor::Invalid] If image meta validation fails.
+      # @raise [Invalid] If image meta validation fails.
       #
       def post_image(meta)
         request = Net::HTTP::Post.new('/images')
@@ -188,8 +187,8 @@ module Visor
       #
       # @return [Hash] The already updated image metadata.
       #
-      # @raise [Visor::Invalid] If image meta validation fails.
-      # @raise [Visor::NotFound] If required image was not found.
+      # @raise [Invalid] If image meta validation fails.
+      # @raise [NotFound] If required image was not found.
       #
       def put_image(id, meta)
         request = Net::HTTP::Put.new("/images/#{id}")
@@ -209,7 +208,7 @@ module Visor
       #
       # @return [Hash] The already deleted image metadata. This is useful for recover on accidental delete.
       #
-      # @raise [Visor::NotFound] If required image was not found.
+      # @raise [NotFound] If required image was not found.
       #
       def delete_image(id)
         request = Net::HTTP::Delete.new("/images/#{id}")
@@ -273,15 +272,15 @@ module Visor
       # @return [String, Hash] If an error is raised, then it parses and returns its message,
       #   otherwise it properly parse and return the response body.
       #
-      # @raise [Visor::NotFound] If required image was not found (on a GET, PUT or DELETE request).
-      # @raise [Visor::Invalid] If image meta validation fails (on a POST or PUT request).
+      # @raise [NotFound] If required image was not found (on a GET, PUT or DELETE request).
+      # @raise [Invalid] If image meta validation fails (on a POST or PUT request).
       #
       def do_request(request)
         prepare_headers(request)
         response = http_or_https.request(request)
         case response
-          when Net::HTTPNotFound then raise Visor::NotFound, parse(:message, response)
-          when Net::HTTPBadRequest then raise Visor::Invalid, parse(:message, response)
+          when Net::HTTPNotFound then raise NotFound, parse(:message, response)
+          when Net::HTTPBadRequest then raise Invalid, parse(:message, response)
           else parse(:image, response) or parse(:images, response)
         end
       end

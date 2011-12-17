@@ -1,16 +1,13 @@
 require "spec_helper"
 
 module Visor::Registry
-  describe Client do
+  describe Api do
 
     include Visor::Registry
     include Visor::Common::Exception
 
-
-    let(:client) { Client.new }
-
-    let(:valid_post) { {name: 'client_spec', architecture: 'i386', access: 'public'} }
-    let(:invalid_post) { {name: 'client_spec', architecture: 'i386', access: 'invalid'} }
+    let(:valid_post) { {name: 'Api_spec', architecture: 'i386', access: 'public'} }
+    let(:invalid_post) { {name: 'Api_spec', architecture: 'i386', access: 'invalid'} }
 
     let(:valid_update) { {architecture: 'x86_64'} }
     let(:invalid_update) { {architecture: 'invalid'} }
@@ -18,32 +15,18 @@ module Visor::Registry
     @@inserted_images_id = []
 
     before(:each) do
-      @@inserted_images_id << client.post_image(valid_post)[:_id]
-      @@inserted_images_id << client.post_image(valid_post.merge(architecture: 'x86_64'))[:_id]
+      @@inserted_images_id << Api.add_image(valid_post)[:_id]
+      @@inserted_images_id << Api.add_image(valid_post)[:_id]
+      @@inserted_images_id << Api.add_image(valid_post.merge(architecture: 'x86_64'))[:_id]
     end
 
     after(:all) do
-      @@inserted_images_id.each { |id| client.delete_image(id) }
-    end
-
-    describe "#initialize" do
-      it "should instantiate a new client with default options" do
-        client.host.should == Client::DEFAULT_HOST
-        client.port.should == Client::DEFAULT_PORT
-        client.ssl.should be_false
-      end
-
-      it "should instantiate a new client with provided options" do
-        c = Visor::Registry::Client.new(host: '1.1.1.1', port: 1, ssl: true)
-        c.host.should == '1.1.1.1'
-        c.port.should == 1
-        c.ssl.should be_true
-      end
+      @@inserted_images_id.each { |id| Api.delete_image(id) }
     end
 
     describe "#get_images" do
       before(:each) do
-        @images = client.get_images
+        @images = Api.get_images
       end
 
       it "should return an array" do
@@ -51,21 +34,21 @@ module Visor::Registry
       end
 
       it "should filter results if asked to" do
-        pub = client.get_images(architecture: 'x86_64')
+        pub = Api.get_images(architecture: 'x86_64')
         pub.each { |img| img[:architecture].should == 'x86_64' }
       end
 
       it "should sort results if asked to" do
-        pub = client.get_images(sort: 'architecture', dir: 'desc')
+        pub = Api.get_images(sort: 'architecture', dir: 'desc')
         pub.first[:architecture].should == 'x86_64'
-        pub = client.get_images(sort: 'architecture', dir: 'asc')
+        pub = Api.get_images(sort: 'architecture', dir: 'asc')
         pub.first[:architecture].should == 'i386'
       end
     end
 
     describe "#get_images_detail" do
       before(:each) do
-        @images = client.get_images_detail
+        @images = Api.get_images_detail
       end
 
       it "should return an array" do
@@ -77,23 +60,22 @@ module Visor::Registry
       end
 
       it "should filter results if asked to" do
-        pub = client.get_images_detail(architecture: 'x86_64')
+        pub = Api.get_images_detail(architecture: 'x86_64')
         pub.each { |img| img[:architecture].should == 'x86_64' }
       end
 
       it "should sort results if asked to" do
-        pub = client.get_images(sort: 'architecture', dir: 'desc')
+        pub = Api.get_images(sort: 'architecture', dir: 'desc')
         pub.first[:architecture].should == 'x86_64'
-        pub = client.get_images(sort: 'architecture', dir: 'asc')
+        pub = Api.get_images(sort: 'architecture', dir: 'asc')
         pub.first[:architecture].should == 'i386'
       end
     end
 
     describe "#get_image" do
       before(:each) do
-        @id = client.post_image(valid_post)[:_id]
-        @@inserted_images_id << @id
-        @image = client.get_image(@id)
+        @id = @@inserted_images_id.sample
+        @image = Api.get_image(@id)
       end
 
       it "should return a hash" do
@@ -106,14 +88,14 @@ module Visor::Registry
 
       it "should raise an exception if image not found" do
         fake_id = 0
-        lambda { client.get_image(fake_id) }.should raise_error NotFound
+        lambda { Api.get_image(fake_id) }.should raise_error NotFound
       end
     end
 
     describe "#delete_image" do
       before(:each) do
-        @id = client.post_image(valid_post)[:_id]
-        @image = client.delete_image(@id)
+        @id = Api.add_image(valid_post)[:_id]
+        @image = Api.delete_image(@id)
       end
 
       it "should return a hash" do
@@ -125,18 +107,18 @@ module Visor::Registry
       end
 
       it "should trully delete that image from database" do
-        lambda { client.get_image(@id) }.should raise_error NotFound
+        lambda { Api.get_image(@id) }.should raise_error NotFound
       end
 
       it "should raise an exception if image not found" do
         fake_id = 0
-        lambda { client.delete_image(fake_id) }.should raise_error NotFound
+        lambda { Api.delete_image(fake_id) }.should raise_error NotFound
       end
     end
 
-    describe "#post_image" do
+    describe "#add_image" do
       before(:each) do
-        @image = client.post_image(valid_post)
+        @image = Api.add_image(valid_post)
         @@inserted_images_id << @image[:_id]
       end
 
@@ -150,15 +132,14 @@ module Visor::Registry
       end
 
       it "should raise an exception if meta validation fails" do
-        lambda { client.post_image(invalid_post) }.should raise_error Invalid
+        lambda { Api.add_image(invalid_post) }.should raise_error Invalid
       end
     end
 
-    describe "#put_image" do
+    describe "#update_image" do
       before :each do
-        @id = client.post_image(valid_post)[:_id]
-        @@inserted_images_id << @id
-        @image = client.put_image(@id, valid_update)
+        @id = @@inserted_images_id.first
+        @image = Api.update_image(@id, valid_update)
       end
 
       it "should return a hash" do
@@ -171,7 +152,7 @@ module Visor::Registry
       end
 
       it "should raise an exception if meta validation fails" do
-        lambda { client.put_image(@id, invalid_update) }.should raise_error Invalid
+        lambda { Api.update_image(@id, invalid_update) }.should raise_error Invalid
       end
     end
   end

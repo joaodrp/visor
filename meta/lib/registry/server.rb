@@ -1,11 +1,13 @@
 require 'sinatra/base'
+require 'json'
 require File.expand_path '../../registry', __FILE__
 
 module Visor
   module Registry
     class Server < Sinatra::Base
       # TODO: Logging, compressing and caching
-
+      
+      include Visor::Common::Exception
       include Visor::Registry::Backends
 
       HOST = '0.0.0.0'
@@ -15,21 +17,20 @@ module Visor
       #
       configure do
         DB = MongoDB.connect db: 'cbolt'
-        Dir.mkdir('log') unless File.exists?('log')
+        #Dir.mkdir('log') unless File.exists?('log')
         disable :show_exceptions
-        #TODO: test this:
-        #enable :threaded
+        enable :threaded
         #disable :protection
       end
 
       configure :development do
         require 'sinatra/reloader'
         register Sinatra::Reloader
-        use Rack::CommonLogger, File.new('log/registry-server-dev.log', 'w')
+        #use Rack::CommonLogger, File.new('log/registry-server-dev.log', 'w')
       end
 
       configure :production do
-        use Rack::CommonLogger, File.new('log/registry-server-prod.log', 'w')
+        #use Rack::CommonLogger, File.new('log/registry-server-prod.log', 'w')
       end
 
       # helpers
@@ -75,7 +76,7 @@ module Visor
         begin
           images = DB.get_public_images(true, params)
           {images: images}.to_json
-        rescue Visor::NotFound => e
+        rescue NotFound => e
           json_error 404, e.message
         end
       end
@@ -113,7 +114,7 @@ module Visor
         begin
           images = DB.get_public_images(false, params)
           {images: images}.to_json
-        rescue Visor::NotFound => e
+        rescue NotFound => e
           json_error 404, e.message
         end
       end
@@ -150,7 +151,7 @@ module Visor
         begin
           image = DB.get_image(id)
           {image: image}.to_json
-        rescue Visor::NotFound => e
+        rescue NotFound => e
           json_error 404, e.message
         end
       end
@@ -171,7 +172,7 @@ module Visor
           meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.post_image(meta[:image])
           {image: image}.to_json
-        rescue Visor::NotFound => e
+        rescue NotFound => e
           json_error 404, e.message
         rescue ArgumentError => e
           json_error 400, e.message
@@ -195,7 +196,7 @@ module Visor
           meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
-        rescue Visor::NotFound => e
+        rescue NotFound => e
           json_error 404, e.message
         rescue ArgumentError => e
           json_error 400, e.message
@@ -217,7 +218,7 @@ module Visor
         begin
           image = DB.delete_image(params[:id])
           {image: image}.to_json
-        rescue Visor::NotFound => e
+        rescue NotFound => e
           json_error 404, e.message
         end
       end
