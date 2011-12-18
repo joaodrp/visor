@@ -3,7 +3,7 @@ require 'spec_helper'
 module Visor::Common
   describe Config do
 
-    let(:file) { File.join(Config::CONFIG_FILE_DIRS[1], Config::CONFIG_FILE_NAME) }
+    let(:file) { File.join(File.expand_path('~/.visor'), Config::DEFAULT_CONFIG_FILE) }
     let(:some_file) { File.expand_path('~/some_example_file') }
     let(:invalid_file) { "fake_file" }
 
@@ -61,20 +61,8 @@ module Visor::Common
 
     describe "#build_logger" do
       it "should return a Logger for a specific app" do
-        log = Config.build_logger :registry
+        log = Config.build_logger :registry_api
         log.should be_a Logger
-      end
-    end
-
-    describe "#validate_logger" do
-      it "should pass if all configurations are OK" do
-        l = lambda { Config.validate_logger(sample_conf, :registry) }
-        l.should_not raise_exception
-      end
-
-      it "should raise if any error is found on configuration file options" do
-        l = lambda { Config.validate_logger(sample_conf.delete(:default), :registry) }
-        l.should raise_exception
       end
     end
   end

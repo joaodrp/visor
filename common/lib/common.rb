@@ -11,4 +11,5 @@ module Visor
   require 'common/exception'
   require 'common/extensions/hash'
   require 'common/extensions/string'
+  require 'common/extensions/logger'
 end

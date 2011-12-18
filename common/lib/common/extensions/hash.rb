@@ -1,5 +1,9 @@
 module Visor
   module Common
+
+    # The Module Extensions provides a set of functions to extend the Standard Core Libraries
+    # with custom usefull methods used allong all VISoR sub-systems.
+    #
     module Extensions
       #
       # Extending Hash class
@@ -10,8 +14,8 @@ module Visor
         #
         def stringify_keys
           inject({}) do |acc, (k, v)|
-            key = Symbol === k ? k.to_s : k
-            value = Hash === v ? v.stringify_keys : v
+            key      = Symbol === k ? k.to_s : k
+            value    = Hash === v ? v.stringify_keys : v
             acc[key] = value
             acc
           end
@@ -30,8 +34,8 @@ module Visor
         #
         def symbolize_keys
           inject({}) do |acc, (k, v)|
-            key = String === k ? k.to_sym : k
-            value = Hash === v ? v.symbolize_keys : v
+            key      = String === k ? k.to_sym : k
+            value    = Hash === v ? v.symbolize_keys : v
             acc[key] = value
             acc
           end

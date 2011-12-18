@@ -3,12 +3,22 @@ require 'logger'
 
 module Visor
   module Common
+
+    # The Config module provides a set of utility functions to manipulate configuration
+    # files and Logging.
+    #
     module Config
 
-      # Default configuration file directories
-      CONFIG_FILE_DIRS = [Dir.pwd, File.expand_path(File.join('~', '.visor')), '/etc/visor']
+      # Default possible configuration file directories
+      DEFAULT_CONFIG_DIRS  = ['.', '~/.visor', '/etc/visor']
       # Default configuration file name
-      CONFIG_FILE_NAME = 'visor-config.yml'
+      DEFAULT_CONFIG_FILE  = 'visor-config.yml'
+      # Default logs path
+      DEFAULT_LOG_PATH     = '~/.visor/logs'
+      # Default log datetime format
+      DEFAULT_LOG_DATETIME = "%Y-%m-%d %H:%M:%S"
+      # Default log level
+      DEFAULT_LOG_LEVEL    = Logger::INFO
 
       # Ordered search for a VISoR configuration file on default locations and return the first matched.
       #
@@ -22,8 +32,8 @@ module Visor
           file = File.expand_path(other_file)
           File.exists?(file) ? file : nil
         else
-          CONFIG_FILE_DIRS.each do |dir|
-            file = File.join(dir, CONFIG_FILE_NAME)
+          DEFAULT_CONFIG_DIRS.each do |dir|
+            file = File.join(File.expand_path(dir), DEFAULT_CONFIG_FILE)
             return file if File.exists?(file)
           end
         end
@@ -45,7 +55,7 @@ module Visor
         begin
           content = YAML.load_file(file).symbolize_keys
         rescue Exception => e
-          raise "Error while parsing the config file: #{e.message}"
+          raise "Error while parsing the configuration file #{file}: #{e.message}"
         end
         config = scope ? content[scope] : content
         config.merge(file: file)
@@ -55,51 +65,43 @@ module Visor
       # file options, which are validated througth {#validate_logger}.
       #
       # @param app_name [Symbol] The VISoR sub-system app name to build a log for.
+      # @option configs [Hash] Optional configuration options to override config file ones.
       #
       # @return [Logger] A logger instance already properly configured.
       #
-      def self.build_logger(app_name)
-        conf = load_config
-        validate_logger(conf, app_name)
+      def self.build_logger(app_name, configs = nil)
+        conf = configs || load_config
+        begin
+          log_path     = conf[:default][:log_path] || DEFAULT_LOG_PATH
+          log_datetime = conf[:default][:log_datetime_format] || DEFAULT_LOG_DATETIME
+          log_file     = conf[app_name][:log][:file] || STDOUT
+          log_level    = conf[app_name][:log][:level] || DEFAULT_LOG_LEVEL
+        rescue Exception => e
+          raise "Error while loading configuration file #{conf[:file]}: #{e.message}"
+        end
 
-        log_path = conf[:default][:log_path]
-        log_datetime = conf[:default][:log_datetime_format]
-        log_file = conf[app_name][:log][:file]
-        log_level = conf[app_name][:log][:level]
+        path = File.expand_path(log_path)
+        Dir.mkdir(path) unless Dir.exists?(path)
+        output = log_file == STDOUT ? STDOUT : File.join(path, log_file)
+        log    = Logger.new(output, 5, 1024*1024)
 
-        file = File.join(File.expand_path(log_path), log_file)
-        # Keep 5 old log files which are rotated as the log reaches 1MB
-        log = Logger.new(file, 5, 1024*1024)
-        log.level = log_level=='DEBUG' ? Logger::DEBUG : Logger::INFO
         log.datetime_format = log_datetime
+        set_log_level(log, log_level)
         log
       end
 
-      # Validates the configuration file options regarding the logging for some VISoR sub-sustem.
-      #
-      # @param conf [Hash] The configuration file options.
-      # @param app_name [Symbol] The VISoR sub-system app name to build a log for.
-      #
-      # @raise [RuntimeError] If some logging configuration value is not valid.
-      #
-      def self.validate_logger(conf, app_name)
-        log_path = conf[:default][:log_path]
-        raise "Unnable to find 'default/log_path' configuration." unless log_path
+      private
 
-        unless Dir.exists?(File.expand_path(log_path))
-          raise "Unnable to find '#{log_path}' directory for 'default/log_path' configuration."
-        end
-
-        log_datetime = conf[:default][:log_datetime_format]
-        raise "Unnable to find 'default/log_datetime_format' configuration." unless log_datetime
-
-        log_file = conf[app_name][:log][:file]
-        raise "Unnable to find '#{app_name}/log/file' configuration." unless log_file
-
-        log_level = conf[app_name][:log][:level]
-        raise "Unnable to find '#{app_name}/log/level' configuration." unless ['INFO', 'DEBUG'].include?(log_level)
+      def self.set_log_level(log, level)
+        log.level =
+            if level == 'DEBUG'
+              Logger::DEBUG
+            elsif level == 'INFO'
+              Logger::INFO
+            else
+              DEFAULT_LOG_LEVEL
+            end
       end
-
     end
   end
 end
