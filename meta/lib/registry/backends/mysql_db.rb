@@ -2,6 +2,9 @@ require 'mysql2'
 
 module Visor::Registry
   module Backends
+
+    # The MySQL Backend for the VISoR Registry.
+    #
     class MySQL < Base
 
       include Visor::Common::Exception
@@ -54,16 +57,28 @@ module Visor::Registry
       #
       # @option [Hash] opts Any of the available options can be passed.
       #
-      # @option opts [String] :db (MYSQL_DB) The wanted database.
-      # @option opts [String] :host (MYSQL_IP) The host address.
-      # @option opts [Integer] :port (MYSQL_PORT) The port to be used.
+      # @option opts [String] :uri The connection uri, if provided, no other option needs to be setted.
+      # @option opts [String] :db (DEFAULT_DB) The wanted database.
+      # @option opts [String] :host (DEFAULT_HOST) The host address.
+      # @option opts [Integer] :port (DEFAULT_PORT) The port to be used.
+      # @option opts [String] :user (DEFAULT_USER) The user to be used.
+      # @option opts [String] :password (DEFAULT_PASSWORD) The password to be used.
       #
       def self.connect(opts = {})
-        opts[:host] ||= DEFAULT_HOST
-        opts[:port] ||= DEFAULT_PORT
-        opts[:db] ||= DEFAULT_DB
-        opts[:user] ||= DEFAULT_USER
-        opts[:password] ||= DEFAULT_PASSWORD
+        if opts[:uri]
+          uri = URI.parse(opts[:uri])
+          opts[:host] = uri.host=='' ? DEFAULT_HOST : uri.host
+          opts[:port] = uri.port=='' ? DEFAULT_PORT : uri.port
+          opts[:db] = uri.path=='' ? DEFAULT_DB : uri.path.gsub('/', '')
+          opts[:user] = uri.user=='' ? DEFAULT_USER : uri.user
+          opts[:password] = uri.password=='' ? DEFAULT_PASSWORD : uri.password
+        else
+          opts[:host] ||= DEFAULT_HOST
+          opts[:port] ||= DEFAULT_PORT
+          opts[:db] ||= DEFAULT_DB
+          opts[:user] ||= DEFAULT_USER
+          opts[:password] ||= DEFAULT_PASSWORD
+        end
         self.new opts
       end
 
@@ -268,14 +283,10 @@ module Visor::Registry
       def set_protected_post meta, opts = {}
         owner, size = opts[:owner], opts[:size]
 
-        host = Visor::Registry::Server::HOST
-        port = Visor::Registry::Server::PORT
-        uri = "http://#{host}:#{port}/images/#{meta[:_id]}"
-
         meta.merge!(access: 'public') unless meta[:access]
         meta.merge!(owner: owner) if owner
         meta.merge!(size: size) if size
-        meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
+        meta.merge!(created_at: Time.now, uri: build_uri(meta), status: 'locked')
       end
 
       # Set protected fields value from a get operation.
@@ -287,6 +298,13 @@ module Visor::Registry
       #
       def set_protected_put meta
         meta.merge!(updated_at: Time.now)
+      end
+
+      def build_uri(meta)
+        conf = Visor::Common::Config.load_config :registry_server
+        host = conf[:bind_host] || '0.0.0.0'
+        port = conf[:bind_port] || 4567
+        "http://#{host}:#{port}/images/#{meta[:_id]}"
       end
 
     end

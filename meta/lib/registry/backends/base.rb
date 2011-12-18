@@ -1,8 +1,14 @@
 module Visor::Registry
   module Backends
+
+    # This is the Base super class for all Backends. Each new backend inherits from Base,
+    # which contains the model and all validations for the images metadata.
+    #
+    # Implementing a new backend is as simple as create a new backend class which inherits
+    # from Base and them implement the specific methods for querying the underlying database.
+    #
     class Base
 
-      #TODO: Rewrite ramdisk and kernel verification on each backend insted of here
       # Keys validation
       #
       # Mandatory attributes
@@ -114,19 +120,22 @@ module Visor::Registry
       # Assert that an image referenced as the corresponding kernel or ramdisk image
       # is present and is a kernel or ramdisk image.
       #
+      # As all backends the same API, we can call here the #get_image without self and it
+      # will pickup the self.get_image method of the backend in use.
+      #
       # @param [Hash] meta The image metadata.
       #
       # @raise[ArgumentError] If the referenced image is not a kernel or ramdisk image.
       #
       def assert_ramdisk_and_kernel_image(meta)
         unless meta[:kernel].nil?
-          type = get_image(meta[:kernel])['type']
+          type = get_image(meta[:kernel]).symbolize_keys[:type]
           if type != 'kernel' && meta[:format] != 'aki'
             raise ArgumentError, "The image with id #{meta[:kernel]} is not a kernel image"
           end
         end
         unless meta[:ramdisk].nil?
-          type = get_image(meta[:ramdisk])['type']
+          type = get_image(meta[:ramdisk]).symbolize_keys[:type]
           if type != 'ramdisk' && meta[:format] != 'ari'
             raise ArgumentError, "The image with id #{meta[:ramdisk]} is not a ramdisk image"
           end

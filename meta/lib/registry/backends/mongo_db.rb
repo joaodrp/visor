@@ -1,7 +1,11 @@
 require 'mongo'
+require 'uri'
 
 module Visor::Registry
   module Backends
+
+    # The MongoDB Backend for the VISoR Registry.
+    #
     class MongoDB < Base
 
       include Visor::Common::Exception
@@ -9,42 +13,50 @@ module Visor::Registry
       # Connection constants
       #
       # Default MongoDB database
-      DEFAULT_DB = 'visor'
+      DEFAULT_DB       = 'visor'
       # Default MongoDB host address
-      DEFAULT_HOST = '127.0.0.1'
+      DEFAULT_HOST     = '127.0.0.1'
       # Default MongoDB host port
-      DEFAULT_PORT = 27017
+      DEFAULT_PORT     = 27017
       # Default MongoDB user
-      DEFAULT_USER = nil
+      DEFAULT_USER     = nil
       # Default MongoDB password
       DEFAULT_PASSWORD = nil
       # Assembled MongoDB connection URI
-      CONNECTION_URI = "mongodb://#{DEFAULT_USER}:#{DEFAULT_PASSWORD}@#{DEFAULT_HOST}:#{DEFAULT_PORT}/#{DEFAULT_DB}"
+      CONNECTION_URI   = "mongodb://#{DEFAULT_USER}:#{DEFAULT_PASSWORD}@#{DEFAULT_HOST}:#{DEFAULT_PORT}/#{DEFAULT_DB}"
 
       # Initializes a MongoDB Backend instance.
       #
       # @option [Hash] opts Any of the available options can be passed.
       #
-      # @option opts [String] :db (MONGO_DB) The wanted database.
-      # @option opts [String] :host (MONGO_IP) The host address.
-      # @option opts [Integer] :port (MONGO_PORT) The port to be used.
+      # @option opts [String] :uri The connection uri, if provided, no other option needs to be setted.
+      # @option opts [String] :db (DEFAULT_DB) The wanted database.
+      # @option opts [String] :host (DEFAULT_HOST) The host address.
+      # @option opts [Integer] :port (DEFAULT_PORT) The port to be used.
+      # @option opts [String] :user (DEFAULT_USER) The user to be used.
+      # @option opts [String] :password (DEFAULT_PASSWORD) The password to be used.
       #
       def self.connect(opts = {})
-        opts[:host] ||= DEFAULT_HOST
-        opts[:port] ||= DEFAULT_PORT
-        opts[:db] ||= DEFAULT_DB
-        opts[:user] ||= DEFAULT_USER
-        opts[:password] ||= DEFAULT_PASSWORD
+        if opts[:uri]
+          uri             = URI.parse(opts[:uri])
+          opts[:host]     = uri.host=='' ? DEFAULT_HOST : uri.host
+          opts[:port]     = uri.port=='' ? DEFAULT_PORT : uri.port
+          opts[:db]       = uri.path=='' ? DEFAULT_DB : uri.path.gsub('/', '')
+          opts[:user]     = uri.user=='' ? DEFAULT_USER : uri.user
+          opts[:password] = uri.password=='' ? DEFAULT_PASSWORD : uri.password
+        else
+          opts[:host]     ||= DEFAULT_HOST
+          opts[:port]     ||= DEFAULT_PORT
+          opts[:db]       ||= DEFAULT_DB
+          opts[:user]     ||= DEFAULT_USER
+          opts[:password] ||= DEFAULT_PASSWORD
+        end
         self.new opts
       end
 
       def initialize(opts)
         super opts
         @conn = connection
-        #uri = URI.parse(ENV['MONGOHQ_URL'])
-        #conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-        #@db = conn.db(uri.path.gsub(/^\//, ''))
-        #@collection = @db.collection("images")
       end
 
       # Establishes and returns a MongoDB database connection.
@@ -90,7 +102,7 @@ module Visor::Registry
       def get_public_images(brief = false, filters = {})
         validate_query_filters filters unless filters.empty?
 
-        sort = [(filters.delete(:sort) || '_id'), (filters.delete(:dir) || 'asc')]
+        sort   = [(filters.delete(:sort) || '_id'), (filters.delete(:dir) || 'asc')]
         filter = {access: 'public'}.merge(filters)
         fields = brief ? BRIEF : exclude
 
@@ -201,15 +213,10 @@ module Visor::Registry
       def set_protected_post meta, opts = {}
         owner, size = opts[:owner], opts[:size] # TODO validate owner user
 
-        host = Visor::Registry::Server::HOST
-        port = Visor::Registry::Server::PORT
-        uri = "http://#{host}:#{port}/images/#{meta[:_id]}"
-
         meta.merge!(access: 'public') unless meta[:access]
         meta.merge!(owner: owner) if owner
         meta.merge!(size: size) if size
-        meta.merge!(created_at: Time.now, uri: uri, status: 'locked')
-
+        meta.merge!(created_at: Time.now, uri: build_uri(meta), status: 'locked')
         #meta.set_blank_keys_value_to(Base::BRIEF, [], nil)
       end
 
@@ -222,6 +229,13 @@ module Visor::Registry
       #
       def set_protected_put meta
         meta.merge!(updated_at: Time.now)
+      end
+
+      def build_uri(meta)
+        conf = Visor::Common::Config.load_config :registry_server
+        host = conf[:bind_host] || '0.0.0.0'
+        port = conf[:bind_port] || 4567
+        "http://#{host}:#{port}/images/#{meta[:_id]}"
       end
 
     end

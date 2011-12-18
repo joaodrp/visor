@@ -16,8 +16,10 @@ module Visor
 
       include Visor::Common::Exception
 
-      DEFAULT_HOST = '0.0.0.0'
-      DEFAULT_PORT = 4567
+      CONF = Common::Config.load_config :registry_server
+
+      DEFAULT_HOST = CONF[:bind_host] || '0.0.0.0'
+      DEFAULT_PORT = CONF[:bind_port] || 4567
 
       attr_reader :host, :port, :ssl
 

@@ -9,11 +9,9 @@ module Visor
     # the registry server comming from it and done through the Client API.
     #
     class Api
-      include Visor::Common::Exception
-      include Visor::Common::Config
 
-      LOG = Visor::Common::Config.build_logger :registry
-      
+      LOG = Visor::Common::Config.build_logger :registry_api
+
       # Retrieves brief metadata of all public images.
       # Options for filtering the returned results can be passed in. Also, options for
       # initialize the Client connection can be passed too.

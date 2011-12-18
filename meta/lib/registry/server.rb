@@ -2,38 +2,47 @@ require 'sinatra/base'
 require 'json'
 require File.expand_path '../../registry', __FILE__
 
+# TODO: compressing and caching
 module Visor
   module Registry
-    class Server < Sinatra::Base
-      # TODO: Logging, compressing and caching
-      
-      include Visor::Common::Exception
-      include Visor::Registry::Backends
 
-      HOST = '0.0.0.0'
-      PORT = 4567
+    # The VISoR Registry Server class. This class supports all image metadata manipulation
+    # operations through the VISoR REST API implemented allong the following routes.
+    #
+    # After initialize the Server its possible to directly interact with the registry backend.
+    #
+    class Server < Sinatra::Base
+
+      include Visor::Common::Exception
+      include Visor::Common::Config
+
+      CONF = Common::Config.load_config :registry_server
+      LOG  = Common::Config.build_logger :registry_server
+
+      HOST = CONF[:bind_host] || '0.0.0.0'
+      PORT = CONF[:bind_port] || 4567
+      URI  = CONF[:backend] || "mongodb://:@#{HOST}:#{PORT}/visor"
 
       # Configuration
       #
       configure do
-        DB = MongoDB.connect db: 'cbolt'
-        #Dir.mkdir('log') unless File.exists?('log')
-        disable :show_exceptions
+        use Rack::CommonLogger, LOG
+
+        backend_map = {'mongodb' => Visor::Registry::Backends::MongoDB,
+                       'mysql'   => Visor::Registry::Backends::MySQL}
+
+        DB = backend_map[URI.split(':').first].connect uri: URI
+
         enable :threaded
-        #disable :protection
+        disable :show_exceptions, :protection
       end
 
       configure :development do
         require 'sinatra/reloader'
         register Sinatra::Reloader
-        #use Rack::CommonLogger, File.new('log/registry-server-dev.log', 'w')
       end
 
-      configure :production do
-        #use Rack::CommonLogger, File.new('log/registry-server-prod.log', 'w')
-      end
-
-      # helpers
+      # Helpers
       #
       helpers do
         def json_error(code, message)
@@ -169,7 +178,7 @@ module Visor
       #
       post '/images' do
         begin
-          meta = JSON.parse(request.body.read, @parse_opts)
+          meta  = JSON.parse(request.body.read, @parse_opts)
           image = DB.post_image(meta[:image])
           {image: image}.to_json
         rescue NotFound => e
@@ -193,7 +202,7 @@ module Visor
       #
       put '/images/:id' do |id|
         begin
-          meta = JSON.parse(request.body.read, @parse_opts)
+          meta  = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
         rescue NotFound => e
@@ -248,6 +257,12 @@ module Visor
   end
 end
 
-Visor::Registry::Server.run! port: Visor::Registry::Server::PORT, environment: :development if __FILE__ == $0
+if __FILE__ == $0
+  conf = Visor::Common::Config.load_config :registry_server
+  host = conf[:bind_host] || '0.0.0.0'
+  port = conf[:bind_port] || 4567
+
+  Visor::Registry::Server.run! bind: host, port: port, environment: :development
+end
 
 
