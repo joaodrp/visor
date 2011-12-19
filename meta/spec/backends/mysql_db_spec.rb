@@ -10,18 +10,18 @@ module Visor::Registry::Backends
 
     before(:each) do
       post = {
-          name:         'testsample',
+          name: 'testsample',
           architecture: 'i386',
-          access:       'public',
-          format:       'iso'
+          access: 'public',
+          format: 'iso'
       }
       conn.post_image(post)
 
       @sample = {
-          name:         'xyz',
+          name: 'xyz',
           architecture: 'x86_64',
-          access:       'public',
-          type:         'kernel'
+          access: 'public',
+          type: 'kernel'
       }
     end
 
@@ -49,6 +49,14 @@ module Visor::Registry::Backends
         pub.each { |img| img[:access].should == 'public' }
       end
 
+      it "should return extra fields" do
+        image = conn.post_image(@sample.merge(extra_field: 'value'))
+        returned = 0
+        pub = conn.get_public_images
+        pub.each { |img| returned = 1 if img[:extra_field] }
+        returned.should == 1
+      end
+
       it "should return only brief information" do
         pub = conn.get_public_images(true)
         pub.should be_an_instance_of Array
@@ -71,7 +79,7 @@ module Visor::Registry::Backends
 
     describe "#get_image" do
       it "should return a bson hash with the asked image" do
-        id  = conn.get_public_images.first[:_id]
+        id = conn.get_public_images.first[:_id]
         img = conn.get_image(id)
         img.should be_a(Hash)
         img[:_id].should == id
@@ -83,16 +91,21 @@ module Visor::Registry::Backends
         (img.keys & Base::DETAIL_EXC).should be_empty
       end
 
+      it "should return extra fields" do
+        image = conn.post_image(@sample.merge(extra_field: 'value'))
+        image[:extra_field].should == 'value'
+      end
+
       it "should raise an exception if image not found" do
         fake_id = 0
-        l       = lambda { conn.get_image(fake_id) }
+        l = lambda { conn.get_image(fake_id) }
         l.should raise_error(NotFound, /id/)
       end
     end
 
     describe "#delete_image" do
       it "should return a bson hash with the deleted image" do
-        id  = conn.get_public_images.first[:_id]
+        id = conn.get_public_images.first[:_id]
         img = conn.delete_image(id)
         img.should be_a(Hash)
         img[:_id].should == id
@@ -100,7 +113,7 @@ module Visor::Registry::Backends
 
       it "should raise an exception if image not found" do
         fake_id = 0
-        l       = lambda { conn.delete_image(fake_id) }
+        l = lambda { conn.delete_image(fake_id) }
         l.should raise_error(NotFound, /id/)
       end
     end
@@ -120,27 +133,38 @@ module Visor::Registry::Backends
         image[:name].should == @sample[:name]
       end
 
+      it "should post an image with additional fields" do
+        image = conn.post_image(@sample.merge(extra_field: 'value'))
+        image[:extra_field].should == 'value'
+      end
+
       it "should raise an exception if meta validation fails" do
         img = @sample.merge(:status => 'status can not be set')
-        l   = lambda { conn.post_image(img) }
+        l = lambda { conn.post_image(img) }
         l.should raise_error(ArgumentError, /status/)
       end
     end
 
     describe "#put_image" do
       it "should return a bson hash with updated image" do
-        id     = conn.get_public_images.first[:_id]
+        id = conn.get_public_images.first[:_id]
         update = {:name => 'updated', :type => 'none'}
-        img    = conn.put_image(id, update)
+        img = conn.put_image(id, update)
         img.should be_a(Hash)
         img[:name].should == 'updated'
         img[:type].should == 'none'
       end
 
+      it "should update extra fields too" do
+        id = conn.post_image(@sample.merge(extra_field: 'value'))[:_id]
+        image = conn.put_image(id, extra_field: 'new value')
+        image[:extra_field].should == 'new value'
+      end
+
       it "should raise an exception if meta validation fails" do
-        id     = conn.get_public_images.first[:_id]
+        id = conn.get_public_images.first[:_id]
         update = {:status => 'status can not be set'}
-        l      = lambda { conn.put_image(id, update) }
+        l = lambda { conn.put_image(id, update) }
         l.should raise_error(ArgumentError, /status/)
       end
     end

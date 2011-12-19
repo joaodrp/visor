@@ -20,8 +20,8 @@ module Visor
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (Visor::Registry::Client::DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (Visor::Registry::Client::DEFAULT_PORT) The host port where VISoR registry server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       # @return [Array] All public images brief metadata.
@@ -41,8 +41,8 @@ module Visor
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (Visor::Registry::Client::DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (Visor::Registry::Client::DEFAULT_PORT) The host port where VISoR registry server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       # @return [Array] All public images detailed metadata.
@@ -58,8 +58,8 @@ module Visor
       #
       # @param id [String] The wanted image's _id.
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (Visor::Registry::Client::DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (Visor::Registry::Client::DEFAULT_PORT) The host port where VISoR registry server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       # @return [Hash] The requested image metadata.
@@ -76,8 +76,8 @@ module Visor
       #
       # @param meta [Hash] The image metadata.
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (Visor::Registry::Client::DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (Visor::Registry::Client::DEFAULT_PORT) The host port where VISoR registry server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       # @return [Hash] The already inserted image metadata.
@@ -95,8 +95,8 @@ module Visor
       # @param id [String] The image's _id which will be updated.
       # @param meta [Hash] The image metadata.
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (Visor::Registry::Client::DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (Visor::Registry::Client::DEFAULT_PORT) The host port where VISoR registry server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       # @return [Hash] The already updated image metadata.
@@ -113,8 +113,8 @@ module Visor
       #
       # @param id [String] The image's _id which will be deleted.
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (Visor::Registry::Client::DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (Visor::Registry::Client::DEFAULT_PORT) The host port where VISoR registry server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       # @raise [NotFound] If required image was not found.
@@ -131,8 +131,8 @@ module Visor
 
       # Creates a new new VISoR Registry Client instance.
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (Visor::Registry::Client::DEFAULT_HOST) The host address where VISoR registry server resides.
+      # @option opts [String] :port (Visor::Registry::Client::DEFAULT_PORT) The host port where VISoR registry server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       def self.get_client(opts)

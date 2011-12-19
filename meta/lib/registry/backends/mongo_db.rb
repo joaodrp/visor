@@ -22,8 +22,6 @@ module Visor::Registry
       DEFAULT_USER     = nil
       # Default MongoDB password
       DEFAULT_PASSWORD = nil
-      # Assembled MongoDB connection URI
-      CONNECTION_URI   = "mongodb://#{DEFAULT_USER}:#{DEFAULT_PASSWORD}@#{DEFAULT_HOST}:#{DEFAULT_PORT}/#{DEFAULT_DB}"
 
       # Initializes a MongoDB Backend instance.
       #
@@ -61,7 +59,7 @@ module Visor::Registry
 
       # Establishes and returns a MongoDB database connection.
       #
-      # @return [Mongo:DB, Mongo::Collection] It returns a database object or a collection object.
+      # @return [Mongo::Collection] A MongoDB collection object.
       #
       def connection
         db = Mongo::Connection.new(@host, @port, :pool_size => 10, :pool_timeout => 5).db(@db)
@@ -116,7 +114,7 @@ module Visor::Registry
 
       # Delete an image record.
       #
-      # @param [Integer] id The image's id to remove.
+      # @param [Integer] id The image's _id to remove.
       #
       # @return [BSON::OrderedHash] The deleted image metadata.
       #
@@ -144,13 +142,11 @@ module Visor::Registry
       # @option opts [String] :owner (Nil) The owner of the image.
       # @option opts [Integer] :size (Nil) The image file size.
       #
-      # @return [Fixnum] The created image _id.
+      # @return [BSON::OrderedHash] The already added image metadata.
       # @raise [Invalid] If image meta validation fails.
       #
       def post_image(meta, opts = {})
         validate_data_post meta
-
-        meta = {_id: SecureRandom.uuid}.merge!(meta)
         set_protected_post meta, opts
         id = @conn.insert(meta)
         self.get_image(id, true)
@@ -158,7 +154,7 @@ module Visor::Registry
 
       # Update an image's metadata.
       #
-      # @param [Integer] id The image id to update.
+      # @param [Integer] id The image _id to update.
       # @param [Hash] update The image metadata to update.
       #
       # @return [BSON::OrderedHash] The updated image metadata.
@@ -191,51 +187,10 @@ module Visor::Registry
       # Atomically set protected fields value from a get operation.
       # Being them the accessed_at and access_count.
       #
-      # @param [Fixnum] id The id of the image being retrieved.
-      # @param [Mongo::Connection] conn The connection to the database.
+      # @param [String] id The _id of the image being retrieved.
       #
-      def set_protected_get id
+      def set_protected_get(id)
         @conn.update({_id: id}, :$set => {accessed_at: Time.now}, :$inc => {access_count: 1})
-      end
-
-      # Set protected fields value from a post operation.
-      # Being them the uri, owner, size, access, status and created_at.
-      #
-      # @param [Hash] meta The image metadata.
-      #
-      # @option [Hash] opts Any of the available options can be passed.
-      #
-      # @option opts [String] :owner (Nil) The image owner.
-      # @option opts [String] :size (Nil) The image file size.
-      #
-      # @return [Hash] The image metadata filled with protected fields values.
-      #
-      def set_protected_post meta, opts = {}
-        owner, size = opts[:owner], opts[:size] # TODO validate owner user
-
-        meta.merge!(access: 'public') unless meta[:access]
-        meta.merge!(owner: owner) if owner
-        meta.merge!(size: size) if size
-        meta.merge!(created_at: Time.now, uri: build_uri(meta), status: 'locked')
-        #meta.set_blank_keys_value_to(Base::BRIEF, [], nil)
-      end
-
-      # Set protected fields value from a get operation.
-      # Being them the accessed_at and access_count.
-      #
-      # @param [Hash] meta The image metadata update.
-      #
-      # @return [Hash] The image metadata update with protected fields setted.
-      #
-      def set_protected_put meta
-        meta.merge!(updated_at: Time.now)
-      end
-
-      def build_uri(meta)
-        conf = Visor::Common::Config.load_config :registry_server
-        host = conf[:bind_host] || '0.0.0.0'
-        port = conf[:bind_port] || 4567
-        "http://#{host}:#{port}/images/#{meta[:_id]}"
       end
 
     end

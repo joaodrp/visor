@@ -8,6 +8,7 @@ module Visor::Registry
     # from Base and them implement the specific methods for querying the underlying database.
     #
     class Base
+      # TODO validate owner user
 
       # Keys validation
       #
@@ -114,6 +115,96 @@ module Visor::Registry
         filters.assert_valid_keys(FILTERS)
 
       end
+
+      # Set protected fields value from a post operation.
+      # Being them the _id, uri, owner, size, access, status and created_at.
+      #
+      # @param [Hash] meta The image metadata.
+      #
+      # @option [Hash] opts Any of the available options can be passed.
+      #
+      # @option opts [String] :owner (Nil) The image owner.
+      # @option opts [String] :size (Nil) The image file size.
+      #
+      # @return [Hash] The image metadata filled with protected fields values.
+      #
+      def set_protected_post(meta, opts = {})
+        owner, size = opts[:owner], opts[:size]
+        meta.merge!(_id: SecureRandom.uuid)
+        meta.merge!(access: 'public') unless meta[:access]
+        meta.merge!(owner: owner) if owner
+        meta.merge!(size: size) if size
+        meta.merge!(created_at: Time.now, uri: build_uri(meta[:_id]), status: 'locked')
+      end
+
+      # Set protected fields value from a get operation.
+      # Being them the accessed_at and access_count.
+      #
+      # @param [Hash] meta The image metadata update.
+      #
+      # @return [Hash] The image metadata update with protected fields setted.
+      #
+      def set_protected_put(meta)
+        meta.merge!(updated_at: Time.now)
+      end
+
+      # Build an URI for the given image _id based on VISoR Regisry Server configuration.
+      #
+      # @param [String] id The _id of the image.
+      #
+      # @return [String] The generated URI.
+      #
+      def build_uri(id)
+        conf = Visor::Common::Config.load_config :registry_server
+        host = conf[:bind_host] || Visor::Registry::Server::DEFAULT_HOST
+        port = conf[:bind_port] || Visor::Registry::Server::DEFAULT_PORT
+        "http://#{host}:#{port}/images/#{id}"
+      end
+
+      # Verifies if a given object is a String, a Time or a Hash.
+      #
+      # @param [Object] v The input value.
+      #
+      # @return [true, false] If the provided value is or not a String, a Time or a Hash.
+      #
+      def string_time_or_hash?(v)
+        v.is_a?(String) or v.is_a?(Time) or v.is_a?(Hash)
+      end
+
+      # Generates a compatible SQL WHERE string from a hash.
+      #
+      # @param [Hash] h The input hash.
+      #
+      # @return [String] A string as "k='v' AND k1='v1'",
+      #   only Strings Times or Hashes values are surrounded with '<value>'.
+      #
+      def to_sql_where(h)
+        h.map { |k, v| string_time_or_hash?(v) ? "#{k}='#{v}'" : "#{k}=#{v}" }.join(' AND ')
+      end
+
+      # Generates a compatible SQL UPDATE string from a hash.
+      #
+      # @param [Hash] h The input hash.
+      #
+      # @return [String] A string as "k='v', k1='v1'",
+      #   only Strings Times or Hashes values are surrounded with '<value>'.
+      #
+      def to_sql_update(h)
+        h.map { |k, v| string_time_or_hash?(v) ? "#{k}='#{v}'" : "#{k}=#{v}" }.join(', ')
+      end
+
+      # Generates a compatible SQL INSERT string from a hash.
+      #
+      # @param [Hash] h The input hash.
+      #
+      # @return [String] A string as "(k, k1) VALUES ('v', 'v1')",
+      #   only Strings Times or Hashes values are surrounded with '<value>'.
+      #
+      def to_sql_insert(h)
+        surround = h.values.map { |v| string_time_or_hash?(v) ? "'#{v}'" : v }
+        ["(#{h.keys.join(', ')})", "(#{surround.join(', ')})"]
+      end
+
 
       private
 

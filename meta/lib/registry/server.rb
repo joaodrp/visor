@@ -16,12 +16,16 @@ module Visor
       include Visor::Common::Exception
       include Visor::Common::Config
 
+      DEFAULT_HOST = '0.0.0.0'
+      DEFAULT_PORT = 4567
+      DEFAULT_URI  = "mongodb://:@#{DEFAULT_HOST}:#{DEFAULT_PORT}/visor"
+
       CONF = Common::Config.load_config :registry_server
       LOG  = Common::Config.build_logger :registry_server
 
-      HOST = CONF[:bind_host] || '0.0.0.0'
-      PORT = CONF[:bind_port] || 4567
-      URI  = CONF[:backend] || "mongodb://:@#{HOST}:#{PORT}/visor"
+      HOST = CONF[:bind_host] || DEFAULT_HOST
+      PORT = CONF[:bind_port] || DEFAULT_PORT
+      URI  = CONF[:backend] || DEFAULT_URI
 
       # Configuration
       #
