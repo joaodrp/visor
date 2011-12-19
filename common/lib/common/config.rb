@@ -39,7 +39,7 @@ module Visor
         end
       end
 
-      # Looks for a VISoR configuration file througth {#find_config_file} and returns a hash with
+      # Looks for a VISoR configuration file througth {#self.find_config_file} and returns a hash with
       # all configuration settings or just a sub-system scoped settings.
       #
       # @param scope [String] Used to return just the settings about a specific sub-system.
@@ -62,7 +62,7 @@ module Visor
       end
 
       # Build and return a Logger instance for a given VISoR sub-system, based on configuration
-      # file options, which are validated througth {#validate_logger}.
+      # file options, which are validated througth {#self.validate_logger}.
       #
       # @param app_name [Symbol] The VISoR sub-system app name to build a log for.
       # @option configs [Hash] Optional configuration options to override config file ones.
