@@ -18,14 +18,14 @@ module Visor
 
       DEFAULT_HOST = '0.0.0.0'
       DEFAULT_PORT = 4567
-      DEFAULT_URI  = "mongodb://:@#{DEFAULT_HOST}:#{DEFAULT_PORT}/visor"
+      DEFAULT_URI = "mongodb://:@#{DEFAULT_HOST}:#{DEFAULT_PORT}/visor"
 
       CONF = Common::Config.load_config :registry_server
-      LOG  = Common::Config.build_logger :registry_server
+      LOG = Common::Config.build_logger :registry_server
 
       HOST = CONF[:bind_host] || DEFAULT_HOST
       PORT = CONF[:bind_port] || DEFAULT_PORT
-      URI  = CONF[:backend] || DEFAULT_URI
+      URI = CONF[:backend] || DEFAULT_URI
 
       # Configuration
       #
@@ -33,7 +33,7 @@ module Visor
         use Rack::CommonLogger, LOG
 
         backend_map = {'mongodb' => Visor::Registry::Backends::MongoDB,
-                       'mysql'   => Visor::Registry::Backends::MySQL}
+                       'mysql' => Visor::Registry::Backends::MySQL}
 
         DB = backend_map[URI.split(':').first].connect uri: URI
 
@@ -182,7 +182,7 @@ module Visor
       #
       post '/images' do
         begin
-          meta  = JSON.parse(request.body.read, @parse_opts)
+          meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.post_image(meta[:image])
           {image: image}.to_json
         rescue NotFound => e
@@ -206,7 +206,7 @@ module Visor
       #
       put '/images/:id' do |id|
         begin
-          meta  = JSON.parse(request.body.read, @parse_opts)
+          meta = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
         rescue NotFound => e

@@ -81,7 +81,7 @@ module Visor::Registry
         meta.assert_valid_values_for(:type, TYPE)
         meta.assert_valid_values_for(:store, STORE)
 
-        assert_ramdisk_and_kernel_image(meta)
+        assert_ramdisk_and_kernel(meta)
       end
 
       # Validates the image metadata for a put operation, based on possible keys and values.
@@ -100,7 +100,7 @@ module Visor::Registry
         meta.assert_valid_values_for(:type, TYPE)
         meta.assert_valid_values_for(:store, STORE)
 
-        assert_ramdisk_and_kernel_image(meta)
+        assert_ramdisk_and_kernel(meta)
       end
 
       # Validates that incoming query filters fields are valid.
@@ -202,7 +202,45 @@ module Visor::Registry
       #
       def to_sql_insert(h)
         surround = h.values.map { |v| string_time_or_hash?(v) ? "'#{v}'" : v }
-        ["(#{h.keys.join(', ')})", "(#{surround.join(', ')})"]
+        %W{(#{h.keys.join(', ')}) (#{surround.join(', ')})}
+      end
+
+      # Serializes with JSON and encapsulate additional (not on the table schema) image attributes
+      # on the others schema field.
+      #
+      # This is used for SQL Backends, as they are not schema free.
+      #
+      # @example Instantiate a client with default values:
+      #   # So this:
+      #   {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
+      #   # becomes this:
+      #   {name: "example", access: "public", others: "{\"extra_key\":\"value\",\"another\":\"value\"}"}"}
+      #
+      # @param [Hash] meta The image metadata.
+      #
+      def serialize_others(meta)
+        other_keys = meta.keys - ALL
+        others     = {}
+        other_keys.each { |key| others[key] = meta.delete(key) }
+        meta.merge!(others: others.to_json)
+      end
+
+      # Deserializes with JSON and decapsulate additional (not on the table schema) image attributes
+      # from the others schema field.
+      #
+      # This is used for SQL Backends, as they are not schema free.
+      #
+      # @example Instantiate a client with default values:
+      #   # So this:
+      #   {name: "example", access: "public", others: "{\"extra_key\":\"value\",\"another\":\"value\"}"}"}
+      #   # becomes this:
+      #   {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
+      #
+      # @param [Hash] meta The image metadata.
+      #
+      def deserialize_others(meta)
+        others = meta.delete :others
+        meta.merge! JSON.parse(others, symbolize_names: true)
       end
 
 
@@ -218,7 +256,7 @@ module Visor::Registry
       #
       # @raise[ArgumentError] If the referenced image is not a kernel or ramdisk image.
       #
-      def assert_ramdisk_and_kernel_image(meta)
+      def assert_ramdisk_and_kernel(meta)
         unless meta[:kernel].nil?
           type = get_image(meta[:kernel]).symbolize_keys[:type]
           if type != 'kernel' && meta[:format] != 'aki'

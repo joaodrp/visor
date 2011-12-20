@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 Bundler.require :default, :test
+SimpleCov.start
 
 require File.expand_path '../../lib/registry', __FILE__
 require File.expand_path '../../lib/registry/server', __FILE__

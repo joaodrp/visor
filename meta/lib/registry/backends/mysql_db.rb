@@ -247,17 +247,6 @@ module Visor::Registry
         conn.query "UPDATE images SET accessed_at='#{Time.now}', access_count=access_count+1 WHERE _id='#{id}'"
       end
 
-      def serialize_others(meta)
-        other_keys = meta.keys - ALL
-        others     = {}
-        other_keys.each { |key| others[key] = meta.delete(key) }
-        meta.merge!(others: others.to_json)
-      end
-
-      def deserialize_others(meta)
-        others = meta.delete :others
-        meta.merge! JSON.parse(others, symbolize_names: true)
-      end
     end
   end
 end
