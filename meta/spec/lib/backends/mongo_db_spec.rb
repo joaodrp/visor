@@ -9,32 +9,33 @@ module Visor::Registry::Backends
     let(:conn) { MongoDB.connect db: 'visor_test' }
 
     before(:each) do
-      sample = {
-          :name => 'testsample',
-          :architecture => 'i386',
-          :access => 'public',
-          :format => 'iso'
-      }
+      conn.post_image ({:name => 'testsample',
+                        :architecture => 'i386',
+                        :access => 'public',
+                        :format => 'iso'})
 
-      conn.post_image(sample)
-
-      @sample = {
-          :name => 'xyz',
-          :architecture => 'x86_64',
-          :access => 'public',
-          :type => 'kernel'
-      }
+      @sample = {:name => 'xyz',
+                 :architecture => 'x86_64',
+                 :access => 'public',
+                 :type => 'kernel'}
     end
 
     after(:all) do
-      conn.connection.remove()
+      conn.delete_all!
     end
 
+    describe "#connect" do
+      it "should instantiate a new object trougth options" do
+        obj = MongoDB.connect db: 'visor_test'
+        obj.db.should == 'visor_test'
+        obj.host.should == MongoDB::DEFAULT_HOST
+      end
 
-    describe "#initialize" do
-      it "should instantiate a new object" do
-        conn.db.should == 'visor_test'
-        conn.host.should == MongoDB::DEFAULT_HOST
+      it "should instantiate a new object trougth URI" do
+        uri = "mongodb://:@#{MongoDB::DEFAULT_HOST}:#{MongoDB::DEFAULT_PORT}/visor_test"
+        obj = MongoDB.connect uri: uri
+        obj.db.should == 'visor_test'
+        obj.host.should == MongoDB::DEFAULT_HOST
       end
     end
 
@@ -45,7 +46,7 @@ module Visor::Registry::Backends
     end
 
     describe "#get_public_images" do
-      it "should return an array with all public images" do
+      it "should return an array with all public images meta" do
         pub = conn.get_public_images
         pub.should be_a Array
         pub.each { |img| img['access'].should == 'public' }
@@ -53,50 +54,45 @@ module Visor::Registry::Backends
 
       it "should return only brief information" do
         pub = conn.get_public_images(true)
-        pub.should be_a Array
         pub.each { |img| (img.keys & MongoDB::BRIEF).should be_empty }
       end
 
       it "should filter results if asked to" do
         pub = conn.get_public_images(false, architecture: 'i386')
-        pub.should be_a Array
         pub.each { |img| img['architecture'].should == 'i386' }
       end
 
       it "should sort results if asked to" do
-        conn.connection.insert(@sample)
+        conn.post_image @sample
         pub = conn.get_public_images(false, sort: 'architecture', dir: 'desc')
-        pub.should be_a Array
         pub.first['architecture'].should == 'x86_64'
       end
 
-      it "should raise an exception if there are no public images" do
+      it "should raise an NotFound exception if there are no public images" do
         conn.delete_all!
-        l = lambda { conn.get_public_images }
-        l.should raise_error(NotFound, /public/)
+        lambda { conn.get_public_images }.should raise_error(NotFound, /public/)
       end
     end
 
     describe "#get_image" do
+      before(:each) do
+        @id = conn.get_public_images.first['_id']
+      end
+
       it "should return a bson hash with the asked image" do
-        conn.connection.insert(@sample)
-        id = conn.get_public_images.first['_id']
-        img = conn.get_image(id)
+        img = conn.get_image(@id)
         img.should be_a BSON::OrderedHash
-        img['_id'].should == id
+        img['_id'].should == @id
       end
 
       it "should return only detail information fields" do
-        conn.connection.insert(@sample)
-        id = conn.get_public_images.first['_id']
-        img = conn.get_image(id)
+        img = conn.get_image(@id)
         (img.keys & Base::DETAIL_EXC).should be_empty
       end
 
-      it "should raise an exception if image not found" do
+      it "should raise an NotFound exception if image not found" do
         fake_id = 0
-        l = lambda { conn.get_image(fake_id) }
-        l.should raise_error(NotFound, /id/)
+        lambda { conn.get_image(fake_id) }.should raise_error(NotFound, /id/)
       end
     end
 
@@ -108,10 +104,9 @@ module Visor::Registry::Backends
         img['_id'].should == id
       end
 
-      it "should raise an exception if image not found" do
+      it "should raise an NotFound exception if image not found" do
         fake_id = 0
-        l = lambda { conn.delete_image(fake_id) }
-        l.should raise_error(NotFound, /id/)
+        lambda { conn.get_image(fake_id) }.should raise_error(NotFound, /id/)
       end
     end
 
@@ -123,34 +118,34 @@ module Visor::Registry::Backends
     end
 
     describe "#post_image" do
-      it "should post an image and return it" do
+      it "should post an image and return its meta" do
         image = conn.post_image(@sample)
         image.should be_a(Hash)
         image['name'].should == @sample[:name]
       end
 
-      it "should raise an exception if meta validation fails" do
+      it "should raise an ArgumentError exception if meta validation fails" do
         img = @sample.merge(:status => 'status can not be set')
-        l = lambda { conn.post_image(img) }
-        l.should raise_error(ArgumentError, /status/)
+        lambda { conn.post_image(img) }.should raise_error(ArgumentError, /status/)
       end
     end
 
     describe "#put_image" do
-      it "should return a bson hash with updated image" do
-        id = conn.get_public_images.first['_id']
+      before(:each) do
+        @id = conn.get_public_images.first['_id']
+      end
+
+      it "should return a bson hash with updated image meta" do
         update = {:name => 'updated', :type => 'none'}
-        img = conn.put_image(id, update)
+        img = conn.put_image(@id, update)
         img.should be_a BSON::OrderedHash
         img['name'].should == 'updated'
         img['type'].should == 'none'
       end
 
-      it "should raise an exception if meta validation fails" do
-        id = conn.get_public_images.first['_id']
+      it "should raise an ArgumentError exception if meta validation fails" do
         update = {:status => 'status can not be set'}
-        l = lambda { conn.put_image(id, update) }
-        l.should raise_error(ArgumentError, /status/)
+        lambda { conn.put_image(@id, update) }.should raise_error(ArgumentError, /status/)
       end
     end
   end

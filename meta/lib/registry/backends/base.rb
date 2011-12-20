@@ -161,6 +161,48 @@ module Visor::Registry
         "http://#{host}:#{port}/images/#{id}"
       end
 
+      # Serializes with JSON and encapsulate additional (not on the table schema) image attributes
+      # on the others schema field.
+      #
+      # This is used for SQL Backends, as they are not schema free.
+      #
+      # @example Instantiate a client with default values:
+      #   # So this:
+      #   {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
+      #   # becomes this:
+      #   {name: "example", access: "public", others: "{\"extra_key\":\"value\",\"another\":\"value\"}"}"}
+      #
+      # @param [Hash] meta The image metadata.
+      #
+      def serialize_others(meta)
+        other_keys = meta.keys - ALL
+        unless other_keys.empty?
+          others = {}
+          other_keys.each { |key| others[key] = meta.delete(key) }
+          meta.merge!(others: others.to_json)
+        end
+      end
+
+      # Deserializes with JSON and decapsulate additional (not on the table schema) image attributes
+      # from the others schema field.
+      #
+      # This is used for SQL Backends, as they are not schema free.
+      #
+      # @example Instantiate a client with default values:
+      #   # So this:
+      #   {name: "example", access: "public", others: "{\"extra_key\":\"value\",\"another\":\"value\"}"}"}
+      #   # becomes this:
+      #   {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
+      #
+      # @param [Hash] meta The image metadata.
+      #
+      def deserialize_others(meta)
+        if meta[:others]
+          others = meta.delete :others
+          meta.merge! JSON.parse(others, symbolize_names: true)
+        end
+      end
+
       # Verifies if a given object is a String, a Time or a Hash.
       #
       # @param [Object] v The input value.
@@ -205,68 +247,38 @@ module Visor::Registry
         %W{(#{h.keys.join(', ')}) (#{surround.join(', ')})}
       end
 
-      # Serializes with JSON and encapsulate additional (not on the table schema) image attributes
-      # on the others schema field.
-      #
-      # This is used for SQL Backends, as they are not schema free.
-      #
-      # @example Instantiate a client with default values:
-      #   # So this:
-      #   {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
-      #   # becomes this:
-      #   {name: "example", access: "public", others: "{\"extra_key\":\"value\",\"another\":\"value\"}"}"}
-      #
-      # @param [Hash] meta The image metadata.
-      #
-      def serialize_others(meta)
-        other_keys = meta.keys - ALL
-        others     = {}
-        other_keys.each { |key| others[key] = meta.delete(key) }
-        meta.merge!(others: others.to_json)
-      end
-
-      # Deserializes with JSON and decapsulate additional (not on the table schema) image attributes
-      # from the others schema field.
-      #
-      # This is used for SQL Backends, as they are not schema free.
-      #
-      # @example Instantiate a client with default values:
-      #   # So this:
-      #   {name: "example", access: "public", others: "{\"extra_key\":\"value\",\"another\":\"value\"}"}"}
-      #   # becomes this:
-      #   {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
-      #
-      # @param [Hash] meta The image metadata.
-      #
-      def deserialize_others(meta)
-        others = meta.delete :others
-        meta.merge! JSON.parse(others, symbolize_names: true)
-      end
-
-
       private
 
       # Assert that an image referenced as the corresponding kernel or ramdisk image
       # is present and is a kernel or ramdisk image.
       #
-      # As all backends the same API, we can call here the #get_image without self and it
-      # will pickup the self.get_image method of the backend in use.
+      # A valid kernel image is an image that has its type setted to 'kernel'
+      # and/or its format setted to 'aki' (Amazon Kernel Image).
+      #
+      # A valid ramdisk image is an image that has its type setted to 'ramdisk'
+      # and/or its format setted to 'ari' (Amazon Ramdisk Image).
+      #
+      # As all backends implement the same external API, we can call here the #get_image
+      # without self and it will pickup the self.get_image method of the backend in use.
       #
       # @param [Hash] meta The image metadata.
       #
+      # @raise[NotFound] If the referenced image is not found.
       # @raise[ArgumentError] If the referenced image is not a kernel or ramdisk image.
       #
       def assert_ramdisk_and_kernel(meta)
-        unless meta[:kernel].nil?
-          type = get_image(meta[:kernel]).symbolize_keys[:type]
+        if meta[:kernel]
+          id = meta[:kernel]
+          type = get_image(id).symbolize_keys[:type]
           if type != 'kernel' && meta[:format] != 'aki'
-            raise ArgumentError, "The image with id #{meta[:kernel]} is not a kernel image"
+            raise ArgumentError, "The image with id #{id} is not a kernel image."
           end
         end
-        unless meta[:ramdisk].nil?
-          type = get_image(meta[:ramdisk]).symbolize_keys[:type]
+        if meta[:ramdisk]
+          id = meta[:ramdisk]
+          type = get_image(id).symbolize_keys[:type]
           if type != 'ramdisk' && meta[:format] != 'ari'
-            raise ArgumentError, "The image with id #{meta[:ramdisk]} is not a ramdisk image"
+            raise ArgumentError, "The image with id #{id} is not a ramdisk image."
           end
         end
       end
@@ -276,10 +288,10 @@ module Visor::Registry
       # @param [Symbol] attr The attribute.
       # @param [String] value The current invalid attribute value.
       #
-      def invalid_options_for attr, value
-        options = self.class.const_get(attr.to_s.upcase).join(', ')
-        "Invalid image #{attr.to_s} '#{value}', available options:\n  #{options}"
-      end
+      #def invalid_options_for attr, value
+      #  options = self.class.const_get(attr.to_s.upcase).join(', ')
+      #  "Invalid image #{attr.to_s} '#{value}', available options:\n  #{options}"
+      #end
 
     end
   end
