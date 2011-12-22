@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.name        = "visor-common"
   s.version     = Bundler::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["João Pereira"]
+  s.authors     = ["Joao Pereira"]
   s.email       = ["joaodrp@gmail.com"]
   s.homepage    = "http://github.com/joaodrp/visor"
   s.summary     = ""

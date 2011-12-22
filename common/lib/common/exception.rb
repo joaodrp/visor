@@ -14,6 +14,9 @@ module Visor
       class NotFound < StandardError;
       end
 
+      # raise on a configuration error
+      class ConfigError < RuntimeError;
+      end
     end
   end
 end

@@ -9,16 +9,19 @@ module Visor
     #
     module Config
 
+      include Visor::Common::Exception
+
       # Default possible configuration file directories
-      DEFAULT_CONFIG_DIRS  = ['.', '~/.visor', '/etc/visor']
+      DEFAULT_CONFIG_DIRS = %w{. ~/.visor /etc/visor}
       # Default configuration file name
-      DEFAULT_CONFIG_FILE  = 'visor-config.yml'
+      DEFAULT_CONFIG_FILE = 'visor-config.yml'
       # Default logs path
-      DEFAULT_LOG_PATH     = '~/.visor/logs'
+      DEFAULT_LOG_PATH = '~/.visor/logs'
       # Default log datetime format
       DEFAULT_LOG_DATETIME = "%Y-%m-%d %H:%M:%S"
       # Default log level
-      DEFAULT_LOG_LEVEL    = Logger::INFO
+      DEFAULT_LOG_LEVEL = Logger::INFO
+
 
       # Ordered search for a VISoR configuration file on default locations and return the first matched.
       #
@@ -51,11 +54,11 @@ module Visor
       #
       def self.load_config(scope = nil, other_file = nil)
         file = find_config_file(other_file)
-        raise "Could not found any configuration file." unless file
+        raise ConfigError, "Could not found any configuration file." unless file
         begin
           content = YAML.load_file(file).symbolize_keys
-        rescue Exception => e
-          raise "Error while parsing the configuration file #{file}: #{e.message}"
+        rescue => e
+          raise ConfigError, "Error while parsing the configuration file: #{e.message}."
         end
         config = scope ? content[scope] : content
         config.merge(file: file)
@@ -71,37 +74,51 @@ module Visor
       #
       def self.build_logger(app_name, configs = nil)
         conf = configs || load_config
+
+        raise ConfigError, "Cannot locate 'default' configuration group." unless conf[:default]
+        raise ConfigError, "Cannot locate '#{app_name}' configuration group." unless conf[app_name]
+        raise ConfigError, "Cannot locate '#{app_name}/log' configuration group." unless conf[app_name][:log]
+
+        log_path = File.expand_path(conf[:default][:log_path] || DEFAULT_LOG_PATH)
+        log_datetime = conf[:default][:log_datetime_format] || DEFAULT_LOG_DATETIME
+        log_file = conf[app_name][:log][:file] || STDOUT
+        log_level = conf[app_name][:log][:level] || DEFAULT_LOG_LEVEL
+
         begin
-          log_path     = conf[:default][:log_path] || DEFAULT_LOG_PATH
-          log_datetime = conf[:default][:log_datetime_format] || DEFAULT_LOG_DATETIME
-          log_file     = conf[app_name][:log][:file] || STDOUT
-          log_level    = conf[app_name][:log][:level] || DEFAULT_LOG_LEVEL
-        rescue Exception => e
-          raise "Error while loading configuration file #{conf[:file]}: #{e.message}"
+          Dir.mkdir(log_path) unless Dir.exists?(log_path)
+        rescue => e
+          raise ConfigError, "Cannot create the 'default/log_path' directory: #{e.message}."
         end
 
-        path = File.expand_path(log_path)
-        Dir.mkdir(path) unless Dir.exists?(path)
-        output = log_file == STDOUT ? STDOUT : File.join(path, log_file)
-        log    = Logger.new(output, 5, 1024*1024)
+        begin
+          output = log_file==STDOUT ? log_file : File.join(log_path, log_file)
+          log = Logger.new(output, 5, 1024*1024)
+        rescue => e
+          raise ConfigError, "Error while create the logger for #{output}: #{e.message}."
+        end
 
-        log.datetime_format = log_datetime
-        set_log_level(log, log_level)
+        begin
+          log.datetime_format = log_datetime
+          log.level = get_log_level(log_level)
+        rescue => e
+          raise ConfigError, "Error while setting logger properties: #{e.message}."
+        end
         log
       end
 
       private
 
-      def self.set_log_level(log, level)
-        log.level =
-            if level == 'DEBUG'
-              Logger::DEBUG
-            elsif level == 'INFO'
-              Logger::INFO
-            else
-              DEFAULT_LOG_LEVEL
-            end
+      def self.get_log_level(level)
+        case level
+          when 'DEBUG' then
+            Logger::DEBUG
+          when 'INFO' then
+            Logger::INFO
+          else
+            DEFAULT_LOG_LEVEL
+        end
       end
+
     end
   end
 end

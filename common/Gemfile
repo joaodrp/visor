@@ -6,7 +6,7 @@ source 'http://rubygems.org'
 group :development do
   gem 'guard'
   gem 'guard-rspec'
-  gem 'rb-fsevent', :require => false
+  gem 'rb-fsevent'
   gem 'growl_notify' # => brew install growlnotify
   gem 'yard'
   gem 'rdiscount'
@@ -14,4 +14,5 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'simplecov'
 end
