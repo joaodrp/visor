@@ -3,6 +3,8 @@ require "bundler/gem_tasks"
 require 'rake/testtask'
 require 'fileutils'
 
+registry = "registry/lib/**/*.rb registry/lib/registry/**/*.rb"
+
 Rake::TestTask.new(:all) do |t|
   t.libs.push "lib"
   t.test_files = FileList['spec/*/*_spec.rb']
@@ -21,6 +23,15 @@ end
 desc "Count lines of source .rb files"
 task :lines do
   system "find . -name '*.rb' | xargs wc -l"
+end
+
+desc "Generate YARD documentation"
+task :ydoc do
+  require File.join(File.dirname(__FILE__), 'lib/registry')
+  output = "~/workspace/gh-pages/visor/"
+  #system "rm -rf #{output}*"
+  system "yardoc #{registry} -o #{output} -t test --no-save --title VISoR --main README.md"
+  system "cd #{output} && git add . && git commit -am 'documentation updated' && git push origin gh-pages"
 end
 
 task :default => :list

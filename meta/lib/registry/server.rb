@@ -70,16 +70,29 @@ module Visor
       # Get brief information about all public images.
       #
       #   { "images": [{
-      #       "_id"":<_id>,
+      #       "_id":<_id>,
+      #       "uri":<uri>,
       #       "name":<name>,
       #       "architecture":<architecture>,
       #       "type":<type>,
       #       "format":<format>,
-      #       "store":<type>
+      #       "store":<type>,
+      #       "size":<size>,
+      #       "created_at":<creation timestamp>
       #       }, ...]}
       #
-      # @param [String] Any available field values can be passed as query parameters,
-      #   plus the sort=<attribute> and dir=<asc/desc> parameters.
+      # The following options can be passed as query parameters, plus any other additional
+      # image attribute not defined in the schema.
+      #
+      # @param [String] name The image name.
+      # @param [String] architecture The image architecture.
+      # @param [String] type The image type.
+      # @param [String] format The image format.
+      # @param [String] store The image store.
+      # @param [Fixnum] size The image size.
+      # @param [Date] created_at The image creation timestamp.
+      # @param [String] sort ('_id') The image attribute to sort results.
+      # @param [String] dir ('asc') The sorting order ('asc'/'desc').
       #
       # @return [JSON] The public images brief metadata.
       #
@@ -110,14 +123,29 @@ module Visor
       #       "type":<type>,
       #       "format":<format>,
       #       "store":<type>,
-      #       "updated_at":<updated_at>,
+      #       "created_at":<creation timestamp>
+      #       "updated_at":<update timestamp>,
       #       "kernel":<associated kernel>,
       #       "ramdisk":<associated ramdisk>,
-      #       "others":<others>
+      #       ...
       #       }, ...]}
       #
-      # @param [String] Any available field values can be passed as query parameters,
-      #   plus the sort=<attribute> and dir=<asc/desc> parameters.
+      # The following options can be passed as query parameters, plus any other additional
+      # image attribute not defined in the schema.
+      #
+      # @param [String] name The image name.
+      # @param [String] architecture The image architecture.
+      # @param [String] access The image access permission.
+      # @param [String] type The image type.
+      # @param [String] format The image format.
+      # @param [String] store The image store.
+      # @param [Fixnum] size The image size.
+      # @param [Date] created_at The image creation timestamp.
+      # @param [Date] updated_at The image update timestamp.
+      # @param [String] kernel The image associated kernel image's _id.
+      # @param [String] ramdisk The image associated kernel image's _id.
+      # @param [String] sort (_id) The image attribute to sort results.
+      # @param [String] dir ('asc') The sorting order ('asc'/'desc').
       #
       # @return [JSON] The public images detailed metadata.
       #
@@ -137,7 +165,7 @@ module Visor
       #
       # Get detailed information about a specific image.
       #
-      #   {"images": {
+      #   {"image": {
       #       "_id":<_id>,
       #       "uri":<uri>,
       #       "name":<name>,
@@ -148,13 +176,14 @@ module Visor
       #       "type":<type>,
       #       "format":<format>,
       #       "store":<type>,
-      #       "updated_at":<updated_at>,
+      #       "created_at":<creation timestamp>
+      #       "updated_at":<update timestamp>,
       #       "kernel":<associated kernel>,
       #       "ramdisk":<associated ramdisk>,
-      #       "others":<others>
+      #       ...
       #   }}
       #
-      # @param [Integer] id The wanted image id.
+      # @param [String] id The wanted image _id.
       #
       # @return [JSON] The image detailed metadata.
       #
@@ -174,9 +203,9 @@ module Visor
       #
       # Create a new image metadata and returns it.
       #
-      # @param [JSON] The image metadata.
+      # @param [JSON] http-body The image metadata.
       #
-      # @return [JSON] The image detailed metadata.
+      # @return [JSON] The already created image detailed metadata.
       #
       # @raise [HTTP Error 400] Image metadata validation errors.
       #
@@ -197,10 +226,10 @@ module Visor
       #
       # Update an existing image metadata and return it.
       #
-      # @param [Integer] id The wanted image id.
-      # @param [JSON] The image metadata update.
+      # @param [String] id The wanted image _id.
+      # @param [JSON] http-body The image metadata.
       #
-      # @return [JSON] The image detailed metadata.
+      # @return [JSON] The already updated image detailed metadata.
       #
       # @raise [HTTP Error 400] Image metadata update validation errors.
       #
@@ -219,11 +248,11 @@ module Visor
       # @method delete
       # @overload delete '/images/:id'
       #
-      # Delete an image metadata and return it.
+      # Delete an image metadata and returns it.
       #
-      # @param [Integer] id The image id to delete.
+      # @param [String] id The image _id to delete.
       #
-      # @return [JSON] The image detailed metadata.
+      # @return [JSON] The already deleted image detailed metadata.
       #
       # @raise [HTTP Error 404] If image not found.
       #
