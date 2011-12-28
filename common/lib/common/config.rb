@@ -52,6 +52,7 @@ module Visor
       #
       # @raise [RuntimeError] If there is no configuration files or if errors occur during parsing.
       #
+      #TODO: YAML.load_openstruct(File.read(file))
       def self.load_config(scope = nil, other_file = nil)
         file = find_config_file(other_file)
         raise ConfigError, "Could not found any configuration file." unless file
@@ -77,12 +78,11 @@ module Visor
 
         raise ConfigError, "Cannot locate 'default' configuration group." unless conf[:default]
         raise ConfigError, "Cannot locate '#{app_name}' configuration group." unless conf[app_name]
-        raise ConfigError, "Cannot locate '#{app_name}/log' configuration group." unless conf[app_name][:log]
 
         log_path = File.expand_path(conf[:default][:log_path] || DEFAULT_LOG_PATH)
         log_datetime = conf[:default][:log_datetime_format] || DEFAULT_LOG_DATETIME
-        log_file = conf[app_name][:log][:file] || STDOUT
-        log_level = conf[app_name][:log][:level] || DEFAULT_LOG_LEVEL
+        log_file = conf[app_name][:log_file] || STDOUT
+        log_level = conf[app_name][:log_level] || DEFAULT_LOG_LEVEL
 
         begin
           Dir.mkdir(log_path) unless Dir.exists?(log_path)

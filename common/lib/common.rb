@@ -1,15 +1,9 @@
-module Visor
-
-  # Require standard libraries
-  #
-
-  # Require libraries
-  #
-  $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-
-  require 'common/exception'
-  require 'common/config'
-  require 'common/extensions/hash'
-  require 'common/extensions/string'
-  require 'common/extensions/logger'
-end
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'common/exception'
+require 'common/config'
+require 'common/runner'
+require 'common/extensions/object'
+require 'common/extensions/array'
+require 'common/extensions/yaml'
+require 'common/extensions/hash'
+require 'common/extensions/logger'

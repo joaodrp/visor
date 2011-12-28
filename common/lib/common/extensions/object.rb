@@ -6,16 +6,22 @@ module Visor
     #
     module Extensions
       #
-      # Extending String class
+      # Extending Object class
       #
-      module String
-        # Convert string to Mongo oid
-        def to_oid
-          BSON::ObjectId self
+      module Object
+
+        # Pass from Hash.to_openstruct
+        #
+        # @return [self] The object itself.
+        #
+        def to_openstruct
+          self
         end
+
       end
     end
   end
 end
-String.send(:include, Visor::Common::Extensions::String)
+
+Object.send :include, Visor::Common::Extensions::Object
 

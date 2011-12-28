@@ -10,10 +10,10 @@ module Visor::Common
     let(:sample_conf) { {default:
                              {log_datetime_format: "%Y-%m-%d %H:%M:%S",
                               log_path: "~/.visor/logs"},
-                         registry_server:
+                         meta_server:
                              {bind_host: "0.0.0.0", bind_port: 4567,
                               backend: "mongodb://:@127.0.0.1:27017/visor",
-                              log: {file: "visor-registry.log", level: "DEBUG"}}} }
+                              log: {file: "visor-meta.log", level: "DEBUG"}}} }
 
     before(:all) do
       unless File.exists?(file)
@@ -78,7 +78,7 @@ module Visor::Common
 
     describe "#build_logger" do
       it "should return a Logger for a specific app" do
-        log = Config.build_logger :registry_server
+        log = Config.build_logger :meta_server
         log.should be_a Logger
       end
 
@@ -87,13 +87,13 @@ module Visor::Common
       end
       
       it "should set the log level if provided" do
-        log = Config.build_logger :registry_server, sample_conf
+        log = Config.build_logger :meta_server, sample_conf
         log.level.should == Logger::DEBUG
       end
 
       it "should set the log level to the default if not provided" do
-        sample_conf[:registry_server][:log].delete(:level)
-        log = Config.build_logger :registry_server, sample_conf
+        sample_conf[:meta_server][:log].delete(:level)
+        log = Config.build_logger :meta_server, sample_conf
         log.level.should == Config::DEFAULT_LOG_LEVEL
       end
     end

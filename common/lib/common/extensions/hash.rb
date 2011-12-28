@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Visor
   module Common
 
@@ -14,8 +16,8 @@ module Visor
         #
         def stringify_keys
           inject({}) do |acc, (k, v)|
-            key      = Symbol === k ? k.to_s : k
-            value    = Hash === v ? v.stringify_keys : v
+            key = Symbol === k ? k.to_s : k
+            value = Hash === v ? v.stringify_keys : v
             acc[key] = value
             acc
           end
@@ -24,18 +26,15 @@ module Visor
         # Destructively convert all keys to strings.
         #
         def stringify_keys!
-          keys.each do |key|
-            self[key.to_s] = delete(key)
-          end
-          self
+          self.replace(self.stringify_keys)
         end
 
         # Return a new hash with all keys converted to symbols.
         #
         def symbolize_keys
           inject({}) do |acc, (k, v)|
-            key      = String === k ? k.to_sym : k
-            value    = Hash === v ? v.symbolize_keys : v
+            key = String === k ? k.to_sym : k
+            value = Hash === v ? v.symbolize_keys : v
             acc[key] = value
             acc
           end
@@ -54,7 +53,7 @@ module Visor
         # @raise [ArgumentError] On a mismatch.
         #
         def assert_valid_keys(*valid_keys)
-          unknown_keys = keys - [valid_keys].flatten
+          unknown_keys = keys - valid_keys.flatten
           raise ArgumentError, "Unknown fields: #{unknown_keys.join(", ")}" unless unknown_keys.empty?
         end
 
@@ -104,9 +103,19 @@ module Visor
         def set_blank_keys_value_to(keys_to_set, keys_to_ignore, to_value)
           keys_to_set.each { |k| self.merge!(k => to_value) unless self[k] || keys_to_ignore.include?(k) }
         end
+
+        # Convert a Hash to a OpenStruct, so it can be accessed as options like: h[key] => h.key
+        #
+        # @return [OpenStruct] The resulting OpenStruct object.
+        #
+        def to_openstruct
+          mapped = {}
+          each { |key, value| mapped[key] = value.to_openstruct }
+          OpenStruct.new(mapped)
+        end
       end
     end
   end
 end
 
-Hash.send(:include, Visor::Common::Extensions::Hash)
+Hash.send :include, Visor::Common::Extensions::Hash

@@ -1,12 +1,13 @@
 source 'http://rubygems.org'
 
-# Specify your gem's dependencies in registry.gemspec
+# Specify your gem's dependencies in meta.gemspec
 #gemspec
 
 group :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'rb-fsevent'
+  gem 'rb-readline'
   gem 'growl_notify' # => brew install growlnotify
   gem 'yard'
   gem 'rdiscount'
