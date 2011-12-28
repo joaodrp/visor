@@ -3,16 +3,16 @@ require "bundler/gem_tasks"
 require 'rake/testtask'
 require 'fileutils'
 
-registry = "registry/lib/**/*.rb registry/lib/registry/**/*.rb"
+meta = "meta/lib/**/*.rb meta/lib/meta/**/*.rb"
 
 Rake::TestTask.new(:all) do |t|
   t.libs.push "lib"
   t.test_files = FileList['spec/*/*_spec.rb']
 end
 
-desc "Start VISoR::Registry::Server"
+desc "Start VISoR::Meta::Server"
 task :s do
-  system "bundle exec ruby lib/registry/server.rb"
+  system "bundle exec ruby lib/meta/server.rb"
 end
 
 desc "Start Guard"
@@ -27,10 +27,10 @@ end
 
 desc "Generate YARD documentation"
 task :ydoc do
-  require File.join(File.dirname(__FILE__), 'lib/registry')
+  require File.join(File.dirname(__FILE__), 'lib/meta')
   output = "~/workspace/gh-pages/visor/"
   #system "rm -rf #{output}*"
-  system "yardoc #{registry} -o #{output} -t test --no-save --title VISoR --main README.md"
+  system "yardoc #{meta} -o #{output} -t test --no-save --title VISoR --main README.md"
   system "cd #{output} && git add . && git commit -am 'documentation updated' && git push origin gh-pages"
 end
 

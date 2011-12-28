@@ -1,4 +1,4 @@
-module Visor::Registry
+module Visor::Meta
   module Backends
 
     # This is the Base super class for all Backends. Each new backend inherits from Base,
@@ -155,9 +155,9 @@ module Visor::Registry
       # @return [String] The generated URI.
       #
       def build_uri(id)
-        conf = Visor::Common::Config.load_config :registry_server
-        host = conf[:bind_host] || Visor::Registry::Server::DEFAULT_HOST
-        port = conf[:bind_port] || Visor::Registry::Server::DEFAULT_PORT
+        conf = Visor::Common::Config.load_config :meta_server
+        host = conf[:bind_host] || Visor::Meta::Server::DEFAULT_HOST
+        port = conf[:bind_port] || Visor::Meta::Server::DEFAULT_PORT
         "http://#{host}:#{port}/images/#{id}"
       end
 

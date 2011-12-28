@@ -1,10 +1,10 @@
 require 'mongo'
 require 'uri'
 
-module Visor::Registry
+module Visor::Meta
   module Backends
 
-    # The MongoDB Backend for the VISoR Registry.
+    # The MongoDB Backend for the VISoR Meta.
     #
     class MongoDB < Base
 

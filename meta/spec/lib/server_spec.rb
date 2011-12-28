@@ -1,8 +1,8 @@
 require "spec_helper"
 
-include Visor::Registry::Backends
+include Visor::Meta::Backends
 
-describe Visor::Registry::Server do
+describe Visor::Meta::Server do
 
   let(:parse_opts) { {symbolize_names: true} }
 

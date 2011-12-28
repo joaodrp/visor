@@ -4,8 +4,8 @@ require 'bundler/setup'
 Bundler.require :default, :test
 SimpleCov.start
 
-require File.expand_path '../../lib/registry', __FILE__
-require File.expand_path '../../lib/registry/server', __FILE__
+require File.expand_path '../../lib/meta', __FILE__
+require File.expand_path '../../lib/meta/server', __FILE__
 
 ENV['RACK_ENV'] = 'test'
 
@@ -13,7 +13,7 @@ RSpec.configure do |conf|
   conf.include Rack::Test::Methods
 
   def app
-    Visor::Registry::Server
+    Visor::Meta::Server
   end
 end
 

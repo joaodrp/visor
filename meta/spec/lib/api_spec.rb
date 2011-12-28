@@ -1,9 +1,9 @@
 require "spec_helper"
 
-module Visor::Registry
+module Visor::Meta
   describe Api do
 
-    include Visor::Registry
+    include Visor::Meta
     include Visor::Common::Exception
 
     let(:not_found) { Visor::Common::Exception::NotFound }

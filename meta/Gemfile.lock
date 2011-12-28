@@ -11,7 +11,7 @@ GEM
     ffi (1.0.11)
     growl_notify (0.0.3)
       rb-appscript
-    guard (0.9.3)
+    guard (0.9.4)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
     guard-rspec (0.5.10)
@@ -81,4 +81,5 @@ DEPENDENCIES
   sinatra
   sinatra-reloader
   thin
+  thor
   yard

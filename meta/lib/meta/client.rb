@@ -4,39 +4,39 @@ require 'uri'
 require 'json'
 
 module Visor
-  module Registry
+  module Meta
 
-    # The Client API for the VISoR Registry. This class supports all image metadata manipulation
+    # The Client API for the VISoR Meta. This class supports all image metadata manipulation
     # operations through a programmatically interface.
     #
-    # After Instantiate a Client object its possible to directly interact with the registry server and its
+    # After Instantiate a Client object its possible to directly interact with the meta server and its
     # database backend.
     #
     class Client
 
       include Visor::Common::Exception
 
-      CONF = Common::Config.load_config :registry_server
+      CONF = Common::Config.load_config :meta_server
 
       DEFAULT_HOST = CONF[:bind_host] || '0.0.0.0'
       DEFAULT_PORT = CONF[:bind_port] || 4567
 
       attr_reader :host, :port, :ssl
 
-      # Initializes a new new VISoR Registry Client.
+      # Initializes a new new VISoR Meta Client.
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR registry server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR registry server resides.
+      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR meta server resides.
+      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR meta server resides.
       # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
       #
       # @example Instantiate a client with default values:
-      #   client = Visor::Registry::Client.new
+      #   client = Visor::Meta::Client.new
       #
       # @example Instantiate a client with default values and SSL enabled:
-      #   client = Visor::Registry::Client.new(ssl: true)
+      #   client = Visor::Meta::Client.new(ssl: true)
       #
       # @example Instantiate a client with custom host and port:
-      #   client = Visor::Registry::Client.new(host: '127.0.0.1', port: 3000)
+      #   client = Visor::Meta::Client.new(host: '127.0.0.1', port: 3000)
       #
       def initialize(opts = {})
         @host = opts[:host] || DEFAULT_HOST
@@ -72,7 +72,7 @@ module Visor
       #      {:_id=>"069320f0...", :architecture=>"x86_64", :name=>"CentOS 6"}]
       #
       # @return [Array] All public images brief metadata.
-      #   Just {Visor::Registry::Backends::Base::BRIEF BRIEF} fields are returned.
+      #   Just {Visor::Meta::Backends::Base::BRIEF BRIEF} fields are returned.
       #
       # @raise [NotFound] If there are no public images registered on the server.
       #
@@ -97,7 +97,7 @@ module Visor
       #   # returns an array of hashes with all public images metadata.
       #
       # @return [Array] All public images detailed metadata.
-      #   The {Visor::Registry::Backends::Base::DETAIL_EXC DETAIL_EXC} fields are excluded from results.
+      #   The {Visor::Meta::Backends::Base::DETAIL_EXC DETAIL_EXC} fields are excluded from results.
       #
       # @raise [NotFound] If there are no public images registered on the server.
       #
@@ -250,7 +250,7 @@ module Visor
       # @param request [Net::HTTPResponse] The request which will be modified in its headers.
       #
       def prepare_headers(request)
-        request['User-Agent'] = 'VISoR registry server'
+        request['User-Agent'] = 'VISoR meta server'
         request['Accept'] = 'application/json'
         request['content-type'] = 'application/json' if ['POST', 'PUT'].include?(request.method)
       end

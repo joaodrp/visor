@@ -1,8 +1,8 @@
 require "spec_helper"
 
-include Visor::Registry::Backends
+include Visor::Meta::Backends
 
-module Visor::Registry::Backends
+module Visor::Meta::Backends
   describe Base do
 
     before(:each) do

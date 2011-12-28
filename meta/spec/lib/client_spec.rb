@@ -1,9 +1,9 @@
 require "spec_helper"
 
-module Visor::Registry
+module Visor::Meta
   describe Client do
 
-    include Visor::Registry
+    include Visor::Meta
     include Visor::Common::Exception
 
     let(:client) { Client.new }
@@ -35,7 +35,7 @@ module Visor::Registry
       end
 
       it "should instantiate a new client with provided options" do
-        c = Visor::Registry::Client.new(host: '1.1.1.1', port: 1, ssl: true)
+        c = Visor::Meta::Client.new(host: '1.1.1.1', port: 1, ssl: true)
         c.host.should == '1.1.1.1'
         c.port.should == 1
         c.ssl.should be_true

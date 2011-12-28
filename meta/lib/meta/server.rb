@@ -1,44 +1,35 @@
 require 'sinatra/base'
 require 'json'
-require File.expand_path '../../registry', __FILE__
 
 # TODO: compressing and caching
 module Visor
-  module Registry
+  module Meta
 
-    # The VISoR Registry Server class. This class supports all image metadata manipulation
+    # The VISoR Meta Server class. This class supports all image metadata manipulation
     # operations through the VISoR REST API implemented allong the following routes.
     #
-    # After initialize the Server its possible to directly interact with the registry backend.
+    # After initialize the Server its possible to directly interact with the meta backend.
     #
     class Server < Sinatra::Base
 
       include Visor::Common::Exception
       include Visor::Common::Config
 
-      DEFAULT_HOST = '0.0.0.0'
-      DEFAULT_PORT = 4567
-      DEFAULT_URI = "mongodb://:@#{DEFAULT_HOST}:#{DEFAULT_PORT}/visor"
-
-      CONF = Common::Config.load_config :registry_server
-      LOG = Common::Config.build_logger :registry_server
-
-      HOST = CONF[:bind_host] || DEFAULT_HOST
-      PORT = CONF[:bind_port] || DEFAULT_PORT
-      URI = CONF[:backend] || DEFAULT_URI
-
       # Configuration
       #
       configure do
-        use Rack::CommonLogger, LOG
+        backend_map = {'mongodb' => Visor::Meta::Backends::MongoDB,
+                       'mysql' => Visor::Meta::Backends::MySQL}
 
-        backend_map = {'mongodb' => Visor::Registry::Backends::MongoDB,
-                       'mysql' => Visor::Registry::Backends::MySQL}
+        conf = Visor::Common::Config.load_config :meta_server
+        log = Common::Config.build_logger :meta_server
 
-        DB = backend_map[URI.split(':').first].connect uri: URI
+        DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]
 
         enable :threaded
         disable :show_exceptions, :protection
+
+        use Rack::CommonLogger, log
       end
 
       configure :development do
@@ -288,14 +279,6 @@ module Visor
 
     end
   end
-end
-
-if __FILE__ == $0
-  conf = Visor::Common::Config.load_config :registry_server
-  host = conf[:bind_host] || '0.0.0.0'
-  port = conf[:bind_port] || 4567
-
-  Visor::Registry::Server.run! bind: host, port: port, environment: :development
 end
 
 

@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+# VISoR Meta command line interface script.
+# Run <visor-meta -h> to get more usage help.
+
+require 'thin'
+#
+#rackup_file = File.expand_path('../../lib/meta/config.ru', __FILE__)
+#
+#argv = ARGV
+#argv << ["-R", rackup_file] unless ARGV.include?("-R")
+#argv << ["-p", "2003"] unless ARGV.include?("-p")
+#argv << ["-e", "development"] unless ARGV.include?("-e")
+#Thin::Runner.new(argv.flatten).run!
+
+require File.expand_path('../../lib/meta', __FILE__)
+
+Visor::Common::Runner.new(Visor::Meta::Server, 'server')
+
+#Visor::Meta::CLI.new(ARGV).run!
+#require "thin"
+#
+#Thin::Runner.new(port: 3001).run!
+
+#COMMANDS = %w{start stop restart reload}
+#
+#DEFAULT_HOST = '0.0.0.0'
+#DEFAULT_PORT = 4567
+#
+#conf = Visor::Common::Config.load_config :meta_server
+#host = conf[:bind_host] || DEFAULT_HOST
+#port = conf[:bind_port] || DEFAULT_PORT
+#puts "Running on #{host}:#{port}, debugging to STDOUT..."
+#Visor::Meta::Server.run! bind: '0.0.0.0', port: 4567, environment: :production
+
+##require "thin"
+#server = Thin::Server.new(host, port, Visor::Meta::Server)
+
+#server.start
+##server.stop!
+##
+##Thin::Server::running?
+#
+##def thin(cmd)
+##  "thin #{cmd} -C #{thin_conf}"
+##end
+##
+##run thin("restart")
+#
+## QUIT: Gracefull shutdown (see Server#stop)
+## INT and TERM: Force shutdown (see Server#stop!)

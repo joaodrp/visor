@@ -2,10 +2,10 @@ require 'mysql2'
 require 'json'
 require 'uri'
 
-module Visor::Registry
+module Visor::Meta
   module Backends
 
-    # The MySQL Backend for the VISoR Registry.
+    # The MySQL Backend for the VISoR Meta.
     #
     class MySQL < Base
 

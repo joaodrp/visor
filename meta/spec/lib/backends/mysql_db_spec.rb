@@ -1,9 +1,9 @@
 require "spec_helper"
 
 include Visor::Common::Exception
-include Visor::Registry::Backends
+include Visor::Meta::Backends
 
-module Visor::Registry::Backends
+module Visor::Meta::Backends
   describe MySQL do
 
     let(:conn) { MySQL.connect :db => 'visor_test' }
