@@ -18,8 +18,6 @@ module Visor
       # Configuration
       #
       configure do
-        set environment: :production
-
         backend_map = {'mongodb' => Visor::Meta::Backends::MongoDB,
                        'mysql' => Visor::Meta::Backends::MySQL}
 
