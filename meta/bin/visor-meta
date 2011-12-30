@@ -15,7 +15,7 @@ require 'thin'
 
 require File.expand_path('../../lib/meta', __FILE__)
 
-Visor::Common::Runner.new(Visor::Meta::Server, 'server')
+Visor::Common::Runner.new(Visor::Meta::Server, 'visor-meta')#, :foreground => true, :skip_launch => true, :debug => true)
 
 #Visor::Meta::CLI.new(ARGV).run!
 #require "thin"
