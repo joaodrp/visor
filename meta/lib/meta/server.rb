@@ -21,8 +21,8 @@ module Visor
         backend_map = {'mongodb' => Visor::Meta::Backends::MongoDB,
                        'mysql' => Visor::Meta::Backends::MySQL}
 
-        conf = Visor::Common::Config.load_config :meta_server
-        log = Common::Config.build_logger :meta_server
+        conf = Visor::Common::Config.load_config(:meta_server)
+        log = Common::Config.build_logger(:meta_server)
 
         DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]
 

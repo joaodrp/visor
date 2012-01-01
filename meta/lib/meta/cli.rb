@@ -2,6 +2,7 @@ require 'open-uri'
 require 'logger'
 require 'optparse'
 require 'fileutils'
+require 'rack'
 
 module Visor
   module Common
@@ -10,19 +11,24 @@ module Visor
       include Visor::Common::Exception
       include Visor::Common::Config
 
-      attr_reader :app, :cli_name, :argv, :options, :rack_handler,
+      attr_reader :app, :cli_name, :argv, :options,
                   :port, :host, :env, :command, :parser
 
       # Available commands
       COMMANDS = %w[start stop restart status]
       # Commands that wont load options from the config file
       NO_CONF_COMMANDS = %w[stop status]
-
-      DEFAULT_DIR = File.expand_path('~/.visor')
+      # Default config files directories to look at
+      DEFAULT_DIR = '~/.visor'
+      # Default host address
       DEFAULT_HOST = '0.0.0.0'
+      # Default port
       DEFAULT_PORT = 4567
+      # Default application environment
       DEFAULT_ENV = :production
 
+      # Initialize a CLI
+      #
       def initialize(app, cli_name, argv=ARGV)
         @app = app
         @cli_name = cli_name
@@ -31,12 +37,12 @@ module Visor
                     foreground: false,
                     no_proxy: false,
                     environment: DEFAULT_ENV}
-
-        @rack_handler = detect_rack_handler #TODO remove? as sinatra#run! do it
         @parser = parser
         @command = parse!
       end
 
+      # OptionParser parser
+      #
       def parser
         OptionParser.new do |opts|
           opts.banner = "Usage: #{cli_name} [OPTIONS] COMMAND"
@@ -90,7 +96,7 @@ module Visor
       # Parse the current shell arguments and run the command.
       # Exits on error.
       #
-      def run
+      def run!
         if command.nil?
           abort @parser.to_s
         elsif COMMANDS.include?(command)
@@ -122,13 +128,17 @@ module Visor
         end
       end
 
+      # Restart server
+      #
       def restart
         @restart = true
         stop
-        sleep 1
+        logger.info "hi"
         start
       end
 
+      # Display current server status
+      #
       def status
         if files_exist?(pid_file, url_file)
           STDERR.puts "Running PID: #{File.read(pid_file)} URL: #{File.read(url_file)}"
@@ -138,11 +148,14 @@ module Visor
         exit! 0
       end
 
+      # Stop the server
+      #
       def stop
         begin
           pid = File.read(pid_file)
-          put_and_log :warn, "Stopping #{cli_name} with PID: #{pid.to_i} Signal: TERM"
-          Process.kill(:TERM, pid.to_i)
+          put_and_log :warn, "Stopping #{cli_name} with PID: #{pid.to_i} Signal: INT"
+          Process.kill(:INT, pid.to_i)
+          File.delete(url_file)
           exit! 0 unless restarting?
         rescue
           put_and_log :warn, "Cannot stop #{cli_name}, is it running?"
@@ -150,15 +163,16 @@ module Visor
         end
       end
 
+      # Start the server
+      #
       def start
-        FileUtils.mkpath(DEFAULT_DIR)
+        FileUtils.mkpath(File.expand_path(DEFAULT_DIR))
         put_and_log :info, "Starting #{cli_name} at #{host}:#{port}"
-        set_app_settings
+        debug_settings
         begin
           already_running?
-          find_port
+          find_port unless restarting?
           write_url
-          daemonize! unless options[:foreground]
           launch!
         rescue => e
           put_and_log :warn, "ERROR starting #{cli_name}: #{e}"
@@ -166,6 +180,8 @@ module Visor
         end
       end
 
+      # Look if the server is already running?
+      #
       def already_running?
         if files_exist?(pid_file, url_file)
           url = File.read(url_file)
@@ -176,6 +192,8 @@ module Visor
         end
       end
 
+      # Find if a port is free to use
+      #
       def find_port
         logger.warn "Trying port #{port}..."
         unless port_open?
@@ -184,6 +202,8 @@ module Visor
         end
       end
 
+      # Tells if a port is open or closed
+      #
       def port_open?(check_url = url)
         begin
           options[:no_proxy] ? open(check_url, proxy: nil) : open(check_url)
@@ -195,43 +215,31 @@ module Visor
         end
       end
 
+      # Launch the server
+      #
       def launch!
-        app.run!(bind: host, port: port, environment: env) do |server|
-          #    @rack_handler.run(app, bind: host, port: port) do |server|
-          [:INT, :TERM].each do |flag|
-            trap(flag) do
-              server.respond_to?(:stop!) ? server.stop! : server.stop
-              logger.info "#{cli_name} received #{flag}, stopping ..."
-              delete_pid!
-            end
-          end
-        end
-      end
-
-      def daemonize!
-        Process.daemon(true, true)
-        File.umask 0000
-        FileUtils.touch log_file
-        # as this is going to log_file it does not appear in visor-meta-server.log
-        # could be usefull to omit sinatra+thin log messages.
-        STDIN.reopen log_file
-        STDOUT.reopen log_file, "a"
-        STDERR.reopen log_file, "a"
-
-        File.open(pid_file, 'w') { |f| f.write("#{Process.pid}") }
-        at_exit { delete_pid! }
+          Rack::Server.start(app: app, Host: host, Port: port,
+                             environment: get_env, daemonize: daemonize?, pid: pid_file)
       end
 
       protected
 
+      def daemonize?
+        !options[:foreground]
+      end
+
+      def get_env
+        env == 'development' ? env : 'deployment'
+      end
+
       def logger
-        @logger ||= if options[:foreground]
-                      log = Logger.new(STDOUT)
-                      log.level = options[:debug] ? Logger::DEBUG : Logger::INFO
-                      log
-                    else
-                      Common::Config.build_logger :meta_server
-                    end
+        @logger ||= setup_logger
+      end
+
+      def setup_logger
+        log = options[:foreground] ? Logger.new(STDERR) : Config.build_logger(:meta_server)
+        log.level = options[:debug] ? Logger::DEBUG : Logger::INFO
+        log
       end
 
       def put_and_log(level, msg)
@@ -244,19 +252,16 @@ module Visor
         argv.shift
       end
 
-      def set_app_settings
-        app.set(options.merge(safe_cli_name.to_sym => self)) if app.respond_to?(:set)
-
+      def debug_settings
         logger.debug "Configurations loaded from #{@conf[:file]}:"
         logger.debug "***************************************************"
         @conf.each { |k, v| logger.info "#{k}: #{v}" } if logger.debug?
         logger.debug "***************************************************"
 
-        logger.debug "Configurations passed from #{cli_name} CLI options:"
+        logger.debug "Configurations passed from #{cli_name} CLI:"
         logger.debug "***************************************************"
         options.each { |k, v| logger.info "#{k}: #{v}" } if logger.debug?
         logger.debug "***************************************************"
-
       end
 
       def restarting?
@@ -272,22 +277,6 @@ module Visor
         File.open(url_file, 'w') { |f| f << url }
       end
 
-      def detect_rack_handler
-        servers = %w[thin mongrel webrick]
-        servers.each do |server|
-          begin
-            return Rack::Handler.get(server.to_s)
-          rescue LoadError, NameError
-            # ignored
-          end
-        end
-        put_and_log :fatal, "Server handler (#{servers.join(',')}) not found."
-      end
-
-      def delete_pid!
-        File.delete(pid_file) if File.exist?(pid_file)
-      end
-
       def load_conf_file
         Config.load_config(:meta_server, options[:config])
       end
@@ -297,15 +286,11 @@ module Visor
       end
 
       def pid_file
-        File.join(DEFAULT_DIR, "#{safe_cli_name}.pid")
+        File.join(File.expand_path(DEFAULT_DIR), "#{safe_cli_name}.pid")
       end
 
       def url_file
-        File.join(DEFAULT_DIR, "#{safe_cli_name}.url")
-      end
-
-      def log_file
-        "/tmp/visor_log"
+        File.join(File.expand_path(DEFAULT_DIR), "#{safe_cli_name}.url")
       end
 
       def url

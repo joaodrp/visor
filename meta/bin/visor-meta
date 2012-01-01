@@ -5,4 +5,4 @@
 
 require File.expand_path('../../lib/meta', __FILE__)
 
-Visor::Common::CLI.new(Visor::Meta::Server, 'visor-meta').run
+Visor::Common::CLI.new(Visor::Meta::Server, 'visor-meta').run!
