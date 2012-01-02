@@ -257,8 +257,9 @@ module Visor
         @logger ||=
             begin
               log = options[:foreground] ? Logger.new(STDERR) : Visor::Common::Config.build_logger(:meta_server)
-              conf_level = @conf[:log_level] == INFO ? 1 : 0
+              conf_level = @conf[:log_level] == 'INFO' ? 1 : 0
               log.level = options[:debug] ? 0 : conf_level
+              log.formatter = Proc.new {|s, t, n, msg| "[#{t.strftime("%Y-%m-%d %H:%M:%S")}] #{s} - #{msg}\n"}
               log
             end
       end
