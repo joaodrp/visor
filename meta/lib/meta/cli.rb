@@ -5,21 +5,18 @@ require 'fileutils'
 require 'rack'
 
 module Visor
-  module Common
+  module Meta
     class CLI
-
-      include Visor::Common::Exception
-      include Visor::Common::Config
 
       attr_reader :app, :cli_name, :argv, :options,
                   :port, :host, :env, :command, :parser
 
       # Available commands
-      COMMANDS = %w[start stop restart status]
+      COMMANDS = %w[start stop restart status clean]
       # Commands that wont load options from the config file
       NO_CONF_COMMANDS = %w[stop status]
       # Default config files directories to look at
-      DEFAULT_DIR = '~/.visor'
+      DEFAULT_DIR = File.expand_path('~/.visor')
       # Default host address
       DEFAULT_HOST = '0.0.0.0'
       # Default port
@@ -33,12 +30,16 @@ module Visor
         @app = app
         @cli_name = cli_name
         @argv = argv
-        @options = {debug: false,
-                    foreground: false,
-                    no_proxy: false,
-                    environment: DEFAULT_ENV}
+        @options = default_opts
         @parser = parser
         @command = parse!
+      end
+
+      def default_opts
+        {debug: false,
+         foreground: false,
+         no_proxy: false,
+         environment: DEFAULT_ENV}
       end
 
       # OptionParser parser
@@ -117,15 +118,25 @@ module Visor
         end
 
         case command
-          when 'start' then
-            start
-          when 'stop' then
-            stop
-          when 'restart' then
-            restart
-          else
-            status
+          when 'start' then start
+          when 'stop' then stop
+          when 'restart' then restart
+          when 'status' then status
+          else clean
         end
+        exit 0
+      end
+
+      # Remove all files created by the daemon.
+      #
+      def clean
+        begin
+          FileUtils.rm(pid_file) rescue Errno::ENOENT
+        end
+        begin
+          FileUtils.rm(url_file) rescue Errno::ENOENT
+        end
+        put_and_log :warn, "Removed all files created by server start"
       end
 
       # Restart server
@@ -133,19 +144,18 @@ module Visor
       def restart
         @restart = true
         stop
-        logger.info "hi"
+        sleep 0.1 while running?
         start
       end
 
       # Display current server status
       #
       def status
-        if files_exist?(pid_file, url_file)
-          STDERR.puts "Running PID: #{File.read(pid_file)} URL: #{File.read(url_file)}"
+        if running?
+          STDERR.puts "#{cli_name} is running PID: #{fetch_pid} URL: #{fetch_url}"
         else
-          STDERR.puts "Not running."
+          STDERR.puts "#{cli_name} is not running."
         end
-        exit! 0
       end
 
       # Stop the server
@@ -156,7 +166,6 @@ module Visor
           put_and_log :warn, "Stopping #{cli_name} with PID: #{pid.to_i} Signal: INT"
           Process.kill(:INT, pid.to_i)
           File.delete(url_file)
-          exit! 0 unless restarting?
         rescue
           put_and_log :warn, "Cannot stop #{cli_name}, is it running?"
           exit! 1
@@ -166,12 +175,10 @@ module Visor
       # Start the server
       #
       def start
-        FileUtils.mkpath(File.expand_path(DEFAULT_DIR))
-        put_and_log :info, "Starting #{cli_name} at #{host}:#{port}"
-        debug_settings
+        FileUtils.mkpath(DEFAULT_DIR)
         begin
-          already_running?
-          find_port unless restarting?
+          is_it_running?
+          can_use_port?
           write_url
           launch!
         rescue => e
@@ -180,33 +187,56 @@ module Visor
         end
       end
 
-      # Look if the server is already running?
+      # Launch the server
       #
-      def already_running?
+      def launch!
+        put_and_log :info, "Starting #{cli_name} at #{host}:#{port}"
+        debug_settings
+
+        Rack::Server.start(app: app,
+                           Host: host,
+                           Port: port,
+                           environment: get_env,
+                           daemonize: daemonize?,
+                           pid: pid_file)
+      end
+
+      protected
+
+      def is_it_running?
         if files_exist?(pid_file, url_file)
-          url = File.read(url_file)
-          unless port_open?(url)
-            put_and_log :warn, "'#{cli_name}' is already running at #{url}"
+          if running?
+            put_and_log :warn, "'#{cli_name}' is already running at #{fetch_url}"
             exit! 1
+          else
+            clean
           end
         end
       end
 
-      # Find if a port is free to use
-      #
-      def find_port
-        logger.warn "Trying port #{port}..."
+      def running?
+        begin
+          Process.kill 0, fetch_pid
+          true
+        rescue Errno::ESRCH
+          false
+        rescue Errno::EPERM
+          true
+        rescue
+          false
+        end
+      end
+
+      def can_use_port?
         unless port_open?
           put_and_log :warn, "Port #{port} already in use. Please try other."
           exit! 1
         end
       end
 
-      # Tells if a port is open or closed
-      #
-      def port_open?(check_url = url)
+      def port_open?
         begin
-          options[:no_proxy] ? open(check_url, proxy: nil) : open(check_url)
+          options[:no_proxy] ? open(url, proxy: nil) : open(url)
           false
         rescue OpenURI::HTTPError #TODO: quick-fix, try solve this
           false
@@ -214,15 +244,6 @@ module Visor
           true
         end
       end
-
-      # Launch the server
-      #
-      def launch!
-          Rack::Server.start(app: app, Host: host, Port: port,
-                             environment: get_env, daemonize: daemonize?, pid: pid_file)
-      end
-
-      protected
 
       def daemonize?
         !options[:foreground]
@@ -233,13 +254,13 @@ module Visor
       end
 
       def logger
-        @logger ||= setup_logger
-      end
-
-      def setup_logger
-        log = options[:foreground] ? Logger.new(STDERR) : Config.build_logger(:meta_server)
-        log.level = options[:debug] ? Logger::DEBUG : Logger::INFO
-        log
+        @logger ||=
+            begin
+              log = options[:foreground] ? Logger.new(STDERR) : Visor::Common::Config.build_logger(:meta_server)
+              conf_level = @conf[:log_level] == INFO ? 1 : 0
+              log.level = options[:debug] ? 0 : conf_level
+              log
+            end
       end
 
       def put_and_log(level, msg)
@@ -255,17 +276,13 @@ module Visor
       def debug_settings
         logger.debug "Configurations loaded from #{@conf[:file]}:"
         logger.debug "***************************************************"
-        @conf.each { |k, v| logger.info "#{k}: #{v}" } if logger.debug?
+        @conf.each { |k, v| logger.debug "#{k}: #{v}" }
         logger.debug "***************************************************"
 
         logger.debug "Configurations passed from #{cli_name} CLI:"
         logger.debug "***************************************************"
-        options.each { |k, v| logger.info "#{k}: #{v}" } if logger.debug?
+        options.each { |k, v| logger.debug "#{k}: #{v}" if options[k] != default_opts[k] }
         logger.debug "***************************************************"
-      end
-
-      def restarting?
-        @restart
       end
 
       def files_exist?(*files)
@@ -278,19 +295,31 @@ module Visor
       end
 
       def load_conf_file
-        Config.load_config(:meta_server, options[:config])
+        Visor::Common::Config.load_config(:meta_server, options[:config])
       end
 
       def safe_cli_name
         cli_name.gsub('-', '_')
       end
 
+      def fetch_pid
+        IO.read(pid_file).to_i
+      rescue
+        nil
+      end
+
+      def fetch_url
+        IO.read(url_file).split('//').last
+      rescue
+        nil
+      end
+
       def pid_file
-        File.join(File.expand_path(DEFAULT_DIR), "#{safe_cli_name}.pid")
+        File.join(DEFAULT_DIR, "#{safe_cli_name}.pid")
       end
 
       def url_file
-        File.join(File.expand_path(DEFAULT_DIR), "#{safe_cli_name}.url")
+        File.join(DEFAULT_DIR, "#{safe_cli_name}.url")
       end
 
       def url
