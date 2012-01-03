@@ -1,6 +1,5 @@
 ## Is this the best way to require another sub-system/gem in the same global project folder?
-$:.unshift File.expand_path('../../../common/lib', __FILE__)
-require 'common'
+require File.expand_path('../../../common/lib/common', __FILE__)
 ##
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'meta/version'

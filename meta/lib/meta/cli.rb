@@ -254,6 +254,7 @@ module Visor
       end
 
       def logger
+        @conf ||= load_conf_file
         @logger ||=
             begin
               log = options[:foreground] ? Logger.new(STDERR) : Visor::Common::Config.build_logger(:meta_server)
