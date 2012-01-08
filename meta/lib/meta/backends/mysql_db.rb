@@ -8,10 +8,8 @@ module Visor::Meta
     # The MySQL Backend for the VISoR Meta.
     #
     class MySQL < Base
-
       include Visor::Common::Exception
 
-      #TODO: handle other fields, probably stored in 'others' collumn in plain json
       # Connection constants
       #
       # Default MySQL database
@@ -30,7 +28,7 @@ module Visor::Meta
       #SET PASSWORD FOR 'visor'@'localhost' = PASSWORD('passwd');
       #GRANT ALL PRIVILEGES ON visor.* TO 'visor'@'localhost';
 
-      # Initializes a MySQL Backend instance.
+      # Initializes a MongoDB Backend instance.
       #
       # @option [Hash] opts Any of the available options can be passed.
       #
@@ -40,29 +38,24 @@ module Visor::Meta
       # @option opts [Integer] :port (DEFAULT_PORT) The port to be used.
       # @option opts [String] :user (DEFAULT_USER) The user to be used.
       # @option opts [String] :password (DEFAULT_PASSWORD) The password to be used.
+      # @option opts [Object] :conn The connection pool to access database.
       #
       def self.connect(opts = {})
-        if opts[:uri]
-          uri             = URI.parse(opts[:uri])
-          opts[:host]     = uri.host=='' ? DEFAULT_HOST : uri.host
-          opts[:port]     = uri.port=='' ? DEFAULT_PORT : uri.port
-          opts[:db]       = uri.path=='' ? DEFAULT_DB : uri.path.gsub('/', '')
-          opts[:user]     = uri.user=='' ? DEFAULT_USER : uri.user
-          opts[:password] = uri.password=='' ? DEFAULT_PASSWORD : uri.password
-        else
-          opts[:host]     ||= DEFAULT_HOST
-          opts[:port]     ||= DEFAULT_PORT
-          opts[:db]       ||= DEFAULT_DB
-          opts[:user]     ||= DEFAULT_USER
-          opts[:password] ||= DEFAULT_PASSWORD
-        end
+        opts[:uri]      ||= ''
+        uri             = URI.parse(opts[:uri])
+        opts[:db]       = uri.path ? uri.path.gsub('/', '') : DEFAULT_DB
+        opts[:host]     = uri.host || DEFAULT_HOST
+        opts[:port]     = uri.port || DEFAULT_PORT
+        opts[:user]     = uri.user || DEFAULT_USER
+        opts[:password] = uri.password || DEFAULT_PASSWORD
+
         self.new opts
       end
 
       def initialize(opts)
         super opts
-        conn = connection
-        conn.query %[
+        @conn = connection
+        @conn.query %[
         CREATE TABLE IF NOT EXISTS `#{opts[:db]}`.`images` (
           `_id` VARCHAR(36) NOT NULL ,
           `uri` VARCHAR(255) NULL ,
@@ -87,7 +80,6 @@ module Visor::Meta
           PRIMARY KEY (`_id`) )
           ENGINE = InnoDB;
         ]
-        conn.close
       end
 
       # Establishes and returns a MySQL database connection and
@@ -109,12 +101,10 @@ module Visor::Meta
       # @raise [NotFound] If image not found.
       #
       def get_image(id, pass_timestamps = false)
-        conn = connection
-        meta = conn.query("SELECT * FROM images WHERE _id='#{id}'", symbolize_keys: true).first
+        meta = @conn.query("SELECT * FROM images WHERE _id='#{id}'", symbolize_keys: true).first
         raise NotFound, "No image found with id '#{id}'." if meta.nil?
 
-        set_protected_get(id, conn) unless pass_timestamps
-        conn.close
+        set_protected_get(id) unless pass_timestamps
 
         exclude(meta)
         meta
@@ -137,17 +127,15 @@ module Visor::Meta
       def get_public_images(brief = false, filters = {})
         validate_query_filters filters unless filters.empty?
 
-        conn   = connection
         sort   = [(filters.delete(:sort) || '_id'), (filters.delete(:dir) || 'asc')]
         filter = {access: 'public'}.merge(filters)
         fields = brief ? BRIEF.join(', ') : '*'
 
-        pub = conn.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)}
+        pub = @conn.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)}
                                 ORDER BY #{sort[0]} #{sort[1]}", symbolize_keys: true).to_a
 
         raise NotFound, "No public images found." if pub.empty? && filters.empty?
         raise NotFound, "No public images found with given parameters." if pub.empty?
-        conn.close
         pub.each { |meta| exclude(meta) } if fields == '*'
         pub
       end
@@ -161,20 +149,17 @@ module Visor::Meta
       # @raise [NotFound] If image not found.
       #
       def delete_image(id)
-        conn = connection
-        meta = conn.query("SELECT * FROM images WHERE _id='#{id}'", symbolize_keys: true).first
+        meta = @conn.query("SELECT * FROM images WHERE _id='#{id}'", symbolize_keys: true).first
         raise NotFound, "No image found with id '#{id}'." if meta.nil?
 
-        conn.query "DELETE FROM images WHERE _id='#{id}'"
-        conn.close
+        @conn.query "DELETE FROM images WHERE _id='#{id}'"
         meta
       end
 
       # Delete all images records.
       #
       def delete_all!
-        connection.query "DELETE FROM images"
-        connection.close
+        @conn.query "DELETE FROM images"
       end
 
       # Create a new image record for the given metadata.
@@ -190,14 +175,12 @@ module Visor::Meta
       #
       def post_image(meta, opts = {})
         validate_data_post meta
-        conn = connection
 
         set_protected_post meta, opts
         serialize_others(meta)
 
         keys_values = to_sql_insert(meta)
-        conn.query "INSERT INTO images #{keys_values[0]} VALUES #{keys_values[1]}"
-        conn.close
+        @conn.query "INSERT INTO images #{keys_values[0]} VALUES #{keys_values[1]}"
         self.get_image(meta[:_id], true)
       end
 
@@ -212,15 +195,13 @@ module Visor::Meta
       #
       def put_image(id, update)
         validate_data_put update
-        conn = connection
-        img  = conn.query("SELECT * FROM images WHERE _id='#{id}'", symbolize_keys: true).first
+        img  = @conn.query("SELECT * FROM images WHERE _id='#{id}'", symbolize_keys: true).first
         raise NotFound, "No image found with id '#{id}'." if img.nil?
 
         set_protected_put update
         serialize_others(update)
 
-        conn.query "UPDATE images SET #{to_sql_update(update)} WHERE _id='#{id}'"
-        conn.close
+        @conn.query "UPDATE images SET #{to_sql_update(update)} WHERE _id='#{id}'"
         self.get_image(id, true)
       end
 
@@ -228,7 +209,7 @@ module Visor::Meta
       private
 
       # Excludes details that should not be disclosed on get detailed image meta.
-      # Also deserializes others attributes from the others collumn.
+      # Also deserialize others attributes from the others column.
       #
       # @return [Hash] The image parameters that should not be retrieved from database.
       #
@@ -243,8 +224,8 @@ module Visor::Meta
       # @param [String] id The _id of the image being retrieved.
       # @param [Mysql2::Client] conn The connection to the database.
       #
-      def set_protected_get(id, conn)
-        conn.query "UPDATE images SET accessed_at='#{Time.now}', access_count=access_count+1 WHERE _id='#{id}'"
+      def set_protected_get(id)
+        @conn.query "UPDATE images SET accessed_at='#{Time.now}', access_count=access_count+1 WHERE _id='#{id}'"
       end
 
     end

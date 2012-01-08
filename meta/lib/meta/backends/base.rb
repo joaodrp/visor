@@ -13,55 +13,59 @@ module Visor::Meta
       # Keys validation
       #
       # Mandatory attributes
-      MANDATORY = [:name, :architecture]
+      MANDATORY    = [:name, :architecture]
       # Read-only attributes
-      READONLY = [:_id, :uri, :owner, :status, :size, :created_at, :uploaded_at,
-                  :updated_at, :accessed_at, :access_count, :checksum]
+      READONLY     = [:_id, :uri, :owner, :status, :size, :created_at, :uploaded_at,
+                      :updated_at, :accessed_at, :access_count, :checksum]
       # Optional attributes
-      OPTIONAL = [:access, :type, :format, :store, :kernel, :ramdisk]
+      OPTIONAL     = [:access, :type, :format, :store, :kernel, :ramdisk]
       # All attributes
-      ALL = MANDATORY + OPTIONAL + READONLY
+      ALL          = MANDATORY + OPTIONAL + READONLY
 
       # Values validation
       #
       # Architecture options
       ARCHITECTURE = %w[i386 x86_64]
       # Access options
-      ACCESS = %w[public private]
+      ACCESS       = %w[public private]
       # Possible disk formats
-      FORMAT = %w[none iso vhd vdi vmdk ami aki ari]
+      FORMAT       = %w[none iso vhd vdi vmdk ami aki ari]
       # Possible types
-      TYPE = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
+      TYPE         = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
       # Possible status
-      STATUS = %w[locked uploading error available]
+      STATUS       = %w[locked uploading error available]
       # Possible storages
-      STORE = %w[s3 swift cumulus hdfs fs]
+      STORE        = %w[s3 swift cumulus hdfs fs]
 
       # Presentation options
       #
       # Brief attributes used to return only brief information about images.
-      BRIEF = [:_id, :uri, :name, :architecture, :type, :format, :store, :size, :created_at]
+      BRIEF        = [:_id, :uri, :name, :architecture, :type, :format, :store, :size, :created_at]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
-      DETAIL_EXC = [:owner, :uploaded_at, :accessed_at, :access_count, :checksum]
+      DETAIL_EXC   = [:owner, :uploaded_at, :accessed_at, :access_count, :checksum]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
-      FILTERS = ALL + [:sort, :dir]
+      FILTERS      = ALL + [:sort, :dir]
 
-      attr_reader :db, :host, :port, :user, :password
+      attr_reader :db, :host, :port, :user, :password, :conn
 
       # Initializes a Backend instance.
       #
       # @option [Hash] opts Any of the available options can be passed.
       #
-      # @option opts [String] :db The wanted database.
       # @option opts [String] :host The host address.
       # @option opts [Integer] :port The port to be used.
+      # @option opts [String] :db The wanted database.
+      # @option opts [String] :user The username to be authenticate db access.
+      # @option opts [String] :password The password to be authenticate db access.
+      # @option opts [Object] :conn The connection pool to access database.
       #
       def initialize(opts)
-        @host = opts[:host]
-        @port = opts[:port]
-        @db = opts[:db]
-        @user = opts[:user]
+        @host     = opts[:host]
+        @port     = opts[:port]
+        @db       = opts[:db]
+        @user     = opts[:user]
         @password = opts[:password]
+        @conn     = opts[:conn]
       end
 
       # Validates the image metadata for a post operation, based on possible keys and values.
@@ -268,14 +272,14 @@ module Visor::Meta
       #
       def assert_ramdisk_and_kernel(meta)
         if meta[:kernel]
-          id = meta[:kernel]
+          id   = meta[:kernel]
           type = get_image(id).symbolize_keys[:type]
           if type != 'kernel' && meta[:format] != 'aki'
             raise ArgumentError, "The image with id #{id} is not a kernel image."
           end
         end
         if meta[:ramdisk]
-          id = meta[:ramdisk]
+          id   = meta[:ramdisk]
           type = get_image(id).symbolize_keys[:type]
           if type != 'ramdisk' && meta[:format] != 'ari'
             raise ArgumentError, "The image with id #{id} is not a ramdisk image."

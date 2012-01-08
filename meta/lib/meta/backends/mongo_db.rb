@@ -33,22 +33,17 @@ module Visor::Meta
       # @option opts [Integer] :port (DEFAULT_PORT) The port to be used.
       # @option opts [String] :user (DEFAULT_USER) The user to be used.
       # @option opts [String] :password (DEFAULT_PASSWORD) The password to be used.
+      # @option opts [Object] :conn The connection pool to access database.
       #
       def self.connect(opts = {})
-        if opts[:uri]
-          uri             = URI.parse(opts[:uri])
-          opts[:host]     = uri.host=='' ? DEFAULT_HOST : uri.host
-          opts[:port]     = uri.port=='' ? DEFAULT_PORT : uri.port
-          opts[:db]       = uri.path=='' ? DEFAULT_DB : uri.path.gsub('/', '')
-          opts[:user]     = uri.user=='' ? DEFAULT_USER : uri.user
-          opts[:password] = uri.password=='' ? DEFAULT_PASSWORD : uri.password
-        else
-          opts[:host]     ||= DEFAULT_HOST
-          opts[:port]     ||= DEFAULT_PORT
-          opts[:db]       ||= DEFAULT_DB
-          opts[:user]     ||= DEFAULT_USER
-          opts[:password] ||= DEFAULT_PASSWORD
-        end
+        opts[:uri]      ||= ''
+        uri             = URI.parse(opts[:uri])
+        opts[:db]       = uri.path ? uri.path.gsub('/', '') : DEFAULT_DB
+        opts[:host]     = uri.host || DEFAULT_HOST
+        opts[:port]     = uri.port || DEFAULT_PORT
+        opts[:user]     = uri.user || DEFAULT_USER
+        opts[:password] = uri.password || DEFAULT_PASSWORD
+
         self.new opts
       end
 
@@ -63,7 +58,7 @@ module Visor::Meta
       #
       def connection
         db = Mongo::Connection.new(@host, @port, :pool_size => 10, :pool_timeout => 5).db(@db)
-        db.authenticate(@user, @password) if @user && @password
+        db.authenticate(@user, @password) unless @user.empty? && @password.empty?
         db.collection('images')
       end
 

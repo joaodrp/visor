@@ -1,17 +1,17 @@
 require 'sinatra/base'
 require 'json'
+require 'uri'
 
 # TODO: compressing and caching
 module Visor
   module Meta
 
     # The VISoR Meta Server class. This class supports all image metadata manipulation
-    # operations through the VISoR REST API implemented allong the following routes.
+    # operations through the VISoR REST API implemented along the following routes.
     #
     # After initialize the Server its possible to directly interact with the meta backend.
     #
     class Server < Sinatra::Base
-
       include Visor::Common::Exception
       include Visor::Common::Config
 
@@ -19,15 +19,15 @@ module Visor
       #
       configure do
         backend_map = {'mongodb' => Visor::Meta::Backends::MongoDB,
-                       'mysql' => Visor::Meta::Backends::MySQL}
+                       'mysql'   => Visor::Meta::Backends::MySQL}
 
         conf = Visor::Common::Config.load_config(:meta_server)
-        log = Visor::Common::Config.build_logger(:meta_server)
+        log  = Visor::Common::Config.build_logger(:meta_server)
 
         DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]
 
-        enable :threaded
-        disable :show_exceptions, :protection
+        #enable :threaded
+        #disable :show_exceptions, :protection
 
         use Rack::CommonLogger, log
       end
@@ -202,7 +202,7 @@ module Visor
       #
       post '/images' do
         begin
-          meta = JSON.parse(request.body.read, @parse_opts)
+          meta  = JSON.parse(request.body.read, @parse_opts)
           image = DB.post_image(meta[:image])
           {image: image}.to_json
         rescue NotFound => e
@@ -226,7 +226,7 @@ module Visor
       #
       put '/images/:id' do |id|
         begin
-          meta = JSON.parse(request.body.read, @parse_opts)
+          meta  = JSON.parse(request.body.read, @parse_opts)
           image = DB.put_image(id, meta[:image])
           {image: image}.to_json
         rescue NotFound => e

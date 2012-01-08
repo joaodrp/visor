@@ -6,7 +6,7 @@ include Visor::Meta::Backends
 module Visor::Meta::Backends
   describe MongoDB do
 
-    let(:conn) { MongoDB.connect db: 'visor_test' }
+    let(:conn) { MongoDB.connect uri: 'mongodb://:@127.0.0.1:27017/visor_test' }
 
     before(:each) do
       conn.post_image ({:name => 'testsample',
@@ -26,7 +26,7 @@ module Visor::Meta::Backends
 
     describe "#connect" do
       it "should instantiate a new object trougth options" do
-        obj = MongoDB.connect db: 'visor_test'
+        obj = conn
         obj.db.should == 'visor_test'
         obj.host.should == MongoDB::DEFAULT_HOST
       end

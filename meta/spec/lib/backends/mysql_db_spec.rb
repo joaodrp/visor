@@ -6,7 +6,7 @@ include Visor::Meta::Backends
 module Visor::Meta::Backends
   describe MySQL do
 
-    let(:conn) { MySQL.connect :db => 'visor_test' }
+    let(:conn) { MySQL.connect uri: 'mysql://visor:passwd@127.0.0.1:3306/visor_test' }
 
     before(:each) do
       conn.post_image ({:name => 'testsample',
@@ -26,14 +26,7 @@ module Visor::Meta::Backends
 
     describe "#connect" do
       it "should instantiate a new object trougth options" do
-        obj = MySQL.connect db: 'visor_test'
-        obj.db.should == 'visor_test'
-        obj.host.should == MySQL::DEFAULT_HOST
-      end
-
-      it "should instantiate a new object trougth URI" do
-        uri = "mysql://:@#{MySQL::DEFAULT_HOST}:#{MySQL::DEFAULT_PORT}/visor_test"
-        obj = MySQL.connect uri: uri
+        obj = conn
         obj.db.should == 'visor_test'
         obj.host.should == MySQL::DEFAULT_HOST
       end
