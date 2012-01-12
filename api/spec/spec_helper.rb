@@ -2,7 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 Bundler.require :default, :test
-SimpleCov.start
+#SimpleCov.start
 
 require File.expand_path '../../lib/api', __FILE__
 

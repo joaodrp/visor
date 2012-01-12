@@ -1,0 +1,98 @@
+GIT
+  remote: https://github.com/igrigorik/em-http-request.git
+  revision: ce50f322ce08d43a4a747cf333ea576765d764c4
+  specs:
+    em-http-request (1.0.1)
+      addressable (>= 2.2.3)
+      cookiejar
+      em-socksify
+      eventmachine (>= 1.0.0.beta.4)
+      http_parser.rb (>= 0.5.3)
+
+GIT
+  remote: https://github.com/postrank-labs/goliath.git
+  revision: b3b4de1f05ec5a8e173a8386ad267c9c31508771
+  specs:
+    goliath (0.9.4)
+      async-rack
+      em-synchrony (>= 1.0.0)
+      em-websocket
+      eventmachine (>= 1.0.0.beta.3)
+      http_parser.rb (~> 0.5.3)
+      http_router (~> 0.9.0)
+      log4r
+      multi_json
+      rack (>= 1.2.2)
+      rack-contrib
+      rack-respond_to
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    addressable (2.2.6)
+    async-rack (0.5.1)
+      rack (~> 1.1)
+    cookiejar (0.3.0)
+    diff-lcs (1.1.3)
+    em-socksify (0.1.0)
+      eventmachine
+    em-synchrony (1.0.0)
+      eventmachine (>= 1.0.0.beta.1)
+    em-websocket (0.3.6)
+      addressable (>= 2.1.1)
+      eventmachine (>= 0.12.9)
+    eventmachine (1.0.0.beta.4)
+    ffi (1.0.11)
+    growl_notify (0.0.3)
+      rb-appscript
+    guard (0.10.0)
+      ffi (>= 0.5.0)
+      thor (~> 0.14.6)
+    guard-rspec (0.6.0)
+      guard (>= 0.10.0)
+    http_parser.rb (0.5.3)
+    http_router (0.9.7)
+      rack (>= 1.0.0)
+      url_mount (~> 0.2.1)
+    log4r (1.1.10)
+    multi_json (1.0.4)
+    rack (1.4.0)
+    rack-accept-media-types (0.9)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    rack-respond_to (0.9.8)
+      rack-accept-media-types (>= 0.6)
+    rb-appscript (0.6.1)
+    rb-fsevent (0.4.3.1)
+    rdiscount (1.6.8)
+    rspec (2.8.0)
+      rspec-core (~> 2.8.0)
+      rspec-expectations (~> 2.8.0)
+      rspec-mocks (~> 2.8.0)
+    rspec-core (2.8.0)
+    rspec-expectations (2.8.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.8.0)
+    simplecov (0.5.4)
+      multi_json (~> 1.0.3)
+      simplecov-html (~> 0.5.3)
+    simplecov-html (0.5.3)
+    thor (0.14.6)
+    url_mount (0.2.1)
+      rack
+    yard (0.7.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  em-http-request!
+  goliath!
+  growl_notify
+  guard
+  guard-rspec
+  rb-fsevent
+  rdiscount
+  rspec
+  simplecov
+  yard

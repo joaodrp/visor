@@ -3,8 +3,8 @@ require File.expand_path('../../../common/lib/common', __FILE__)
 ##
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'api/version'
-require 'api/server'
+require 'api/meta'
+#require 'api/server'
 require 'api/client'
-require 'api/api'
 
 
