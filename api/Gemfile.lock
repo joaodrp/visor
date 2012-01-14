@@ -43,8 +43,6 @@ GEM
       eventmachine (>= 0.12.9)
     eventmachine (1.0.0.beta.4)
     ffi (1.0.11)
-    growl_notify (0.0.3)
-      rb-appscript
     guard (0.10.0)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
@@ -62,8 +60,6 @@ GEM
       rack (>= 0.9.1)
     rack-respond_to (0.9.8)
       rack-accept-media-types (>= 0.6)
-    rb-appscript (0.6.1)
-    rb-fsevent (0.4.3.1)
     rdiscount (1.6.8)
     rspec (2.8.0)
       rspec-core (~> 2.8.0)
@@ -73,6 +69,7 @@ GEM
     rspec-expectations (2.8.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.8.0)
+    ruby_gntp (0.3.4)
     simplecov (0.5.4)
       multi_json (~> 1.0.3)
       simplecov-html (~> 0.5.3)
@@ -88,11 +85,10 @@ PLATFORMS
 DEPENDENCIES
   em-http-request!
   goliath!
-  growl_notify
   guard
   guard-rspec
-  rb-fsevent
   rdiscount
   rspec
+  ruby_gntp
   simplecov
   yard

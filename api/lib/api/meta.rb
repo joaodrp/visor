@@ -127,20 +127,6 @@ module Visor
 
       private
 
-      # Parses a response body with the JSON parser and extracts and returns a single
-      # key value from it if defined, otherwise returns all the body.
-      #
-      # @param key (nil) [Symbol] The hash key to extract the wanted value.
-      # @param response [Net::HTTPResponse] The response which contains the body to parse.
-      #
-      # @return [String, Hash] If key is provided and exists on the response body, them return
-      #   its value, otherwise return all the body hash.
-      #
-      def parse(key=nil, body)
-        parsed = JSON.parse(body, symbolize_names: true)
-        key ? parsed[key] : parsed
-      end
-
       # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'
       # headers for every request and additionally sets the 'content-type' header
       # for POST and PUT requests.
@@ -180,12 +166,13 @@ module Visor
       #
       def return_response(http)
         body   = http.response
-        header = http.response_header
+        status = http.response_header.status.to_i
+        parsed = JSON.parse(body, symbolize_names: true)
 
-        case header.status.to_i
-        when 404 then raise NotFound, parse(:message, body)
-        when 400 then raise Invalid, parse(:message, body)
-        else parse(:image, body) || parse(:images, body)
+        case status
+        when 404 then raise NotFound, parsed[:message]
+        when 400 then raise Invalid, parsed[:message]
+        else parsed[:image] || parsed[:images]
         end
       end
 

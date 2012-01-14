@@ -5,6 +5,6 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 require 'api/version'
 require 'api/meta'
 #require 'api/server'
-require 'api/client'
+#require 'api/client'
 
 
