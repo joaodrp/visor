@@ -24,8 +24,10 @@ describe Visor::API::Server do
 
   def assert_404(c)
     c.response_header.status.should == 404
-    c.response.should =~ /404/
-    c.response.should =~ /Invalid operation or path/
+    unless c.response.empty?
+      c.response.should =~ /404/
+      c.response.should =~ /Invalid operation or path/
+    end
   end
 
   def assert_405(c, allow)
@@ -36,7 +38,6 @@ describe Visor::API::Server do
   def parse_body(c)
     assert_200 c
     body = JSON.parse(c.response, parse_opts)
-    p body
     body[:image] || body[:images] || body[:message]
   end
 
@@ -46,6 +47,32 @@ describe Visor::API::Server do
         put_request({path: '/images', head: accept}, err) { |c| assert_405(c, %w(GET)) }
       end
     end
+  end
+
+  describe "HEAD /images/:id" do
+    before :each do
+      id = "763eea76-4b0d-4f9b-88cf-aa618674165f" ###############################
+      with_api(test_api) do
+        head_request({:path => "/images/#{id}", head: accept}, err) { |c| @res = c }
+      end
+    end
+
+    it "should return an empty body hash" do
+      assert_200 @res
+      @res.response.should be_empty
+    end
+
+    it "should return image metadata as HTTP headers" do
+      created_at = @res.response_header['X_IMAGE_META_CREATED_AT']
+      Date.parse(created_at).should be_a Date
+    end
+
+    it "should raise a HTTPNotFound 404 error if image not found" do
+      with_api(test_api) do
+        head_request({:path => "/images/fake", head: accept}, err) { |c| assert_404 c }
+      end
+    end
+
   end
 
   describe "GET /images" do

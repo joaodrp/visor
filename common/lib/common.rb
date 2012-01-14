@@ -1,6 +1,7 @@
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'common/exception'
 require 'common/config'
+require 'common/util'
 require 'common/extensions/object'
 require 'common/extensions/array'
 require 'common/extensions/yaml'

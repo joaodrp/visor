@@ -6,6 +6,8 @@ require File.expand_path('../../api', __FILE__)
 conf = Visor::Common::Config.load_config :meta_server
 META = Visor::API::Meta.new(host: conf[:bind_host], port: conf[:bind_port])
 
+#TODO: Include cache with Etag header setted to image['checksum']?
+
 module Visor
   module API
 
@@ -13,12 +15,14 @@ module Visor
     #
     class HeadImage < Goliath::API
       include Visor::Common::Exception
+      include Visor::Common::Util
       use Goliath::Rack::Render, 'json'
 
       def response(env)
         begin
           meta = META.get_image(params[:id])
-          [200, {}, {image: meta}]
+          header = Common::Util.push_meta_into_headers(meta)
+          [200, header, {}]
         rescue NotFound => e
           [404, {}, {code: 404, message: e.message}]
         end
@@ -67,7 +71,7 @@ module Visor
     # GET     /images         - Returns a set of brief metadata about all public images
     # GET     /images/detail  - Returns a set of detailed metadata about all public images
     # GET     /images/<id>    - Returns image data and metadata for the image with the given id
-    # POST    /images         - Store a new image data and metadata, returns the already registered metadata
+    # POST    /images         - Stores a new image data and metadata, returns the already registered metadata
     # PUT     /images/<id>    - Update image metadata and/or data for the image with the given id
     # DELETE  /images/<id>    - Delete the metadata and data of the image with the given id
     #

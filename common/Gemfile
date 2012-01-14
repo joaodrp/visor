@@ -6,9 +6,7 @@ source 'http://rubygems.org'
 group :development do
   gem 'guard'
   gem 'guard-rspec'
-  gem 'rb-fsevent'
-  gem 'rb-readline'
-  gem 'growl_notify' # => brew install growlnotify
+  gem 'ruby_gntp'
   gem 'yard'
   gem 'rdiscount'
 end
