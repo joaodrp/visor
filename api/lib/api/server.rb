@@ -6,7 +6,7 @@ require File.expand_path('../../api', __FILE__)
 conf = Visor::Common::Config.load_config :meta_server
 META = Visor::API::Meta.new(host: conf[:bind_host], port: conf[:bind_port])
 
-#TODO: Include cache with Etag header setted to image['checksum']?
+#TODO: Include cache with Etag header set to image['checksum']?
 
 module Visor
   module API
@@ -20,9 +20,9 @@ module Visor
 
       def response(env)
         begin
-          meta = META.get_image(params[:id])
-          header = Common::Util.push_meta_into_headers(meta)
-          [200, header, {}]
+          meta   = META.get_image(params[:id])
+          header = push_meta_into_headers(meta)
+          [200, header, nil]
         rescue NotFound => e
           [404, {}, {code: 404, message: e.message}]
         end
@@ -61,6 +61,33 @@ module Visor
       end
     end
 
+    # Get image data and metadata for the given id.
+    #
+    class GetImage < Goliath::API
+      include Visor::Common::Exception
+      include Visor::Common::Util
+      use Goliath::Rack::Render, 'json'
+
+      def response(env)
+        begin
+          meta    = META.get_image(params[:id])
+          headers = push_meta_into_headers(meta)
+        rescue NotFound => e
+          return [404, {}, {code: 404, message: e.message}]
+        end
+
+        EM.next_tick do
+          uri = 'file:///Users/joaodrp/myimage.iso'
+          Visor::API::Store.get(uri) { |chunk| env.chunked_stream_send(chunk) }
+          env.chunked_stream_close
+        end
+        # Goliath automatically adds the necessary Transfer Encoding headers and Byte size delimiters
+        # to the data stream, allowing the recipient to properly identify data chunks and handle them accordingly.
+        headers.merge!('Content-Type' => 'application/octet-stream', 'X-Stream' => 'Goliath')
+        chunked_streaming_response(200, headers)
+      end
+    end
+
 
     # The VISoR API Server. This supports all image metadata manipulation
     # operations, dispatched to the VISoR Meta Server and the image files storage operations.
@@ -95,7 +122,8 @@ module Visor
       # Get detailed information about all public images, see {Visor::API::GetImagesDetail}.
       get '/images/detail', GetImagesDetail
 
-
+      # Get image data and metadata for the given id, see {Visor::API::GetImage}.
+      get '/images/:id', GetImage
 
       # Not Found
       not_found('/') do

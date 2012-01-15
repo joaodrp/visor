@@ -4,7 +4,7 @@ require File.expand_path('../../../common/lib/common', __FILE__)
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'api/version'
 require 'api/meta'
-#require 'api/server'
-#require 'api/client'
+require 'api/store/file_system'
+require 'api/store/store'
 
 
