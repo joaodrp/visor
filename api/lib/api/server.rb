@@ -70,14 +70,15 @@ module Visor
 
       def response(env)
         begin
-          meta    = META.get_image(params[:id])
-          headers = push_meta_into_headers(meta)
+          meta = META.get_image(params[:id])
         rescue NotFound => e
           return [404, {}, {code: 404, message: e.message}]
         end
 
+        headers = push_meta_into_headers(meta)
+        uri     = meta[:location]
+
         EM.next_tick do
-          uri = 'file:///Users/joaodrp/myimage.iso'
           Visor::API::Store.get(uri) { |chunk| env.chunked_stream_send(chunk) }
           env.chunked_stream_close
         end

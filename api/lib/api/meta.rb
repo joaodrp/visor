@@ -36,7 +36,7 @@ module Visor
       # Retrieves brief metadata of all public images.
       # Options for filtering the returned results can be passed in.
       #
-      # @option query [String] :attribute_name The image attribute value to filter returned results.
+      # @option query [String] :<attribute_name> The image attribute value to filter returned results.
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
@@ -127,21 +127,6 @@ module Visor
 
       private
 
-      # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'
-      # headers for every request and additionally sets the 'content-type' header
-      # for POST and PUT requests.
-      #
-      def get_headers
-        {'User-Agent' => 'VISoR API Server',
-         'Accept'     => 'application/json'}
-      end
-
-      def post_headers
-        {'User-Agent'   => 'VISoR API Server',
-         'Accept'       => 'application/json',
-         'content-type' => 'application/json'}
-      end
-
       # Generate a valid JSON request body for POST and PUT requests.
       # It generates a JSON object encapsulated inside a :image key and then returns it.
       #
@@ -156,7 +141,7 @@ module Visor
 
       # Process requests by preparing its headers, launch them and assert or raise their response.
       #
-      # @param request [Net::HTTPResponse] The request which will be launched.
+      # @param request [EventMachine::HttpRequest] The request which will be launched.
       #
       # @return [String, Hash] If an error is raised, then it parses and returns its message,
       #   otherwise it properly parse and return the response body.
@@ -186,6 +171,21 @@ module Visor
         else
           EventMachine::HttpRequest.new("http://#{@host}:#{@port}")
         end
+      end
+
+      # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'
+      # headers for every request and additionally sets the 'content-type' header
+      # for POST and PUT requests.
+      #
+      def get_headers
+        {'User-Agent' => 'VISoR API Server',
+         'Accept'     => 'application/json'}
+      end
+
+      def post_headers
+        {'User-Agent'   => 'VISoR API Server',
+         'Accept'       => 'application/json',
+         'content-type' => 'application/json'}
       end
 
       alias :delete_headers :get_headers

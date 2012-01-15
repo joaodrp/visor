@@ -15,9 +15,7 @@ module Visor
       # @return [Hash] The header containing the metadata headers
       #
       def push_meta_into_headers(meta, header = {})
-        meta.each do |k, v|
-          header["x-image-meta-#{k.to_s.downcase}"] = v.to_s
-        end
+        meta.each { |k, v| header["x-image-meta-#{k.to_s.downcase}"] = v.to_s }
         header
       end
 

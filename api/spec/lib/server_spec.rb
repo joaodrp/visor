@@ -74,7 +74,7 @@ describe Visor::API::Server do
   #
   describe "HEAD /images/:id" do
     before :each do
-      id = "763eea76-4b0d-4f9b-88cf-aa618674165f" ###############################
+      id = "bc9b0602-5ebc-468c-a369-c52def31619e" ###############################
       with_api(test_api) do
         head_request({:path => "/images/#{id}", head: accept}, err) { |c| assert_200 c; @res = c }
       end
@@ -193,7 +193,7 @@ describe Visor::API::Server do
   #
   describe "GET /images/:id" do
     before :each do
-      id = "763eea76-4b0d-4f9b-88cf-aa618674165f" ###############################
+      id = "bc9b0602-5ebc-468c-a369-c52def31619e" ###############################
       with_api(test_api) do
         get_request({:path => "/images/#{id}", head: accept}, err) { |c| assert_200 c; @res = c }
       end

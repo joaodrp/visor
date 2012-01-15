@@ -2,7 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 Bundler.require :default, :test
-SimpleCov.start
+#SimpleCov.start
 
 require File.expand_path '../../lib/meta', __FILE__
 require File.expand_path '../../lib/meta/server', __FILE__
