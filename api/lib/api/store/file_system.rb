@@ -1,9 +1,3 @@
-class File
-  def each_chunk(chunk_size=1024*1024)
-    yield read(chunk_size) until eof?
-  end
-end
-
 require 'uri'
 
 module Visor
@@ -14,6 +8,8 @@ module Visor
       # 'file:///path/to/my_file.iso'
       #
       class FileSystem
+        include Visor::Common::Exception
+
         CHUNKSIZE = 65536
 
         def initialize(uri)
@@ -22,11 +18,14 @@ module Visor
         end
 
         def get
-          raise "No image file found at #{@path}" unless File.exists?(@path)
-
           open(@path, "rb") do |file|
-            file.each_chunk(CHUNKSIZE) { |chunk| yield chunk }
+            yield file.read(CHUNKSIZE) until file.eof?
           end
+        end
+
+
+        def file_exists?
+          raise NotFound, "No image file found at #{@path}" unless File.exists?(@path)
         end
       end
 

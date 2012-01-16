@@ -71,21 +71,34 @@ module Visor
       def response(env)
         begin
           meta = META.get_image(params[:id])
+          uri  = meta[:location]
+          Visor::API::Store.file_exists? uri
         rescue NotFound => e
           return [404, {}, {code: 404, message: e.message}]
         end
 
         headers = push_meta_into_headers(meta)
-        uri     = meta[:location]
 
-        EM.next_tick do
-          Visor::API::Store.get(uri) { |chunk| env.chunked_stream_send(chunk) }
-          env.chunked_stream_close
+        #EM.error_handler do |e|
+        #  EM.stop
+        #end
+
+        operation = proc do
+          Visor::API::Store.get(uri) { |chunk| env.stream_send(chunk) }
         end
-        # Goliath automatically adds the necessary Transfer Encoding headers and Byte size delimiters
-        # to the data stream, allowing the recipient to properly identify data chunks and handle them accordingly.
+
+        callback = proc do |result|
+          env.stream_close
+        end
+        #EM.next_tick do
+        #  Visor::API::Store.get(uri) { |chunk| env.stream_send(chunk) }
+        #  env.stream_close
+        #end
+
+        EM.defer operation, callback
+
         headers.merge!('Content-Type' => 'application/octet-stream', 'X-Stream' => 'Goliath')
-        chunked_streaming_response(200, headers)
+        [200, headers, Goliath::Response::STREAMING]
       end
     end
 

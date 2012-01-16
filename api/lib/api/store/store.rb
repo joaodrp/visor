@@ -12,17 +12,20 @@ module Visor
       BACKENDS = {:file => FileSystem}
 
       def self.get_backend(uri)
-        schema = uri.scheme
-        store  = BACKENDS[schema.to_sym]
+        parsed = URI.parse(uri)
+        store = BACKENDS[parsed.scheme.to_sym]
         raise UnsupportedStore, "The store '#{store}' is not supported" unless store
-        store
+        store.new(parsed)
       end
 
       def self.get(uri)
-        parsed = URI.parse(uri)
-        klass  = get_backend(parsed)
-        store  = klass.new(parsed)
+        store = get_backend(uri)
         store.get { |chunk| yield chunk }
+      end
+
+      def self.file_exists?(uri)
+        store = get_backend(uri)
+        store.file_exists?
       end
 
     end

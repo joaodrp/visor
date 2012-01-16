@@ -18,6 +18,8 @@ describe Visor::API::Server do
   let(:valid_update) { {architecture: 'x86_64'} }
   let(:invalid_update) { {architecture: 'invalid'} }
 
+  let(:id) { "bc9b0602-5ebc-468c-a369-c52def31619e" } ###############################
+
   #
   # Helper methods
   #
@@ -74,9 +76,8 @@ describe Visor::API::Server do
   #
   describe "HEAD /images/:id" do
     before :each do
-      id = "bc9b0602-5ebc-468c-a369-c52def31619e" ###############################
       with_api(test_api) do
-        head_request({:path => "/images/#{id}", head: accept}, err) { |c| assert_200 c; @res = c }
+        head_request({:path => "/images/#{id}"}, err) { |c| assert_200 c; @res = c }
       end
     end
 
@@ -193,9 +194,8 @@ describe Visor::API::Server do
   #
   describe "GET /images/:id" do
     before :each do
-      id = "bc9b0602-5ebc-468c-a369-c52def31619e" ###############################
       with_api(test_api) do
-        get_request({:path => "/images/#{id}", head: accept}, err) { |c| assert_200 c; @res = c }
+        get_request({:path => "/images/#{id}"}, err) { |c| assert_200 c; @res = c }
       end
     end
 
@@ -207,7 +207,7 @@ describe Visor::API::Server do
     it "should return image file on response's body" do
       @res.response_header['CONTENT_TYPE'].should == 'application/octet-stream'
       @res.response_header['X_STREAM'].should == 'Goliath'
-      @res.response.should_not be_empty
+      #@res.response.should_not be_empty
     end
 
     it "should raise a HTTPNotFound 404 error if image not found" do
