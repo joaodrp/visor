@@ -8,7 +8,6 @@ require 'meta/backends/mongo_db'
 require 'meta/backends/mysql_db'
 require 'meta/server'
 require 'meta/client'
-require 'meta/api'
 require 'meta/cli'
 
 
