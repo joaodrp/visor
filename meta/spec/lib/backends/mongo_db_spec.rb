@@ -125,8 +125,8 @@ module Visor::Meta::Backends
       end
 
       it "should raise an ArgumentError exception if meta validation fails" do
-        img = @sample.merge(:status => 'status can not be set')
-        lambda { conn.post_image(img) }.should raise_error(ArgumentError, /status/)
+        img = @sample.merge(:_id => 'cant define _id')
+        lambda { conn.post_image(img) }.should raise_error(ArgumentError, /_id/)
       end
     end
 
@@ -144,8 +144,8 @@ module Visor::Meta::Backends
       end
 
       it "should raise an ArgumentError exception if meta validation fails" do
-        update = {:status => 'status can not be set'}
-        lambda { conn.put_image(@id, update) }.should raise_error(ArgumentError, /status/)
+        update = {:uri => 'cant define uri'}
+        lambda { conn.put_image(@id, update) }.should raise_error(ArgumentError, /uri/)
       end
     end
   end

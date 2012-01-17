@@ -15,10 +15,9 @@ module Visor::Meta
       # Mandatory attributes
       MANDATORY    = [:name, :architecture]
       # Read-only attributes
-      READONLY     = [:_id, :uri, :owner, :status, :size, :created_at, :uploaded_at,
-                      :updated_at, :accessed_at, :access_count, :checksum]
+      READONLY     = [:_id, :uri, :created_at, :uploaded_at, :updated_at, :accessed_at, :access_count]
       # Optional attributes
-      OPTIONAL     = [:access, :type, :format, :store, :location, :kernel, :ramdisk]
+      OPTIONAL     = [:owner, :status, :size, :checksum, :access, :type, :format, :store, :location, :kernel, :ramdisk]
       # All attributes
       ALL          = MANDATORY + OPTIONAL + READONLY
 

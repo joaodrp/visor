@@ -23,7 +23,6 @@ module Visor
           end
         end
 
-
         def file_exists?
           raise NotFound, "No image file found at #{@path}" unless File.exists?(@path)
         end
