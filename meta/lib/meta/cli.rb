@@ -257,7 +257,7 @@ module Visor
         @conf ||= load_conf_file
         @logger ||=
             begin
-              log = options[:foreground] ? Logger.new(STDERR) : Visor::Common::Config.build_logger(:meta_server)
+              log = options[:foreground] ? Logger.new(STDERR) : Visor::Common::Config.build_logger(:visor_meta)
               conf_level = @conf[:log_level] == 'INFO' ? 1 : 0
               log.level = options[:debug] ? 0 : conf_level
               log.formatter = Proc.new {|s, t, n, msg| "[#{t.strftime("%Y-%m-%d %H:%M:%S")}] #{s} - #{msg}\n"}
@@ -297,7 +297,7 @@ module Visor
       end
 
       def load_conf_file
-        Visor::Common::Config.load_config(:meta_server, options[:config])
+        Visor::Common::Config.load_config(:visor_meta, options[:config])
       end
 
       def safe_cli_name

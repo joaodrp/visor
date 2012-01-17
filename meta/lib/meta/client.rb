@@ -16,7 +16,7 @@ module Visor
 
       include Visor::Common::Exception
 
-      CONF = Common::Config.load_config :meta_server
+      CONF = Common::Config.load_config :visor_meta
 
       DEFAULT_HOST = CONF[:bind_host] || '0.0.0.0'
       DEFAULT_PORT = CONF[:bind_port] || 4567

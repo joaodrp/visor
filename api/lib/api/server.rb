@@ -3,7 +3,7 @@ require 'json'
 
 require File.expand_path('../../api', __FILE__)
 
-conf = Visor::Common::Config.load_config :meta_server
+conf = Visor::Common::Config.load_config :visor_meta
 DB = Visor::API::Meta.new(host: conf[:bind_host], port: conf[:bind_port])
 
 #TODO: Include cache with Etag header set to image['checksum']?

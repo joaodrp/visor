@@ -20,6 +20,23 @@ describe Visor::API::Server do
 
   let(:id) { DB.get_images.first[:_id] }
 
+  inserted = []
+
+  before(:all) do
+    EM.synchrony do
+      inserted << DB.post_image(valid_post)[:_id]
+      inserted << DB.post_image(valid_post.merge(architecture: 'x86_64'))[:_id]
+      EM.stop
+    end
+  end
+
+  after(:all) do
+    EM.synchrony do
+      inserted.each { |id| DB.delete_image(id) }
+      EM.stop
+    end
+  end
+
   #
   # Helper methods
   #
