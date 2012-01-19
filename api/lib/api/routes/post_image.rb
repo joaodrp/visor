@@ -16,7 +16,7 @@ module Visor
 
       # Pre-process body as it arrives in streaming chunks
       def on_body(env, data)
-        @body ||= Tempfile.open('visor-image', '~/tmp', encoding: 'ascii-8bit')
+        @body ||= Tempfile.open('visor-image', encoding: 'ascii-8bit')
         @body << data
       end
 
