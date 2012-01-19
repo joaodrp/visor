@@ -6,5 +6,12 @@ require 'api/version'
 require 'api/meta'
 require 'api/store/file_system'
 require 'api/store/store'
+#require 'api/server'
+require 'api/routes/head_image'
+require 'api/routes/get_images'
+require 'api/routes/get_images_detail'
+require 'api/routes/get_image'
+require 'api/routes/post_image'
+require 'api/routes/delete_all_images'
 
 
