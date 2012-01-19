@@ -160,6 +160,9 @@ module Visor
         rescue ArgumentError => e
           @body.unlink if @body
           return exit_error(400, e.message)
+        rescue InternalError => e
+          @body.unlink if @body
+          return exit_error(500, e.message)
         end
 
         if @body

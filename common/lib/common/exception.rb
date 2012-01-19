@@ -20,6 +20,9 @@ module Visor
 
       # Raise if a record or file is already stored
       class Duplicated < RuntimeError; end
+
+      # Raise on an internal server error
+      class InternalError < RuntimeError; end
     end
   end
 end

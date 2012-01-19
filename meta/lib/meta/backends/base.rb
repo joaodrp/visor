@@ -33,7 +33,7 @@ module Visor::Meta
       TYPE         = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
       # Possible status
       STATUS       = %w[locked uploading error available]
-      # Possible storages
+      # Possible storage
       STORE        = %w[s3 swift cumulus hdfs file]
 
       # Presentation options

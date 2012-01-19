@@ -157,6 +157,7 @@ module Visor
         case status
         when 404 then raise NotFound, parsed[:message]
         when 400 then raise Invalid, parsed[:message]
+        when 500 then raise InternalError, parsed[:message]
         else parsed[:image] || parsed[:images]
         end
       end

@@ -95,7 +95,10 @@ module Visor
           {images: images}.to_json
         rescue NotFound => e
           json_error 404, e.message
+        rescue => e
+          json_error 500, e.message
         end
+
       end
 
       # @method get_all_detail
@@ -148,6 +151,8 @@ module Visor
           {images: images}.to_json
         rescue NotFound => e
           json_error 404, e.message
+        rescue => e
+          json_error 500, e.message
         end
       end
 
@@ -186,6 +191,8 @@ module Visor
           {image: image}.to_json
         rescue NotFound => e
           json_error 404, e.message
+        rescue => e
+          json_error 500, e.message
         end
       end
 
@@ -209,6 +216,8 @@ module Visor
           json_error 404, e.message
         rescue ArgumentError => e
           json_error 400, e.message
+        rescue => e
+          json_error 500, e.message
         end
       end
 
@@ -233,6 +242,8 @@ module Visor
           json_error 404, e.message
         rescue ArgumentError => e
           json_error 400, e.message
+        rescue => e
+          json_error 500, e.message
         end
       end
 
@@ -253,6 +264,8 @@ module Visor
           {image: image}.to_json
         rescue NotFound => e
           json_error 404, e.message
+        rescue => e
+          json_error 500, e.message
         end
       end
 
