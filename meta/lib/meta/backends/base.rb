@@ -34,14 +34,14 @@ module Visor::Meta
       # Possible status
       STATUS       = %w[locked uploading error available]
       # Possible storages
-      STORE        = %w[s3 swift cumulus hdfs fs]
+      STORE        = %w[s3 swift cumulus hdfs file]
 
       # Presentation options
       #
       # Brief attributes used to return only brief information about images.
       BRIEF        = [:_id, :uri, :name, :architecture, :type, :format, :store, :size, :created_at]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
-      DETAIL_EXC   = [:owner, :accessed_at, :access_count, :checksum]
+      DETAIL_EXC   = [:owner, :accessed_at, :access_count]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
       FILTERS      = ALL + [:sort, :dir]
 

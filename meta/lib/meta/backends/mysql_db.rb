@@ -57,16 +57,17 @@ module Visor::Meta
         @conn = connection
         @conn.query %[
         CREATE TABLE IF NOT EXISTS `#{opts[:db]}`.`images` (
-          `_id` VARCHAR(36) NOT NULL ,
+          `_id` VARCHAR(45) NOT NULL ,
           `uri` VARCHAR(255) NULL ,
           `name` VARCHAR(45) NOT NULL ,
           `architecture` VARCHAR(45) NOT NULL ,
           `access` VARCHAR(45) NOT NULL ,
           `type` VARCHAR(45) NULL ,
           `format` VARCHAR(45) NULL ,
-          `store` VARCHAR(255) NULL ,
-          `kernel` VARCHAR(32) NULL ,
-          `ramdisk` VARCHAR(32) NULL ,
+          `store` VARCHAR(45) NULL ,
+          `location` VARCHAR(255) NULL ,
+          `kernel` VARCHAR(45) NULL ,
+          `ramdisk` VARCHAR(45) NULL ,
           `owner` VARCHAR(45) NULL ,
           `status` VARCHAR(45) NULL ,
           `size` INT NULL ,

@@ -3,29 +3,28 @@ require 'uri'
 module Visor
   module API
     module Store
-
-      #TODO: logging
+      extend self
       include Visor::Common::Exception
-
-      # Base API class for the multiple storage backend classes
+      # Base API methods for the multiple storage backend classes
       #
-      BACKENDS = {:file => FileSystem}
 
-      def self.get_backend(uri)
-        parsed = URI.parse(uri)
-        store = BACKENDS[parsed.scheme.to_sym]
+      BACKENDS = {:file => Visor::API::Store::FileSystem}
+
+      def get_backend(opts)
+        name = URI(opts[:uri]).scheme rescue opts[:name]
+        store = BACKENDS[name.to_sym]
         raise UnsupportedStore, "The store '#{store}' is not supported" unless store
-        store.new(parsed)
+        store
       end
 
-      def self.get(uri)
-        store = get_backend(uri)
-        store.get { |chunk| yield chunk }
+      def file_exists?(uri)
+        store = get_backend(uri: uri)
+        store.file_exists?(uri)
       end
 
-      def self.file_exists?(uri)
-        store = get_backend(uri)
-        store.file_exists?
+      def valid_backend?(name)
+        store = BACKENDS[name.to_sym]
+        raise UnsupportedStore, "The store '#{name}' is not supported" unless store
       end
 
     end

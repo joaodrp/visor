@@ -1,10 +1,14 @@
 require 'goliath'
 require 'json'
+require 'tempfile'
 
 require File.expand_path('../../api', __FILE__)
 
-conf = Visor::Common::Config.load_config :visor_meta
-DB = Visor::API::Meta.new(host: conf[:bind_host], port: conf[:bind_port])
+conf       = Visor::Common::Config.load_config
+META_CONF  = conf[:visor_meta]
+API_CONF   = conf[:visor_api]
+STORE_CONF = conf[:visor_store]
+DB         = Visor::API::Meta.new(host: META_CONF[:bind_host], port: META_CONF[:bind_port])
 
 #TODO: Include cache with Etag header set to image['checksum']?
 
@@ -77,13 +81,15 @@ module Visor
         begin
           meta = DB.get_image(params[:id])
           uri  = meta[:location]
-          Visor::API::Store.file_exists? uri
+          Visor::API::Store.file_exists?(uri)
         rescue NotFound => e
           return [404, {}, {code: 404, message: e.message}]
         end
 
+        store = Visor::API::Store.get_backend(uri: uri)
+
         operation = proc do
-          Visor::API::Store.get(uri) { |chunk| env.stream_send chunk }
+          store.get(uri) { |chunk| env.stream_send chunk }
         end
 
         callback = proc { env.stream_close }
@@ -101,46 +107,91 @@ module Visor
       include Visor::Common::Util
       use Goliath::Rack::Render, 'json'
 
-      def insert_meta
-        meta        = pull_meta_from_headers(env['headers'])
-        meta[:size] = 0
-        DB.post_image(meta) # will set its status to locked
-      end
-
-      def exit_with_error(code, message)
+      def exit_error(code, message)
         [code, {}, {code: code, message: message}]
       end
 
+      def insert_meta
+        meta = DB.post_image(@meta.merge(size: 0)) # will set its status to locked
+        @id  = meta[:_id]
+        meta
+      end
+
+      def update_meta(update)
+        DB.put_image(@id, update)
+      end
+
+      def update_status_and_upload
+        @meta = update_meta(status: 'uploading')
+
+        location, size, checksum = upload_image_file
+        update_meta(status: 'available', location: location, size: size, checksum: checksum)
+      end
+
+      def upload_image_file
+        content_type = @headers['Content-Type'] || ''
+        store_name   = @meta[:store] || STORE_CONF[:default]
+        format       = @meta[:format] || 'none'
+        opts         = STORE_CONF[store_name.to_sym]
+
+        unless content_type == 'application/octet-stream'
+          update_meta(status: 'error')
+          raise ArgumentError, 'Request Content-Type must be application/octet-stream'
+        end
+
+        store = Visor::API::Store.get_backend(name: store_name)
+        update_meta(status: 'uploading')
+        store.save(@id, @body, format, opts)
+      end
+
       def on_headers(env, headers)
-        env['headers'] = headers
+        @headers = headers
+        @meta    = pull_meta_from_headers(headers)
       end
 
       def on_body(env, data)
-        (env['body'] ||= '') << data
+        @body ||= Tempfile.open('visor-image', '~/tmp', encoding: 'ascii-8bit')
+        @body << data
       end
 
       def response(env)
         begin
-          meta = insert_meta
-        rescue Invalid, ArgumentError => e
-          return exit_with_error(404, e.message)
+          @meta = insert_meta
+        rescue ArgumentError => e
+          @body.unlink if @body
+          return exit_error(400, e.message)
         end
 
-        unless env['body'].nil?
+        if @body
           begin
-            meta = update_status_and_upload(meta)
-          rescue => e
-            return exit_with_error(404, e.message)
+            @meta = update_status_and_upload
+          rescue UnsupportedStore, ArgumentError => e
+            return exit_error(400, e.message)
+          rescue NotFound => e
+            return exit_error(404, e.message)
+          ensure
+            @body.unlink
           end
+          [200, {}, {head: @headers, meta: @meta}]
+        else
+          [200, {}, {head: @headers, meta: @meta}]
         end
-        [200, {}, {}]
       end
+    end
 
-      def update_status_and_upload(meta)
-        id = meta[:_id]
-        DB.put_image(id, {status: 'uploading'})
-        location = upload(meta)
-        DB.put_image(id, {status: 'available', location: location})
+
+    class DeleteAllImages < Goliath::API
+      include Visor::Common::Exception
+      use Goliath::Rack::Render, 'json'
+
+      def response(env)
+        begin
+          images = DB.get_images
+          images.each { |image| DB.delete_image(image[:_id]) }
+          [200, {}, nil]
+        rescue NotFound => e
+          [404, {}, {code: 404, message: e.message}]
+        end
       end
     end
 
@@ -183,6 +234,7 @@ module Visor
       # Post image data and metadata and returns the registered metadata, see {Visor::API::PostImage}.
       post '/images', PostImage
 
+      delete '/images/all', DeleteAllImages
       # Not Found
       not_found('/') do
         run Proc.new { |env| [404, {}, {code: 404, message: "Invalid operation or path."}] }

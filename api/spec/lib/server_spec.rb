@@ -18,8 +18,6 @@ describe Visor::API::Server do
   let(:valid_update) { {architecture: 'x86_64'} }
   let(:invalid_update) { {architecture: 'invalid'} }
 
-  let(:id) { DB.get_images.first[:_id] }
-
   inserted = []
 
   before(:all) do
@@ -94,7 +92,7 @@ describe Visor::API::Server do
   describe "HEAD /images/:id" do
     before :each do
       with_api(test_api) do
-        head_request({:path => "/images/#{id}"}, err) { |c| assert_200 c; @res = c }
+        head_request({:path => "/images/#{inserted.sample}"}, err) { |c| assert_200 c; @res = c }
       end
     end
 
@@ -212,7 +210,7 @@ describe Visor::API::Server do
   #describe "GET /images/:id" do
   #  before :each do
   #    with_api(test_api) do
-  #      get_request({:path => "/images/#{id}"}, err) { |c| assert_200 c; @res = c }
+  #      get_request({:path => "/images/#{inserted.sample}"}, err) { |c| assert_200 c; @res = c }
   #    end
   #  end
   #

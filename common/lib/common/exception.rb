@@ -18,6 +18,8 @@ module Visor
       # Raise if provided store backend is not supported
       class UnsupportedStore < RuntimeError; end
 
+      # Raise if a record or file is already stored
+      class Duplicated < RuntimeError; end
     end
   end
 end
