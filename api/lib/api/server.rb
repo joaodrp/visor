@@ -54,8 +54,14 @@ module Visor
       # Post image data and metadata and returns the registered metadata, see {Visor::API::PostImage}.
       post '/images', PostImage
 
+      # Put image metadata and/or data for the image with the given id
+      put '/images/:id', PutImage
+
+      # Delete the metadata and data of the image with the given id, see {Visor::API::DeleteImage}.
+      delete '/images/:id', DeleteImage
+
       #TODO: remove this
-      delete '/images/all', DeleteAllImages
+      delete '/all', DeleteAllImages
 
       # Not Found
       not_found('/') do

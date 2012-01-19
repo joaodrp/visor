@@ -23,6 +23,12 @@ module Visor
 
       # Raise on an internal server error
       class InternalError < RuntimeError; end
+
+      # Raise on error trying to manipulate image files
+      class Unauthorized < RuntimeError; end
+
+      # Raise on error trying to update image files/meta
+      class ConflictError < RuntimeError; end
     end
   end
 end

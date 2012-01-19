@@ -1,9 +1,9 @@
 module Visor
   module API
 
-    # Post image data and metadata and returns the registered metadata.
+    # Put image metadata and/or data for the image with the given id.
     #
-    class PostImage < Goliath::API
+    class PutImage < Goliath::API
       include Visor::Common::Exception
       include Visor::Common::Util
       use Goliath::Rack::Render, 'json'
@@ -16,28 +16,37 @@ module Visor
 
       # Pre-process body as it arrives in streaming chunks
       def on_body(env, data)
-        @body ||= Tempfile.open('visor-image', '~/tmp', encoding: 'ascii-8bit')
+        @body ||= Tempfile.open('visor-image', encoding: 'ascii-8bit')
         @body << data
       end
 
       # Main method, processes and returns the request response
       def response(env)
+        # a valid update requires the presence of headers and/or body
+        if @meta.empty? && @body.nil?
+          msg = 'No headers or body found for update'
+          return exit_error(400, msg)
+        end
         # only the x-image-meta-location header or the body content should be provided
         if @meta[:location] && @body
           msg = 'When x-image-meta-location header is present no file content can be provided'
           return exit_error(400, msg)
         end
 
-        # first registers the image meta or raises on error
+        @id = params[:id]
+
+        # first update the image meta or raises on error
         begin
-          insert_meta
+          update_meta
+          STDERR.puts 'update_meta done'
         rescue ArgumentError => e
           @body.unlink if @body
           return exit_error(400, e.message)
         rescue InternalError => e
           @body.unlink if @body
           return exit_error(500, e.message)
-        end
+        end unless @meta.empty?
+        STDERR.puts 'preparing to enter on upload_and_update'
 
         # if has body(image file), upload file and update meta or raise on error
         begin
@@ -46,6 +55,8 @@ module Visor
           return exit_error(400, e.message, true)
         rescue NotFound => e
           return exit_error(404, e.message, true)
+        rescue ConflictError => e
+          return exit_error(409, e.message, true)
         rescue InternalError => e
           return exit_error(500, e.message, true)
         ensure
@@ -61,10 +72,9 @@ module Visor
         [code, {}, {code: code, message: message}]
       end
 
-      # Insert image metadata on database (which set its status to locked)
-      def insert_meta
-        @meta = DB.post_image(@meta)
-        @id   = @meta[:_id]
+      # Update image metadata and set status if needed
+      def update_meta
+        do_update(@meta)
         do_update(status: 'available') if @meta[:location]
       end
 
@@ -75,6 +85,8 @@ module Visor
 
       # Update image status and launch upload
       def upload_and_update
+        @meta = DB.get_image(@id)
+        raise ConflictError, 'Can only assign image files to locked images' unless @meta[:status]=='locked'
         do_update(status: 'uploading')
         location, size, checksum = do_upload
         do_update(status: 'available', location: location, size: size, checksum: checksum)

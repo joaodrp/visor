@@ -73,15 +73,19 @@ describe Visor::API::Server do
   describe "On /images" do
     it "should only accept GET and POST methods" do
       with_api(test_api) do
-        put_request({path: '/images', head: accept}, err) { |c| assert_405(c, %w(GET POST)) }
+        put_request({path: '/images', head: accept}, err) do |c|
+          assert_405(c, %w(GET POST))
+        end
       end
     end
   end
 
   describe "On /images/:id" do
-    it "should only accept GET, HED, PUT and DELETE methods" do ########
+    it "should only accept GET, HED, PUT and DELETE methods" do
       with_api(test_api) do
-        post_request({path: '/images/fake', head: accept}, err) { |c| assert_405(c, %w(GET HEAD)) }
+        post_request({path: '/images/fake', head: accept}, err) do |c|
+          assert_405(c, %w(DELETE GET HEAD PUT))
+        end
       end
     end
   end

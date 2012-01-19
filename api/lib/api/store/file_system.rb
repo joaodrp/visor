@@ -30,6 +30,7 @@ module Visor
 
           FileUtils.mkpath(dir) unless Dir.exists?(dir)
           raise Duplicated, "The image file #{fp} already exists" if File.exists?(fp)
+
           # copy tempfile to the definitive file
           open(tmp_file, "rb") do |tmp|
             open(fp, "wb") do |f|
@@ -43,9 +44,19 @@ module Visor
           [uri, size, md5.hexdigest]
         end
 
+        def self.delete(uri)
+          fp = URI(uri).path
+          raise NotFound, "No image file found at #{fp}" unless File.exists?(fp)
+          begin
+            File.delete(fp)
+          rescue => e
+            raise Unauthorized, "Error while trying to delete image file #{fp}: #{e.message}"
+          end
+        end
+
         def self.file_exists?(uri)
-          path = URI(uri).path
-          raise NotFound, "No image file found at #{path}" unless File.exists?(path)
+          fp = URI(uri).path
+          raise NotFound, "No image file found at #{fp}" unless File.exists?(fp)
         end
       end
 
