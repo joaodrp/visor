@@ -33,19 +33,11 @@ module Visor
       end
 
       def parse_value(string)
-        if is_integer?(string) then
-          Integer(string)
-        elsif is_float?(string) then
-          Float(object)
-        elsif is_date?(string) then
-          Time.parse(string)
-        else
-          string
+        if is_integer?(string) then Integer(string)
+        elsif is_float?(string) then Float(object)
+        elsif is_date?(string) then Time.parse(string)
+        else string
         end
-      end
-
-      def is_a_meta_header?(object)
-
       end
 
       def is_integer?(object)
@@ -57,7 +49,8 @@ module Visor
       end
 
       def is_date?(object)
-        true if Time.parse(object) rescue false
+        regexp = /\d{4}[-\/]\d{1,2}[-\/]\d{1,2}\s\d{2}:\d{2}:\d{2}\s\W\d{4}/
+        object.match(regexp) ? true : false
       end
 
     end
