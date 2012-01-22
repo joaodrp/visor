@@ -25,14 +25,14 @@ module Visor
         store = Visor::API::Store.get_backend(uri: uri)
 
         operation = proc do
-          store.get(uri) { |chunk| env.stream_send chunk }
+          store.get(uri) { |chunk| env.chunked_stream_send chunk }
         end
 
-        callback = proc { env.stream_close }
+        callback = proc { env.chunked_stream_close }
         EM.defer operation, callback
 
         headers = push_meta_into_headers(meta, default_headers)
-        [200, headers, Goliath::Response::STREAMING]
+        chunked_streaming_response(200, headers)
       end
     end
 

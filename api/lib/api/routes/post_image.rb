@@ -33,9 +33,11 @@ module Visor
         begin
           meta = insert_meta(meta)
         rescue ArgumentError => e
+          body.close if body
           body.unlink if body
           return exit_error(400, e.message)
         rescue InternalError => e
+          body.close if body
           body.unlink if body
           return exit_error(500, e.message)
         end
@@ -51,6 +53,7 @@ module Visor
         rescue InternalError => e
           return exit_error(500, e.message, true)
         ensure
+          body.close
           body.unlink
         end unless body.nil?
 
@@ -77,9 +80,10 @@ module Visor
 
       # Update image status and launch upload
       def upload_and_update(id, body)
-        meta = do_update(id, status: 'uploading')
+        meta                     = do_update(id, status: 'uploading')
         location, size, checksum = do_upload(id, meta, body)
-        do_update(id, status: 'available', location: location, size: size, checksum: checksum)
+        p "#copy_and_upload - MD5 received: #{checksum}"
+        do_update(id, status: 'available', uploaded_at: Time.now, location: location, size: size, checksum: checksum)
       end
 
       # Upload image file to wanted store

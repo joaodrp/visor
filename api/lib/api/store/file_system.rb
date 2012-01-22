@@ -30,18 +30,67 @@ module Visor
 
           FileUtils.mkpath(dir) unless Dir.exists?(dir)
           raise Duplicated, "The image file #{fp} already exists" if File.exists?(fp)
+          STDERR.puts "COPYING!!!!!!!!!!!!!!!!!!!!!!"
 
-          # copy tempfile to the definitive file
-          open(tmp_file, "rb") do |tmp|
-            open(fp, "wb") do |f|
-              until tmp.eof?
-                chunk = tmp.read(CHUNKSIZE)
-                f << chunk
-                md5.update chunk
-              end
+          #copy tempfile to the definitive file
+          #operation = Proc.new {
+
+          #open(tmp_file, "rb") do |tmp|
+          #  open(fp, "wb") do |f|
+          #    until tmp.eof?
+          #      EM.next_tick do
+          #        chunk = tmp.read(CHUNKSIZE)
+          #        f << chunk
+          #        md5.update chunk
+          #      end
+          #    end
+          #  end
+          #end
+
+          # tentar cm EM next_tick e uma fiber
+
+          tmp = File.open(tmp_file, "rb")
+          new = File.open(fp, "wb")
+
+          each_chunk(tmp, CHUNKSIZE) do |chunk|
+            new << chunk
+            md5.update chunk
+            p md5
+          end
+
+          #}
+
+          #callback = Proc.new { return [uri, size, md5.hexdigest] }
+
+          #EM.defer(operation, callback)
+          #tmp = File.open(tmp_file, "rb")
+          #new = File.open(fp, "wb")
+          #
+          #read_chunk = proc do
+          #  if chunk = tmp.read(CHUNKSIZE)
+          #    new << chunk
+          #    md5.update chunk
+          #  else
+          #    return [uri, size, md5.hexdigest]
+          #  end
+          #end
+          #EM.next_tick(read_chunk)
+          p '--------------', md5
+          [uri, size, md5.hexdigest]
+        end
+
+        #def self.each_chunk(file, chunk_size=1024)
+        #  yield file.read(chunk_size) until file.eof?
+        #end
+
+        def self.each_chunk(file, chunk_size=1024)
+          chunk_handler = lambda do
+            unless (file.eof?)
+              yield file.read(chunk_size)
+              EM.next_tick(&chunk_handler)
             end
           end
-          [uri, size, md5.hexdigest]
+          EM.next_tick(&chunk_handler)
         end
 
         def self.delete(uri)

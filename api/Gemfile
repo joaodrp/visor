@@ -4,7 +4,7 @@ source 'http://rubygems.org'
 #gemspec
 gem 'goliath', :git => 'https://github.com/postrank-labs/goliath.git'
 gem 'em-http-request', :git => 'https://github.com/igrigorik/em-http-request.git'
-
+gem 'em-files'
 group :development do
   gem 'guard'
   gem 'guard-rspec'

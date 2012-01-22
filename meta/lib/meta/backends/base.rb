@@ -15,9 +15,10 @@ module Visor::Meta
       # Mandatory attributes
       MANDATORY    = [:name, :architecture]
       # Read-only attributes
-      READONLY     = [:_id, :uri, :created_at, :uploaded_at, :updated_at, :accessed_at, :access_count]
+      READONLY     = [:_id, :uri, :created_at, :updated_at, :accessed_at, :access_count]
       # Optional attributes
-      OPTIONAL     = [:owner, :status, :size, :checksum, :access, :type, :format, :store, :location, :kernel, :ramdisk]
+      OPTIONAL     = [:owner, :status, :size, :checksum, :access, :type, :format,
+                      :uploaded_at, :store, :location, :kernel, :ramdisk]
       # All attributes
       ALL          = MANDATORY + OPTIONAL + READONLY
 
@@ -41,7 +42,7 @@ module Visor::Meta
       # Brief attributes used to return only brief information about images.
       BRIEF        = [:_id, :uri, :name, :architecture, :type, :format, :store, :size, :created_at]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
-      DETAIL_EXC   = [:owner, :accessed_at, :access_count]
+      DETAIL_EXC   = [:owner, :uploaded_at, :accessed_at, :access_count]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
       FILTERS      = ALL + [:sort, :dir]
 
