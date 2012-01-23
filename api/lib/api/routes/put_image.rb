@@ -16,7 +16,9 @@ module Visor
       # Pre-process body as it arrives in streaming chunks
       def on_body(env, data)
         env['body'] ||= Tempfile.open('visor-image', encoding: 'ascii-8bit')
-        env['body'] << data
+        env['md5']  ||= Digest::MD5.new
+        env['body'].write data
+        env['md5'].update data
       end
 
       # Main method, processes and returns the request response
@@ -84,10 +86,11 @@ module Visor
 
       # Update image status and launch upload
       def upload_and_update(id, body)
-        meta = DB.get_image(id)
+        meta     = DB.get_image(id)
+        checksum = env['md5']
         raise ConflictError, 'Can only assign image file to a locked image' unless meta[:status]=='locked'
-        meta = do_update(id, status: 'uploading')
-        location, size, checksum = do_upload(id, meta, body)
+        meta           = do_update(id, status: 'uploading')
+        location, size = do_upload(id, meta, body)
         do_update(id, status: 'available', location: location, size: size, checksum: checksum)
       end
 

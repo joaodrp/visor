@@ -8,7 +8,7 @@ module Visor
       include Visor::Common::Util
       use Goliath::Rack::Render, 'json'
 
-      # Pre-process headers as they arrive
+      # Pre-process headers
       def on_headers(env, headers)
         env['headers'] = headers
       end
@@ -16,7 +16,9 @@ module Visor
       # Pre-process body as it arrives in streaming chunks
       def on_body(env, data)
         env['body'] ||= Tempfile.open('visor-image', encoding: 'ascii-8bit')
-        env['body'] << data
+        env['md5']  ||= Digest::MD5.new
+        env['body'].write data
+        env['md5'].update data
       end
 
       # Main method, processes and returns the request response
@@ -80,9 +82,10 @@ module Visor
 
       # Update image status and launch upload
       def upload_and_update(id, body)
-        meta                     = do_update(id, status: 'uploading')
-        location, size, checksum = do_upload(id, meta, body)
-        p "#copy_and_upload - MD5 received: #{checksum}"
+        meta           = do_update(id, status: 'uploading')
+        checksum       = env['md5']
+        location, size = do_upload(id, meta, body)
+
         do_update(id, status: 'available', uploaded_at: Time.now, location: location, size: size, checksum: checksum)
       end
 
