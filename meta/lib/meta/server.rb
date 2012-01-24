@@ -27,7 +27,7 @@ module Visor
         DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]
 
         #enable :threaded
-        disable :show_exceptions #, :protection
+        disable :show_exceptions, :logging #, :protection
 
         use Rack::CommonLogger, log
       end

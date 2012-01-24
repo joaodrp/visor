@@ -1,28 +1,35 @@
 require 'uri'
-require 'digest/md5'
-require "em-files"
 
 module Visor
   module API
     module Store
+
       # FileSystem backend store
       #
-      # 'file:///path/to/my_file.iso'
+      # 'file:///path/to/my_image.iso'
       #
       class FileSystem
         include Visor::Common::Exception
 
         CHUNKSIZE = 65536
 
-        def self.get(uri)
-          path = URI(uri).path
-          open(path, "rb") do |file|
+        attr_accessor :uri, :fp, :config
+
+        def initialize(uri, config)
+          @uri    = URI(uri)
+          @fp     = @uri.path
+          @config = config
+        end
+
+        def get
+          file_exists?
+          open(@fp, "rb") do |file|
             yield file.read(CHUNKSIZE) until file.eof?
           end
         end
 
-        def self.save(id, tmp_file, format, opts)
-          dir  = File.expand_path opts[:directory]
+        def save(id, tmp_file, format)
+          dir  = File.expand_path @config[:directory]
           file = "#{id}.#{format}"
           fp   = File.join(dir, file)
           uri  = "file://#{fp}"
@@ -30,38 +37,52 @@ module Visor
 
           FileUtils.mkpath(dir) unless Dir.exists?(dir)
           raise Duplicated, "The image file #{fp} already exists" if File.exists?(fp)
-          STDERR.puts "COPYING!!!!!!!!!!!!!!!!!!!!!!"
-
-          #copy tempfile to the definitive file
-          #open(tmp_file, "rb") do |tmp|
-          #  open(fp, "wb") do |f|
-          #    until tmp.eof?
-          #      EM.next_tick do
-          #        chunk = tmp.read(CHUNKSIZE)
-          #        f << chunk
-          #        md5.update chunk
-          #      end
-          #    end
-          #  end
-          #end
+          STDERR.puts "COPYING!!"
 
           tmp = File.open(tmp_file.path, "rb")
           new = File.open(fp, "wb")
 
-          EM::File::write(new, tmp)
-
-          #each_chunk(tmp, CHUNKSIZE) do |chunk|
-          #  new << chunk
-          #end
+          each_chunk(tmp, CHUNKSIZE) do |chunk|
+            new << chunk
+          end
 
           [uri, size]
         end
 
-        #def self.each_chunk(file, chunk_size=1024)
+        def delete
+          file_exists?
+          begin
+            File.delete(@fp)
+          rescue => e
+            raise Unauthorized, "Error while trying to delete image file #{@fp}: #{e.message}"
+          end
+        end
+
+        def file_exists?
+          raise NotFound, "No image file found at #{@fp}" unless File.exists?(@fp)
+        end
+
+        private
+
+        #open(tmp_file, "rb") do |tmp|
+        #  open(fp, "wb") do |f|
+        #    until tmp.eof?
+        #      EM.next_tick do
+        #        chunk = tmp.read(CHUNKSIZE)
+        #        f << chunk
+        #        md5.update chunk
+        #      end
+        #    end
+        #  end
+        #end
+
+        #def each_chunk(file, chunk_size=1024)
         #  yield file.read(chunk_size) until file.eof?
         #end
 
-        def self.each_chunk(file, chunk_size=1024)
+        #EM::File::write(new, tmp)
+
+        def each_chunk(file, chunk_size=CHUNKSIZE)
           handler = lambda do
             unless (file.eof?)
               yield file.read(chunk_size)
@@ -71,22 +92,7 @@ module Visor
           EM.next_tick(&handler)
         end
 
-        def self.delete(uri)
-          fp = URI(uri).path
-          raise NotFound, "No image file found at #{fp}" unless File.exists?(fp)
-          begin
-            File.delete(fp)
-          rescue => e
-            raise Unauthorized, "Error while trying to delete image file #{fp}: #{e.message}"
-          end
-        end
-
-        def self.file_exists?(uri)
-          fp = URI(uri).path
-          raise NotFound, "No image file found at #{fp}" unless File.exists?(fp)
-        end
       end
-
     end
   end
 end

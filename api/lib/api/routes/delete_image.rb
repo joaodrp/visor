@@ -10,10 +10,13 @@ module Visor
 
       def response(env)
         begin
-          meta  = DB.delete_image(params[:id])
-          uri   = meta[:location]
-          store = Visor::API::Store.get_backend(uri: uri)
-          store.delete(uri)
+          meta   = DB.delete_image(params[:id])
+          uri    = meta[:location]
+          name   = meta[:store] || STORE_CONF[:default]
+          config = STORE_CONF[name.to_sym]
+
+          store  = Visor::API::Store.get_backend(uri, config)
+          store.delete
         rescue NotFound => e
           [404, {}, {code: 404, message: e.message}]
         rescue Unauthorized => e

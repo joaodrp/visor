@@ -5,6 +5,7 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 require 'api/version'
 require 'api/meta'
 require 'api/store/file_system'
+require 'api/store/s3'
 require 'api/store/store'
 #require 'api/server'
 require 'api/routes/head_image'

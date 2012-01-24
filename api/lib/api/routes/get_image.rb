@@ -8,30 +8,28 @@ module Visor
       include Visor::Common::Util
       use Goliath::Rack::Render, 'json'
 
-      def default_headers
-        {'Content-Type' => 'application/octet-stream',
-         'X-Stream'     => 'Goliath'}
-      end
-
       def response(env)
         begin
-          meta = DB.get_image(params[:id])
-          uri  = meta[:location]
-          Visor::API::Store.file_exists?(uri)
+          meta   = DB.get_image(params[:id])
+          uri    = meta[:location]
+          name   = meta[:store] || STORE_CONF[:default]
+          config = STORE_CONF[name.to_sym]
+
+          store = Visor::API::Store.get_backend(uri, config)
+          store.file_exists?
         rescue NotFound => e
           return [404, {}, {code: 404, message: e.message}]
         end
 
-        store = Visor::API::Store.get_backend(uri: uri)
+        operation = proc { store.get { |chunk| env.chunked_stream_send chunk } }
+        callback  = proc { env.chunked_stream_close }
 
-        operation = proc do
-          store.get(uri) { |chunk| env.chunked_stream_send chunk }
-        end
-
-        callback = proc { env.chunked_stream_close }
         EM.defer operation, callback
 
-        headers = push_meta_into_headers(meta, default_headers)
+        custom_headers = {'Content-Type' => 'application/octet-stream',
+                          'X-Stream'     => 'Goliath'}
+
+        headers = push_meta_into_headers(meta, custom_headers)
         chunked_streaming_response(200, headers)
       end
     end

@@ -1,3 +1,5 @@
+require 'digest/md5'
+
 module Visor
   module API
 
@@ -94,14 +96,14 @@ module Visor
         content_type = env['headers']['Content-Type'] || ''
         store_name   = meta[:store] || STORE_CONF[:default]
         format       = meta[:format] || 'none'
-        opts         = STORE_CONF[store_name.to_sym]
+        config       = STORE_CONF[store_name.to_sym]
 
         unless content_type == 'application/octet-stream'
           raise ArgumentError, 'Request Content-Type must be application/octet-stream'
         end
 
-        store = Visor::API::Store.get_backend(name: store_name)
-        store.save(id, body, format, opts)
+        store = Visor::API::Store.get_backend(store_name, config)
+        store.save(id, body, format)
       end
     end
 
