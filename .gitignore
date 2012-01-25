@@ -13,6 +13,7 @@ _yardoc
 coverage
 em-meta
 doc/
+sapi
 docs
 lib/bundler/man
 pkg

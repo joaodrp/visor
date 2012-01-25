@@ -1,6 +1,8 @@
 require 'uri'
 require "uber-s3"
 require 'happening'
+require "em-synchrony"
+require "em-synchrony/em-http"
 
 module Visor
   module API
@@ -38,12 +40,15 @@ module Visor
           access_key = 'AKIAIABKOTWKSEXWTVXQ'
           secret_key = '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'
           bucket     = 'visor-images'
-          image = '1.iso'
+          image      = '1.iso'
 
-          item = Happening::S3::Item.new(bucket, image, {aws_access_key_id: access_key, aws_secret_access_key: secret_key})
-          item.get.stream do |chunk|
-            yield chunk
-          end
+          #item = Happening::S3::Item.new(bucket, image, {aws_access_key_id: access_key, aws_secret_access_key: secret_key})
+          #item.get.stream do |chunk|
+          #  yield chunk
+          #end
+
+          http       = EM::Synchrony.sync EventMachine::HttpRequest.new('https://s3-eu-west-1.amazonaws.com/visor-images/2.iso').get
+          http.stream { |chunk| yield chunk }
         end
 
         #def self.save(id, tmp_file, format, opts)
