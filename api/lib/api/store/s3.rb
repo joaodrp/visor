@@ -47,8 +47,11 @@ module Visor
           #  yield chunk
           #end
 
-          http       = EM::Synchrony.sync EventMachine::HttpRequest.new('https://s3-eu-west-1.amazonaws.com/visor-images/2.iso').get
+          http       = EventMachine::HttpRequest.new('http://dl.dropbox.com/u/3528102/10.iso').aget
+          finish     = proc { yield nil }
           http.stream { |chunk| yield chunk }
+          http.callback &finish
+          http.errback &finish
         end
 
         #def self.save(id, tmp_file, format, opts)

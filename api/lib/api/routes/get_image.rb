@@ -16,15 +16,22 @@ module Visor
           config = STORE_CONF[name.to_sym]
 
           store = Visor::API::Store.get_backend(uri, config)
-          store.file_exists?
+            #store.file_exists?
         rescue NotFound => e
+
           return [404, {}, {code: 404, message: e.message}]
         end
 
-        operation = proc { store.get { |chunk| env.chunked_stream_send chunk } }
-        callback  = proc { env.chunked_stream_close }
+        EM.next_tick do
+          store.get do |chunk|
+            if chunk
+              env.chunked_stream_send chunk
+            else
+              env.chunked_stream_close
+            end
+          end
 
-        EM.defer operation, callback
+        end
 
         custom_headers = {'Content-Type' => 'application/octet-stream',
                           'X-Stream'     => 'Goliath'}
