@@ -16,9 +16,8 @@ module Visor
           config = STORE_CONF[name.to_sym]
 
           store = Visor::API::Store.get_backend(uri, config)
-            #store.file_exists?
+          store.file_exists?
         rescue NotFound => e
-
           return [404, {}, {code: 404, message: e.message}]
         end
 
@@ -30,7 +29,6 @@ module Visor
               env.chunked_stream_close
             end
           end
-
         end
 
         custom_headers = {'Content-Type' => 'application/octet-stream',

@@ -4,6 +4,37 @@ require 'happening'
 require "em-synchrony"
 require "em-synchrony/em-http"
 
+module Happening
+  module S3
+    class Request
+      VALID_HTTP_METHODS = [:head, :ahead, :get, :aget, :put, :delete]
+    end
+
+    class Item
+      def aget(request_options = {}, &blk)
+        headers = needs_to_sign? ? aws.sign("GET", path) : {}
+        request_options[:on_success] = blk if blk
+        request_options.update(:headers => headers)
+        Happening::S3::Request.new(:aget, url, {:ssl => options[:ssl]}.update(request_options)).execute
+      end
+
+      def head(request_options = {}, &blk)
+        headers = needs_to_sign? ? aws.sign("HEAD", path) : {}
+        request_options[:on_success] = blk if blk
+        request_options.update(:headers => headers)
+        Happening::S3::Request.new(:head, url, {:ssl => options[:ssl]}.update(request_options)).execute
+      end
+
+      def ahead(request_options = {}, &blk)
+        headers = needs_to_sign? ? aws.sign("HEAD", path) : {}
+        request_options[:on_success] = blk if blk
+        request_options.update(:headers => headers)
+        Happening::S3::Request.new(:ahead, url, {:ssl => options[:ssl]}.update(request_options)).execute
+      end
+    end
+  end
+end
+
 module Visor
   module API
     module Store
@@ -33,64 +64,50 @@ module Visor
             @secret_key = @config[:secret_key]
             @bucket     = @config[:bucket]
           end
+
+        end
+
+        def credentials
+          {aws_access_key_id: @access_key, aws_secret_access_key: @secret_key}
         end
 
         def get
-          #file_exists?
-          access_key = 'AKIAIABKOTWKSEXWTVXQ'
-          secret_key = '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'
-          bucket     = 'visor-images'
-          image      = '1.iso'
+          s3     = Happening::S3::Item.new(@bucket, @file, credentials).aget
+          finish = proc { yield nil }
 
-          #item = Happening::S3::Item.new(bucket, image, {aws_access_key_id: access_key, aws_secret_access_key: secret_key})
-          #item.get.stream do |chunk|
-          #  yield chunk
-          #end
-
-          http       = EventMachine::HttpRequest.new('http://dl.dropbox.com/u/3528102/10.iso').aget
-          finish     = proc { yield nil }
-          http.stream { |chunk| yield chunk }
-          http.callback &finish
-          http.errback &finish
+          s3.stream { |chunk| yield chunk }
+          s3.callback &finish
+          s3.errback &finish
         end
 
-        #def self.save(id, tmp_file, format, opts)
-        #
-        #  [uri, size]
-        #end
+        def save(id, tmp_file, format)
+          @file = "#{id}.#{format}"
+          uri   = "s3://#{@access_key}:#{@secret_key}@s3.amazonaws.com/#{@bucket}/#{@file}"
+          size  = tmp_file.size
+
+          raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
+          STDERR.puts "COPYING!!"
+
+          s3 = Happening::S3::Item.new(@bucket, @file, credentials)
+          s3.put(File.read(tmp_file))
+          #http.callback &finish
+          #http.errback &finish
+
+          [uri, size]
+        end
 
         def delete
-
+          s3 = Happening::S3::Item.new(@bucket, @file, credentials)
+          s3.delete
         end
 
-        def file_exists?
+        def file_exists?(raise_exc=true)
           s3 = UberS3.new(:access_key => @access_key, :secret_access_key => @secret_key,
                           :bucket     => @bucket, :persistent => true, :adapter => :em_http_fibered)
 
-          raise NotFound, "No image file found at #{@uri}" unless s3.exists?("/#{@file}")
-        end
-
-
-        #item = Happening::S3::Item.new(bucket, '2.iso',
-        #                               :aws_access_key_id     => access_key,
-        #                               :aws_secret_access_key => secret_key)
-        #
-        #item.put(File.read('/Users/joaodrp/1.iso')) do |response|
-        #  puts "Upload finished!"; EM.stop
-        #end
-        #
-        #item.get do |response|
-        #  puts "the response content is: #{response.response}"
-        #  EM.stop
-        #end
-
-        def parse_uri_credentials
-          access_key = @uri.user
-          secret_key = @uri.password
-          bucket     = @uri.path.split('/')[1]
-          image      = @uri.path.split('/')[2]
-
-          [access_key, secret_key, bucket, image]
+          exist = s3.exists?("/#{@file}")
+          raise NotFound, "No image file found at #{@uri}" if raise_exc && !exist
+          exist
         end
       end
 

@@ -25,6 +25,7 @@ module Visor
           file_exists?
           open(@fp, "rb") do |file|
             yield file.read(CHUNKSIZE) until file.eof?
+            yield nil
           end
         end
 
@@ -64,32 +65,14 @@ module Visor
 
         private
 
-        #open(tmp_file, "rb") do |tmp|
-        #  open(fp, "wb") do |f|
-        #    until tmp.eof?
-        #      EM.next_tick do
-        #        chunk = tmp.read(CHUNKSIZE)
-        #        f << chunk
-        #        md5.update chunk
-        #      end
-        #    end
-        #  end
-        #end
-
-        #def each_chunk(file, chunk_size=1024)
-        #  yield file.read(chunk_size) until file.eof?
-        #end
-
-        #EM::File::write(new, tmp)
-
         def each_chunk(file, chunk_size=CHUNKSIZE)
           handler = lambda do
-            unless (file.eof?)
+            unless file.eof?
               yield file.read(chunk_size)
-              EM.next_tick(&handler)
+              EM.next_tick &handler
             end
           end
-          EM.next_tick(&handler)
+          EM.next_tick &handler
         end
 
       end
