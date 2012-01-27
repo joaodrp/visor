@@ -10,12 +10,10 @@ module Visor
 
       def response(env)
         begin
-          meta   = DB.get_image(params[:id])
+          meta   = vms.get_image(params[:id])
           uri    = meta[:location]
-          name   = meta[:store] || STORE_CONF[:default]
-          config = STORE_CONF[name.to_sym]
 
-          store = Visor::API::Store.get_backend(uri, config)
+          store = Visor::API::Store.get_backend(uri, options)
           store.file_exists?
         rescue NotFound => e
           return [404, {}, {code: 404, message: e.message}]

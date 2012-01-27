@@ -1,14 +1,8 @@
 require 'goliath'
-require 'json'
 require 'tempfile'
+require 'json'
 
 require File.expand_path('../../api', __FILE__)
-
-conf       = Visor::Common::Config.load_config
-META_CONF  = conf[:visor_meta]
-API_CONF   = conf[:visor_api]
-STORE_CONF = conf[:visor_store]
-DB         = Visor::API::Meta.new(host: META_CONF[:bind_host], port: META_CONF[:bind_port])
 
 #TODO: Include cache with Etag header set to image['checksum']?
 

@@ -9,8 +9,8 @@ module Visor
 
       def response(env)
         begin
-          images = DB.get_images
-          images.each { |image| DB.delete_image(image[:_id]) }
+          images = vms.get_images
+          images.each { |image| vms.delete_image(image[:_id]) }
           [200, {}, nil]
         rescue NotFound => e
           [404, {}, {code: 404, message: e.message}]

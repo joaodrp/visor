@@ -10,7 +10,7 @@ module Visor
 
       def response(env)
         begin
-          meta   = DB.get_image(params[:id])
+          meta   = vms.get_image(params[:id])
           header = push_meta_into_headers(meta)
           [200, header, nil]
         rescue NotFound => e

@@ -18,7 +18,7 @@ module Visor
         def initialize(uri, config)
           @uri    = URI(uri)
           @fp     = @uri.path
-          @config = config
+          @config = config[:file]
         end
 
         def get

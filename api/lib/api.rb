@@ -8,7 +8,6 @@ require 'api/store/file_system'
 require 'api/store/http'
 require 'api/store/s3'
 require 'api/store/store'
-#require 'api/server'
 require 'api/routes/head_image'
 require 'api/routes/get_images'
 require 'api/routes/get_images_detail'
@@ -17,5 +16,7 @@ require 'api/routes/post_image'
 require 'api/routes/put_image'
 require 'api/routes/delete_image'
 require 'api/routes/delete_all_images'
+require 'api/server'
+
 
 

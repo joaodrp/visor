@@ -9,7 +9,7 @@ module Visor
 
       def response(env)
         begin
-          meta = DB.get_images(params)
+          meta = vms.get_images(params)
           [200, {}, {images: meta}]
         rescue NotFound => e
           [404, {}, {code: 404, message: e.message}]

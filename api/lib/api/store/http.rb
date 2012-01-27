@@ -18,7 +18,7 @@ module Visor
 
         attr_accessor :uri, :config
 
-        def initialize(uri, config)
+        def initialize(uri, config=nil)
           @uri    = uri
           @config = config
         end
@@ -33,7 +33,7 @@ module Visor
         end
 
         def file_exists?(raise_exc=true)
-          http = EventMachine::HttpRequest.new(uri, connect_timeout: 5).head
+          http = EventMachine::HttpRequest.new(uri, connect_timeout: 5, redirects: 5).head
 
           if location = http.response_header['LOCATION']
             http = EventMachine::HttpRequest.new(location, connect_timeout: 5).head

@@ -17,10 +17,8 @@ module Visor
 
       # Pre-process body as it arrives in streaming chunks
       def on_body(env, data)
-        env['body'] ||= Tempfile.open('visor-image', encoding: 'ascii-8bit')
-        env['md5']  ||= Digest::MD5.new
-        env['body'].write data
-        env['md5'].update data
+        (env['body'] ||= Tempfile.open('visor-image', encoding: 'ascii-8bit')) << data
+        (env['md5'] ||= Digest::MD5.new) << data
       end
 
       # Main method, processes and returns the request response
@@ -43,8 +41,8 @@ module Visor
 
         if meta[:store] == 'http' || (location && location.split(':').first == 'http')
           return exit_error(400, 'Cannot post an image file to a HTTP backend') if body
+          store = Visor::API::Store::HTTP.new(location)
 
-          store                               = Visor::API::Store::HTTP.new(location, nil)
           exist, meta[:size], meta[:checksum] = store.file_exists?(false)
           return exit_error(404, "No image file found at #{location}") unless exist
         end
@@ -95,12 +93,12 @@ module Visor
 
       # Fire updates to image metadata on database
       def do_update(id, update)
-        DB.put_image(id, update)
+        vms.put_image(id, update)
       end
 
       # Update image status and launch upload
       def upload_and_update(id, body)
-        meta     = DB.get_image(id)
+        meta     = vms.get_image(id)
         checksum = env['md5']
         raise ConflictError, 'Can only assign image file to a locked image' unless meta[:status]=='locked'
         meta           = do_update(id, status: 'uploading')
@@ -111,15 +109,14 @@ module Visor
       # Upload image file to wanted store
       def do_upload(id, meta, body)
         content_type = env['headers']['Content-Type'] || ''
-        store_name   = meta[:store] || STORE_CONF[:default]
+        store_name   = meta[:store] || options[:default]
         format       = meta[:format] || 'none'
-        config       = STORE_CONF[store_name.to_sym]
 
         unless content_type == 'application/octet-stream'
           raise ArgumentError, 'Request Content-Type must be application/octet-stream'
         end
 
-        store = Visor::API::Store.get_backend(store_name, config)
+        store = Visor::API::Store.get_backend(store_name, options)
         store.save(id, body, format)
       end
     end

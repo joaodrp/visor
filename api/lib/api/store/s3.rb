@@ -35,7 +35,7 @@ module Visor
 
         def initialize(uri, config)
           @uri    = URI(uri)
-          @config = config
+          @config = config[:s3]
 
           if @uri.scheme
             @access_key = @uri.user
@@ -49,12 +49,12 @@ module Visor
           end
         end
 
-        def connect_to_s3
+        def connection
           Happening::S3::Item.new(bucket, file, aws_access_key_id: access_key, aws_secret_access_key: secret_key)
         end
 
         def get
-          s3     = connect_to_s3.aget
+          s3     = connection.aget
           finish = proc { yield nil }
 
           s3.stream { |chunk| yield chunk }
@@ -70,13 +70,13 @@ module Visor
           raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
           STDERR.puts "COPYING!!"
 
-          connect_to_s3.put(File.read(tmp_file))
+          connection.put(File.read(tmp_file))
 
           [uri, size]
         end
 
         def delete
-          connect_to_s3.delete
+          connection.delete
         end
 
         def file_exists?(raise_exc=true)
@@ -84,8 +84,7 @@ module Visor
           error   = proc { exist = false }
           success = proc { |res| exist = true if res.response_header.status == 200 }
 
-          connect_to_s3.head(on_error: error, on_success: success)
-
+          connection.head(on_error: error, on_success: success)
           raise NotFound, "No image file found at #{uri}" if raise_exc && !exist
           exist
         end
