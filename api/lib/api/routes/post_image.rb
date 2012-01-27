@@ -25,12 +25,21 @@ module Visor
 
       # Main method, processes and returns the request response
       def response(env)
-        meta = pull_meta_from_headers(env['headers'])
-        body = env['body']
+        meta     = pull_meta_from_headers(env['headers'])
+        body     = env['body']
+        location = meta[:location]
 
-        if meta[:location] && body
-          msg = 'When x-image-meta-location header is present no file content can be provided'
+        if location && body
+          msg = 'When the location header is present no file content can be provided'
           return exit_error(400, msg)
+        end
+
+        if meta[:store] == 'http' || (location && location.split(':').first == 'http')
+          return exit_error(400, 'Cannot post an image file to a HTTP backend') if body
+
+          store = Visor::API::Store::HTTP.new(location, nil)
+          return exit_error(404, "No image file found at #{location}") unless store.file_exists?(false)
+          meta[:size], meta[:checksum] = store.get_file_meta
         end
 
         # first registers the image meta or raises on error

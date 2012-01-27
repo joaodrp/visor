@@ -23,14 +23,14 @@ module Visor
 
         def get
           file_exists?
-          open(@fp, "rb") do |file|
+          open(fp, "rb") do |file|
             yield file.read(CHUNKSIZE) until file.eof?
             yield nil
           end
         end
 
         def save(id, tmp_file, format)
-          dir  = File.expand_path @config[:directory]
+          dir  = File.expand_path config[:directory]
           file = "#{id}.#{format}"
           fp   = File.join(dir, file)
           uri  = "file://#{fp}"
@@ -53,14 +53,14 @@ module Visor
         def delete
           file_exists?
           begin
-            File.delete(@fp)
+            File.delete(fp)
           rescue => e
-            raise Unauthorized, "Error while trying to delete image file #{@fp}: #{e.message}"
+            raise Unauthorized, "Error while trying to delete image file #{fp}: #{e.message}"
           end
         end
 
         def file_exists?
-          raise NotFound, "No image file found at #{@fp}" unless File.exists?(@fp)
+          raise NotFound, "No image file found at #{fp}" unless File.exists?(fp)
         end
 
         private

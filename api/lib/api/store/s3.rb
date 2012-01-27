@@ -46,9 +46,7 @@ module Visor
       class S3
         include Visor::Common::Exception
 
-        CHUNKSIZE = 65536
-
-        attr_accessor :uri, :fp
+        attr_accessor :uri, :config, :access_key, :secret_key, :bucket, :file
 
         def initialize(uri, config)
           @uri    = URI(uri)
@@ -68,11 +66,11 @@ module Visor
         end
 
         def credentials
-          {aws_access_key_id: @access_key, aws_secret_access_key: @secret_key}
+          {aws_access_key_id: access_key, aws_secret_access_key: secret_key}
         end
 
         def get
-          s3     = Happening::S3::Item.new(@bucket, @file, credentials).aget
+          s3     = Happening::S3::Item.new(bucket, file, credentials).aget
           finish = proc { yield nil }
 
           s3.stream { |chunk| yield chunk }
@@ -82,31 +80,29 @@ module Visor
 
         def save(id, tmp_file, format)
           @file = "#{id}.#{format}"
-          uri   = "s3://#{@access_key}:#{@secret_key}@s3.amazonaws.com/#{@bucket}/#{@file}"
+          uri   = "s3://#{access_key}:#{secret_key}@s3.amazonaws.com/#{bucket}/#{file}"
           size  = tmp_file.size
 
           raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
           STDERR.puts "COPYING!!"
 
-          s3 = Happening::S3::Item.new(@bucket, @file, credentials)
+          s3 = Happening::S3::Item.new(bucket, file, credentials)
           s3.put(File.read(tmp_file))
-          #http.callback &finish
-          #http.errback &finish
 
           [uri, size]
         end
 
         def delete
-          s3 = Happening::S3::Item.new(@bucket, @file, credentials)
+          s3 = Happening::S3::Item.new(bucket, file, credentials)
           s3.delete
         end
 
         def file_exists?(raise_exc=true)
-          s3 = UberS3.new(:access_key => @access_key, :secret_access_key => @secret_key,
-                          :bucket     => @bucket, :persistent => true, :adapter => :em_http_fibered)
+          s3 = UberS3.new(:access_key => access_key, :secret_access_key => secret_key,
+                          :bucket     => bucket, :persistent => true, :adapter => :em_http_fibered)
 
-          exist = s3.exists?("/#{@file}")
-          raise NotFound, "No image file found at #{@uri}" if raise_exc && !exist
+          exist = s3.exists?("/#{file}")
+          raise NotFound, "No image file found at #{uri}" if raise_exc && !exist
           exist
         end
       end

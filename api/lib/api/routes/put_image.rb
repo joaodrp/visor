@@ -40,13 +40,19 @@ module Visor
           return exit_error(400, msg)
         end
 
+        if meta[:store] == 'http' && body
+          return exit_error(400, 'Cannot post an image file to a HTTP backend')
+        end
+
         # first update the image meta or raises on error
         begin
           meta = update_meta(id, meta)
         rescue ArgumentError => e
+          body.close if body
           body.unlink if body
           return exit_error(400, e.message)
         rescue InternalError => e
+          body.close if body
           body.unlink if body
           return exit_error(500, e.message)
         end unless meta.empty?
@@ -63,6 +69,7 @@ module Visor
         rescue InternalError => e
           return exit_error(500, e.message, true)
         ensure
+          body.close
           body.unlink
         end unless body.nil?
 
