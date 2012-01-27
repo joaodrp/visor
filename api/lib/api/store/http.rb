@@ -32,29 +32,20 @@ module Visor
           http.errback &finish
         end
 
-        def get_file_meta
+        def file_exists?(raise_exc=true)
           http = EventMachine::HttpRequest.new(uri, connect_timeout: 5).head
 
           if location = http.response_header['LOCATION']
             http = EventMachine::HttpRequest.new(location, connect_timeout: 5).head
           end
 
+          exist    = (http.response_header.status == 200)
           length   = http.response_header['CONTENT_LENGTH']
           size     = length.nil? ? nil : length.to_i
           checksum = http.response_header['ETAG'] || nil
-          [size, checksum]
-        end
 
-        def file_exists?(raise_exc=true)
-          http = EventMachine::HttpRequest.new(uri).head
-
-          if location = http.response_header['LOCATION']
-            http = EventMachine::HttpRequest.new(location, connect_timeout: 5).head
-          end
-
-          exist = (http.response_header.status == 200)
           raise NotFound, "No image file found at #{uri}" if raise_exc && !exist
-          exist
+          [exist, size, checksum.gsub('"', '')]
         end
       end
 

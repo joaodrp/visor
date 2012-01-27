@@ -1,5 +1,4 @@
 require 'uri'
-require "uber-s3"
 require 'happening'
 require "em-synchrony"
 require "em-synchrony/em-http"
@@ -16,20 +15,6 @@ module Happening
         request_options[:on_success] = blk if blk
         request_options.update(:headers => headers)
         Happening::S3::Request.new(:aget, url, {:ssl => options[:ssl]}.update(request_options)).execute
-      end
-
-      def head(request_options = {}, &blk)
-        headers = needs_to_sign? ? aws.sign("HEAD", path) : {}
-        request_options[:on_success] = blk if blk
-        request_options.update(:headers => headers)
-        Happening::S3::Request.new(:head, url, {:ssl => options[:ssl]}.update(request_options)).execute
-      end
-
-      def ahead(request_options = {}, &blk)
-        headers = needs_to_sign? ? aws.sign("HEAD", path) : {}
-        request_options[:on_success] = blk if blk
-        request_options.update(:headers => headers)
-        Happening::S3::Request.new(:ahead, url, {:ssl => options[:ssl]}.update(request_options)).execute
       end
     end
   end
@@ -62,15 +47,14 @@ module Visor
             @secret_key = @config[:secret_key]
             @bucket     = @config[:bucket]
           end
-
         end
 
-        def credentials
-          {aws_access_key_id: access_key, aws_secret_access_key: secret_key}
+        def connect_to_s3
+          Happening::S3::Item.new(bucket, file, aws_access_key_id: access_key, aws_secret_access_key: secret_key)
         end
 
         def get
-          s3     = Happening::S3::Item.new(bucket, file, credentials).aget
+          s3     = connect_to_s3.aget
           finish = proc { yield nil }
 
           s3.stream { |chunk| yield chunk }
@@ -86,22 +70,22 @@ module Visor
           raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
           STDERR.puts "COPYING!!"
 
-          s3 = Happening::S3::Item.new(bucket, file, credentials)
-          s3.put(File.read(tmp_file))
+          connect_to_s3.put(File.read(tmp_file))
 
           [uri, size]
         end
 
         def delete
-          s3 = Happening::S3::Item.new(bucket, file, credentials)
-          s3.delete
+          connect_to_s3.delete
         end
 
         def file_exists?(raise_exc=true)
-          s3 = UberS3.new(:access_key => access_key, :secret_access_key => secret_key,
-                          :bucket     => bucket, :persistent => true, :adapter => :em_http_fibered)
+          exist   = nil
+          error   = proc { exist = false }
+          success = proc { |res| exist = true if res.response_header.status == 200 }
 
-          exist = s3.exists?("/#{file}")
+          connect_to_s3.head(on_error: error, on_success: success)
+
           raise NotFound, "No image file found at #{uri}" if raise_exc && !exist
           exist
         end

@@ -25,9 +25,10 @@ module Visor
 
       # Main method, processes and returns the request response
       def response(env)
-        meta = pull_meta_from_headers(env['headers'])
-        body = env['body']
-        id   = params[:id]
+        meta     = pull_meta_from_headers(env['headers'])
+        body     = env['body']
+        id       = params[:id]
+        location = meta[:location]
 
         # a valid update requires the presence of headers and/or body
         if meta.empty? && body.nil?
@@ -35,13 +36,17 @@ module Visor
           return exit_error(400, msg)
         end
         # only the x-image-meta-location header or the body content should be provided
-        if meta[:location] && body
-          msg = 'When x-image-meta-location header is present no file content can be provided'
+        if location && body
+          msg = 'When the location header is present no file content can be provided'
           return exit_error(400, msg)
         end
 
-        if meta[:store] == 'http' && body
-          return exit_error(400, 'Cannot post an image file to a HTTP backend')
+        if meta[:store] == 'http' || (location && location.split(':').first == 'http')
+          return exit_error(400, 'Cannot post an image file to a HTTP backend') if body
+
+          store                               = Visor::API::Store::HTTP.new(location, nil)
+          exist, meta[:size], meta[:checksum] = store.file_exists?(false)
+          return exit_error(404, "No image file found at #{location}") unless exist
         end
 
         # first update the image meta or raises on error

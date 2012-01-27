@@ -38,8 +38,8 @@ module Visor
           return exit_error(400, 'Cannot post an image file to a HTTP backend') if body
 
           store = Visor::API::Store::HTTP.new(location, nil)
-          return exit_error(404, "No image file found at #{location}") unless store.file_exists?(false)
-          meta[:size], meta[:checksum] = store.get_file_meta
+          exist, meta[:size], meta[:checksum] = store.file_exists?(false)
+          return exit_error(404, "No image file found at #{location}") unless exist
         end
 
         # first registers the image meta or raises on error
