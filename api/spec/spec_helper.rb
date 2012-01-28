@@ -5,6 +5,7 @@ Bundler.require :default, :test
 #SimpleCov.start
 
 require File.expand_path '../../lib/api', __FILE__
+require File.expand_path '../../lib/api/server', __FILE__
 
 require 'goliath/test_helper'
 

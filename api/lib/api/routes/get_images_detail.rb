@@ -8,12 +8,17 @@ module Visor
       use Goliath::Rack::Render, 'json'
 
       def response(env)
-        begin
-          meta = vms.get_images_detail(params)
-          [200, {}, {images: meta}]
-        rescue NotFound => e
-          [404, {}, {code: 404, message: e.message}]
-        end
+        meta = vms.get_images_detail(params)
+        [200, {}, {images: meta}]
+      rescue NotFound => e
+        exit_error(404, e.message)
+      rescue => e
+        exit_error(500, e.message)
+      end
+
+      def exit_error(code, message)
+        logger.error message
+        [code, {}, {code: code, message: message}]
       end
     end
 

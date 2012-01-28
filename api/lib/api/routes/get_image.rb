@@ -10,13 +10,15 @@ module Visor
 
       def response(env)
         begin
-          meta   = vms.get_image(params[:id])
-          uri    = meta[:location]
+          meta = vms.get_image(params[:id])
+          uri  = meta[:location]
 
-          store = Visor::API::Store.get_backend(uri, options)
+          store = Visor::API::Store.get_backend(uri, configs)
           store.file_exists?
         rescue NotFound => e
-          return [404, {}, {code: 404, message: e.message}]
+          return exit_error(404, e.message)
+        rescue => e
+          return exit_error(500, e.message)
         end
 
         EM.next_tick do
@@ -34,6 +36,11 @@ module Visor
 
         headers = push_meta_into_headers(meta, custom_headers)
         chunked_streaming_response(200, headers)
+      end
+
+      def exit_error(code, message)
+        logger.error message
+        [code, {}, {code: code, message: message}]
       end
     end
 

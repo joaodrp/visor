@@ -9,24 +9,27 @@ module Visor
       use Goliath::Rack::Render, 'json'
 
       def response(env)
-        begin
-          meta = vms.delete_image(params[:id])
-          uri  = meta[:location]
-          name = meta[:store]
+        meta = vms.delete_image(params[:id])
+        uri  = meta[:location]
+        name = meta[:store]
 
-          if uri && name
-            store  = Visor::API::Store.get_backend(uri, options)
-            store.delete unless name == 'http'
-          end
-        rescue NotFound => e
-          [404, {}, {code: 404, message: e.message}]
-        rescue Unauthorized => e
-          [550, {}, {code: 550, message: e.message}]
-        rescue => e
-          [500, {}, {code: 500, message: e.message}]
-        else
-          [200, {}, {image: meta}]
+        if uri && name
+          store = Visor::API::Store.get_backend(uri, configs)
+          store.delete unless name == 'http'
         end
+      rescue NotFound => e
+        exit_error(404, e.message)
+      rescue Unauthorized => e
+        exit_error(550, e.message)
+      rescue => e
+        exit_error(500, e.message)
+      else
+        [200, {}, {image: meta}]
+      end
+
+      def exit_error(code, message)
+        logger.error message
+        [code, {}, {code: code, message: message}]
       end
     end
 

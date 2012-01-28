@@ -30,6 +30,8 @@ module Visor
       use Goliath::Rack::Heartbeat
       # Auto parse and merge body and query parameters
       use Goliath::Rack::Params
+      # Auto negotiate content and parse body as JSON
+      #use Goliath::Rack::Render, 'json'
 
       # Routes
       #
@@ -59,6 +61,7 @@ module Visor
 
       # Not Found
       not_found('/') do
+
         run Proc.new { |env| [404, {}, {code: 404, message: "Invalid operation or path."}] }
       end
     end

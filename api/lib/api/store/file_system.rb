@@ -38,7 +38,7 @@ module Visor
 
           FileUtils.mkpath(dir) unless Dir.exists?(dir)
           raise Duplicated, "The image file #{fp} already exists" if File.exists?(fp)
-          STDERR.puts "COPYING!!"
+          STDERR.puts "Copying image tempfile #{tmp_file.path} to definitive #{fp}"
 
           tmp = File.open(tmp_file.path, "rb")
           new = File.open(fp, "wb")

@@ -16,7 +16,7 @@ require 'api/routes/post_image'
 require 'api/routes/put_image'
 require 'api/routes/delete_image'
 require 'api/routes/delete_all_images'
-require 'api/server'
+#require 'api/server'
 
 
 

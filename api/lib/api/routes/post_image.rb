@@ -55,12 +55,13 @@ module Visor
 
         # if has body(image file), upload file and update meta or raise on error
         begin
-          id   = env['id']
-          meta = upload_and_update(id, body)
+          meta = upload_and_update(env['id'], body)
         rescue UnsupportedStore, ArgumentError => e
           return exit_error(400, e.message, true)
         rescue NotFound => e
           return exit_error(404, e.message, true)
+        rescue Duplicated => e
+          return exit_error(409, e.message, true)
         rescue InternalError => e
           return exit_error(500, e.message, true)
         ensure
@@ -73,7 +74,12 @@ module Visor
 
       # Custom JSON error exit messages
       def exit_error(code, message, set_status=false)
-        do_update(env['id'], status: 'error') if set_status
+        logger.error message
+        begin
+          vms.put_image(env['id'], status: 'error') if set_status
+        rescue => e
+          logger.error "Unable to set image #{env['id']} status to 'error': #{e.message}"
+        end
         [code, {}, {code: code, message: message}]
       end
 
@@ -81,34 +87,41 @@ module Visor
       def insert_meta(meta)
         meta      = vms.post_image(meta)
         env['id'] = meta[:_id]
-        do_update(env['id'], status: 'available') if meta[:location]
-      end
 
-      # Fire updates to image metadata on database
-      def do_update(id, update)
-        vms.put_image(id, update)
+        if meta[:location]
+          logger.debug "Location for image #{env['id']} is #{meta[:location]}"
+          logger.debug "Setting image #{env['id']} status to 'available'"
+          vms.put_image(env['id'], status: 'available')
+        end
       end
 
       # Update image status and launch upload
       def upload_and_update(id, body)
-        meta           = do_update(id, status: 'uploading')
+        logger.debug "Setting image #{id} status to 'uploading'"
+        meta           = vms.put_image(id, status: 'uploading')
         checksum       = env['md5']
         location, size = do_upload(id, meta, body)
 
-        do_update(id, status: 'available', uploaded_at: Time.now, location: location, size: size, checksum: checksum)
+        logger.debug "Updating image #{id} meta:"
+        logger.debug "Setting status to 'available'"
+        logger.debug "Setting location to '#{location}'"
+        logger.debug "Setting size to '#{size}'"
+        logger.debug "Setting checksum to '#{checksum}'"
+        vms.put_image(id, status: 'available', uploaded_at: Time.now, location: location, size: size, checksum: checksum)
       end
 
       # Upload image file to wanted store
       def do_upload(id, meta, body)
         content_type = env['headers']['Content-Type'] || ''
-        store_name   = meta[:store] || options[:default]
+        store_name   = meta[:store] || configs[:default]
         format       = meta[:format] || 'none'
 
         unless content_type == 'application/octet-stream'
           raise ArgumentError, 'Request Content-Type must be application/octet-stream'
         end
 
-        store = Visor::API::Store.get_backend(store_name, options)
+        store = Visor::API::Store.get_backend(store_name, configs)
+        logger.debug "Uploading image #{id} data to #{store_name} store"
         store.save(id, body, format)
       end
     end
