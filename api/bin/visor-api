@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+# VISoR API Server command line interface script.
+# Run <visor-api -h> to get more usage help.
+
+require File.expand_path('../../lib/api', __FILE__)
+
+ENV['GOLIATH_CONF'] = File.expand_path('../../config/server.rb', __FILE__)
+
+Visor::API::CLI.new(ARGV).run!
