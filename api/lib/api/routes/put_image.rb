@@ -12,6 +12,7 @@ module Visor
 
       # Pre-process headers as they arrive
       def on_headers(env, headers)
+        logger.debug "Received headers: #{headers.inspect}"
         env['headers'] = headers
       end
 
@@ -79,6 +80,10 @@ module Visor
         end unless body.nil?
 
         [200, {}, {image: meta}]
+      end
+
+      def on_close(env)
+        logger.info 'Connection closed'
       end
 
       # Custom JSON error exit messages

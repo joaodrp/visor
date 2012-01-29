@@ -7,7 +7,7 @@ describe Visor::API::Server do
   let(:accept) { {'Accept' => 'application/json'} }
   let(:parse_opts) { {symbolize_names: true} }
   let(:valid_post) { {name: 'server_spec', architecture: 'i386', access: 'public'} }
-  let(:api_options) { {config: File.expand_path(File.join(File.dirname(__FILE__), '../../../', 'lib/api/config/server.rb'))} }
+  let(:api_options) { {config: File.expand_path(File.join(File.dirname(__FILE__), '../../../', 'config/server.rb'))} }
 
   inserted = []
 

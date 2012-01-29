@@ -5,7 +5,7 @@ describe Visor::API::Server do
   let(:test_api) { Visor::API::Server }
   let(:err) { Proc.new { fail "API request failed" } }
   let(:accept) { {'Accept' => 'application/json'} }
-  let(:api_options) { {config: File.expand_path(File.join(File.dirname(__FILE__), '../..', 'lib/api/config/server.rb'))} }
+  let(:api_options) { {config: File.expand_path(File.join(File.dirname(__FILE__), '../..', 'config/server.rb'))} }
 
   #
   # Assert allowed methods by path

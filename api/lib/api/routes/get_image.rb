@@ -38,6 +38,10 @@ module Visor
         chunked_streaming_response(200, headers)
       end
 
+      def on_close(env)
+        logger.info 'Connection closed'
+      end
+
       def exit_error(code, message)
         logger.error message
         [code, {}, {code: code, message: message}]

@@ -33,19 +33,20 @@ module Visor
         end
 
         def file_exists?(raise_exc=true)
-          http = EventMachine::HttpRequest.new(uri, connect_timeout: 5, redirects: 5).head
+          http = EventMachine::HttpRequest.new(uri, connect_timeout: 2, redirects: 5).head
 
           if location = http.response_header['LOCATION']
-            http = EventMachine::HttpRequest.new(location, connect_timeout: 5).head
+            http = EventMachine::HttpRequest.new(location, connect_timeout: 2).head
           end
 
           exist    = (http.response_header.status == 200)
           length   = http.response_header['CONTENT_LENGTH']
           size     = length.nil? ? nil : length.to_i
-          checksum = http.response_header['ETAG'] || nil
+          etag     = http.response_header['ETAG']
+          checksum = etag.nil? ? '' : etag.gsub('"', '')
 
           raise NotFound, "No image file found at #{uri}" if raise_exc && !exist
-          [exist, size, checksum.gsub('"', '')]
+          [exist, size, checksum]
         end
       end
 

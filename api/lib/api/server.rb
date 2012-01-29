@@ -30,7 +30,8 @@ module Visor
       use Goliath::Rack::Heartbeat
       # Auto parse and merge body and query parameters
       use Goliath::Rack::Params
-
+      # Cleanup accepted media types
+      use Goliath::Rack::DefaultMimeType
       # Routes
       #
 
