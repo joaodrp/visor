@@ -2,7 +2,6 @@ require 'sinatra/base'
 require 'json'
 require 'uri'
 
-# TODO: compressing and caching
 module Visor
   module Meta
 
@@ -116,9 +115,9 @@ module Visor
       #       "size":<size>,
       #       "type":<type>,
       #       "format":<format>,
-      #       "store":<type>,
-      #       "created_at":<creation timestamp>
-      #       "updated_at":<update timestamp>,
+      #       "store":<store>,
+      #       "created_at":<timestamp>
+      #       "updated_at":<timestamp>,
       #       "kernel":<associated kernel>,
       #       "ramdisk":<associated ramdisk>,
       #       ...

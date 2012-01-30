@@ -19,8 +19,7 @@ module Visor
       # Default files directory
       DEFAULT_DIR  = File.expand_path('~/.visor')
 
-      # Initialize a CLI
-      #
+      # Initialize a new CLI
       def initialize(argv=ARGV)
         @argv      = argv
         @options   = {}
@@ -31,6 +30,7 @@ module Visor
         @command   = parse!
       end
 
+      # Generate the default options
       def defaults
         {:config     => ENV['GOLIATH_CONF'],
          :address    => conf_file[:bind_host],
@@ -43,7 +43,6 @@ module Visor
       end
 
       # OptionParser parser
-      #
       def parser
         OptionParser.new do |opts|
           opts.banner = "Usage: visor-api [OPTIONS] COMMAND"
@@ -115,7 +114,6 @@ module Visor
 
       # Parse the current shell arguments and run the command.
       # Exits on error.
-      #
       def run!
         if command.nil?
           abort @parser.to_s
@@ -144,7 +142,6 @@ module Visor
       end
 
       # Remove all files created by the daemon.
-      #
       def clean
         begin
           FileUtils.rm(pid_file) rescue Errno::ENOENT
@@ -154,7 +151,6 @@ module Visor
       end
 
       # Restart server
-      #
       def restart
         @restart = true
         stop
@@ -163,7 +159,6 @@ module Visor
       end
 
       # Display current server status
-      #
       def status
         if running?
           STDERR.puts "VISoR API Server is running PID: #{fetch_pid} URL: #{fetch_url}"
@@ -173,7 +168,6 @@ module Visor
       end
 
       # Stop the server
-      #
       def stop
         begin
           pid = File.read(pid_file)
@@ -187,7 +181,6 @@ module Visor
       end
 
       # Start the server
-      #
       def start
         FileUtils.mkpath(DEFAULT_DIR) unless Dir.exists?(DEFAULT_DIR)
         begin
@@ -195,14 +188,13 @@ module Visor
           can_use_port?
           write_url
           launch!
-          #rescue => e
-          #  put_and_log :warn, "Error starting VISoR API Server: #{e}"
-          #  exit! 1
+        rescue => e
+          put_and_log :warn, "Error starting VISoR API Server: #{e}"
+          exit! 1
         end
       end
 
       # Launch the server
-      #
       def launch!
         put_and_log :info, "Starting VISoR API Server at #{options[:address]}:#{options[:port]}"
         debug_settings
@@ -215,6 +207,7 @@ module Visor
 
       protected
 
+      # Convert options hash to a compatible Goliath ARGV array
       def opts_to_goliath
         argv_like = []
         @options.each do |k, v|
@@ -244,16 +237,19 @@ module Visor
         argv_like
       end
 
+      # Display options
       def show_options(opts)
         puts opts
         exit
       end
 
+      # Show VISoR API Server version
       def show_version
         puts "VISoR API Server v#{Visor::API::VERSION}"
         exit
       end
 
+      # Check if the server is already running
       def is_it_running?
         if files_exist?(pid_file, url_file)
           if running?
@@ -265,6 +261,7 @@ module Visor
         end
       end
 
+      # Test process pid to access the server status
       def running?
         begin
           Process.kill 0, fetch_pid
@@ -278,6 +275,7 @@ module Visor
         end
       end
 
+      # Test if port is open
       def can_use_port?
         unless port_open?
           put_and_log :warn, "Port #{options[:port]} already in use. Please try other."
@@ -285,6 +283,7 @@ module Visor
         end
       end
 
+      # Access that port is open
       def port_open?
         begin
           STDERR.puts url
@@ -297,6 +296,7 @@ module Visor
         end
       end
 
+      # Retrieve a logger instance
       def logger
         @logger ||=
             begin
@@ -311,16 +311,19 @@ module Visor
             end
       end
 
+      # Print to stderr and log message
       def put_and_log(level, msg)
         STDERR.puts msg
         logger.send level, msg
       end
 
+      # Parse argv arguments
       def parse!
         parser.parse! argv
         argv.shift
       end
 
+      # Log debug settings
       def debug_settings
         logger.debug "Configurations loaded from #{conf_file[:file]}:"
         logger.debug "**************************************************************"
@@ -337,45 +340,54 @@ module Visor
         logger.debug "**************************************************************"
       end
 
+      # Check if a set of files exist
       def files_exist?(*files)
         files.each { |file| return false unless File.exists?(File.expand_path(file)) }
         true
       end
 
+      # Generate the listening url
       def url
         "http://#{options[:address]}:#{options[:port]}"
       end
 
+      # Write url to file
       def write_url
         File.open(url_file, 'w') { |f| f << url }
       end
 
+      # Load url from file
       def fetch_url
         IO.read(url_file).split('//').last
       rescue
         nil
       end
 
+      # Load configuration file options
       def load_conf_file
         Visor::Common::Config.load_config(:visor_api, options[:conf_file])
       rescue => e
         raise "There was an error loading the configuration file: #{e.message}"
       end
 
+      # Fetch pid from file
       def fetch_pid
         IO.read(pid_file).to_i
       rescue
         nil
       end
 
+      # Current pid file option
       def pid_file
         options[:pid_file]
       end
 
+      # Current log file option
       def log_file
         options[:log_file]
       end
 
+      # Current url file location
       def url_file
         File.join(DEFAULT_DIR, 'visor_api.url')
       end

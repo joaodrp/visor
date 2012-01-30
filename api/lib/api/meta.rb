@@ -2,9 +2,6 @@ require 'em-synchrony'
 require 'em-synchrony/em-http'
 require 'json'
 
-#TODO: decompression
-#https://github.com/igrigorik/em-http-request/wiki/Compression
-
 module Visor
   module API
 

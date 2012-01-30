@@ -1,3 +1,5 @@
+require 'goliath'
+
 module Visor
   module API
 
@@ -8,6 +10,11 @@ module Visor
       include Visor::Common::Util
       use Goliath::Rack::Render, ['json', 'xml']
 
+      # Query database to retrieve the wanted image meta and return it in
+      # headers, along with the image file, if any, streaming it in request body.
+      #
+      # @param [Object] env The Goliath environment variables.
+      #
       def response(env)
         begin
           meta = vms.get_image(params[:id])
@@ -35,10 +42,21 @@ module Visor
         end
       end
 
+      # On connection close log a message.
+      #
+      # @param [Object] env The Goliath environment variables.
+      #
       def on_close(env)
         logger.info 'Connection closed'
       end
 
+      # Produce an HTTP response with an error code and message.
+      #
+      # @param [Fixnum] code The error code.
+      # @param [String] message The error message.
+      #
+      # @return [Array] The HTTP response containing an error code and its message.
+      #
       def exit_error(code, message)
         logger.error message
         [code, {}, {code: code, message: message}]

@@ -1,3 +1,5 @@
+require 'goliath'
+
 module Visor
   module API
 

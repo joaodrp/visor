@@ -12,7 +12,7 @@ describe Visor::API::Server do
   let(:parse_opts) { {symbolize_names: true} }
   let(:valid_post) { {name: 'server_spec', architecture: 'i386', access: 'public'} }
   let(:post_headers) { push_meta_into_headers(valid_post) }
-  let(:api_options) { {debug: true, log_stdout: true, config: File.expand_path(File.join(File.dirname(__FILE__), '../../../', 'config/server.rb'))} }
+  let(:api_options) { {config: File.expand_path(File.join(File.dirname(__FILE__), '../../../', 'config/server.rb'))} }
 
   inserted = []
 

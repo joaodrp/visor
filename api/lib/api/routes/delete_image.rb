@@ -1,3 +1,5 @@
+require 'goliath'
+
 module Visor
   module API
 
@@ -8,6 +10,14 @@ module Visor
       include Visor::Common::Util
       use Goliath::Rack::Render, ['json', 'xml']
 
+
+      # Query database to delete the wanted image based on its id.
+      #
+      # @param [Object] env The Goliath environment variables.
+      #
+      # @return [Array] The HTTP response containing the image
+      #   metadata or an error code and its messages if anything was raised.
+      #
       def response(env)
         meta = vms.delete_image(params[:id])
         uri  = meta[:location]
@@ -27,6 +37,13 @@ module Visor
         [200, {}, {image: meta}]
       end
 
+      # Produce an HTTP response with an error code and message.
+      #
+      # @param [Fixnum] code The error code.
+      # @param [String] message The error message.
+      #
+      # @return [Array] The HTTP response containing an error code and its message.
+      #
       def exit_error(code, message)
         logger.error message
         [code, {}, {code: code, message: message}]
