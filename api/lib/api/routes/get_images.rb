@@ -5,7 +5,7 @@ module Visor
     #
     class GetImages < Goliath::API
       include Visor::Common::Exception
-      use Goliath::Rack::Render, 'json'
+      use Goliath::Rack::Render, ['json', 'xml']
 
       def response(env)
         meta = vms.get_images(params)

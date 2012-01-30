@@ -6,7 +6,6 @@ module Visor
     class HeadImage < Goliath::API
       include Visor::Common::Exception
       include Visor::Common::Util
-      use Goliath::Rack::Render, 'json'
 
       def response(env)
         meta   = vms.get_image(params[:id])

@@ -6,7 +6,7 @@ module Visor
     class DeleteImage < Goliath::API
       include Visor::Common::Exception
       include Visor::Common::Util
-      use Goliath::Rack::Render, 'json'
+      use Goliath::Rack::Render, ['json', 'xml']
 
       def response(env)
         meta = vms.delete_image(params[:id])

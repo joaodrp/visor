@@ -8,7 +8,7 @@ module Visor
     class PostImage < Goliath::API
       include Visor::Common::Exception
       include Visor::Common::Util
-      use Goliath::Rack::Render, 'json'
+      use Goliath::Rack::Render, ['json', 'xml']
 
       # Pre-process headers
       def on_headers(env, headers)
@@ -43,7 +43,7 @@ module Visor
 
         # first registers the image meta or raises on error
         begin
-          meta = insert_meta(meta)
+          image = insert_meta(meta)
         rescue ArgumentError => e
           body.close if body
           body.unlink if body
@@ -56,7 +56,7 @@ module Visor
 
         # if has body(image file), upload file and update meta or raise on error
         begin
-          meta = upload_and_update(env['id'], body)
+          image = upload_and_update(env['id'], body)
         rescue UnsupportedStore, ArgumentError => e
           return exit_error(400, e.message, true)
         rescue NotFound => e
@@ -70,7 +70,7 @@ module Visor
           body.unlink
         end unless body.nil?
 
-        [200, {}, {image: meta}]
+        [200, {}, {image: image}]
       end
 
       def on_close(env)
@@ -90,13 +90,15 @@ module Visor
 
       # Insert image metadata on database (which set its status to locked)
       def insert_meta(meta)
-        meta      = vms.post_image(meta)
-        env['id'] = meta[:_id]
+        image     = vms.post_image(meta)
+        env['id'] = image[:_id]
 
-        if meta[:location]
-          logger.debug "Location for image #{env['id']} is #{meta[:location]}"
+        if image[:location]
+          logger.debug "Location for image #{env['id']} is #{image[:location]}"
           logger.debug "Setting image #{env['id']} status to 'available'"
           vms.put_image(env['id'], status: 'available')
+        else
+          image
         end
       end
 

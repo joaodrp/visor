@@ -26,6 +26,12 @@ def assert_200(c)
   c.response_header.status.should == 200
 end
 
+
+def assert_400(c)
+  c.response_header.status.should == 400
+  c.response.should =~ /400/
+end
+
 def assert_404(c)
   c.response_header.status.should == 404
   c.response.should =~ /404/

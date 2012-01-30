@@ -6,36 +6,33 @@ module Visor
     class GetImage < Goliath::API
       include Visor::Common::Exception
       include Visor::Common::Util
-      use Goliath::Rack::Render, 'json'
+      use Goliath::Rack::Render, ['json', 'xml']
 
       def response(env)
         begin
           meta = vms.get_image(params[:id])
           uri  = meta[:location]
-
-          store = Visor::API::Store.get_backend(uri, configs)
-          store.file_exists?
+          if uri
+            store = Visor::API::Store.get_backend(uri, configs)
+            store.file_exists?
+          end
         rescue NotFound => e
           return exit_error(404, e.message)
         rescue => e
           return exit_error(500, e.message)
         end
 
-        EM.next_tick do
-          store.get do |chunk|
-            if chunk
-              env.chunked_stream_send chunk
-            else
-              env.chunked_stream_close
-            end
+        custom  = {'Content-Type' => 'application/octet-stream', 'X-Stream' => 'Goliath'}
+        headers = push_meta_into_headers(meta, custom)
+
+        if uri
+          EM.next_tick do
+            store.get { |chunk| chunk ? env.chunked_stream_send(chunk) : env.chunked_stream_close }
           end
+          chunked_streaming_response(200, headers)
+        else
+          [200, headers, nil]
         end
-
-        custom_headers = {'Content-Type' => 'application/octet-stream',
-                          'X-Stream'     => 'Goliath'}
-
-        headers = push_meta_into_headers(meta, custom_headers)
-        chunked_streaming_response(200, headers)
       end
 
       def on_close(env)
