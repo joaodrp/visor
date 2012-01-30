@@ -10,6 +10,14 @@ GIT
       http_parser.rb (>= 0.5.3)
 
 GIT
+  remote: https://github.com/joaodrp/happening.git
+  revision: bf01610508708f833e63577b1eef04b4a9975f7a
+  specs:
+    happening (0.2.5)
+      em-http-request (>= 1.0.0)
+      em-synchrony (>= 1.0.0)
+
+GIT
   remote: https://github.com/postrank-labs/goliath.git
   revision: 9c1e0383bc91c6088986a0f71e063b95f804aba2
   specs:
@@ -48,8 +56,6 @@ GEM
       thor (~> 0.14.6)
     guard-rspec (0.6.0)
       guard (>= 0.10.0)
-    happening (0.2.5)
-      em-http-request
     http_parser.rb (0.5.3)
     http_router (0.9.7)
       rack (>= 1.0.0)
@@ -89,7 +95,7 @@ DEPENDENCIES
   goliath!
   guard
   guard-rspec
-  happening
+  happening!
   rdiscount
   rspec
   ruby_gntp

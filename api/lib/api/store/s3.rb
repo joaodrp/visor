@@ -1,24 +1,5 @@
 require 'uri'
 require 'happening'
-require "em-synchrony"
-require "em-synchrony/em-http"
-
-module Happening
-  module S3
-    class Request
-      VALID_HTTP_METHODS = [:head, :ahead, :get, :aget, :put, :delete]
-    end
-
-    class Item
-      def aget(request_options = {}, &blk)
-        headers = needs_to_sign? ? aws.sign("GET", path) : {}
-        request_options[:on_success] = blk if blk
-        request_options.update(:headers => headers)
-        Happening::S3::Request.new(:aget, url, {:ssl => options[:ssl]}.update(request_options)).execute
-      end
-    end
-  end
-end
 
 module Visor
   module API
