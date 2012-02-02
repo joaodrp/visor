@@ -13,8 +13,8 @@ module Visor
         images = vms.get_images
         images.each { |image| vms.delete_image(image[:_id]) }
         [200, {}, nil]
-      rescue Unauthorized => e
-        exit_error(550, e.message)
+      rescue Forbidden => e
+        exit_error(403, e.message)
       rescue => e
         exit_error(500, e.message)
       end

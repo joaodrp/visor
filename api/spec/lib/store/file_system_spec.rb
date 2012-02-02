@@ -8,7 +8,7 @@ describe Visor::API::Store::HTTP do
   let(:file_conf) { {:file => :configmock} }
 
   let(:duplicated) { Visor::Common::Exception::Duplicated }
-  let(:unauthorized) { Visor::Common::Exception::Unauthorized }
+  let(:unauthorized) { Visor::Common::Exception::Forbidden }
   let(:not_found) { Visor::Common::Exception::NotFound }
 
   describe "#initialize" do

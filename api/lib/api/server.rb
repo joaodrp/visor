@@ -288,7 +288,7 @@ module Visor
       # @return [JSON, XML] The already deleted image detailed metadata.
       #
       # @raise [HTTP Error 404] If image meta or data not found.
-      # @raise [HTTP Error 550] If user does not have permission to manipulate the image file.
+      # @raise [HTTP Error 403] If user does not have permission to manipulate the image file.
       # @raise [HTTP Error 500] On internal server error.
       #
       delete '/images/:id', DeleteImage

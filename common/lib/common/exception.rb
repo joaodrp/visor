@@ -25,7 +25,7 @@ module Visor
       class InternalError < RuntimeError; end
 
       # Raise on error trying to manipulate image files
-      class Unauthorized < RuntimeError; end
+      class Forbidden < RuntimeError; end
 
       # Raise on error trying to update image files/meta
       class ConflictError < RuntimeError; end

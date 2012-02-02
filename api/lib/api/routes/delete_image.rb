@@ -27,10 +27,10 @@ module Visor
           store = Visor::API::Store.get_backend(uri, configs)
           store.delete unless name == 'http'
         end
+      rescue Forbidden => e
+        exit_error(403, e.message)
       rescue NotFound => e
         exit_error(404, e.message)
-      rescue Unauthorized => e
-        exit_error(550, e.message)
       rescue => e
         exit_error(500, e.message)
       else

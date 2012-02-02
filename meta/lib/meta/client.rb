@@ -16,10 +16,10 @@ module Visor
 
       include Visor::Common::Exception
 
-      CONF = Common::Config.load_config :visor_meta
+      configs = Common::Config.load_config :visor_meta
 
-      DEFAULT_HOST = CONF[:bind_host] || '0.0.0.0'
-      DEFAULT_PORT = CONF[:bind_port] || 4567
+      DEFAULT_HOST = configs[:bind_host] || '0.0.0.0'
+      DEFAULT_PORT = configs[:bind_port] || 4567
 
       attr_reader :host, :port, :ssl
 
@@ -41,7 +41,7 @@ module Visor
       def initialize(opts = {})
         @host = opts[:host] || DEFAULT_HOST
         @port = opts[:port] || DEFAULT_PORT
-        @ssl = opts[:ssl] || false
+        @ssl  = opts[:ssl] || false
       end
 
       # Retrieves brief metadata of all public images.
@@ -77,7 +77,7 @@ module Visor
       # @raise [NotFound] If there are no public images registered on the server.
       #
       def get_images(query = {})
-        str = build_query(query)
+        str     = build_query(query)
         request = Net::HTTP::Get.new("/images#{str}")
         do_request(request)
       end
@@ -102,7 +102,7 @@ module Visor
       # @raise [NotFound] If there are no public images registered on the server.
       #
       def get_images_detail(query = {})
-        str = build_query(query)
+        str     = build_query(query)
         request = Net::HTTP::Get.new("/images/detail#{str}")
         do_request(request)
       end
@@ -161,7 +161,7 @@ module Visor
       # @raise [Invalid] If image meta validation fails.
       #
       def post_image(meta)
-        request = Net::HTTP::Post.new('/images')
+        request      = Net::HTTP::Post.new('/images')
         request.body = prepare_body(meta)
         do_request(request)
       end
@@ -193,7 +193,7 @@ module Visor
       # @raise [NotFound] If required image was not found.
       #
       def put_image(id, meta)
-        request = Net::HTTP::Put.new("/images/#{id}")
+        request      = Net::HTTP::Put.new("/images/#{id}")
         request.body = prepare_body(meta)
         do_request(request)
       end
@@ -251,7 +251,7 @@ module Visor
       #
       def prepare_headers(request)
         request['User-Agent'] = 'VISoR meta server'
-        request['Accept'] = 'application/json'
+        request['Accept']     = 'application/json'
         request['content-type'] = 'application/json' if ['POST', 'PUT'].include?(request.method)
       end
 
@@ -281,12 +281,15 @@ module Visor
         prepare_headers(request)
         response = http_or_https.request(request)
         case response
-          when Net::HTTPNotFound then raise NotFound, parse(:message, response)
-          when Net::HTTPBadRequest then raise Invalid, parse(:message, response)
-          else parse(:image, response) or parse(:images, response)
+        when Net::HTTPNotFound then
+          raise NotFound, parse(:message, response)
+        when Net::HTTPBadRequest then
+          raise Invalid, parse(:message, response)
+        else
+          parse(:image, response) or parse(:images, response)
         end
       end
-      
+
       # Generate a new HTTP or HTTPS connection based on initialization parameters.
       #
       # @return [Net::HTTP] A HTTP or HTTPS (not done yet) connection ready to use.

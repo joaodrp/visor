@@ -77,7 +77,7 @@ module Visor
 
         # Deletes the image file to from its location.
         #
-        # @raise [Unauthorized] If user does not have permission to manipulate the image file.
+        # @raise [Forbidden] If user does not have permission to manipulate the image file.
         # @raise [NotFound] If the image file was not found.
         #
         def delete
@@ -85,7 +85,7 @@ module Visor
           begin
             File.delete(fp)
           rescue => e
-            raise Unauthorized, "Error while trying to delete image file #{fp}: #{e.message}"
+            raise Forbidden, "Error while trying to delete image file #{fp}: #{e.message}"
           end
         end
 
