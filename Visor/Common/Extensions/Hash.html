@@ -1,0 +1,1036 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Visor::Common::Extensions::Hash
+  
+    &mdash; VISoR
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (H)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Common.html" title="Visor::Common (module)">Common</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Extensions.html" title="Visor::Common::Extensions (module)">Extensions</a></span></span>
+     &raquo; 
+    <span class="title">Hash</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Visor::Common::Extensions::Hash
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">common/lib/common/extensions/hash.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Extending Hash class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assert_exclusion_keys-instance_method" title="#assert_exclusion_keys (instance method)">- (Object) <strong>assert_exclusion_keys</strong>(*exclude_keys) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate non-inclusion of some keys in a hash.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assert_inclusion_keys-instance_method" title="#assert_inclusion_keys (instance method)">- (Object) <strong>assert_inclusion_keys</strong>(*inclusion_keys) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate inclusions of some keys in a hash.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assert_valid_keys-instance_method" title="#assert_valid_keys (instance method)">- (Object) <strong>assert_valid_keys</strong>(*valid_keys) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate all keys in a hash match *valid keys.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assert_valid_values_for-instance_method" title="#assert_valid_values_for (instance method)">- (Object) <strong>assert_valid_values_for</strong>(key, *valid_values) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate value of some key in a hash.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_blank_keys_value_to-instance_method" title="#set_blank_keys_value_to (instance method)">- (Object) <strong>set_blank_keys_value_to</strong>(keys_to_set, keys_to_ignore, to_value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set some keys in a hash to a given value, possibly ignoring some keys.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stringify_keys-instance_method" title="#stringify_keys (instance method)">- (Object) <strong>stringify_keys</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a new hash with all keys converted to strings.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stringify_keys%21-instance_method" title="#stringify_keys! (instance method)">- (Object) <strong>stringify_keys!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Destructively convert all keys to strings.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#symbolize_keys-instance_method" title="#symbolize_keys (instance method)">- (Object) <strong>symbolize_keys</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a new hash with all keys converted to symbols.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#symbolize_keys%21-instance_method" title="#symbolize_keys! (instance method)">- (Object) <strong>symbolize_keys!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Destructively convert all keys to symbols.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_openstruct-instance_method" title="#to_openstruct (instance method)">- (OpenStruct) <strong>to_openstruct</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert a Hash to a OpenStruct, so it can be accessed as options like: <a
+href="http://key">h</a> =&gt; h.key.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="assert_exclusion_keys-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>assert_exclusion_keys</strong>(*exclude_keys) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate non-inclusion of some keys in a hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>exclude_keys</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Keys that must be not be included in the hash.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If some key is included.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_assert_exclusion_keys'>assert_exclusion_keys</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_exclude_keys'>exclude_keys</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_exc'>exc</span> <span class='op'>=</span> <span class='id identifier rubyid_exclude_keys'>exclude_keys</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span> <span class='op'>&amp;</span> <span class='id identifier rubyid_keys'>keys</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>These fields are read-only: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_exc'>exc</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_exc'>exc</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="assert_inclusion_keys-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>assert_inclusion_keys</strong>(*inclusion_keys) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate inclusions of some keys in a hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>inclusion_keys</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Keys that must be included in the hash.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If some key is not included.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_assert_inclusion_keys'>assert_inclusion_keys</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_inclusion_keys'>inclusion_keys</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_inc'>inc</span> <span class='op'>=</span> <span class='id identifier rubyid_inclusion_keys'>inclusion_keys</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span> <span class='op'>-</span> <span class='id identifier rubyid_keys'>keys</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>These fields are required: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inc'>inc</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_inc'>inc</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="assert_valid_keys-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>assert_valid_keys</strong>(*valid_keys) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate all keys in a hash match *valid keys.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>valid_keys</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Valid keys.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>On a mismatch.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 55</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_assert_valid_keys'>assert_valid_keys</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_valid_keys'>valid_keys</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_unknown_keys'>unknown_keys</span> <span class='op'>=</span> <span class='id identifier rubyid_keys'>keys</span> <span class='op'>-</span> <span class='id identifier rubyid_valid_keys'>valid_keys</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown fields: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_unknown_keys'>unknown_keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_unknown_keys'>unknown_keys</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="assert_valid_values_for-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>assert_valid_values_for</strong>(key, *valid_values) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate value of some key in a hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>valid_values</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Values to assert against the given key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The key to assert its value.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If some key is included.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_assert_valid_values_for'>assert_valid_values_for</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_valid_values'>valid_values</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_valid_values'>valid_values</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbrace'>}</span><span class='tstring_content'> '</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>', available options: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_valid_values'>valid_values</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="set_blank_keys_value_to-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>set_blank_keys_value_to</strong>(keys_to_set, keys_to_ignore, to_value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Set some keys in a hash to a given value, possibly ignoring some keys.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>keys_to_set</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Keys to set its value.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>keys_to_ignore</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Keys to be ignored.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to_value</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Array.html" title="Visor::Common::Extensions::Array (module)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value to set the wanted keys.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If some key is included.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_blank_keys_value_to'>set_blank_keys_value_to</span><span class='lparen'>(</span><span class='id identifier rubyid_keys_to_set'>keys_to_set</span><span class='comma'>,</span> <span class='id identifier rubyid_keys_to_ignore'>keys_to_ignore</span><span class='comma'>,</span> <span class='id identifier rubyid_to_value'>to_value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_keys_to_set'>keys_to_set</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_to_value'>to_value</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_keys_to_ignore'>keys_to_ignore</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stringify_keys-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>stringify_keys</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a new hash with all keys converted to strings.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stringify_keys'>stringify_keys</span>
+  <span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_acc'>acc</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span>
+    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Symbol</span> <span class='op'>===</span> <span class='id identifier rubyid_k'>k</span> <span class='op'>?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>:</span> <span class='id identifier rubyid_k'>k</span>
+    <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>Hash</span> <span class='op'>===</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>?</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_stringify_keys'>stringify_keys</span> <span class='op'>:</span> <span class='id identifier rubyid_v'>v</span>
+    <span class='id identifier rubyid_acc'>acc</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='id identifier rubyid_acc'>acc</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stringify_keys!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>stringify_keys!</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Destructively convert all keys to strings.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stringify_keys!'>stringify_keys!</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_stringify_keys'>stringify_keys</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="symbolize_keys-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>symbolize_keys</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a new hash with all keys converted to symbols.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_symbolize_keys'>symbolize_keys</span>
+  <span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_acc'>acc</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span>
+    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>String</span> <span class='op'>===</span> <span class='id identifier rubyid_k'>k</span> <span class='op'>?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='op'>:</span> <span class='id identifier rubyid_k'>k</span>
+    <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>Hash</span> <span class='op'>===</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>?</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_symbolize_keys'>symbolize_keys</span> <span class='op'>:</span> <span class='id identifier rubyid_v'>v</span>
+    <span class='id identifier rubyid_acc'>acc</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='id identifier rubyid_acc'>acc</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="symbolize_keys!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Visor::Common::Extensions::Object (module)">Object</a></span></tt>) <strong>symbolize_keys!</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Destructively convert all keys to symbols.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_symbolize_keys!'>symbolize_keys!</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_symbolize_keys'>symbolize_keys</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="to_openstruct-instance_method">
+  
+    - (<tt>OpenStruct</tt>) <strong>to_openstruct</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert a Hash to a OpenStruct, so it can be accessed as options like: <a
+href="http://key">h</a> =&gt; h.key</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>OpenStruct</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The resulting OpenStruct object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/lib/common/extensions/hash.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_openstruct'>to_openstruct</span>
+  <span class='id identifier rubyid_mapped'>mapped</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span> <span class='id identifier rubyid_mapped'>mapped</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_openstruct'>to_openstruct</span> <span class='rbrace'>}</span>
+  <span class='const'>OpenStruct</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_mapped'>mapped</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Feb  2 22:00:09 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.4 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

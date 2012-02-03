@@ -1,0 +1,1396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Visor::Meta::Server
+  
+    &mdash; VISoR
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Meta.html" title="Visor::Meta (module)">Meta</a></span></span>
+     &raquo; 
+    <span class="title">Server</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Visor::Meta::Server
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Sinatra::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Sinatra::Base</li>
+          
+            <li class="next">Visor::Meta::Server</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../Common/Config.html" title="Visor::Common::Config (module)">Common::Config</a></span>, <span class='object_link'><a href="../Common/Exception.html" title="Visor::Common::Exception (module)">Common::Exception</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">meta/lib/meta/server.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The VISoR Meta Server class. This class supports all image metadata
+manipulation operations through the VISoR REST API implemented along the
+following routes.</p>
+
+<p>After initialize the Server its possible to directly interact with the meta
+backend.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+
+
+  
+  
+  
+  
+  <h3 class="inherited">Constants included from <span class='object_link'><a href="../Common/Config.html" title="Visor::Common::Config (module)">Common::Config</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Common/Config.html#DEFAULT_CONFIG_DIRS-constant" title="Visor::Common::Config::DEFAULT_CONFIG_DIRS (constant)">DEFAULT_CONFIG_DIRS</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_CONFIG_FILE-constant" title="Visor::Common::Config::DEFAULT_CONFIG_FILE (constant)">DEFAULT_CONFIG_FILE</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_DATETIME-constant" title="Visor::Common::Config::DEFAULT_LOG_DATETIME (constant)">DEFAULT_LOG_DATETIME</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_LEVEL-constant" title="Visor::Common::Config::DEFAULT_LOG_LEVEL (constant)">DEFAULT_LOG_LEVEL</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_PATH-constant" title="Visor::Common::Config::DEFAULT_LOG_PATH (constant)">DEFAULT_LOG_PATH</a></span></p>
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">- (JSON) <strong>delete</strong>('/images/:id') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete an image metadata and returns it.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_all_brief-instance_method" title="#get (instance method)">- (JSON) <strong>get</strong>('/images') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get brief information about all public images.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_all_detail-instance_method" title="#get (instance method)">- (JSON) <strong>get</strong>('/images/detail') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get detailed information about all public images.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_detail-instance_method" title="#get (instance method)">- (JSON) <strong>get</strong>('/images/:id') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get detailed information about a specific image.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post-instance_method" title="#post (instance method)">- (JSON) <strong>post</strong>('/images') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new image metadata and returns it.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#put-instance_method" title="#put (instance method)">- (JSON) <strong>put</strong>('/images/:id') </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Update an existing image metadata and return it.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Common/Config.html" title="Visor::Common::Config (module)">Common::Config</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Common/Config.html#build_logger-class_method" title="Visor::Common::Config.build_logger (method)">build_logger</a></span>, <span class='object_link'><a href="../Common/Config.html#find_config_file-class_method" title="Visor::Common::Config.find_config_file (method)">find_config_file</a></span>, <span class='object_link'><a href="../Common/Config.html#load_config-class_method" title="Visor::Common::Config.load_config (method)">load_config</a></span></p>
+
+  
+  
+  
+  
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="delete-instance_method">
+  
+    - (<tt>JSON</tt>) <strong>delete</strong>('/images/:id') 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete an image metadata and returns it.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image _id to delete.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already deleted image detailed metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 404</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If image not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 260</span>
+
+<span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_image'>image</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='lbrace'>{</span><span class='label'>image:</span> <span class='id identifier rubyid_image'>image</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+  <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_all_brief-instance_method">
+  
+    - (<tt>JSON</tt>) <strong>get</strong>('/images') 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Get brief information about all public images.</p>
+
+<pre class="code">{ &quot;images&quot;: [{
+    &quot;_id&quot;:&lt;_id&gt;,
+    &quot;uri&quot;:&lt;uri&gt;,
+    &quot;name&quot;:&lt;name&gt;,
+    &quot;architecture&quot;:&lt;architecture&gt;,
+    &quot;type&quot;:&lt;type&gt;,
+    &quot;format&quot;:&lt;format&gt;,
+    &quot;store&quot;:&lt;type&gt;,
+    &quot;size&quot;:&lt;size&gt;,
+    &quot;created_at&quot;:&lt;creation timestamp&gt;
+    }, ...]}</pre>
+
+<p>The following options can be passed as query parameters, plus any other
+additional image attribute not defined in the schema.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image name.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>architecture</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image architecture.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image type.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image format.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>store</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image store.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>size</span>
+      
+      
+        <span class='type'>(<tt>Fixnum</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image size.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>created_at</span>
+      
+      
+        <span class='type'>(<tt>Date</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image creation timestamp.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sort</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>('_id') The image attribute to sort results.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>('asc') The sorting order ('asc'/'desc').</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The public images brief metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 404</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no public images.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 91</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_images'>images</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_get_public_images'>get_public_images</span><span class='lparen'>(</span><span class='kw'>true</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='lbrace'>{</span><span class='label'>images:</span> <span class='id identifier rubyid_images'>images</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+  <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_all_detail-instance_method">
+  
+    - (<tt>JSON</tt>) <strong>get</strong>('/images/detail') 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Get detailed information about all public images.</p>
+
+<pre class="code">{&quot;images&quot;: [{
+    &quot;_id&quot;:&lt;_id&gt;,
+    &quot;uri&quot;:&lt;uri&gt;,
+    &quot;name&quot;:&lt;name&gt;,
+    &quot;architecture&quot;:&lt;architecture&gt;,
+    &quot;access&quot;:&lt;access&gt;,
+    &quot;status&quot;:&lt;status&gt;,
+    &quot;size&quot;:&lt;size&gt;,
+    &quot;type&quot;:&lt;type&gt;,
+    &quot;format&quot;:&lt;format&gt;,
+    &quot;store&quot;:&lt;store&gt;,
+    &quot;created_at&quot;:&lt;timestamp&gt;
+    &quot;updated_at&quot;:&lt;timestamp&gt;,
+    &quot;kernel&quot;:&lt;associated kernel&gt;,
+    &quot;ramdisk&quot;:&lt;associated ramdisk&gt;,
+    ...
+    }, ...]}</pre>
+
+<p>The following options can be passed as query parameters, plus any other
+additional image attribute not defined in the schema.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image name.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>architecture</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image architecture.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>access</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image access permission.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image type.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image format.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>store</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image store.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>size</span>
+      
+      
+        <span class='type'>(<tt>Fixnum</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image size.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>created_at</span>
+      
+      
+        <span class='type'>(<tt>Date</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image creation timestamp.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>updated_at</span>
+      
+      
+        <span class='type'>(<tt>Date</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image update timestamp.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>kernel</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image associated kernel image's _id.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ramdisk</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image associated kernel image's _id.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sort</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>(_id) The image attribute to sort results.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>('asc') The sorting order ('asc'/'desc').</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The public images detailed metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 404</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no public images.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 147</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/detail</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_images'>images</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_get_public_images'>get_public_images</span><span class='lparen'>(</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='lbrace'>{</span><span class='label'>images:</span> <span class='id identifier rubyid_images'>images</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+  <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_detail-instance_method">
+  
+    - (<tt>JSON</tt>) <strong>get</strong>('/images/:id') 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Get detailed information about a specific image.</p>
+
+<pre class="code">{&quot;image&quot;: {
+    &quot;_id&quot;:&lt;_id&gt;,
+    &quot;uri&quot;:&lt;uri&gt;,
+    &quot;name&quot;:&lt;name&gt;,
+    &quot;architecture&quot;:&lt;architecture&gt;,
+    &quot;access&quot;:&lt;access&gt;,
+    &quot;status&quot;:&lt;status&gt;,
+    &quot;size&quot;:&lt;size&gt;,
+    &quot;type&quot;:&lt;type&gt;,
+    &quot;format&quot;:&lt;format&gt;,
+    &quot;store&quot;:&lt;type&gt;,
+    &quot;created_at&quot;:&lt;creation timestamp&gt;
+    &quot;updated_at&quot;:&lt;update timestamp&gt;,
+    &quot;kernel&quot;:&lt;associated kernel&gt;,
+    &quot;ramdisk&quot;:&lt;associated ramdisk&gt;,
+    ...
+}}</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The wanted image _id.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image detailed metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 404</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If image not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 187</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_image'>image</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_get_image'>get_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+    <span class='lbrace'>{</span><span class='label'>image:</span> <span class='id identifier rubyid_image'>image</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+  <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="post-instance_method">
+  
+    - (<tt>JSON</tt>) <strong>post</strong>('/images') 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new image metadata and returns it.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>http-body</span>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already created image detailed metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 400</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Image metadata validation errors.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 209</span>
+
+<span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_meta'>meta</span>  <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='comma'>,</span> <span class='ivar'>@parse_opts</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_image'>image</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_post_image'>post_image</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:image</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='lbrace'>{</span><span class='label'>image:</span> <span class='id identifier rubyid_image'>image</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+  <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='const'>ArgumentError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>400</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="put-instance_method">
+  
+    - (<tt>JSON</tt>) <strong>put</strong>('/images/:id') 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Update an existing image metadata and return it.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  
+<h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The wanted image _id.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>http-body</span>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already updated image detailed metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 400</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Image metadata update validation errors.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 235</span>
+
+<span class='id identifier rubyid_put'>put</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_meta'>meta</span>  <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='comma'>,</span> <span class='ivar'>@parse_opts</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_image'>image</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:image</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='lbrace'>{</span><span class='label'>image:</span> <span class='id identifier rubyid_image'>image</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+  <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='const'>ArgumentError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>400</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Feb  2 22:00:08 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.4 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,1526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Visor::Meta::Backends::MongoDB
+  
+    &mdash; VISoR
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (M)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Meta.html" title="Visor::Meta (module)">Meta</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Backends.html" title="Visor::Meta::Backends (module)">Backends</a></span></span>
+     &raquo; 
+    <span class="title">MongoDB</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Visor::Meta::Backends::MongoDB
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="Base.html" title="Visor::Meta::Backends::Base (class)">Base</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Base.html" title="Visor::Meta::Backends::Base (class)">Base</a></span></li>
+          
+            <li class="next">Visor::Meta::Backends::MongoDB</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../../Common/Exception.html" title="Visor::Common::Exception (module)">Common::Exception</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">meta/lib/meta/backends/mongo_db.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The MongoDB Backend for the VISoR Meta.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="DEFAULT_DB-constant" class="">DEFAULT_DB =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Connection constants</p>
+
+<p>Default MongoDB database</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>visor</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="DEFAULT_HOST-constant" class="">DEFAULT_HOST =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default MongoDB host address</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>127.0.0.1</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="DEFAULT_PORT-constant" class="">DEFAULT_PORT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default MongoDB host port</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>27017</span></pre></dd>
+      
+        <dt id="DEFAULT_USER-constant" class="">DEFAULT_USER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default MongoDB user</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
+      
+        <dt id="DEFAULT_PASSWORD-constant" class="">DEFAULT_PASSWORD =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default MongoDB password</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Constants inherited from <span class='object_link'><a href="Base.html" title="Visor::Meta::Backends::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#ACCESS-constant" title="Visor::Meta::Backends::Base::ACCESS (constant)">ACCESS</a></span>, <span class='object_link'><a href="Base.html#ALL-constant" title="Visor::Meta::Backends::Base::ALL (constant)">ALL</a></span>, <span class='object_link'><a href="Base.html#ARCHITECTURE-constant" title="Visor::Meta::Backends::Base::ARCHITECTURE (constant)">ARCHITECTURE</a></span>, <span class='object_link'><a href="Base.html#BRIEF-constant" title="Visor::Meta::Backends::Base::BRIEF (constant)">BRIEF</a></span>, <span class='object_link'><a href="Base.html#DETAIL_EXC-constant" title="Visor::Meta::Backends::Base::DETAIL_EXC (constant)">DETAIL_EXC</a></span>, <span class='object_link'><a href="Base.html#FILTERS-constant" title="Visor::Meta::Backends::Base::FILTERS (constant)">FILTERS</a></span>, <span class='object_link'><a href="Base.html#FORMAT-constant" title="Visor::Meta::Backends::Base::FORMAT (constant)">FORMAT</a></span>, <span class='object_link'><a href="Base.html#MANDATORY-constant" title="Visor::Meta::Backends::Base::MANDATORY (constant)">MANDATORY</a></span>, <span class='object_link'><a href="Base.html#OPTIONAL-constant" title="Visor::Meta::Backends::Base::OPTIONAL (constant)">OPTIONAL</a></span>, <span class='object_link'><a href="Base.html#READONLY-constant" title="Visor::Meta::Backends::Base::READONLY (constant)">READONLY</a></span>, <span class='object_link'><a href="Base.html#STATUS-constant" title="Visor::Meta::Backends::Base::STATUS (constant)">STATUS</a></span>, <span class='object_link'><a href="Base.html#STORE-constant" title="Visor::Meta::Backends::Base::STORE (constant)">STORE</a></span>, <span class='object_link'><a href="Base.html#TYPE-constant" title="Visor::Meta::Backends::Base::TYPE (constant)">TYPE</a></span></p>
+
+
+
+  
+  
+  
+  
+  
+  
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Base.html" title="Visor::Meta::Backends::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#conn-instance_method" title="Visor::Meta::Backends::Base#conn (method)">conn</a></span>, <span class='object_link'><a href="Base.html#db-instance_method" title="Visor::Meta::Backends::Base#db (method)">db</a></span>, <span class='object_link'><a href="Base.html#host-instance_method" title="Visor::Meta::Backends::Base#host (method)">host</a></span>, <span class='object_link'><a href="Base.html#password-instance_method" title="Visor::Meta::Backends::Base#password (method)">password</a></span>, <span class='object_link'><a href="Base.html#port-instance_method" title="Visor::Meta::Backends::Base#port (method)">port</a></span>, <span class='object_link'><a href="Base.html#user-instance_method" title="Visor::Meta::Backends::Base#user (method)">user</a></span></p>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connect-class_method" title="connect (class method)">+ (Object) <strong>connect</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initializes a MongoDB Backend instance.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connection-instance_method" title="#connection (instance method)">- (Mongo::Collection) <strong>connection</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Establishes and returns a MongoDB database connection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_all%21-instance_method" title="#delete_all! (instance method)">- (Object) <strong>delete_all!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete all images records.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_image-instance_method" title="#delete_image (instance method)">- (BSON::OrderedHash) <strong>delete_image</strong>(id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete an image record.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_image-instance_method" title="#get_image (instance method)">- (BSON::OrderedHash) <strong>get_image</strong>(id, pass_timestamps = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the requested image metadata.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_public_images-instance_method" title="#get_public_images (instance method)">- (Array) <strong>get_public_images</strong>(brief = false, filters = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns an array with the public images metadata.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (MongoDB) <strong>initialize</strong>(opts) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of MongoDB.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_image-instance_method" title="#post_image (instance method)">- (BSON::OrderedHash) <strong>post_image</strong>(meta, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create a new image record for the given metadata.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#put_image-instance_method" title="#put_image (instance method)">- (BSON::OrderedHash) <strong>put_image</strong>(id, update) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Update an image's metadata.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Base.html" title="Visor::Meta::Backends::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#build_uri-instance_method" title="Visor::Meta::Backends::Base#build_uri (method)">#build_uri</a></span>, <span class='object_link'><a href="Base.html#deserialize_others-instance_method" title="Visor::Meta::Backends::Base#deserialize_others (method)">#deserialize_others</a></span>, <span class='object_link'><a href="Base.html#serialize_others-instance_method" title="Visor::Meta::Backends::Base#serialize_others (method)">#serialize_others</a></span>, <span class='object_link'><a href="Base.html#set_protected_post-instance_method" title="Visor::Meta::Backends::Base#set_protected_post (method)">#set_protected_post</a></span>, <span class='object_link'><a href="Base.html#set_protected_put-instance_method" title="Visor::Meta::Backends::Base#set_protected_put (method)">#set_protected_put</a></span>, <span class='object_link'><a href="Base.html#string_time_or_hash%3F-instance_method" title="Visor::Meta::Backends::Base#string_time_or_hash? (method)">#string_time_or_hash?</a></span>, <span class='object_link'><a href="Base.html#to_sql_insert-instance_method" title="Visor::Meta::Backends::Base#to_sql_insert (method)">#to_sql_insert</a></span>, <span class='object_link'><a href="Base.html#to_sql_update-instance_method" title="Visor::Meta::Backends::Base#to_sql_update (method)">#to_sql_update</a></span>, <span class='object_link'><a href="Base.html#to_sql_where-instance_method" title="Visor::Meta::Backends::Base#to_sql_where (method)">#to_sql_where</a></span>, <span class='object_link'><a href="Base.html#validate_data_post-instance_method" title="Visor::Meta::Backends::Base#validate_data_post (method)">#validate_data_post</a></span>, <span class='object_link'><a href="Base.html#validate_data_put-instance_method" title="Visor::Meta::Backends::Base#validate_data_put (method)">#validate_data_put</a></span>, <span class='object_link'><a href="Base.html#validate_query_filters-instance_method" title="Visor::Meta::Backends::Base#validate_query_filters (method)">#validate_query_filters</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Visor::Meta::Backends::MongoDB (class)">MongoDB</a></span></tt>) <strong>initialize</strong>(opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>A new instance of MongoDB</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='kw'>super</span> <span class='id identifier rubyid_opts'>opts</span>
+  <span class='ivar'>@conn</span> <span class='op'>=</span> <span class='id identifier rubyid_connection'>connection</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="connect-class_method">
+  
+    + (<tt>Object</tt>) <strong>connect</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Initializes a MongoDB Backend instance.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>[Hash]</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:uri</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The connection uri, if provided, no other option needs to be setted.</p>
+</div>
+        </li>
+      
+        <li>
+          <span class="name">:db</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>DEFAULT_DB</tt>
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The wanted database.</p>
+</div>
+        </li>
+      
+        <li>
+          <span class="name">:host</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>DEFAULT_HOST</tt>
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The host address.</p>
+</div>
+        </li>
+      
+        <li>
+          <span class="name">:port</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>DEFAULT_PORT</tt>
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The port to be used.</p>
+</div>
+        </li>
+      
+        <li>
+          <span class="name">:user</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>DEFAULT_USER</tt>
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The user to be used.</p>
+</div>
+        </li>
+      
+        <li>
+          <span class="name">:password</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>DEFAULT_PASSWORD</tt>
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The password to be used.</p>
+</div>
+        </li>
+      
+        <li>
+          <span class="name">:conn</span>
+          <span class="type">(<tt>Object</tt>)</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The connection pool to access database.</p>
+</div>
+        </li>
+      
+    </ul>
+  
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:uri</span><span class='rbracket'>]</span>      <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='id identifier rubyid_uri'>uri</span>             <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:uri</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:db</span><span class='rbracket'>]</span>       <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span> <span class='op'>?</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='op'>:</span> <span class='const'>DEFAULT_DB</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span>     <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span> <span class='op'>||</span> <span class='const'>DEFAULT_HOST</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span>     <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span> <span class='op'>||</span> <span class='const'>DEFAULT_PORT</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span>     <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span> <span class='op'>||</span> <span class='const'>DEFAULT_USER</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_password'>password</span> <span class='op'>||</span> <span class='const'>DEFAULT_PASSWORD</span>
+
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_opts'>opts</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="connection-instance_method">
+  
+    - (<tt>Mongo::Collection</tt>) <strong>connection</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Establishes and returns a MongoDB database connection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Mongo::Collection</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A MongoDB collection object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_connection'>connection</span>
+  <span class='id identifier rubyid_db'>db</span> <span class='op'>=</span> <span class='const'>Mongo</span><span class='op'>::</span><span class='const'>Connection</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@host</span><span class='comma'>,</span> <span class='ivar'>@port</span><span class='comma'>,</span> <span class='symbol'>:pool_size</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='comma'>,</span> <span class='symbol'>:pool_timeout</span> <span class='op'>=&gt;</span> <span class='int'>5</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lparen'>(</span><span class='ivar'>@db</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='ivar'>@user</span><span class='comma'>,</span> <span class='ivar'>@password</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@user</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@password</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_collection'>collection</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>images</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_all!-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_all!</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete all images records.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_all!'>delete_all!</span>
+  <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_remove'>remove</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_image-instance_method">
+  
+    - (<tt>BSON::OrderedHash</tt>) <strong>delete_image</strong>(id) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete an image record.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image's _id to remove.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BSON::OrderedHash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The deleted image metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If image not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_img'>img</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_find_one'>find_one</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='label'>_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No image found with id '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_img'>img</span>
+
+  <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_remove'>remove</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='label'>_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_img'>img</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_image-instance_method">
+  
+    - (<tt>BSON::OrderedHash</tt>) <strong>get_image</strong>(id, pass_timestamps = false) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the requested image metadata.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The requested image's _id.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>pass_timestamps</span>
+      
+      
+        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If we want to pass timestamps setting step.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BSON::OrderedHash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The requested image metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If image not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_image'>get_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_pass_timestamps'>pass_timestamps</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_find_one'>find_one</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='label'>_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>fields:</span> <span class='id identifier rubyid_exclude'>exclude</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No image found with id '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_set_protected_get'>set_protected_get</span> <span class='id identifier rubyid_id'>id</span> <span class='kw'>unless</span> <span class='id identifier rubyid_pass_timestamps'>pass_timestamps</span>
+  <span class='id identifier rubyid_meta'>meta</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_public_images-instance_method">
+  
+    - (<tt>Array</tt>) <strong>get_public_images</strong>(brief = false, filters = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns an array with the public images metadata.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>brief</span>
+      
+      
+        <span class='type'>(<tt>true</tt>, <tt>false</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>(false) If true, the returned images will only contain BRIEF attributes.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>[Hash]</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The public images metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no public images.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_public_images'>get_public_images</span><span class='lparen'>(</span><span class='id identifier rubyid_brief'>brief</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_filters'>filters</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_query_filters'>validate_query_filters</span> <span class='id identifier rubyid_filters'>filters</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filters'>filters</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='id identifier rubyid_sort'>sort</span>   <span class='op'>=</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_filters'>filters</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:sort</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_id</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_filters'>filters</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:dir</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>asc</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_filter'>filter</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>access:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>public</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_filters'>filters</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='id identifier rubyid_brief'>brief</span> <span class='op'>?</span> <span class='const'>BRIEF</span> <span class='op'>:</span> <span class='id identifier rubyid_exclude'>exclude</span>
+
+  <span class='id identifier rubyid_pub'>pub</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_filter'>filter</span><span class='comma'>,</span> <span class='label'>fields:</span> <span class='id identifier rubyid_fields'>fields</span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='id identifier rubyid_sort'>sort</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No public images found.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_pub'>pub</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_filters'>filters</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No public images found with given parameters.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_pub'>pub</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='id identifier rubyid_pub'>pub</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="post_image-instance_method">
+  
+    - (<tt>BSON::OrderedHash</tt>) <strong>post_image</strong>(meta, opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Create a new image record for the given metadata.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>meta</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image metadata.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>[Hash]</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:owner</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Nil</tt>
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The owner of the image.</p>
+</div>
+        </li>
+      
+        <li>
+          <span class="name">:size</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Nil</tt>
+            
+          </span>
+          &mdash; <div class='inline'>
+<p>The image file size.</p>
+</div>
+        </li>
+      
+    </ul>
+  
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BSON::OrderedHash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already added image metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Common/Exception/Invalid.html" title="Visor::Common::Exception::Invalid (class)">Invalid</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If image meta validation fails.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+143
+144
+145
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 143</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_post_image'>post_image</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_data_post'>validate_data_post</span> <span class='id identifier rubyid_meta'>meta</span>
+  <span class='id identifier rubyid_set_protected_post'>set_protected_post</span> <span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_image'>get_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="put_image-instance_method">
+  
+    - (<tt>BSON::OrderedHash</tt>) <strong>put_image</strong>(id, update) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Update an image's metadata.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image _id to update.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>update</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The image metadata to update.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>BSON::OrderedHash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The updated image metadata.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Common/Exception/Invalid.html" title="Visor::Common::Exception::Invalid (class)">Invalid</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If update metadata validation fails.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If image not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/mongo_db.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_data_put'>validate_data_put</span> <span class='id identifier rubyid_update'>update</span>
+
+  <span class='id identifier rubyid_img'>img</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_find_one'>find_one</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='label'>_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No image found with id '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_img'>img</span>
+
+  <span class='id identifier rubyid_set_protected_put'>set_protected_put</span> <span class='id identifier rubyid_update'>update</span>
+  <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='label'>_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:$set</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_image'>get_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Feb  2 22:00:09 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.4 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
