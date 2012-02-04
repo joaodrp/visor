@@ -230,6 +230,7 @@ module Visor
       #
       # @return [JSON, XML] The already created image detailed metadata.
       #
+      # @raise [HTTP Error 400] If the image metadata validation fails.
       # @raise [HTTP Error 400] If the location header is present no file content can be provided.
       # @raise [HTTP Error 400] If trying to post an image file to a HTTP backend.
       # @raise [HTTP Error 400] If provided store is an unsupported store backend.
@@ -259,16 +260,17 @@ module Visor
       # Alternatively, a *x-image-meta-location* header can be passed, if the file is already stored in some
       # provided location. If this header is present, no body content can be passed in the request.
       #
-      # @note Only images with status set to 'locked' can be updated with an image data file.
+      # @note Only images with status set to 'locked' or 'error' can be updated with an image data file.
       #
       # @return [JSON, XML] The already updated image detailed metadata.
       #
+      # @raise [HTTP Error 400] If the image metadata validation fails.
       # @raise [HTTP Error 400] If no headers neither body found for update.
       # @raise [HTTP Error 400] If the location header is present no file content can be provided.
       # @raise [HTTP Error 400] If trying to post an image file to a HTTP backend.
       # @raise [HTTP Error 400] If provided store is an unsupported store backend.
       # @raise [HTTP Error 404] If no image data is found at the provided location.
-      # @raise [HTTP Error 409] If trying to assign image file to a locked image.
+      # @raise [HTTP Error 409] If trying to assign image file to a locked or uploading image.
       # @raise [HTTP Error 409] If the provided image file already exists in the backend store.
       # @raise [HTTP Error 500] On internal server error.
       #

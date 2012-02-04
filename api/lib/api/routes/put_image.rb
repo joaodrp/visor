@@ -81,6 +81,7 @@ module Visor
         begin
           image = upload_and_update(id, body)
         rescue UnsupportedStore, ArgumentError => e
+          STDERR.puts '---------------------------------', e.backtrace
           return exit_error(400, e.message, true)
         rescue NotFound => e
           return exit_error(404, e.message, true)
@@ -155,7 +156,8 @@ module Visor
       def upload_and_update(id, body)
         meta     = vms.get_image(id)
         checksum = env['md5']
-        raise ConflictError, 'Can only assign image file to a locked image' unless meta[:status]=='locked'
+        valid    = (meta[:status] == 'locked' || meta[:status] == 'error')
+        raise ConflictError, 'Can only assign image file to a locked or error image' unless valid
 
         logger.debug "Setting image #{id} status to 'uploading'"
         meta           = vms.put_image(id, status: 'uploading')
@@ -166,7 +168,7 @@ module Visor
         logger.debug "Setting location to '#{location}'"
         logger.debug "Setting size to '#{size}'"
         logger.debug "Setting checksum to '#{checksum}'"
-        vms.post_image(id, status: 'available', location: location, size: size, checksum: checksum)
+        vms.put_image(id, status: 'available', location: location, size: size, checksum: checksum)
       end
 
       # Upload image file to wanted store.

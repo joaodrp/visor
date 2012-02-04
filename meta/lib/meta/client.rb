@@ -47,7 +47,7 @@ module Visor
       # Retrieves brief metadata of all public images.
       # Options for filtering the returned results can be passed in.
       #
-      # @option query [String] :attribute_name The image attribute value to filter returned results.
+      # @option query [String] :attribute The image attribute value to filter returned results.
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
@@ -61,15 +61,19 @@ module Visor
       #   client.get_images(architecture: 'i386')
       #
       #     # returns something like:
-      #     [{:_id=>"28f94e15...", :architecture=>"i386", :name=>"Fedora 16"},
-      #      {:_id=>"8cb55bb6...", :architecture=>"i386", :name=>"Ubuntu 11.10 Desktop"}]
+      #     [
+      #       {:_id => "28f94e15...", :architecture => "i386", :name => "Fedora 16"},
+      #       {:_id => "8cb55bb6...", :architecture => "i386", :name => "Ubuntu 11.10 Desktop"}
+      #     ]
       #
       # @example Retrieve all public 64bit images brief metadata, descending sorted by their name:
       #   client.get_images(architecture: 'x86_64', sort: 'name', dir: 'desc')
       #
       #     # returns something like:
-      #     [{:_id=>"5e47a41e...", :architecture=>"x86_64", :name=>"Ubuntu 10.04 Server"},
-      #      {:_id=>"069320f0...", :architecture=>"x86_64", :name=>"CentOS 6"}]
+      #     [
+      #       {:_id => "5e47a41e...", :architecture => "x86_64", :name => "Ubuntu 10.04 Server"},
+      #       {:_id => "069320f0...", :architecture => "x86_64", :name => "CentOS 6"}
+      #     ]
       #
       # @return [Array] All public images brief metadata.
       #   Just {Visor::Meta::Backends::Base::BRIEF BRIEF} fields are returned.
@@ -87,7 +91,7 @@ module Visor
       # Filtering and querying works the same as with {#get_images}. The only difference is the number
       # of disclosed attributes.
       #
-      # @option query [String] :attribute_name The image attribute value to filter returned results.
+      # @option query [String] :attribute The image attribute value to filter returned results.
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
@@ -117,16 +121,17 @@ module Visor
       #   # ask for that image metadata
       #   client.get_image(id)
       #
-      #     # returns:
-      #     { :_id=>"2cceffc6-ebc5-4741-9653-745524e7ac30",
-      #       :name=>"Ubuntu 10.10",
-      #       :architecture=>"x86_64",
-      #       :access=>"public",
-      #       :uri=>"http://0.0.0.0:4567/images/2cceffc6-ebc5-4741-9653-745524e7ac30",
-      #       :format=>"iso",
-      #       :type=>"ramdisk",
-      #       :status=>"available",
-      #       :store=>"fs" }
+      #     # return example:
+      #     {
+      #        :_id          => "2cceffc6-ebc5-4741-9653-745524e7ac30",
+      #        :name         => "Ubuntu 10.10",
+      #        :architecture => "x86_64",
+      #        :access       => "public",
+      #        :uri          => "http://0.0.0.0:4567/images/2cceffc6-ebc5-4741-9653-745524e7ac30",
+      #        :format       => "iso",
+      #        :status       => "available",
+      #        :store        => "file"
+      #     }
       #
       # @return [Hash] The requested image metadata.
       #
