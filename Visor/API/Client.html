@@ -872,13 +872,13 @@ delete.</p>
       <pre class="lines">
 
 
-408
-409
-410
-411</pre>
+428
+429
+430
+431</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 408</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 428</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Delete</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1897,31 +1897,53 @@ both clients and server.</p>
     <h3>Examples:</h3>
     
       <h4><div class='inline'>
+<p>Update a sample image metadata:</p>
+</div></h4>
+      <pre class="example code"><span class='comment'># wanted image _id
+</span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span>
+<span class='comment'># metadata to update
+</span><span class='id identifier rubyid_update'>update</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Debian 6.0</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+<span class='comment'># update the image metadata with some new values
+</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
+
+  <span class='comment'># returns:
+</span>  <span class='lbrace'>{</span>
+     <span class='symbol'>:_id</span>          <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:uri</span>          <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://0.0.0.0:4568/images/2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:name</span>         <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Debian 6.0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:access</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>public</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:status</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>locked</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:created_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-02-03 12:40:30 +0000</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:updated_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-02-04 16:35:10 +0000</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span></pre>
+    
+      <h4><div class='inline'>
 <p>Update a sample image metadata and provide the location of its file:</p>
 </div></h4>
-      <pre class="example code"># wanted image _id
-id = &quot;2373c3e5-b302-4529-8e23-c4ffc85e7613&quot;
-# metadata update
-update = {:format =&gt; 'iso', :store =&gt; 'file', :location =&gt; 'file:///Users/server/debian-6.0.4-amd64.iso'}
-# update the image metadata with file values
-client.put_image(id, update)
+      <pre class="example code"><span class='comment'># wanted image _id
+</span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span>
+<span class='comment'># metadata update
+</span><span class='id identifier rubyid_update'>update</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:format</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iso</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:store</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:location</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file:///Users/server/debian-6.0.4-amd64.iso</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
+<span class='comment'># update the image metadata with file values
+</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
 
-  # returns:
-  {
-     :_id          =&gt; &quot;2373c3e5-b302-4529-8e23-c4ffc85e7613&quot;,
-     :uri          =&gt; &quot;http://0.0.0.0:4568/images/2373c3e5-b302-4529-8e23-c4ffc85e7613&quot;,
-     :name         =&gt; &quot;Debian 6.0&quot;,
-     :architecture =&gt; &quot;x86_64&quot;,
-     :access       =&gt; &quot;public&quot;,
-     :status       =&gt; &quot;locked&quot;,
-     :format       =&gt; &quot;iso&quot;,
-     :store        =&gt; &quot;file&quot;,
-     :location     =&gt; &quot;file:///Users/server/debian-6.0.4-amd64.iso&quot;,
-     :status       =&gt; &quot;available&quot;,
-     :size         =&gt; 764529654,
-     :created_at   =&gt; &quot;2012-02-03 12:40:30 +0000&quot;
-     :updated_at   =&gt; &quot;2012-02-04 16:38:55 +0000&quot;
-  }</pre>
+  <span class='comment'># returns:
+</span>  <span class='lbrace'>{</span>
+     <span class='symbol'>:_id</span>          <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:uri</span>          <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://0.0.0.0:4568/images/2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:name</span>         <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Debian 6.0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:access</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>public</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:status</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>locked</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:format</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>iso</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:store</span>        <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:location</span>     <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file:///Users/server/debian-6.0.4-amd64.iso</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:status</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>available</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:size</span>         <span class='op'>=&gt;</span> <span class='int'>764529654</span><span class='comma'>,</span>
+     <span class='symbol'>:created_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-02-03 12:40:30 +0000</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:updated_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-02-04 16:38:55 +0000</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span></pre>
     
       <h4><div class='inline'>
 <p>Update image metadata and upload its file:</p>
@@ -2163,19 +2185,19 @@ client.put_image(id, update)
       <pre class="lines">
 
 
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370</pre>
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 361</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 381</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Put</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -2197,7 +2219,7 @@ client.put_image(id, update)
 </div>
     
     <div id="footer">
-  Generated on Sat Feb  4 17:46:26 2012 by 
+  Generated on Sat Feb  4 17:47:06 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.9.3).
 </div>

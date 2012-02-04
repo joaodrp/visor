@@ -2,7 +2,7 @@ api/lib/api/cli.rb afa162dac4007b4026f874c2a913ae53cf8cf0fd
 api/lib/api/meta.rb 2a2fb1e0627e500c2b2f4bcd7f275b1cb5e3ca7c
 meta/lib/meta/cli.rb 594ae0cc9faf75894c3796f572c4c215c0bdeb19
 api/lib/api/server.rb f1965838c41adb31d356bf33c2fc344b11a2a1e9
-api/lib/api/client.rb bd5ff74906b62ccb95391924ba65b772b7b30f6c
+api/lib/api/client.rb 974fcf12debad04293f238fbb92d593dcbeb470d
 api/lib/api/version.rb 5adb8c323c78b3712565bf4160b0834098a0853b
 meta/lib/meta/client.rb b3e95229caa737f1614b12a5fd090e339b8df281
 meta/lib/meta/server.rb 9db5b68b5befc84b79dda621b34a59d5d900bfae
