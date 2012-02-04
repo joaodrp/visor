@@ -872,13 +872,13 @@ delete.</p>
       <pre class="lines">
 
 
-391
-392
-393
-394</pre>
+394
+395
+396
+397</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 391</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 394</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Delete</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1904,7 +1904,10 @@ both clients and server.</p>
 <span class='comment'># metadata update
 </span><span class='id identifier rubyid_update'>update</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:format</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iso</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:store</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:location</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file:///Users/server/debian-6.0.4-amd64.iso</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
 <span class='comment'># update the image metadata with file values
-</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span></pre>
+</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
+
+  <span class='comment'># returns:
+</span>  <span class='lbrace'>{</span><span class='rbrace'>}</span></pre>
     
       <h4><div class='inline'>
 <p>Update image metadata and upload its file:</p>
@@ -2146,19 +2149,19 @@ both clients and server.</p>
       <pre class="lines">
 
 
-344
-345
-346
 347
 348
 349
 350
 351
 352
-353</pre>
+353
+354
+355
+356</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 344</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 347</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Put</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -2180,7 +2183,7 @@ both clients and server.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Feb  4 17:45:17 2012 by 
+  Generated on Sat Feb  4 17:45:58 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.9.3).
 </div>
