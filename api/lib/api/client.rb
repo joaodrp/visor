@@ -430,7 +430,7 @@ module Visor
         do_request(req)
       end
 
-      protected
+      private
 
       def prepare_headers(req)
         req['User-Agent'] = 'VISoR API Server client'
