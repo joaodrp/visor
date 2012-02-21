@@ -7,7 +7,7 @@ module Visor
   module API
 
     # The Client API for the VISoR API Server. This class supports all image metadata and
-    # data manipulation operations through a programmatically interface.
+    # files operations through a programmatically interface.
     #
     # After Instantiate a Client object its possible to directly interact with the
     # api server and its store backends.
@@ -21,7 +21,6 @@ module Visor
 
       DEFAULT_HOST = configs[:bind_host] || '0.0.0.0'
       DEFAULT_PORT = configs[:bind_port] || 4568
-      CHUNKSIZE    = 65536
 
       attr_reader :host, :port, :ssl
 
@@ -33,9 +32,6 @@ module Visor
       #
       # @example Instantiate a client with default values:
       #   client = Visor::API::Client.new
-      #
-      # @example Instantiate a client with default values and SSL enabled:
-      #   client = Visor::API::Client.new(ssl: true)
       #
       # @example Instantiate a client with custom host and port:
       #   client = Visor::API::Client.new(host: '127.0.0.1', port: 3000)
@@ -160,7 +156,7 @@ module Visor
       #   id = "5e47a41e-7b94-4f65-824e-28f94e15bc6a"
       #   # ask for that image file
       #   client.get_image(id) do |chunk|
-      #     # do something with each chunk as they arrive here (e.g. write to file, etc)
+      #     # do something with chunks as they arrive here (e.g. write to file, etc)
       #   end
       #
       # @return [Binary] The requested image file binary data.
@@ -181,21 +177,21 @@ module Visor
       end
 
       # Register a new image on the server with the given metadata and optionally
-      # upload its file, or provide a `:location` parameter containing the full path to
+      # upload its file, or provide a :location parameter containing the full path to
       # the already existing image file, stored somewhere.
       #
       # The image file is streamed to the server in chunks, which in turn also buffers chunks
       # as they arrive, avoiding buffering large files in memory in both clients and server.
       #
-      # @note If the `:location` parameter is passed, you can not pass an image file
-      #   and the other way around.
+      # @note If the :location parameter is passed, you can not pass an image file
+      #   and the other way around too.
       #
       # @param meta [Hash] The image metadata.
-      # @param file [String] (nil) The path to the image file.
+      # @param file [String] The path to the image file.
       #
       # @example Insert a sample image metadata:
       #   # sample image metadata
-      #   meta = {name: 'example', architecture: 'i386'}
+      #   meta = {:name => 'example', :architecture => 'i386'}
       #   # insert the new image metadata
       #   client.post_image(meta)
       #
@@ -281,7 +277,7 @@ module Visor
       end
 
       # Updates an image record with the given metadata and optionally
-      # upload its file, or provide a `:location` parameter containing the full path to
+      # upload its file, or provide a :location parameter containing the full path to
       # the already existing image file, stored somewhere.
       #
       # The image file is streamed to the server in chunks, which in turn also buffers chunks
@@ -292,7 +288,7 @@ module Visor
       #
       # @param id [String] The image's _id which will be updated.
       # @param meta [Hash] The image metadata.
-      # @param file [String] (nil) The path to the image file.
+      # @param file [String] The path to the image file.
       #
       # @example Update a sample image metadata:
       #   # wanted image _id
@@ -310,7 +306,7 @@ module Visor
       #        :architecture => "x86_64",
       #        :access       => "public",
       #        :status       => "locked",
-      #        :created_at   => "2012-02-03 12:40:30 +0000"
+      #        :created_at   => "2012-02-03 12:40:30 +0000",
       #        :updated_at   => "2012-02-04 16:35:10 +0000"
       #     }
       #
@@ -335,7 +331,7 @@ module Visor
       #        :location     => "file:///Users/server/debian-6.0.4-amd64.iso",
       #        :status       => "available",
       #        :size         => 764529654,
-      #        :created_at   => "2012-02-03 12:40:30 +0000"
+      #        :created_at   => "2012-02-03 12:40:30 +0000",
       #        :updated_at   => "2012-02-04 16:38:55 +0000"
       #     }
       #
@@ -430,13 +426,17 @@ module Visor
         do_request(req)
       end
 
+
       private
 
+      # Prepare headers for request
       def prepare_headers(req)
         req['User-Agent'] = 'VISoR API Server client'
         req['Accept']     = "application/json"
       end
 
+      # Parses the response, which is either a JSON string inside body
+      # or a error message passed on headers
       def parse_response(res)
         if res.body
           result = JSON.parse(res.body, symbolize_names: true)
@@ -446,10 +446,12 @@ module Visor
         end
       end
 
+      # Build query string from hash
       def build_query(h)
         h.empty? ? '' : '?' + URI.encode_www_form(h)
       end
 
+      # Assert response code and raise if necessary
       def assert_response(res)
         case res
         when Net::HTTPNotFound then
@@ -465,13 +467,13 @@ module Visor
         end
       end
 
+      # Process requests
       def do_request(req, parse=true)
         prepare_headers(req)
         res = Net::HTTP.new(host, port).request(req)
         assert_response(res)
         parse ? parse_response(res) : res
       end
-
     end
   end
 end
