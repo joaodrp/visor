@@ -1,0 +1,232 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'uri'
+$:.unshift File.expand_path('../../../common/lib', __FILE__)
+require 'common'
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'api/version'
+require 'api/client'
+
+
+# VISoR management command line interface script.
+#
+# Commands:
+#
+#   all     Show brief metadata of all public images
+#   detail  Show detailed metadata of all public images
+#   head    Show image detailed metadata
+#   get     Retrieve an image metadata and file
+#   add     Add a new image metadata and optionally upload its file
+#   update  Update an image metadata and/or upload its file
+#   delete  Delete an image metadata and its file
+#   clean   Delete all images metadata and files
+#
+# Run <visor -h> to get more usage help.
+#
+class VisorScript
+  include Visor::Common::Exception
+  include Visor::Common::Config
+
+  attr_reader :argv, :options, :parser, :command
+
+  # Initialize a new CLI
+  def initialize(argv=ARGV)
+    @argv    = argv
+    @options = load_conf_file
+    @parser  = parser
+    @command = parse!
+  end
+
+  # OptionParser parser
+  def parser
+    OptionParser.new do |opts|
+      opts.banner = "Usage: visor [OPTIONS] COMMAND"
+
+      opts.separator ""
+      opts.separator "Commands:"
+      opts.separator "     brief       Show brief metadata of all public images"
+      opts.separator "     detail      Show detailed metadata of all public images"
+      opts.separator "     head        Show image detailed metadata"
+      opts.separator "     get         Retrieve an image metadata and file"
+      opts.separator "     add         Add a new image metadata and optionally upload its file"
+      opts.separator "     update      Update an image metadata and/or upload its file"
+      opts.separator "     delete      Delete an image metadata and its file"
+      opts.separator "     clean       Delete all images metadata and files"
+      opts.separator "     help <cmd>  Show help message for one of the above commands"
+
+
+      opts.separator ""
+      opts.separator "Options:"
+      opts.on("-a", "--address HOST", "Address of VISoR API host (default: #{@options[:host]})") { |addr| @options[:host] = addr }
+      opts.on("-p", "--port PORT", "Port were VISoR API host listens (default: #{@options[:port]})") { |port| @options[:port] = port }
+      opts.on("-q", "--query QUERY", "HTTP query like string to filters results") do |query|
+        begin
+          @options[:query] = URI.decode_www_form(query)
+        rescue
+          abort "ERROR: the provided query string is not valid"
+        end
+      end
+      opts.on("-s", "--sort ATTRIBUTE", "Attribute to sort results") do |attr|
+        @options[:query] = [] unless @options[:query]
+        @options[:query] << URI.decode_www_form("sort=#{attr}").flatten
+      end
+      opts.on("-d", "--dir DIRECTION", "Direction to sort results (asc/desc) (default: asc)") do |dir|
+        @options[:query] = [] unless @options[:query]
+        @options[:query] << URI.decode_www_form("dir=#{dir}").flatten
+      end
+
+      opts.separator ""
+      opts.separator "Common options:"
+      opts.on_tail("-D", "--dry-run", "Don't persist results, just print what would it do") { @options[:dry] = true }
+      opts.on_tail('-v', '--verbose', "Enable verbose") { @options[:verbose] = true }
+      opts.on_tail("-h", "--help", "Show this help message") { puts opts; exit 0 }
+      opts.on_tail('-V', '--version', "Show version") { version }
+    end
+  end
+
+  # Parse argv arguments
+  def parse!
+    parser.parse! ARGV
+    ARGV.shift
+  end
+
+  # Parse the current shell arguments and run the command
+  def run!
+    abort @parser.to_s if @command.nil?
+    case @command
+    when 'brief' then
+      brief
+    when 'detail' then
+      detail
+    when 'head' then
+      head
+    when 'get' then
+      get
+    when 'add' then
+      add
+    when 'update' then
+      update
+    when 'delete' then
+      delete
+    when 'clean' then
+      clean
+    when 'help' then
+      help
+    else
+      abort "ERROR: unknown command '#{@command}'"
+    end
+    exit 0
+  end
+
+  def brief
+    client = get_client
+    str    = "%-37s %-18s %-13s %-12s %-8s %-10s %-10s\n"
+    begin
+      images = client.get_images(options[:query])
+      puts "Found #{images.size} public images records..." if verbose?
+      printf(str, 'ID', 'NAME', 'ARCHITECTURE', 'TYPE', 'FORMAT', 'STORE', 'SIZE')
+      puts "#{'-'*36+"  "+'-'*17+"  "+'-'*12+"  "+'-'*11+"  "+'-'*7+"  "+'-'*9+"  "+'-'*9}"
+
+      images.each do |image|
+        printf(str, image[:_id], image[:name], image[:architecture], image[:type] || '-', image[:format] || '-', image[:store] || '-', image[:size] || '-')
+      end
+    rescue NotFound => e
+      puts e.message
+    rescue => e
+      abort "Failure while executing 'brief':\n#{e.message}"
+    end
+  end
+
+  def detail
+    client = get_client
+    begin
+      images = client.get_images_detail(options[:query])
+      puts "Found #{images.size} public images records..." if verbose?
+
+      images.each do |image|
+        puts('.'*70)
+        order_attributes(image).each { |k, v| puts "#{k.upcase.to_s.rjust(12)}: #{v}" }
+      end
+    rescue NotFound => e
+      puts e.message
+    rescue => e
+      abort "Failure while executing 'detail':\n#{e.message}"
+    end
+  end
+
+  def head
+    client = get_client
+    id     = argv[0]
+    abort "No image ID provided as argument, please provide one" unless id
+    begin
+      image = client.head_image(id)
+      order_attributes(image).each { |k, v| puts "#{k.upcase.to_s.rjust(12)}: #{v}" }
+    end
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'head':\n#{e.message}"
+  end
+
+  def get
+
+  end
+
+  def add
+
+  end
+
+  def update
+
+  end
+
+  def delete
+
+  end
+
+  def clean
+
+  end
+
+  def help
+
+  end
+
+
+  private
+
+# Load configuration file options
+  def load_conf_file
+    config = Visor::Common::Config.load_config(:visor_api)
+    {host: config[:bind_host], port: config[:bind_port]}
+  rescue => e
+    raise "There was an error loading the configuration file: #{e.message}"
+  end
+
+  def get_client
+    Visor::API::Client.new(@options)
+  end
+
+  def version
+    puts "VISoR API Server v#{Visor::API::VERSION}"
+    exit 0
+  end
+
+  def verbose?
+    options[:verbose]
+  end
+
+  def order_attributes(hash)
+    order = {_id:  '-', uri: '-', name: '-', architecture: '-', access: '-', status: '-', type: '-', format: '-',
+             size: '-', store: '-', location: '-', kernel: '-', ramdisk: '-', created_at: '-', updated_at: '-', checksum: '-'}
+    order.merge(hash)
+  end
+
+end
+
+# Execute if file is called
+if __FILE__ == $0
+  VisorScript.new.run!
+end
+

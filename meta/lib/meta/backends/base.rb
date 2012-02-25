@@ -40,7 +40,7 @@ module Visor::Meta
       # Presentation options
       #
       # Brief attributes used to return only brief information about images.
-      BRIEF        = [:_id, :uri, :name, :architecture, :type, :format, :store, :size, :created_at]
+      BRIEF        = [:_id, :name, :architecture, :type, :format, :store, :size]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
       DETAIL_EXC   = [:owner, :uploaded_at, :accessed_at, :access_count]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.

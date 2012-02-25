@@ -448,7 +448,7 @@ module Visor
 
       # Build query string from hash
       def build_query(h)
-        h.empty? ? '' : '?' + URI.encode_www_form(h)
+        (h.nil? or h.empty?) ? '' : '?' + URI.encode_www_form(h)
       end
 
       # Assert response code and raise if necessary
