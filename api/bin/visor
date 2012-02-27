@@ -2,31 +2,34 @@
 
 require 'optparse'
 require 'uri'
+require 'progressbar'
 $:.unshift File.expand_path('../../../common/lib', __FILE__)
 require 'common'
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'api/version'
 require 'api/client'
 
-
 # VISoR management command line interface script.
 #
 # Commands:
 #
-#   all     Show brief metadata of all public images
-#   detail  Show detailed metadata of all public images
-#   head    Show image detailed metadata
-#   get     Retrieve an image metadata and file
-#   add     Add a new image metadata and optionally upload its file
-#   update  Update an image metadata and/or upload its file
-#   delete  Delete an image metadata and its file
-#   clean   Delete all images metadata and files
+# brief          Show brief metadata of all public images
+# detail         Show detailed metadata of all public images
+# head           Show image detailed metadata
+# get            Retrieve an image metadata and file
+# add            Add a new image metadata and optionally upload its file
+# update         Update an image metadata and/or upload its file
+# delete         Delete an image metadata and its file
+# help <cmd>     Show help message for one of the above commands
 #
 # Run <visor -h> to get more usage help.
 #
-class VisorScript
+class VisorCLI
   include Visor::Common::Exception
   include Visor::Common::Config
+
+  # VISoR API CLI version
+  VERSION = '0.0.1'
 
   attr_reader :argv, :options, :parser, :command
 
@@ -41,47 +44,49 @@ class VisorScript
   # OptionParser parser
   def parser
     OptionParser.new do |opts|
-      opts.banner = "Usage: visor [OPTIONS] COMMAND"
+      opts.banner = "Usage: visor <command> [options]"
 
       opts.separator ""
       opts.separator "Commands:"
-      opts.separator "     brief       Show brief metadata of all public images"
-      opts.separator "     detail      Show detailed metadata of all public images"
-      opts.separator "     head        Show image detailed metadata"
-      opts.separator "     get         Retrieve an image metadata and file"
-      opts.separator "     add         Add a new image metadata and optionally upload its file"
-      opts.separator "     update      Update an image metadata and/or upload its file"
-      opts.separator "     delete      Delete an image metadata and its file"
-      opts.separator "     clean       Delete all images metadata and files"
-      opts.separator "     help <cmd>  Show help message for one of the above commands"
+      opts.separator "     brief          Show brief metadata of all public images"
+      opts.separator "     detail         Show detailed metadata of all public images"
+      opts.separator "     head           Show image detailed metadata"
+      opts.separator "     get            Retrieve an image metadata and file"
+      opts.separator "     add            Add a new image metadata and optionally upload its file"
+      opts.separator "     update         Update an image metadata and/or upload its file"
+      opts.separator "     delete         Delete an image metadata and its file"
+      opts.separator "     clean          Delete all images metadata and files"
+      opts.separator "     help <cmd>     Show help message for one of the above commands"
 
 
       opts.separator ""
       opts.separator "Options:"
-      opts.on("-a", "--address HOST", "Address of VISoR API host (default: #{@options[:host]})") { |addr| @options[:host] = addr }
-      opts.on("-p", "--port PORT", "Port were VISoR API host listens (default: #{@options[:port]})") { |port| @options[:port] = port }
-      opts.on("-q", "--query QUERY", "HTTP query like string to filters results") do |query|
+      opts.on("-a", "--address HOST", "Address of VISoR API host (default: #{options[:host]})") { |addr| options[:host] = addr }
+      opts.on("-p", "--port PORT", "Port were VISoR API host listens (default: #{options[:port]})") { |port| options[:port] = port }
+      opts.on("-q", "--query QUERY", "HTTP query like string to filter results") do |query|
         begin
-          @options[:query] = URI.decode_www_form(query)
+          options[:query] = URI.decode_www_form(query)
         rescue
-          abort "ERROR: the provided query string is not valid"
+          abort "The provided query string is not valid."
         end
       end
-      opts.on("-s", "--sort ATTRIBUTE", "Attribute to sort results") do |attr|
-        @options[:query] = [] unless @options[:query]
-        @options[:query] << URI.decode_www_form("sort=#{attr}").flatten
+      opts.on("-s", "--sort ATTRIBUTE", "Attribute to sort results (default: _id)") do |attr|
+        options[:query] = [] unless options[:query]
+        options[:query] << URI.decode_www_form("sort=#{attr}").flatten
       end
       opts.on("-d", "--dir DIRECTION", "Direction to sort results (asc/desc) (default: asc)") do |dir|
-        @options[:query] = [] unless @options[:query]
-        @options[:query] << URI.decode_www_form("dir=#{dir}").flatten
+        options[:query] = [] unless options[:query]
+        options[:query] << URI.decode_www_form("dir=#{dir}").flatten
       end
+      opts.on("-f", "--file IMAGE", "Image file path to upload") { |path| options[:file] = path }
+      opts.on("-S", "--save DIRECTORY", "Directory to save downloaded image (default: './')") { |path| options[:save] = path }
 
       opts.separator ""
       opts.separator "Common options:"
-      opts.on_tail("-D", "--dry-run", "Don't persist results, just print what would it do") { @options[:dry] = true }
-      opts.on_tail('-v', '--verbose', "Enable verbose") { @options[:verbose] = true }
+      opts.on_tail("-D", "--dry-run", "Don't persist results, just print what would it do") { options[:dry] = true }
+      opts.on_tail('-v', '--verbose', "Enable verbose") { options[:verbose] = true }
       opts.on_tail("-h", "--help", "Show this help message") { puts opts; exit 0 }
-      opts.on_tail('-V', '--version', "Show version") { version }
+      opts.on_tail('-V', '--version', "Show version") { puts "VISoR API CLI v#{VERSION}"; exit 0 }
     end
   end
 
@@ -93,108 +98,262 @@ class VisorScript
 
   # Parse the current shell arguments and run the command
   def run!
-    abort @parser.to_s if @command.nil?
-    case @command
-    when 'brief' then
-      brief
-    when 'detail' then
-      detail
-    when 'head' then
-      head
-    when 'get' then
-      get
-    when 'add' then
-      add
-    when 'update' then
-      update
-    when 'delete' then
-      delete
-    when 'clean' then
-      clean
-    when 'help' then
-      help
-    else
-      abort "ERROR: unknown command '#{@command}'"
+    abort parser.to_s if command.nil?
+    start = Time.now
+    case command
+    when 'brief' then brief
+    when 'detail' then detail
+    when 'head' then head
+    when 'get' then get
+    when 'add' then add
+    when 'update' then update
+    when 'delete' then delete
+    when 'help' then help
+    else abort "Unknown command '#{command}'"
     end
+    finish = Time.now
+    printf("Done in %-0.4f seconds", finish - start) if verbose?
     exit 0
   end
 
+  # Show brief metadata of all public images
   def brief
-    client = get_client
-    str    = "%-37s %-18s %-13s %-12s %-8s %-10s %-10s\n"
-    begin
-      images = client.get_images(options[:query])
-      puts "Found #{images.size} public images records..." if verbose?
-      printf(str, 'ID', 'NAME', 'ARCHITECTURE', 'TYPE', 'FORMAT', 'STORE', 'SIZE')
-      puts "#{'-'*36+"  "+'-'*17+"  "+'-'*12+"  "+'-'*11+"  "+'-'*7+"  "+'-'*9+"  "+'-'*9}"
+    str    = "%-37s %-21s %-13s %-12s %-8s %-10s %-10s\n"
+    images = client.get_images(options[:query])
 
-      images.each do |image|
-        printf(str, image[:_id], image[:name], image[:architecture], image[:type] || '-', image[:format] || '-', image[:store] || '-', image[:size] || '-')
-      end
-    rescue NotFound => e
-      puts e.message
-    rescue => e
-      abort "Failure while executing 'brief':\n#{e.message}"
+    puts "Found #{images.size} public images records..."
+    printf(str, 'ID', 'NAME', 'ARCHITECTURE', 'TYPE', 'FORMAT', 'STORE', 'SIZE')
+    puts "#{'-'*36+"  "+'-'*20+"  "+'-'*12+"  "+'-'*11+"  "+'-'*6+"  "+'-'*10+"  "+'-'*10}"
+
+    images.each do |image|
+      printf(str, image[:_id], image[:name], image[:architecture], image[:type] || '-', image[:format] || '-', image[:store] || '-', image[:size] || '-')
     end
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'brief':\n#{e.message}"
   end
 
+  # Show detailed metadata of all public images
   def detail
-    client = get_client
-    begin
-      images = client.get_images_detail(options[:query])
-      puts "Found #{images.size} public images records..." if verbose?
+    images = client.get_images_detail(options[:query])
+    puts "Found #{images.size} public images records..."
 
-      images.each do |image|
-        puts('.'*70)
-        order_attributes(image).each { |k, v| puts "#{k.upcase.to_s.rjust(12)}: #{v}" }
-      end
-    rescue NotFound => e
-      puts e.message
-    rescue => e
-      abort "Failure while executing 'detail':\n#{e.message}"
+    images.each do |image|
+      puts('-'*80)
+      print_meta(image, false)
     end
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'detail':\n#{e.message}"
   end
 
+  # Show image detailed metadata
   def head
-    client = get_client
-    id     = argv[0]
-    abort "No image ID provided as argument, please provide one" unless id
-    begin
-      image = client.head_image(id)
-      order_attributes(image).each { |k, v| puts "#{k.upcase.to_s.rjust(12)}: #{v}" }
-    end
+    id = argv.shift
+    abort "No image ID provided as first argument, please provide it." unless id
+    image = client.head_image(id)
+    print_meta(image)
   rescue NotFound => e
     puts e.message
   rescue => e
     abort "Failure while executing 'head':\n#{e.message}"
   end
 
+  # Retrieve an image metadata and file
   def get
+    id = argv.shift
+    abort "No image ID provided as first argument, please provide it." unless id
 
+    image = client.head_image(id)
+    print_meta(image)
+    path = File.expand_path(options[:save] || './')
+    fp   = File.expand_path(File.join(path, "#{id}.#{image[:format] || 'none'}"))
+
+    raise "Cannot locate directory '#{path}'." unless Dir.exists? path
+    raise "File #{fp} already exists." if File.exists? fp
+
+    file          = File.open(fp, 'wb')
+    pbar          = ProgressBar.new("Progress", image[:size])
+    pbar.bar_mark = '='
+
+    puts "Downloading image #{id}..."
+    client.get_image(id) do |chunk|
+      pbar.inc(chunk.size)
+      file.write(chunk)
+    end
+    pbar.finish
+    file.close
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'get':\n#{e.message}"
   end
 
+# Add a new image metadata and optionally upload its file
   def add
+    file = options[:file]
+    if file
+      fp = File.expand_path(file)
+      abort "Cannot locate image file at #{fp}." unless File.exists? fp
+      puts "Adding new metadata and uploading file..."
+    end
 
+    begin
+      meta  = parse_meta_from_args
+      image = client.post_image(meta, file)
+      puts "Successfully added new metadata and image with ID #{image[:_id]}." if file
+      puts "Successfully added new metadata with ID #{image[:_id]}." unless file
+      print_meta(image)
+    rescue NotFound => e
+      puts e.message
+    rescue => e
+      abort "Failure while executing 'add':\n#{e.message}"
+    end
   end
 
+# Update an image metadata and/or upload its file
   def update
+    id   = argv.shift
+    file = options[:file]
+    abort "No image ID provided as first argument, please provide it." unless id
+    if file
+      fp = File.expand_path(file)
+      abort "Cannot locate image file at #{fp}." unless File.exists?(fp)
+      puts "Updating metadata and uploading file..."
+    end
 
+    begin
+      meta  = parse_meta_from_args
+      image = client.put_image(id, meta, file)
+      puts "Successfully updated and uploaded image #{id}." if file
+      puts "Successfully updated image #{id}." unless file
+      print_meta(image) if verbose?
+    rescue NotFound => e
+      puts e.message
+    rescue => e
+      abort "Failure while executing 'update':\n#{e.message}"
+    end
   end
 
+# Delete an image metadata and its file
   def delete
-
+    id = argv.shift
+    abort "No image ID provided as first argument, please provide it." unless id
+    image = client.delete_image(id)
+    puts "Successfully deleted image #{id}."
+    print_meta(image) if verbose?
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'delete':\n#{e.message}"
   end
 
-  def clean
-
-  end
-
+# Show help message for one of the above commands
   def help
+    cmd = argv[0]
+    abort "Please provide a command name as argument (example: visor help brief)." unless cmd
 
+    case cmd.to_sym
+    when :brief
+      puts %q[Usage: visor brief [options]
+
+Returns brief metadata of all public images.
+
+You can filter results based on a query using the --query (-q) option.
+It's possible to sort and order results with the --sort (-s) and --dir (-d) options.
+
+Examples:
+  $ visor brief --query 'architecture=i386'
+  $ visor brief --query 'architecture=i386&format=iso'
+  $ visor detail --sort name --dir desc]
+    when :detail
+      %q[Usage: visor detail [options]
+
+Returns detailed metadata of all public images.
+
+You can filter results based on a query using the --query (-q) option.
+It's possible to sort and order results with the --sort (-s) and --dir (-d) options.
+
+Examples:
+  $ visor detail --query 'architecture=i386'
+  $ visor detail --query 'architecture=i386&format=iso'
+  $ visor detail --sort name --dir desc]
+    when :head
+      puts "Usage: visor head <ID> [options]\n\nReturns detailed metadata of the image with the given ID."
+    when :get
+      puts %q[Usage: visor get <ID> [options]
+
+Returns detailed metadata and image file of the image with the given ID.
+You can provide the --save (-S) option defining the path where the image should be saved.
+
+Examples:
+  $ visor get 8074d23e-a9c0-454d-b935-cda5f6eb1bc8 --save '~/VMs/']
+    when :add
+      puts %q[Usage: visor add <ATTRIBUTES> [options]
+
+Add new metadata and optionally upload the image file.
+
+The following attributes can be specified as key/value pairs:
+
+        name: The image name
+architecture: The Image operating system architecture (available: i386 x86_64)
+      access: If the image is public or private (available: public private)
+      format: The format of the image's disk (available: none iso vhd vdi vmdk ami aki ari)
+        type: The type of the image (available: none kernel ramdisk amazon eucalyptus openstack opennebula nimbus)
+       store: The storage system to save image in (available: s3 http file)
+    location: The location URI of the already somewhere stored image
+
+Any other custom image property can be passed too as additional key/value pairs.
+
+Provide the --file option with the path to the image to be uploaded and the 'store' attribute,
+defining the store where the image should be uploaded to.
+
+Examples:
+  $ visor add name='Ubuntu 11.10' architecture='x86_64' location='http://www.domain.com/path-to-image'
+  $ visor add name='Ubuntu 11.10' architecture='x86_64' store='s3' --file '~/VMs/ubuntu-11.10-x86_64.iso']
+    when :update
+      puts %q[Usage: visor update <ID> [options]
+
+Updates metadata and/or uploads image file of the image with the given ID.
+
+The following attributes can be specified as key/value pairs:
+
+        name: The image name
+architecture: The Image operating system architecture (available: i386 x86_64)
+      access: If the image is public or private (available: public private)
+      format: The format of the image's disk (available: none iso vhd vdi vmdk ami aki ari)
+        type: The type of the image (available: none kernel ramdisk amazon eucalyptus openstack opennebula nimbus)
+       store: The storage system to save image in (available: s3 http file)
+    location: The location URI of the already somewhere stored image
+
+Any other custom image property can be passed too as additional key/value pairs.
+
+It is possible to upload and assign an image file to an already registered metadata:
+
+Provide the --file option with the path to the image to be uploaded and the 'store' attribute,
+defining the store where the image should be uploaded to.
+
+Examples:
+  $ visor update 8074d23e... format='iso'
+  $ visor update 8074d23e... format='iso' location='http://www.domain.com/path-to-image'
+  $ visor update 8074d23e... store='s3' --file '~/VMs/ubuntu-11.10-x86_64.iso']
+    when :delete
+      puts "Usage: visor delete <ID> [options]\n\nDeletes metadata and image file of the image with the given ID."
+    else
+      abort "Unknown command '#{cmd}'"
+    end
   end
-
 
   private
+
+# Pretty print image metadata
+  def print_meta(meta, breaklines=true)
+    puts '' if breaklines
+    order_attributes(meta).each { |k, v| puts "#{k.upcase.to_s.rjust(12)}: #{v}" }
+    puts '' if breaklines
+  end
 
 # Load configuration file options
   def load_conf_file
@@ -204,29 +363,39 @@ class VisorScript
     raise "There was an error loading the configuration file: #{e.message}"
   end
 
-  def get_client
-    Visor::API::Client.new(@options)
+# Get a new VISoR API Client instance
+  def client
+    Visor::API::Client.new(options)
   end
 
-  def version
-    puts "VISoR API Server v#{Visor::API::VERSION}"
-    exit 0
-  end
-
+# Find if verbose mode is active
   def verbose?
     options[:verbose]
   end
 
+# Properly order metadata hashes
   def order_attributes(hash)
     order = {_id:  '-', uri: '-', name: '-', architecture: '-', access: '-', status: '-', type: '-', format: '-',
              size: '-', store: '-', location: '-', kernel: '-', ramdisk: '-', created_at: '-', updated_at: '-', checksum: '-'}
     order.merge(hash)
   end
 
+# Parse key/value pair arguments to a valid metadata hash
+  def parse_meta_from_args
+    meta = {}
+    raise "You should provide at least one key=value pair." if argv.empty?
+    argv.each do |arg|
+      k, v = arg.split('=')
+      raise "Arguments should be in the form of key=value pairs." unless k && v
+      meta[k.downcase.sub('-', '_')] = v
+    end
+    meta
+  end
+
 end
 
 # Execute if file is called
 if __FILE__ == $0
-  VisorScript.new.run!
+  VisorCLI.new.run!
 end
 

@@ -67,6 +67,8 @@ module Visor
         # first update the image meta or raises on error
         begin
           image = update_meta(id, meta)
+        rescue NotFound => e
+          return exit_error(404, e.message)
         rescue ArgumentError => e
           body.close if body
           body.unlink if body
@@ -81,7 +83,6 @@ module Visor
         begin
           image = upload_and_update(id, body)
         rescue UnsupportedStore, ArgumentError => e
-          STDERR.puts '---------------------------------', e.backtrace
           return exit_error(400, e.message, true)
         rescue NotFound => e
           return exit_error(404, e.message, true)
