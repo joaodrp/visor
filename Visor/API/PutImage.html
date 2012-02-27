@@ -462,7 +462,6 @@ managing image metadata and file data.</p>
       <pre class="lines">
 
 
-184
 185
 186
 187
@@ -474,10 +473,11 @@ managing image metadata and file data.</p>
 193
 194
 195
-196</pre>
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 185</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_do_upload'>do_upload</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>headers</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
@@ -593,7 +593,6 @@ managing image metadata and file data.</p>
       <pre class="lines">
 
 
-118
 119
 120
 121
@@ -601,10 +600,11 @@ managing image metadata and file data.</p>
 123
 124
 125
-126</pre>
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_set_status'>set_status</span><span class='op'>=</span><span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='id identifier rubyid_message'>message</span>
@@ -742,12 +742,12 @@ tempfile.</p>
       <pre class="lines">
 
 
-106
 107
-108</pre>
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_close'>on_close</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Connection closed</span><span class='tstring_end'>'</span></span>
@@ -957,7 +957,8 @@ error code and its message if anything was raised.</p>
 97
 98
 99
-100</pre>
+100
+101</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 42</span>
@@ -990,6 +991,8 @@ error code and its message if anything was raised.</p>
   <span class='comment'># first update the image meta or raises on error
 </span>  <span class='kw'>begin</span>
     <span class='id identifier rubyid_image'>image</span> <span class='op'>=</span> <span class='id identifier rubyid_update_meta'>update_meta</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
+  <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span> <span class='const'>ArgumentError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_close'>close</span> <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span>
     <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_unlink'>unlink</span> <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span>
@@ -1004,7 +1007,6 @@ error code and its message if anything was raised.</p>
 </span>  <span class='kw'>begin</span>
     <span class='id identifier rubyid_image'>image</span> <span class='op'>=</span> <span class='id identifier rubyid_upload_and_update'>upload_and_update</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span> <span class='const'>UnsupportedStore</span><span class='comma'>,</span> <span class='const'>ArgumentError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='const'>STDERR</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>---------------------------------</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_backtrace'>backtrace</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>400</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
@@ -1088,7 +1090,6 @@ error code and its message if anything was raised.</p>
       <pre class="lines">
 
 
-134
 135
 136
 137
@@ -1101,10 +1102,11 @@ error code and its message if anything was raised.</p>
 144
 145
 146
-147</pre>
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_meta'>update_meta</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updating image </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_content'> meta:</span><span class='tstring_end'>&quot;</span></span>
@@ -1216,7 +1218,6 @@ error code and its message if anything was raised.</p>
       <pre class="lines">
 
 
-156
 157
 158
 159
@@ -1232,10 +1233,11 @@ error code and its message if anything was raised.</p>
 169
 170
 171
-172</pre>
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/routes/put_image.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_upload_and_update'>upload_and_update</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta'>meta</span>     <span class='op'>=</span> <span class='id identifier rubyid_vms'>vms</span><span class='period'>.</span><span class='id identifier rubyid_get_image'>get_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
@@ -1264,7 +1266,7 @@ error code and its message if anything was raised.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Feb  4 18:59:05 2012 by 
+  Generated on Mon Feb 27 20:23:58 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.9.3).
 </div>

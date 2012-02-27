@@ -2,7 +2,7 @@ api/lib/api/cli.rb afa162dac4007b4026f874c2a913ae53cf8cf0fd
 api/lib/api/meta.rb 2a2fb1e0627e500c2b2f4bcd7f275b1cb5e3ca7c
 meta/lib/meta/cli.rb 594ae0cc9faf75894c3796f572c4c215c0bdeb19
 api/lib/api/server.rb f1965838c41adb31d356bf33c2fc344b11a2a1e9
-api/lib/api/client.rb b5699612217eb137c80d05001de26eb3cfb28706
+api/lib/api/client.rb f49ba65c07cb7d5e1132b3d6eb519b7545630f8f
 api/lib/api/version.rb 5adb8c323c78b3712565bf4160b0834098a0853b
 meta/lib/meta/client.rb b3e95229caa737f1614b12a5fd090e339b8df281
 meta/lib/meta/server.rb 9db5b68b5befc84b79dda621b34a59d5d900bfae
@@ -14,8 +14,8 @@ api/lib/api/store/store.rb 71adb0771eaf26e07bef9cd780e762e36200a8bc
 common/lib/common/config.rb 08aafd122f1abf17aaa0853486351d7e9d0621b6
 common/lib/common/version.rb 048638bfc821802238079dd9c7aa176a3092b7a3
 common/lib/common/exception.rb d538799bfb5a41210d8ae8c350cdd2186ad323ca
-meta/lib/meta/backends/base.rb 902de73653ac55da15c5593aea367844bc60bf27
-api/lib/api/routes/put_image.rb 4ce558d745ba75740d07ef81fba7f2e8f21faa1c
+meta/lib/meta/backends/base.rb 5ea3277fca1be51e4daab4f7df7141b2f4b3294f
+api/lib/api/routes/put_image.rb c44c1f2d407b0598094d03737a22abfb06d1d071
 api/lib/api/routes/get_image.rb c23e26e69b959f40643a1c66b58e06abdb491b93
 api/lib/api/routes/get_images.rb ab4bf3880fa2233893d1314c666ca1e96682c006
 api/lib/api/routes/post_image.rb 589b3a022f01c4b24fa112e16b57fe4a10c1889c
