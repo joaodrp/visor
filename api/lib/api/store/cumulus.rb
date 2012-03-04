@@ -5,47 +5,52 @@ module Visor
   module API
     module Store
 
-      # The Amazon Simple Storage (S3) backend store.
+      # The Nimbus Cumulus (Cumulus) backend store.
       #
       # This class handles the management of image files located in the local FileSystem,
-      # based on a URI like *s3://<access_key>:<secret_key@s3.amazonaws.com/<bucket>/<image>*.
+      # based on a URI like *cumulus://<access_key>:<secret_key>@<host>:<port>/<bucket>/<image>*.
       #
-      class S3
+      class Cumulus
         include Visor::Common::Exception
 
-        attr_accessor :uri, :config, :access_key, :secret_key, :bucket, :file
+        attr_accessor :uri, :config, :access_key, :secret_key, :bucket, :file, :host, :port
 
-        # Initializes a new S3 store client object. S3 credentials are loaded from the URI,
+        # Initializes a new Cumulus store client object. Cumulus credentials are loaded from the URI,
         # on GET and DELETE operations, or from the configuration file for POST and PUT operation.
         #
         # @param [String] uri The URI of the file location.
         # @param config [Hash] A set of configurations for the wanted store, loaded from
         #   VISoR configuration file.
         #
-        # @return [Object] An instantiated S3 store object ready to use.
+        # @return [Object] An instantiated Cumulus store object ready to use.
         #
         def initialize(uri, config)
           @uri    = URI(uri)
-          @config = config[:s3]
+          @config = config[:cumulus]
 
           if @uri.scheme
             @access_key = @uri.user
             @secret_key = @uri.password
             @bucket     = @uri.path.split('/')[1]
             @file       = @uri.path.split('/')[2]
+            @host       = @uri.host
+            @port       = @uri.port
           else
             @access_key = @config[:access_key]
             @secret_key = @config[:secret_key]
             @bucket     = @config[:bucket]
+            @host       = @config[:host]
+            @port       = @config[:port]
           end
         end
 
-        # Returns a Happening library S3 connection object.
+        # Returns a Happening library S3 Cumulus compatible connection object.
         #
-        # @return [Happening::S3::Item] A new S3 connection object.
+        # @return [Happening::S3::Item] A new Cumulus connection object.
         #
         def connection
-          Happening::S3::Item.new(bucket, file, aws_access_key_id: access_key, aws_secret_access_key: secret_key)
+          Happening::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',
+                                  aws_access_key_id: access_key, aws_secret_access_key: secret_key)
         end
 
         # Returns the image file to clients, streamed in chunks.
@@ -74,7 +79,7 @@ module Visor
         #
         def save(id, tmp_file, format)
           @file = "#{id}.#{format}"
-          uri   = "s3://#{access_key}:#{secret_key}@s3.amazonaws.com/#{bucket}/#{file}"
+          uri   = "cumulus://#{access_key}:#{secret_key}@#{host}:#{port}/#{bucket}/#{file}"
           size  = tmp_file.size
 
           raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)

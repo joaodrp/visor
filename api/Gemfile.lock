@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/joaodrp/happening.git
-  revision: bf01610508708f833e63577b1eef04b4a9975f7a
+  revision: 47878c7d7bee654429b6626fc94304b6abd4a6ea
   specs:
     happening (0.2.5)
       em-http-request (>= 1.0.0)
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/postrank-labs/goliath.git
-  revision: ff886a9049195b0d98c5fbd6da746cfeece21e55
+  revision: d418fc2bb3b10fcb017acf96dd6f67becb0d4aa2
   specs:
     goliath (0.9.4)
       async-rack

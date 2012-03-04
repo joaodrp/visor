@@ -11,9 +11,10 @@ module Visor
       include Visor::Common::Exception
 
       # Base API mapping for the multiple storage backend classes
-      BACKENDS = {:file => Visor::API::Store::FileSystem,
-                  :s3   => Visor::API::Store::S3,
-                  :http => Visor::API::Store::HTTP}
+      BACKENDS = {:s3      => Visor::API::Store::S3,
+                  :cumulus => Visor::API::Store::Cumulus,
+                  :file    => Visor::API::Store::FileSystem,
+                  :http    => Visor::API::Store::HTTP}
 
 
       # Get a store backend class object ready to use, based on a file URI or store name.

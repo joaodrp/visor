@@ -31,9 +31,10 @@ module Visor
     #
     # *Currently we support the following store backend and operations:*
     #
-    #   Amazon Simple Storage (s3)    - GET, POST, PUT, DELETE
-    #   Local Filesystem      (file)  - GET, POST, PUT, DELETE
-    #   Remote HTTP           (http)  - GET
+    #   Amazon Simple Storage (s3)  - GET, POST, PUT, DELETE
+    #   Nimbus Cumulus (cumulus)    - GET, POST, PUT, DELETE
+    #   Local Filesystem (file)     - GET, POST, PUT, DELETE
+    #   Remote HTTP (http)          - GET
     #
     class Server < Goliath::API
 
