@@ -85,7 +85,7 @@
   
     <dt class="r2 last">Defined in:</dt>
     <dd class="r2 last">api/lib/api/store/store.rb<span class="defines">,<br />
-  api/lib/api/store/s3.rb,<br /> api/lib/api/store/http.rb,<br /> api/lib/api/store/file_system.rb</span>
+  api/lib/api/store/s3.rb,<br /> api/lib/api/store/http.rb,<br /> api/lib/api/store/cumulus.rb,<br /> api/lib/api/store/file_system.rb</span>
 </dd>
   
 </dl>
@@ -109,7 +109,7 @@ of utility methods common to all stores.</p>
     
    
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Store/FileSystem.html" title="Visor::API::Store::FileSystem (class)">FileSystem</a></span>, <span class='object_link'><a href="Store/HTTP.html" title="Visor::API::Store::HTTP (class)">HTTP</a></span>, <span class='object_link'><a href="Store/S3.html" title="Visor::API::Store::S3 (class)">S3</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Store/Cumulus.html" title="Visor::API::Store::Cumulus (class)">Cumulus</a></span>, <span class='object_link'><a href="Store/FileSystem.html" title="Visor::API::Store::FileSystem (class)">FileSystem</a></span>, <span class='object_link'><a href="Store/HTTP.html" title="Visor::API::Store::HTTP (class)">HTTP</a></span>, <span class='object_link'><a href="Store/S3.html" title="Visor::API::Store::S3 (class)">S3</a></span>
     
   
 </p>
@@ -132,9 +132,10 @@ of utility methods common to all stores.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbrace'>{</span><span class='symbol'>:file</span> <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>FileSystem</span><span class='comma'>,</span>
-<span class='symbol'>:s3</span>   <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>S3</span><span class='comma'>,</span>
-<span class='symbol'>:http</span> <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>HTTP</span><span class='rbrace'>}</span></pre></dd>
+        <dd><pre class="code"><span class='lbrace'>{</span><span class='symbol'>:s3</span>      <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>S3</span><span class='comma'>,</span>
+<span class='symbol'>:cumulus</span> <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>Cumulus</span><span class='comma'>,</span>
+<span class='symbol'>:file</span>    <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>FileSystem</span><span class='comma'>,</span>
+<span class='symbol'>:http</span>    <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>HTTP</span><span class='rbrace'>}</span></pre></dd>
       
     </dl>
   
@@ -289,15 +290,15 @@ configuration file.</p>
       <pre class="lines">
 
 
-27
 28
 29
 30
 31
-32</pre>
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/store/store.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'api/lib/api/store/store.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_backend'>get_backend</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span>  <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span> <span class='op'>||</span> <span class='id identifier rubyid_string'>string</span>
@@ -315,7 +316,7 @@ configuration file.</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Feb 27 20:23:57 2012 by 
+  Generated on Sun Mar  4 16:37:52 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.9.3).
 </div>
