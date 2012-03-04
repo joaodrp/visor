@@ -7,7 +7,7 @@ module Visor
 
       # The Amazon Simple Storage (S3) backend store.
       #
-      # This class handles the management of image files located in the local FileSystem,
+      # This class handles the management of image files located in the S3 storage system,
       # based on a URI like *s3://<access_key>:<secret_key@s3.amazonaws.com/<bucket>/<image>*.
       #
       class S3

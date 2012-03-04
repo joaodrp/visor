@@ -5,48 +5,48 @@ module Visor
   module API
     module Store
 
-      # The Nimbus Cumulus (Cumulus) backend store.
+      # The Eucalyptus Walrus (Walrus) backend store.
       #
-      # This class handles the management of image files located in the Cumulus storage system,
-      # based on a URI like *cumulus://<access_key>:<secret_key>@<host>:<port>/<bucket>/<image>*.
+      # This class handles the management of image files located in the Walrus storage system,
+      # based on a URI like *walrus://<access_key>:<secret_key>@<host>:<port>/<bucket>/<image>*.
       #
-      class Cumulus
+      class Walrus
         include Visor::Common::Exception
 
         attr_accessor :uri, :config, :access_key, :secret_key, :bucket, :file, :host, :port
 
-        # Initializes a new Cumulus store client object. Cumulus credentials are loaded from the URI,
+        # Initializes a new Walrus store client object. Walrus credentials are loaded from the URI,
         # on GET and DELETE operations, or from the configuration file for POST and PUT operation.
         #
         # @param [String] uri The URI of the file location.
         # @param config [Hash] A set of configurations for the wanted store, loaded from
         #   VISoR configuration file.
         #
-        # @return [Object] An instantiated Cumulus store object ready to use.
+        # @return [Object] An instantiated Walrus store object ready to use.
         #
         def initialize(uri, config)
           @uri    = URI(uri)
-          @config = config[:cumulus]
+          @config = config[:walrus]
 
           if @uri.scheme
             @access_key = @uri.user
             @secret_key = @uri.password
-            @bucket     = @uri.path.split('/')[1]
-            @file       = @uri.path.split('/')[2]
+            @bucket     = File.join('services/Walrus', @uri.path.split('/')[3])
+            @file       = @uri.path.split('/').last
             @host       = @uri.host
             @port       = @uri.port
           else
             @access_key = @config[:access_key]
             @secret_key = @config[:secret_key]
-            @bucket     = @config[:bucket]
+            @bucket     = File.join('services/Walrus', @config[:bucket])
             @host       = @config[:host]
             @port       = @config[:port]
           end
         end
 
-        # Returns a Happening library S3 Cumulus compatible connection object.
+        # Returns a Happening library S3 Walrus compatible connection object.
         #
-        # @return [Happening::S3::Item] A new Cumulus connection object.
+        # @return [Happening::S3::Item] A new Walrus connection object.
         #
         def connection
           Happening::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',
@@ -79,7 +79,7 @@ module Visor
         #
         def save(id, tmp_file, format)
           @file = "#{id}.#{format}"
-          uri   = "cumulus://#{access_key}:#{secret_key}@#{host}:#{port}/#{bucket}/#{file}"
+          uri   = "walrus://#{access_key}:#{secret_key}@#{host}:#{port}/#{bucket}/#{file}"
           size  = tmp_file.size
 
           raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
