@@ -1,0 +1,21 @@
+source 'http://rubygems.org'
+
+# Specify your gem's dependencies in meta.gemspec
+#gemspec
+gem 'goliath', :git => 'https://github.com/postrank-labs/goliath.git'
+gem 'em-http-request', :git => 'https://github.com/igrigorik/em-http-request.git'
+gem 'happening', :git => 'https://github.com/joaodrp/happening.git'
+gem 'progressbar'
+
+group :development do
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'ruby_gntp'
+  gem 'yard'
+  gem 'rdiscount'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'simplecov'
+end

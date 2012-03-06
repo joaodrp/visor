@@ -7,8 +7,8 @@ notes
 .config
 .yardoc
 .gemspec
-Gemfile
-Gemfile.lock
+/Gemfile
+/Gemfile.lock
 InstalledFiles
 _yardoc
 coverage
