@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+# VISoR Image Server command line interface script.
+# Run <visor-image -h> to get more usage help.
+
+require File.expand_path('../../lib/image', __FILE__)
+
+ENV['GOLIATH_CONF'] = File.expand_path('../../config/server.rb', __FILE__)
+
+Visor::Image::CLI.new(ARGV).run!

@@ -3,11 +3,11 @@ require "bundler/gem_tasks"
 require 'rake/testtask'
 require 'fileutils'
 
-api         = "api/lib/**/*.rb api/lib/api/**/*.rb"
+api         = "image/lib/**/*.rb image/lib/image/**/*.rb"
 meta        = "meta/lib/**/*.rb meta/lib/meta/**/*.rb"
 common      = "common/lib/**/*.rb common/lib/common/**/*.rb"
 
-api_spec    = " api/spec/*.rb api/spec/**/*.rb"
+api_spec    = " image/spec/*.rb image/spec/**/*.rb"
 meta_spec   = " meta/spec/*.rb meta/spec/**/*.rb"
 common_spec = " common/spec/*.rb common/spec/**/*.rb"
 
