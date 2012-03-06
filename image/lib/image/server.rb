@@ -2,8 +2,6 @@ require 'goliath'
 require 'tempfile'
 require 'json'
 
-#TODO: Include cache with Etag header set to image['checksum']?
-
 module Visor
   module Image
 
