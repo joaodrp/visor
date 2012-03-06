@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Visor::Image::DeleteImage
+  
+    &mdash; VISoR
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (D)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Image.html" title="Visor::Image (module)">Image</a></span></span>
+     &raquo; 
+    <span class="title">DeleteImage</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Visor::Image::DeleteImage
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Goliath::API</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Goliath::API</li>
+          
+            <li class="next">Visor::Image::DeleteImage</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../Common/Exception.html" title="Visor::Common::Exception (module)">Common::Exception</a></span>, <span class='object_link'><a href="../Common/Util.html" title="Visor::Common::Util (module)">Common::Util</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">image/lib/image/routes/delete_image.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete the metadata and data of the image with the given id.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exit_error-instance_method" title="#exit_error (instance method)">- (Array) <strong>exit_error</strong>(code, message) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Produce an HTTP response with an error code and message.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#response-instance_method" title="#response (instance method)">- (Array) <strong>response</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Query database to delete the wanted image based on its id.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Common/Util.html" title="Visor::Common::Util (module)">Common::Util</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Common/Util.html#is_date%3F-instance_method" title="Visor::Common::Util#is_date? (method)">#is_date?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_float%3F-instance_method" title="Visor::Common::Util#is_float? (method)">#is_float?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_integer%3F-instance_method" title="Visor::Common::Util#is_integer? (method)">#is_integer?</a></span>, <span class='object_link'><a href="../Common/Util.html#parse_value-instance_method" title="Visor::Common::Util#parse_value (method)">#parse_value</a></span>, <span class='object_link'><a href="../Common/Util.html#pull_meta_from_headers-instance_method" title="Visor::Common::Util#pull_meta_from_headers (method)">#pull_meta_from_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#push_meta_into_headers-instance_method" title="Visor::Common::Util#push_meta_into_headers (method)">#push_meta_into_headers</a></span></p>
+
+  
+  
+  
+  
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="exit_error-instance_method">
+  
+    - (<tt>Array</tt>) <strong>exit_error</strong>(code, message) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Produce an HTTP response with an error code and message.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>code</span>
+      
+      
+        <span class='type'>(<tt>Fixnum</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The error code.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The error message.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The HTTP response containing an error code and its message.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_image.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='id identifier rubyid_message'>message</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>code:</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_message'>message</span><span class='rbrace'>}</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="response-instance_method">
+  
+    - (<tt>Array</tt>) <strong>response</strong>(env) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Query database to delete the wanted image based on its id.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>env</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Goliath environment variables.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The HTTP response containing the image metadata or an error code and its
+messages if anything was raised.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_image.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_response'>response</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='id identifier rubyid_vms'>vms</span><span class='period'>.</span><span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_uri'>uri</span>  <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:store</span><span class='rbracket'>]</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_uri'>uri</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_name'>name</span>
+    <span class='id identifier rubyid_store'>store</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='period'>.</span><span class='id identifier rubyid_get_backend'>get_backend</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='comma'>,</span> <span class='id identifier rubyid_configs'>configs</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_store'>store</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='kw'>unless</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>http</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>rescue</span> <span class='const'>Forbidden</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>403</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+<span class='kw'>else</span>
+  <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>image:</span> <span class='id identifier rubyid_meta'>meta</span><span class='rbrace'>}</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Tue Mar  6 11:45:00 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

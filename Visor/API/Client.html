@@ -91,7 +91,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">api/lib/api/client.rb</dd>
+    <dd class="r1 last">image/lib/image/client.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -99,11 +99,11 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The Client API for the VISoR API Server. This class supports all image
+<p>The Client API for the VISoR Image Server. This class supports all image
 metadata and files operations through a programmatically interface.</p>
 
 <p>After Instantiate a Client object its possible to directly interact with
-the api server and its store backends.</p>
+the image server and its store backends.</p>
 
 
   </div>
@@ -360,7 +360,7 @@ the api server and its store backends.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Initializes a new new VISoR API Client.</p>
+<p>Initializes a new new VISoR Image Client.</p>
 </div></span>
   
 </li>
@@ -447,7 +447,7 @@ already existing image file, stored somewhere.</p>
 </p><div class="docstring">
   <div class="discussion">
     
-<p>Initializes a new new VISoR API Client.</p>
+<p>Initializes a new new VISoR Image Client.</p>
 
 
   </div>
@@ -460,12 +460,12 @@ already existing image file, stored somewhere.</p>
       <h4><div class='inline'>
 <p>Instantiate a client with default values:</p>
 </div></h4>
-      <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre>
+      <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre>
     
       <h4><div class='inline'>
 <p>Instantiate a client with custom host and port:</p>
 </div></h4>
-      <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>API</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>127.0.0.1</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>port:</span> <span class='int'>3000</span><span class='rparen'>)</span></pre>
+      <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>127.0.0.1</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>port:</span> <span class='int'>3000</span><span class='rparen'>)</span></pre>
     
   </div>
 <h3>Parameters:</h3>
@@ -507,7 +507,7 @@ already existing image file, stored somewhere.</p>
             
           </span>
           &mdash; <div class='inline'>
-<p>The host address where VISoR api server resides.</p>
+<p>The host address where VISoR image server resides.</p>
 </div>
         </li>
       
@@ -521,7 +521,7 @@ already existing image file, stored somewhere.</p>
             
           </span>
           &mdash; <div class='inline'>
-<p>The host port where VISoR api server resides.</p>
+<p>The host port where VISoR image server resides.</p>
 </div>
         </li>
       
@@ -556,7 +556,7 @@ already existing image file, stored somewhere.</p>
 43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@host</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>DEFAULT_HOST</span>
@@ -605,7 +605,7 @@ already existing image file, stored somewhere.</p>
 27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_host'>host</span>
   <span class='ivar'>@host</span>
@@ -647,7 +647,7 @@ already existing image file, stored somewhere.</p>
 27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@port</span>
@@ -689,7 +689,7 @@ already existing image file, stored somewhere.</p>
 27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ssl'>ssl</span>
   <span class='ivar'>@ssl</span>
@@ -855,7 +855,7 @@ delete.</p>
 427</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 424</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 424</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Delete</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -991,7 +991,7 @@ file without buffering it all in memory.</p>
 177</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 167</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_image'>get_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Get</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1197,7 +1197,7 @@ name:</p>
 119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_images'>get_images</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='rparen'>)</span>
@@ -1385,7 +1385,7 @@ from results.</p>
 145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_images_detail'>get_images_detail</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='rparen'>)</span>
@@ -1523,7 +1523,7 @@ from results.</p>
 76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_head_image'>head_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Head</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1821,7 +1821,7 @@ both clients and server.</p>
 277</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 268</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_post_image'>post_image</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Post</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -2174,7 +2174,7 @@ both clients and server.</p>
 386</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'api/lib/api/client.rb', line 377</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/client.rb', line 377</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Put</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -2196,7 +2196,7 @@ both clients and server.</p>
 </div>
     
     <div id="footer">
-  Generated on Sun Mar  4 20:04:43 2012 by 
+  Generated on Tue Mar  6 11:44:57 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>
