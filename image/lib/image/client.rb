@@ -4,7 +4,7 @@ require 'uri'
 require 'json'
 
 module Visor
-  module API
+  module Image
 
     # The Client API for the VISoR Image Server. This class supports all image metadata and
     # files operations through a programmatically interface.

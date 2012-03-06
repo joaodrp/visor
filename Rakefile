@@ -3,15 +3,15 @@ require "bundler/gem_tasks"
 require 'rake/testtask'
 require 'fileutils'
 
-api         = "image/lib/**/*.rb image/lib/image/**/*.rb"
-meta        = "meta/lib/**/*.rb meta/lib/meta/**/*.rb"
-common      = "common/lib/**/*.rb common/lib/common/**/*.rb"
+image  = "image/lib/**/*.rb image/lib/image/**/*.rb"
+meta   = "meta/lib/**/*.rb meta/lib/meta/**/*.rb"
+common = "common/lib/**/*.rb common/lib/common/**/*.rb"
 
-api_spec    = " image/spec/*.rb image/spec/**/*.rb"
+image_spec  = " image/spec/*.rb image/spec/**/*.rb"
 meta_spec   = " meta/spec/*.rb meta/spec/**/*.rb"
 common_spec = " common/spec/*.rb common/spec/**/*.rb"
 
-files       = ""
+files = ""
 
 Rake::TestTask.new(:all) do |t|
   t.libs.push "lib"
@@ -20,13 +20,13 @@ end
 
 desc "Count lines of source .rb files"
 task :lines do
-  system "find #{api+api_spec} #{meta+meta_spec} #{common+common_spec} -name '*.rb' | xargs wc -l"
+  system "find #{image+api_spec} #{meta+meta_spec} #{common+common_spec} -name '*.rb' | xargs wc -l"
 end
 
 desc "Generate YARD documentation"
 task :ydoc do
   output = "~/workspace/gh-pages/visor/"
-  system "yardoc #{api} #{meta} #{common} -o #{output} --protected -b #{output}.yardoc --title VISoR --main README.md - #{files}"
+  system "yardoc #{image} #{meta} #{common} -o #{output} --protected -b #{output}.yardoc --title VISoR --main README.md - #{files}"
   system "cd #{output} && git add . && git commit -am 'documentation updated' && git push origin gh-pages"
 end
 
