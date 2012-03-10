@@ -101,15 +101,24 @@ class VisorCLI
     abort parser.to_s if command.nil?
     start = Time.now
     case command
-    when 'brief' then brief
-    when 'detail' then detail
-    when 'head' then head
-    when 'get' then get
-    when 'add' then add
-    when 'update' then update
-    when 'delete' then delete
-    when 'help' then help
-    else abort "Unknown command '#{command}'"
+    when 'brief' then
+      brief
+    when 'detail' then
+      detail
+    when 'head' then
+      head
+    when 'get' then
+      get
+    when 'add' then
+      add
+    when 'update' then
+      update
+    when 'delete' then
+      delete
+    when 'help' then
+      help
+    else
+      abort "Unknown command '#{command}'"
     end
     finish = Time.now
     printf("Done in %-0.4f seconds", finish - start) if verbose?
@@ -172,7 +181,12 @@ class VisorCLI
     fp   = File.expand_path(File.join(path, "#{id}.#{image[:format] || 'none'}"))
 
     raise "Cannot locate directory '#{path}'." unless Dir.exists? path
-    raise "File #{fp} already exists." if File.exists? fp
+    #raise "File #{fp} already exists." if File.exists? fp  #TODO: restore this
+
+    if File.exists? fp
+      require "securerandom"
+      fp = "#{fp}_#{SecureRandom.base64.to_s[11..-1]}"
+    end
 
     file          = File.open(fp, 'wb')
     pbar          = ProgressBar.new("Progress", image[:size])
@@ -239,15 +253,23 @@ class VisorCLI
 
 # Delete an image metadata and its file
   def delete
-    id = argv.shift
-    abort "No image ID provided as first argument, please provide it." unless id
-    image = client.delete_image(id)
-    puts "Successfully deleted image #{id}."
-    print_meta(image) if verbose?
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'delete':\n#{e.message}"
+    begin
+      if query = options[:query]
+        result = client.delete_by_query(query)
+        result.each { |image| puts "Successfully deleted image #{image[:_id]}." }
+      else
+        argv.each do |id|
+          abort "No image ID provided as first argument, please provide it." unless id
+          image = client.delete_image(id)
+          puts "Successfully deleted image #{id}."
+          print_meta(image) if verbose?
+        end
+      end
+    rescue NotFound => e
+      puts e.message
+    rescue => e
+      abort "Failure while executing 'delete':\n#{e.message}"
+    end
   end
 
 # Show help message for one of the above commands

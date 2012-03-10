@@ -426,6 +426,16 @@ module Visor
         do_request(req)
       end
 
+      def delete_by_query(query)
+        result = []
+        images = get_images(query)
+        images.each do |image|
+          req = Net::HTTP::Delete.new("/images/#{image[:_id]}")
+          result << do_request(req)
+        end
+        result
+      end
+
 
       private
 
