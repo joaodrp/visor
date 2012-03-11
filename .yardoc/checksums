@@ -5,7 +5,7 @@ meta/lib/meta/server.rb 9db5b68b5befc84b79dda621b34a59d5d900bfae
 image/lib/image/meta.rb b2372b61058fb78ab59e8497637faa532edcd6e8
 meta/lib/meta/version.rb ff23e58e4d9289a04e7fa762f0ea760e24aeadb9
 common/lib/common/util.rb 288ae03489e28b53bebefcd2f0216374fc8e2f81
-image/lib/image/client.rb 8c46fecf2a0384d411365bd3c849383ceec722dd
+image/lib/image/client.rb f4e0ca11d7c80a56fab3967407cdeb5a7ad600d2
 image/lib/image/server.rb 219bc5e405d9c00fbc3e91506d2078aa7ecd98a9
 image/lib/image/version.rb 8811de99e75ba1a9121b6d906c112805e027d677
 image/lib/image/store/s3.rb 0add6d2bf6e040af605214d50218cee42eed591d
