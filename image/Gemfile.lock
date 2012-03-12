@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/joaodrp/happening.git
-  revision: 47878c7d7bee654429b6626fc94304b6abd4a6ea
+  revision: fe0e446a9bf5374675be132d874b42a3d6380dc5
   specs:
     happening (0.2.5)
       em-http-request (>= 1.0.0)
@@ -51,7 +51,7 @@ GEM
       eventmachine (>= 0.12.9)
     eventmachine (1.0.0.beta.4)
     ffi (1.0.11)
-    guard (1.0.0)
+    guard (1.0.1)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
     guard-rspec (0.6.0)

@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+
+require "uri"
+require 'open3'
+
+$:.unshift File.expand_path('../../../common/lib', __FILE__)
+require 'common'
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'image/client'
+
+argv = ARGV
+
+if argv.empty?
+  puts <<-EOF
+> visor-bench <address>:<port> get <save> <query> [times|concur] <number>
+# visor-bench 10.0.3.13:4568 get '~/vmc' 'name=500c&store=file' times 1
+
+> visor-bench <address>:<port> add <name> <store> <file> [times|concur] <number>
+# visor-bench 10.0.3.13:4568 add 500c file '~/vmfiles/500.iso' times 3
+  EOF
+  exit
+end
+
+host, port = argv[0].split(':')
+operation  = argv[1]
+
+client = Visor::Image::Client.new(host: host, port: port)
+
+#
+# GET
+#
+if operation == 'get'
+  save   = argv[2]
+  query  = URI.decode_www_form(argv[3])
+  option = argv[4]
+  number = argv[5].to_i
+
+  id = client.get_images(query).first[:_id]
+
+  output = ''
+  if option == 'times'
+    number.times do
+      result = `./visor -a #{host} -p #{port} -v get #{id} --save '#{save}' | grep Done`
+      output << result
+      puts result
+      system "sleep 1"
+    end
+    times = output.scan(/in (.*) seconds/).flatten.map(&:to_f)
+    mean  = times.reduce(:+).to_f / times.size
+    puts "------\n#{mean}\n------" if number > 1
+  else
+    number.times do
+      system "./visor -a #{host} -p #{port} -v get #{id} --save '#{save}' | grep Done &"
+    end
+  end
+
+#
+# POST
+#
+elsif operation == 'add'
+  name   = argv[2]
+  store  = argv[3]
+  file   = argv[4]
+  option = argv[5]
+  number = argv[6].to_i
+
+  meta = "name='#{name}' architecture='x86_64' format='iso' type='none' store='#{store}'"
+
+  if option == 'times'
+    number.times do
+      system "./visor -a #{host} -p #{port} -v add #{meta} --file '#{file}' | grep Done"
+      system "sleep 1"
+    end
+  else
+    number.times do
+      system "./visor -a #{host} -p #{port} -v add #{meta} --file '#{file}' | grep Done &"
+    end
+  end
+end

@@ -185,7 +185,7 @@ class VisorCLI
 
     if File.exists? fp
       require "securerandom"
-      fp = "#{fp}_#{SecureRandom.base64.to_s[11..-1]}"
+      fp = "#{fp}_#{SecureRandom.random_number.to_s[11..-1]}"
     end
 
     file          = File.open(fp, 'wb')

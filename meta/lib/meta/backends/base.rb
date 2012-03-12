@@ -35,7 +35,7 @@ module Visor::Meta
       # Possible status
       STATUS       = %w[locked uploading error available]
       # Possible storage
-      STORE        = %w[s3 cumulus walrus http file]
+      STORE        = %w[s3 cumulus walrus http hdfs file]
 
       # Presentation options
       #

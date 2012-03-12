@@ -14,6 +14,7 @@ module Visor
       BACKENDS = {:s3      => Visor::Image::Store::S3,
                   :cumulus => Visor::Image::Store::Cumulus,
                   :walrus  => Visor::Image::Store::Walrus,
+                  :hdfs    => Visor::Image::Store::HDFS,
                   :file    => Visor::Image::Store::FileSystem,
                   :http    => Visor::Image::Store::HTTP}
 

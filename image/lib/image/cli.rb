@@ -189,7 +189,7 @@ module Visor
           write_url
           launch!
         rescue => e
-          put_and_log :warn, "Error starting VISoR Image Server: #{e}"
+          put_and_log :warn, "Error starting VISoR Image Server: #{e.message}\n#{e.backtrace.to_s}"
           exit! 1
         end
       end
