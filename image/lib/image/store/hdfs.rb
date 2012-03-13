@@ -104,10 +104,10 @@ module Visor
           location = URI(http.response_header['LOCATION'])
 
           location.hostname = host
-          #raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
+          raise Duplicated, "The image file #{uri} already exists" if file_exists?(false)
           STDERR.puts "COPYING!!"
 
-          EventMachine::HttpRequest.new(location).put :body => File.read(tmp_file)
+          EventMachine::HttpRequest.new(location).put :file => tmp_file.path
           [uri, size]
         end
 

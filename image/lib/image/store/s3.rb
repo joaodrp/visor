@@ -80,7 +80,7 @@ module Visor
           raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
           STDERR.puts "COPYING!!"
 
-          connection.put(File.read(tmp_file))
+          connection.put tmp_file.path
 
           [uri, size]
         end

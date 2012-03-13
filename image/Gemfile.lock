@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/igrigorik/em-http-request.git
-  revision: e7beb1b2330f4466853ec08446b2225961fee484
+  revision: a28801bff151ea813f9bb521716d50017002909e
   specs:
     em-http-request (1.0.1)
       addressable (>= 2.2.3)
@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/joaodrp/happening.git
-  revision: fe0e446a9bf5374675be132d874b42a3d6380dc5
+  revision: 5884d1f36cd5cc0b55aa4f58e729cf3c1dd65e0a
   specs:
     happening (0.2.5)
       em-http-request (>= 1.0.0)
