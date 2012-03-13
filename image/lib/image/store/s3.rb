@@ -1,5 +1,7 @@
 require 'uri'
 require 'happening'
+require 'em-synchrony'
+require 'em-synchrony/em-http'
 
 module Visor
   module Image
@@ -80,7 +82,7 @@ module Visor
           raise Duplicated, "The image file #{fp} already exists" if file_exists?(false)
           STDERR.puts "COPYING!!"
 
-          connection.put tmp_file.path
+          connection.store tmp_file.path
 
           [uri, size]
         end
