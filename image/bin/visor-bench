@@ -35,7 +35,7 @@ if operation == 'get'
   option = argv[4]
   number = argv[5].to_i
 
-  id = client.get_images(query).first[:_id]
+  id = client.get_images(query).sample[:_id]
 
   output = ''
   if option == 'times'
