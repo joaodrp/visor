@@ -66,11 +66,17 @@ elsif operation == 'add'
 
   meta = "name='#{name}' architecture='x86_64' format='iso' type='none' store='#{store}'"
 
+  output = ''
   if option == 'times'
     number.times do
-      system "./visor -a #{host} -p #{port} -v add #{meta} --file '#{file}' | grep Done"
+      result = `./visor -a #{host} -p #{port} -v add #{meta} --file '#{file}' | grep Done`
+      output << result
+      puts result
       system "sleep 1"
     end
+    times = output.scan(/in (.*) seconds/).flatten.map(&:to_f)
+    mean  = times.reduce(:+).to_f / times.size
+    puts "------\n#{mean}\n------" if number > 1
   else
     number.times do
       system "./visor -a #{host} -p #{port} -v add #{meta} --file '#{file}' | grep Done &"
