@@ -1,0 +1,36 @@
+<div class="hero-unit geddy-welcome-box">
+
+  <div class="row">
+    <div class="column grid_6"><h3>Most used stores</h3><hr></div>
+    <div class="column grid_6"><h3>Most used distros</h3><hr></div>
+  </div>
+  <div class="row">
+    <div id="graph1" class="column grid_6"></div>
+    <%= @pie.to_js("graph1") %>
+    <div id="graph2" class="column grid_6"></div>
+    <%= @bars.to_js("graph2") %>
+  </div>
+  <br/><br/>
+  <div class="row">
+    <div class="column grid_6"><h3>Activity by Month</h3><hr></div>
+    <div class="column grid_6"><h3>Total Images Size</h3><hr></div>
+  </div>
+
+  <!--<h3>Most used stores</h3>-->
+  <!--<div id="graph1"></div>-->
+
+  <!--<h3>Most used distros</h3>-->
+  <!--<div id="graph2"></div>-->
+
+  <!--<h3>Most used stores</h3>-->
+  <!--<div id="graph3"></div>-->
+  <!--<%= @pie.to_js("graph3") %>-->
+
+  <!--<h3>Most used stores</h3>-->
+  <!--<div id="graph4"></div>-->
+  <!--<%= @pie.to_js("graph4") %>-->
+  <!--<p>You've created a Geddy app ...</p>-->
+  <!--<p><a href="http://geddyjs.org/tutorial.html" class="btn btn-primary btn-large">Lets get you started »</a></p>-->
+</div>
+</div>
+
