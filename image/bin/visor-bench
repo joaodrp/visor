@@ -1,85 +1,131 @@
 #!/usr/bin/env ruby
 
 require "uri"
-require 'open3'
-
 $:.unshift File.expand_path('../../../common/lib', __FILE__)
 require 'common'
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'image/client'
 
-argv = ARGV
+if ARGV.empty?
+  puts %q[GET a random image from the subset of images matching <query>. Provide the option [times|concur] either
+if you want to retrieve an image multiple times, or if you want to launch a set of concurrent threads.
 
-if argv.empty?
-  puts <<-EOF
-> visor-bench <address>:<port> get <save> <query> [times|concur] <number>
-# visor-bench 10.0.3.13:4568 get '~/vmc' 'name=500c&store=file' times 1
+> ./visor-bench <address>:<port> get <save> <query> [times|concur] <number>
+# ./visor-bench 10.0.3.13:4568 get '~/vmc' 'name=500c&store=file' times 1
 
-> visor-bench <address>:<port> add <name> <store> <file> [times|concur] <number>
-# visor-bench 10.0.3.13:4568 add 500c file '~/vmfiles/500.iso' times 3
-  EOF
+ADD a sample image. Provide the option [times|concur] either if you want to add an image multiple times,
+or if you want to launch a set of concurrent threads.
+
+> ./visor-bench <address>:<port> add <name> <store> <file> [times|concur] <number>
+# ./visor-bench 10.0.3.13:4568 add 500c file '~/vmfiles/500.iso' concur 2
+
+The script will print the elapsed time for each one of the requests and if they are more than one,
+it will display the average epasped time regarding all of them.]
   exit
 end
 
-host, port = argv[0].split(':')
-operation  = argv[1]
-
-client = Visor::Image::Client.new(host: host, port: port)
-
+# Calculate and print runs average elapsed time
 #
-# GET
+def print_average(output)
+  times = output.scan(/in (.*) seconds/).flatten.map(&:to_f)
+  mean  = times.reduce(:+).to_f / times.size
+  printf "------\n%.3f\n------" % mean
+end
+
+# GET image N times
 #
-if operation == 'get'
-  save   = argv[2]
-  query  = URI.decode_www_form(argv[3])
-  option = argv[4]
-  number = argv[5].to_i
-
-  id = client.get_images(query).sample[:_id]
-
+def get_image_single(images, save, number)
   output = ''
-  if option == 'times'
-    number.times do
-      result = `./visor -a #{host} -p #{port} -v get #{id} --save '#{save}' | grep Done`
-      output << result
+  id     = images.sample[:_id]
+  number.times do
+    result = `./visor -a #{HOST} -p #{PORT} -v get #{id} --save '#{save}' | grep Done`
+    output << result
+    puts result
+    system "sleep 1"
+  end
+  print_average(output) if number > 1
+end
+
+# GET image with concurrency N
+#
+def get_image_concurrently(images, save, number)
+  output  = ''
+  id      = images.sample[:_id]
+  threads = []
+  number.times do
+    threads << Thread.new do
+      result = `./visor -a #{HOST} -p #{PORT} -v get #{id} --save '#{save}' | grep Done &`
       puts result
-      system "sleep 1"
-    end
-    times = output.scan(/in (.*) seconds/).flatten.map(&:to_f)
-    mean  = times.reduce(:+).to_f / times.size
-    puts "------\n#{mean}\n------" if number > 1
-  else
-    number.times do
-      system "./visor -a #{host} -p #{port} -v get #{id} --save '#{save}' | grep Done &"
+      output << result
     end
   end
+  threads.each { |t| t.join }
+  print_average(output) if number > 1
+end
 
+# ADD image N times
 #
-# POST
-#
-elsif operation == 'add'
-  name   = argv[2]
-  store  = argv[3]
-  file   = argv[4]
-  option = argv[5]
-  number = argv[6].to_i
-
-  meta = "name='#{name}' architecture='x86_64' format='iso' type='none' store='#{store}'"
-
+def add_image_single(meta, file, number)
   output = ''
-  if option == 'times'
-    number.times do
-      result = `./visor -a #{host} -p #{port} -v add #{meta} --file '#{file}' | grep Done`
-      output << result
+  number.times do
+    result = `./visor -a #{HOST} -p #{PORT} -v add #{meta} --file '#{file}' | grep Done`
+    output << result
+    puts result
+    system "sleep 1"
+  end
+  print_average(output) if number > 1
+end
+
+# ADD image with concurrency N
+#
+def add_image_concurrently(meta, file, number)
+  output  = ''
+  threads = []
+  number.times do
+    threads << Thread.new do
+      result = `./visor -a #{HOST} -p #{PORT} -v add #{meta} --file '#{file}' | grep Done &`
       puts result
-      system "sleep 1"
-    end
-    times = output.scan(/in (.*) seconds/).flatten.map(&:to_f)
-    mean  = times.reduce(:+).to_f / times.size
-    puts "------\n#{mean}\n------" if number > 1
-  else
-    number.times do
-      system "./visor -a #{host} -p #{port} -v add #{meta} --file '#{file}' | grep Done &"
+      output << result
     end
   end
+  threads.each { |t| t.join }
+  print_average(output) if number > 1
+end
+
+# MAIN
+#
+HOST, PORT = ARGV[0].split(':')
+operation  = ARGV[1]
+client     = Visor::Image::Client.new(host: HOST, port: PORT)
+
+Thread.abort_on_exception = true
+
+case operation.upcase
+  when 'GET'
+    save   = ARGV[2]
+    query  = URI.decode_www_form ARGV[3]
+    option = ARGV[4]
+    number = ARGV[5].to_i
+
+    images = client.get_images(query)
+    if option == 'times'
+      get_image_single(images, save, number)
+    elsif option == 'concur'
+      get_image_concurrently(images, save, number)
+    end
+  when 'ADD'
+    name   = ARGV[2]
+    store  = ARGV[3]
+    file   = ARGV[4]
+    option = ARGV[5]
+    number = ARGV[6].to_i
+    meta   = "name='#{name}' architecture='x86_64' format='iso' type='none' store='#{store}'"
+
+    if option == 'times'
+      add_image_single(meta, file, number)
+    elsif option == 'concur'
+      add_image_concurrently(meta, file, number)
+    end
+  else
+    abort 'Invalid operation, use [get|add]'
 end

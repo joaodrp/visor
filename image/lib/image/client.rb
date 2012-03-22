@@ -480,7 +480,9 @@ module Visor
       # Process requests
       def do_request(req, parse=true)
         prepare_headers(req)
-        res = Net::HTTP.new(host, port).request(req)
+        http = Net::HTTP.new(host, port)
+        http.read_timeout = 600
+        res = http.request(req)
         assert_response(res)
         parse ? parse_response(res) : res
       end
