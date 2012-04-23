@@ -85,7 +85,7 @@
   
     <dt class="r2 last">Defined in:</dt>
     <dd class="r2 last">image/lib/image/store/store.rb<span class="defines">,<br />
-  image/lib/image/store/s3.rb,<br /> image/lib/image/store/http.rb,<br /> image/lib/image/store/walrus.rb,<br /> image/lib/image/store/cumulus.rb,<br /> image/lib/image/store/file_system.rb</span>
+  image/lib/image/store/s3.rb,<br /> image/lib/image/store/hdfs.rb,<br /> image/lib/image/store/http.rb,<br /> image/lib/image/store/walrus.rb,<br /> image/lib/image/store/cumulus.rb,<br /> image/lib/image/store/lunacloud.rb,<br /> image/lib/image/store/file_system.rb</span>
 </dd>
   
 </dl>
@@ -109,7 +109,7 @@ of utility methods common to all stores.</p>
     
    
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Store/Cumulus.html" title="Visor::Image::Store::Cumulus (class)">Cumulus</a></span>, <span class='object_link'><a href="Store/FileSystem.html" title="Visor::Image::Store::FileSystem (class)">FileSystem</a></span>, <span class='object_link'><a href="Store/HTTP.html" title="Visor::Image::Store::HTTP (class)">HTTP</a></span>, <span class='object_link'><a href="Store/S3.html" title="Visor::Image::Store::S3 (class)">S3</a></span>, <span class='object_link'><a href="Store/Walrus.html" title="Visor::Image::Store::Walrus (class)">Walrus</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Store/Cumulus.html" title="Visor::Image::Store::Cumulus (class)">Cumulus</a></span>, <span class='object_link'><a href="Store/FileSystem.html" title="Visor::Image::Store::FileSystem (class)">FileSystem</a></span>, <span class='object_link'><a href="Store/HDFS.html" title="Visor::Image::Store::HDFS (class)">HDFS</a></span>, <span class='object_link'><a href="Store/HTTP.html" title="Visor::Image::Store::HTTP (class)">HTTP</a></span>, <span class='object_link'><a href="Store/Lunacloud.html" title="Visor::Image::Store::Lunacloud (class)">Lunacloud</a></span>, <span class='object_link'><a href="Store/S3.html" title="Visor::Image::Store::S3 (class)">S3</a></span>, <span class='object_link'><a href="Store/Walrus.html" title="Visor::Image::Store::Walrus (class)">Walrus</a></span>
     
   
 </p>
@@ -132,11 +132,13 @@ of utility methods common to all stores.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbrace'>{</span><span class='symbol'>:s3</span>      <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>S3</span><span class='comma'>,</span>
-<span class='symbol'>:cumulus</span> <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>Cumulus</span><span class='comma'>,</span>
-<span class='symbol'>:walrus</span>  <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>Walrus</span><span class='comma'>,</span>
-<span class='symbol'>:file</span>    <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>FileSystem</span><span class='comma'>,</span>
-<span class='symbol'>:http</span>    <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>HTTP</span><span class='rbrace'>}</span></pre></dd>
+        <dd><pre class="code"><span class='lbrace'>{</span><span class='symbol'>:s3</span>        <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>S3</span><span class='comma'>,</span>
+<span class='symbol'>:cumulus</span>   <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>Cumulus</span><span class='comma'>,</span>
+<span class='symbol'>:walrus</span>    <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>Walrus</span><span class='comma'>,</span>
+<span class='symbol'>:lunacloud</span> <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>Lunacloud</span><span class='comma'>,</span>
+<span class='symbol'>:hdfs</span>      <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>HDFS</span><span class='comma'>,</span>
+<span class='symbol'>:file</span>      <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>FileSystem</span><span class='comma'>,</span>
+<span class='symbol'>:http</span>      <span class='op'>=&gt;</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Store</span><span class='op'>::</span><span class='const'>HTTP</span><span class='rbrace'>}</span></pre></dd>
       
     </dl>
   
@@ -286,15 +288,15 @@ configuration file.</p>
       <pre class="lines">
 
 
-28
-29
 30
 31
 32
-33</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/store/store.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/store/store.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_backend'>get_backend</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span>  <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span> <span class='op'>||</span> <span class='id identifier rubyid_string'>string</span>
@@ -312,7 +314,7 @@ configuration file.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Mar  6 11:57:27 2012 by 
+  Generated on Mon Apr 23 22:03:13 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>
