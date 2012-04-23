@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+# VISoR Meta command line interface script.
+# Run <visor-meta -h> to get more usage help.
+
+require File.expand_path('../../lib/auth', __FILE__)
+
+Visor::Auth::CLI.new(Visor::Auth::Server, 'visor-auth').run!
