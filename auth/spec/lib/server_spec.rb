@@ -6,11 +6,11 @@ include Visor::Auth::Backends
 describe Visor::Auth::Server do
   let(:parse_opts) { {symbolize_names: true} }
 
-  let(:valid_post) { {user: {username: 'foo', password: 'bar', email: 'foo@bar.com'}} }
-  let(:invalid_post) { {user: {username: 'foo', password: 'bar'}} }
+  let(:valid_post) { {user: {access_key: 'foo', email: 'foo@bar.com'}} }
+  let(:invalid_post) { {user: {access_key: 'foo'}} }
 
-  let(:valid_update) { {user: {password: 'barbar'}} }
-  let(:invalid_update) { {user: {created_at: 'this is not valid'}} }
+  let(:valid_update) { {user: {email: 'foobar@bar.com'}} }
+  let(:invalid_update) { {user: {secret_key: 'this is not valid'}} }
 
   inserted = []
 
@@ -26,21 +26,21 @@ describe Visor::Auth::Server do
   def delete_all
     get '/users'
     users = users_from(last_response)
-    users.each { |user| delete "/images/#{user[:username]}" }
+    users.each { |user| delete "/users/#{user[:access_key]}" }
   end
 
   def generate_user
-    {user: {username: SecureRandom.hex(5), password: 'bar', email: 'foo@bar.com'}}
+    {user: {access_key: SecureRandom.hex(10), email: 'foo@bar.com'}}
   end
 
   before(:each) do
     post '/users', generate_user.to_json
-    @valid_username = users_from(last_response)[:username]
-    inserted << @valid_username
+    @valid_access_key = users_from(last_response)[:access_key]
+    inserted << @valid_access_key
   end
 
   after(:all) do
-    inserted.each { |username| delete "/users/#{username}" }
+    inserted.each { |access_key| delete "/users/#{access_key}" }
   end
 
   describe "GET on /users" do
@@ -71,9 +71,9 @@ describe Visor::Auth::Server do
     end
   end
 
-  describe "GET on /users/:username" do
+  describe "GET on /users/:access_key" do
     before(:each) do
-      get "/users/#{@valid_username}"
+      get "/users/#{@valid_access_key}"
       last_response.should be_ok
     end
 
@@ -95,12 +95,12 @@ describe Visor::Auth::Server do
       post '/users', generate_user.to_json
       last_response.should be_ok
       user = users_from(last_response)
-      user[:username].should be_a String
-      inserted << user[:username]
+      user[:access_key].should be_a String
+      inserted << user[:access_key]
     end
 
-    it "should raise a 409 error if username was already taken" do
-      exists = { user: { username: @valid_username, password: 'foo', email:'foo@bar.com' }}
+    it "should raise a 409 error if access_key was already taken" do
+      exists = { user: { access_key: @valid_access_key, email:'foo@bar.com' }}
       post '/users', exists.to_json
       last_response.status.should == 409
     end
@@ -117,41 +117,41 @@ describe Visor::Auth::Server do
     end
   end
 
-  describe "PUT on /users/:username" do
+  describe "PUT on /users/:access_key" do
     it "should update an existing user data and return it" do
-      put "/users/#{@valid_username}", valid_update.to_json
+      put "/users/#{@valid_access_key}", valid_update.to_json
       last_response.should be_ok
       user = users_from(last_response)
-      user[:password].should == valid_update[:user][:password]
+      user[:email].should == valid_update[:user][:email]
     end
 
-    it "should raise a 409 error if username was already taken" do
-      exists = { user: { username: @valid_username, password: 'foo', email:'foo@bar.com' }}
+    it "should raise a 409 error if access_key was already taken" do
+      exists = { user: { access_key: @valid_access_key, email:'foo@bar.com' }}
       post '/users', exists.to_json
       last_response.status.should == 409
     end
 
     it "should raise a 400 error if user data validation fails" do
-      put "/users/#{@valid_username}", invalid_update.to_json
+      put "/users/#{@valid_access_key}", invalid_update.to_json
       last_response.status.should == 400
     end
 
     it "should raise a 404 error if referenced an invalid kernel/ramdisk image" do
-      #put "/images/#{@valid_username}", valid_update.merge(kernel: "fake_id").to_json
+      #put "/images/#{@valid_access_key}", valid_update.merge(kernel: "fake_id").to_json
       #message_from(last_response).should match /No image found/
     end
   end
 
-  describe "DELETE on /users/:username" do
+  describe "DELETE on /users/:access_key" do
     it "should delete an user data" do
-      delete "/users/#{@valid_username}"
+      delete "/users/#{@valid_access_key}"
       last_response.should be_ok
 
       user = users_from(last_response)
       user.should be_a Hash
-      user[:username].should == @valid_username
+      user[:access_key].should == @valid_access_key
 
-      get "/users/#{@valid_username}"
+      get "/users/#{@valid_access_key}"
       last_response.status.should == 404
     end
 

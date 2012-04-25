@@ -59,8 +59,8 @@ module Visor
           @conn.query %[
         CREATE TABLE IF NOT EXISTS `#{opts[:db]}`.`users` (
           `_id` VARCHAR(45) NOT NULL ,
-          `username` VARCHAR(45) NOT NULL ,
-          `password` VARCHAR(45) NOT NULL ,
+          `access_key` VARCHAR(45) NOT NULL ,
+          `secret_key` VARCHAR(45) NOT NULL ,
           `email` VARCHAR(45) NOT NULL ,
           `created_at` DATETIME NULL ,
           `updated_at` DATETIME NULL ,
@@ -100,30 +100,30 @@ module Visor
 
         # Returns an user information.
         #
-        # @param [String] username The user username.
+        # @param [String] access_key The user access_key.
         #
         # @return [Hash] The requested user information.
         #
         # @raise [NotFound] If user was not found.
         #
-        def get_user(username)
-          user = @conn.query("SELECT * FROM users WHERE username='#{username}'", symbolize_keys: true).first
-          raise NotFound, "No user found with username '#{username}'." unless user
+        def get_user(access_key)
+          user = @conn.query("SELECT * FROM users WHERE access_key='#{access_key}'", symbolize_keys: true).first
+          raise NotFound, "No user found with access_key '#{access_key}'." unless user
           user
         end
 
         # Delete a registered user.
         #
-        # @param [String] username The user username.
+        # @param [String] access_key The user access_key.
         #
         # @return [hash] The deleted image metadata.
         #
         # @raise [NotFound] If user was not found.
         #
-        def delete_user(username)
-          user = @conn.query("SELECT * FROM users WHERE username='#{username}'", symbolize_keys: true).first
-          raise NotFound, "No user found with username '#{username}'." unless user
-          @conn.query "DELETE FROM users WHERE username='#{username}'"
+        def delete_user(access_key)
+          user = @conn.query("SELECT * FROM users WHERE access_key='#{access_key}'", symbolize_keys: true).first
+          raise NotFound, "No user found with access_key '#{access_key}'." unless user
+          @conn.query "DELETE FROM users WHERE access_key='#{access_key}'"
           user
         end
 
@@ -140,43 +140,43 @@ module Visor
         # @return [Hash] The already added user information.
         #
         # @raise [Invalid] If user information validation fails.
-        # @raise [ConflictError] If an username was already taken.
+        # @raise [ConflictError] If an access_key was already taken.
         #
         def post_user(user)
           validate_data_post user
-          exists = @conn.query("SELECT * FROM users WHERE username='#{user[:username]}'", symbolize_keys: true).first
-          raise ConflictError, "The username '#{user[:username]}' was already taken." if exists
+          exists = @conn.query("SELECT * FROM users WHERE access_key='#{user[:access_key]}'", symbolize_keys: true).first
+          raise ConflictError, "The access_key '#{user[:access_key]}' was already taken." if exists
 
           set_protected_post user
           keys_values = to_sql_insert(user)
           @conn.query "INSERT INTO users #{keys_values[0]} VALUES #{keys_values[1]}"
-          self.get_user(user[:username])
+          self.get_user(user[:access_key])
         end
 
         # Update an user information.
         #
-        # @param [String] username The user username.
+        # @param [String] access_key The user access_key.
         # @param [Hash] update The user information update.
         #
         # @return [BSON::OrderedHash] The updated user information.
         #
         # @raise [Invalid] If user information validation fails.
-        # @raise [ConflictError] If an username was already taken.
+        # @raise [ConflictError] If an access_key was already taken.
         # @raise [NotFound] If user was not found.
         #
-        def put_user(username, update)
+        def put_user(access_key, update)
           validate_data_put update
-          user = @conn.query("SELECT * FROM users WHERE username='#{username}'", symbolize_keys: true).first
-          raise NotFound, "No user found with username '#{username}'." unless user
+          user = @conn.query("SELECT * FROM users WHERE access_key='#{access_key}'", symbolize_keys: true).first
+          raise NotFound, "No user found with access_key '#{access_key}'." unless user
 
-          if update[:username]
-            exists = @conn.query("SELECT * FROM users WHERE username='#{update[:username]}'", symbolize_keys: true).first
-            raise ConflictError, "The username '#{update[:username]}' was already taken." if exists
+          if update[:access_key]
+            exists = @conn.query("SELECT * FROM users WHERE access_key='#{update[:access_key]}'", symbolize_keys: true).first
+            raise ConflictError, "The access_key '#{update[:access_key]}' was already taken." if exists
           end
 
           set_protected_put update
-          @conn.query "UPDATE users SET #{to_sql_update(update)} WHERE username='#{username}'"
-          self.get_user(update[:username] || username)
+          @conn.query "UPDATE users SET #{to_sql_update(update)} WHERE access_key='#{access_key}'"
+          self.get_user(update[:access_key] || access_key)
         end
 
       end

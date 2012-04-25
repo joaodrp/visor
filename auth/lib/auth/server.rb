@@ -18,8 +18,10 @@ module Visor
         backend_map = {'mongodb' => Visor::Auth::Backends::MongoDB,
                        'mysql'   => Visor::Auth::Backends::MySQL}
 
-        conf = Visor::Common::Config.load_config(:visor_account)
-        log  = Visor::Common::Config.build_logger(:visor_account)
+        #TODO: catch error when Config does not found a key (like :visor_auth) in config file:
+        # /Users/joaodrp/workspace/visor/common/lib/common/config.rb:65:in `load_config': undefined method `merge' for nil:NilClass (NoMethodError)
+        conf = Visor::Common::Config.load_config(:visor_auth)
+        log  = Visor::Common::Config.build_logger(:visor_auth)
 
         DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]
 
@@ -57,8 +59,8 @@ module Visor
       #
       #   { "users": [{
       #       "_id":<_id>,
-      #       "username":<username>,
-      #       "password":<password>,
+      #       "access_key":<access_key>,
+      #       "secret_key":<secret_key>,
       #       "email":<email>,
       #       "created_at":<creation timestamp>,
       #       "updated_at":<update timestamp>,
@@ -66,7 +68,7 @@ module Visor
       #
       # The following options can be passed as query parameters.
       #
-      # @param [String] username The user username.
+      # @param [String] access_key The user access_key.
       # @param [String] email The user email address.
       # @param [Date] created_at The image creation timestamp.
       # @param [Date] updated_at The image update timestamp.
@@ -85,28 +87,28 @@ module Visor
       end
 
       # @method get_user
-      # @overload get '/users/:username'
+      # @overload get '/users/:access_key'
       #
       # Get information about a specific user.
       #
       #   {"image": {
       #       "_id":<_id>,
-      #       "username":<username>,
-      #       "password":<password>,
+      #       "access_key":<access_key>,
+      #       "secret_key":<secret_key>,
       #       "email":<email>,
       #       "created_at":<creation timestamp>,
       #       "updated_at":<update timestamp>
       #   }}
       #
-      # @param [String] username The wanted user username.
+      # @param [String] access_key The wanted user access_key.
       #
       # @return [JSON] The user detailed information.
       #
       # @raise [HTTP Error 404] If user not found.
       #
-      get '/users/:username' do |username|
+      get '/users/:access_key' do |access_key|
         begin
-          user = DB.get_user(username)
+          user = DB.get_user(access_key)
           {user: user}.to_json
         rescue NotFound => e
           json_error 404, e.message
@@ -124,7 +126,7 @@ module Visor
       #
       # @raise [HTTP Error 400] User information validation errors.
       # @raise [HTTP Error 404] User not found after registered.
-      # @raise [HTTP Error 409] Username was already taken.
+      # @raise [HTTP Error 409] access_key was already taken.
       #
       post '/users' do
         begin
@@ -141,11 +143,11 @@ module Visor
       end
 
       # @method put
-      # @overload put '/users/:username'
+      # @overload put '/users/:access_key'
       #
       # Update an existing user information and return it.
       #
-      # @param [String] username The wanted user username.
+      # @param [String] access_key The wanted user access_key.
       # @param [JSON] http-body The user information.
       #
       # @return [JSON] The already updated user detailed information.
@@ -153,10 +155,10 @@ module Visor
       # @raise [HTTP Error 400] User information validation errors.
       # @raise [HTTP Error 404] User not found.
       #
-      put '/users/:username' do |username|
+      put '/users/:access_key' do |access_key|
         begin
           info = JSON.parse(request.body.read, @parse_opts)
-          user = DB.put_user(username, info[:user])
+          user = DB.put_user(access_key, info[:user])
           {user: user}.to_json
         rescue NotFound => e
           json_error 404, e.message
@@ -166,19 +168,19 @@ module Visor
       end
 
       # @method delete
-      # @overload delete '/users/:username'
+      # @overload delete '/users/:access_key'
       #
       # Delete an user and returns its information.
       #
-      # @param [String] username The wanted user username.
+      # @param [String] access_key The wanted user access_key.
       #
       # @return [JSON] The already deleted user detailed information.
       #
       # @raise [HTTP Error 404] User not found.
       #
-      delete '/users/:username' do |username|
+      delete '/users/:access_key' do |access_key|
         begin
-          user = DB.delete_user(username)
+          user = DB.delete_user(access_key)
           {user: user}.to_json
         rescue NotFound => e
           json_error 404, e.message

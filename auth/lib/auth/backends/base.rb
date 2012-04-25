@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Visor
   module Auth
     module Backends
@@ -13,9 +15,9 @@ module Visor
         # Keys validation
         #
         # Mandatory attributes
-        MANDATORY = [:username, :password, :email]
+        MANDATORY = [:access_key, :email]
         # Read-only attributes
-        READONLY  = [:_id, :created_at, :updated_at]
+        READONLY  = [:_id, :secret_key, :created_at, :updated_at]
         # All attributes
         ALL       = MANDATORY + READONLY
 
@@ -76,7 +78,7 @@ module Visor
         # @return [Hash] The updated user information.
         #
         def set_protected_post(info)
-          info.merge!(_id: SecureRandom.uuid, created_at: Time.now)
+          info.merge!(_id: SecureRandom.uuid, secret_key: SecureRandom.base64(30), created_at: Time.now)
         end
 
         # Set protected field value from a get operation.

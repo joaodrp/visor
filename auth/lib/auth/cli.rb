@@ -88,7 +88,7 @@ module Visor
             exit
           end
           opts.on_tail('-v', '--version', "Show version") do
-            puts "VISoR Auth Server v#{Visor::Account::VERSION}"
+            puts "VISoR Auth Server v#{Visor::Auth::VERSION}"
             exit
           end
         end
@@ -257,7 +257,7 @@ module Visor
         @conf ||= load_conf_file
         @logger ||=
             begin
-              log = options[:foreground] ? Logger.new(STDERR) : Visor::Common::Config.build_logger(:visor_account)
+              log = options[:foreground] ? Logger.new(STDERR) : Visor::Common::Config.build_logger(:visor_auth)
               conf_level = @conf[:log_level] == 'INFO' ? 1 : 0
               log.level = options[:debug] ? 0 : conf_level
               log.formatter = Proc.new {|s, t, n, msg| "[#{t.strftime("%Y-%m-%d %H:%M:%S")}] #{s} - #{msg}\n"}
@@ -297,7 +297,7 @@ module Visor
       end
 
       def load_conf_file
-        Visor::Common::Config.load_config(:visor_account, options[:config])
+        Visor::Common::Config.load_config(:visor_auth, options[:config])
       end
 
       def safe_cli_name
