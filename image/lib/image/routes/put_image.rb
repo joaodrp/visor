@@ -40,6 +40,12 @@ module Visor
       #   metadata or an error code and its message if anything was raised.
       #
       def response(env)
+        begin
+          authorize(env, vas)
+        rescue Forbidden => e
+          return exit_error(403, e.message)
+        end
+
         meta     = pull_meta_from_headers(env['headers'])
         body     = env['body']
         id       = params[:id]
@@ -90,8 +96,6 @@ module Visor
           return exit_error(409, e.message)
         rescue Duplicated => e
           return exit_error(409, e.message, true)
-        rescue InternalError => e
-          return exit_error(500, e.message, true)
         ensure
           body.close
           body.unlink

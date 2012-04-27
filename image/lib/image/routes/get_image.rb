@@ -10,6 +10,16 @@ module Visor
       include Visor::Common::Util
       use Goliath::Rack::Render, ['json', 'xml']
 
+      # Pre-process headers as they arrive and load them into a environment variable.
+      #
+      # @param [Object] env The Goliath environment variables.
+      # @param [Object] headers The incoming request HTTP headers.
+      #
+      def on_headers(env, headers)
+        logger.debug "Received headers: #{headers.inspect}"
+        env['headers'] = headers
+      end
+
       # Query database to retrieve the wanted image meta and return it in
       # headers, along with the image file, if any, streaming it in request body.
       #
@@ -17,16 +27,17 @@ module Visor
       #
       def response(env)
         begin
+          authorize(env, vas)
           meta = vms.get_image(params[:id])
           uri  = meta[:location]
           if uri
             store = Visor::Image::Store.get_backend(uri, configs)
             store.file_exists?
           end
+        rescue Forbidden => e
+          return exit_error(403, e.message)
         rescue NotFound => e
           return exit_error(404, e.message)
-        rescue => e
-          return exit_error(500, e.message)
         end
 
         custom  = {'Content-Type' => 'application/octet-stream', 'X-Stream' => 'Goliath'}

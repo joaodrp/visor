@@ -7,6 +7,7 @@ require 'auth/backends/base'
 require 'auth/backends/mongo_db'
 require 'auth/backends/mysql_db'
 require 'auth/server'
+require 'auth/client'
 require 'auth/cli'
 
 

@@ -8,6 +8,7 @@ $:.unshift File.expand_path('../../lib', __FILE__)
 
 require 'image/version'
 require 'image/meta'
+require 'image/auth'
 require 'image/cli'
 require 'image/store/s3'
 require 'image/store/cumulus'

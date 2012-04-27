@@ -7,7 +7,18 @@ module Visor
     #
     class GetImages < Goliath::API
       include Visor::Common::Exception
+      include Visor::Common::Util
       use Goliath::Rack::Render, ['json', 'xml']
+
+      # Pre-process headers as they arrive and load them into a environment variable.
+      #
+      # @param [Object] env The Goliath environment variables.
+      # @param [Object] headers The incoming request HTTP headers.
+      #
+      def on_headers(env, headers)
+        logger.debug "Received headers: #{headers.inspect}"
+        env['headers'] = headers
+      end
 
       # Query database to retrieve public images brief meta and return it in request body.
       #
@@ -17,12 +28,13 @@ module Visor
       #   metadata or an error code and its message if anything was raised.
       #
       def response(env)
+        authorize(env, vas)
         meta = vms.get_images(params)
         [200, {}, {images: meta}]
+      rescue Forbidden => e
+        exit_error(403, e.message)
       rescue NotFound => e
         exit_error(404, e.message)
-      rescue => e
-        exit_error(500, e.message)
       end
 
       # Produce an HTTP response with an error code and message.

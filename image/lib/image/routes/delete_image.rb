@@ -10,6 +10,15 @@ module Visor
       include Visor::Common::Util
       use Goliath::Rack::Render, ['json', 'xml']
 
+      # Pre-process headers as they arrive and load them into a environment variable.
+      #
+      # @param [Object] env The Goliath environment variables.
+      # @param [Object] headers The incoming request HTTP headers.
+      #
+      def on_headers(env, headers)
+        logger.debug "Received headers: #{headers.inspect}"
+        env['headers'] = headers
+      end
 
       # Query database to delete the wanted image based on its id.
       #
@@ -19,6 +28,7 @@ module Visor
       #   metadata or an error code and its messages if anything was raised.
       #
       def response(env)
+        authorize(env, vas)
         meta = vms.delete_image(params[:id])
         uri  = meta[:location]
         name = meta[:store]
@@ -31,8 +41,6 @@ module Visor
         exit_error(403, e.message)
       rescue NotFound => e
         exit_error(404, e.message)
-      rescue => e
-        exit_error(500, e.message)
       else
         [200, {}, {image: meta}]
       end

@@ -13,16 +13,10 @@ module Visor
     # image server and its store backends.
     #
     class Client
-
       include Visor::Common::Exception
       include Visor::Common::Util
 
-      configs = Common::Config.load_config :visor_api
-
-      DEFAULT_HOST = configs[:bind_host] || '0.0.0.0'
-      DEFAULT_PORT = configs[:bind_port] || 4568
-
-      attr_reader :host, :port, :ssl
+      attr_reader :host, :port, :ssl, :access_key, :secret_key
 
       # Initializes a new new VISoR Image Client.
       #
@@ -37,9 +31,12 @@ module Visor
       #   client = Visor::Image::Client.new(host: '127.0.0.1', port: 3000)
       #
       def initialize(opts = {})
-        @host = opts[:host] || DEFAULT_HOST
-        @port = opts[:port] || DEFAULT_PORT
-        @ssl  = opts[:ssl] || false
+        configs     = Common::Config.load_config :visor_image
+        @host       = opts[:host] || configs[:bind_host] || '0.0.0.0'
+        @port       = opts[:port] || configs[:bind_port] || 4568
+        @ssl        = opts[:ssl] || false
+        @access_key = configs[:access_key]
+        @secret_key = configs[:secret_key]
       end
 
       # Retrieves detailed image metadata of the image with the given id.
@@ -70,8 +67,9 @@ module Visor
       # @raise [InternalError] On internal server error.
       #
       def head_image(id)
-        req = Net::HTTP::Head.new("/images/#{id}")
-        res = do_request(req, false)
+        path = "/images/#{id}"
+        req  = Net::HTTP::Head.new(path)
+        res  = do_request(req, false)
         pull_meta_from_headers(res)
       end
 
@@ -479,10 +477,11 @@ module Visor
 
       # Process requests
       def do_request(req, parse=true)
+        sign_request(access_key, secret_key, req.method, req.path, req)
         prepare_headers(req)
-        http = Net::HTTP.new(host, port)
+        http              = Net::HTTP.new(host, port)
         http.read_timeout = 600
-        res = http.request(req)
+        res               = http.request(req)
         assert_response(res)
         parse ? parse_response(res) : res
       end

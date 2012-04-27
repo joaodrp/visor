@@ -9,18 +9,29 @@ module Visor
       include Visor::Common::Exception
       include Visor::Common::Util
 
+      # Pre-process headers as they arrive and load them into a environment variable.
+      #
+      # @param [Object] env The Goliath environment variables.
+      # @param [Object] headers The incoming request HTTP headers.
+      #
+      def on_headers(env, headers)
+        logger.debug "Received headers: #{headers.inspect}"
+        env['headers'] = headers
+      end
+
       # Query database to retrieve the wanted image meta and return it as HTTP headers.
       #
       # @param [Object] env The Goliath environment variables.
       #
       def response(env)
+        authorize(env, vas)
         meta   = vms.get_image(params[:id])
         header = push_meta_into_headers(meta)
         [200, header, nil]
+      rescue Forbidden => e
+        exit_error(403, e.message)
       rescue NotFound => e
         exit_error(404, e.message)
-      rescue => e
-        exit_error(500, e.message)
       end
 
       # Produce an HTTP response with an error code and message.

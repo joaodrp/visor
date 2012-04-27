@@ -27,7 +27,7 @@ module Visor
         meta = {}
         headers.each do |k, v|
           if key = k.split(/x[_-]image[_-]meta[_-]/i)[1]
-            value     = parse_value v
+            value                     = parse_value v
             meta[key.downcase.to_sym] = value
           end
         end
@@ -35,10 +35,14 @@ module Visor
       end
 
       def parse_value(string)
-        if is_integer?(string) then Integer(string)
-        elsif is_float?(string) then Float(object)
-        elsif is_date?(string) then Time.parse(string)
-        else string
+        if is_integer?(string) then
+          Integer(string)
+        elsif is_float?(string) then
+          Float(object)
+        elsif is_date?(string) then
+          Time.parse(string)
+        else
+          string
         end
       end
 
@@ -56,12 +60,11 @@ module Visor
       end
 
       def sign_request(access_key, secret_key, method, path, headers={})
-        date = {'date' => Time.now.utc.httpdate}
-        headers.update(date)
+        headers['Date'] ||= Time.now.utc.httpdate
+        desc            = canonical_description(method, path, headers)
+        signature       = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), secret_key, desc)).strip
 
-        desc      = canonical_description(method, path, headers)
-        signature = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), secret_key, desc)).strip
-        headers.update("Authorization" => "VISOR #{access_key}:#{signature}")
+        headers['Authorization'] = "VISOR #{access_key}:#{signature}"
       end
 
       def canonical_description(method, path, headers={})
@@ -79,6 +82,17 @@ module Visor
           desc << (key.match(/^x-image-meta-/o) ? "#{key}:#{value}\n" : "#{value}\n")
         end
         desc << path.gsub(/\?.*$/, '')
+      end
+
+      def authorize(env, vas)
+        auth = env['headers']['Authorization']
+        raise Forbidden, "Authorization not provided." unless auth
+        access_key = auth.scan(/\ (\w+):/).flatten.first
+        raise Forbidden, "No access key found in Authorization." unless access_key
+        user = vas.get_user(access_key) rescue nil
+        raise Forbidden, "No user found with access key '#{access_key}'." unless user
+        sign = sign_request(user[:access_key], user[:secret_key], env['REQUEST_METHOD'], env['REQUEST_PATH'], env['headers'])
+        raise Forbidden, "Invalid authorization, signatures do not match." unless auth == sign
       end
 
     end
