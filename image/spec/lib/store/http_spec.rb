@@ -29,21 +29,21 @@ describe Visor::Image::Store::HTTP do
       end
     end
 
-    it "should assert that a valid http file exists" do
-      EM.synchrony do
-        @valid_http.file_exists?[0].should be true
-        EM.stop
-      end
-    end
-
-    it "should also return the size and checksum of the file" do
-      EM.synchrony do
-        result = @valid_http.file_exists?
-        result[1].should be_a Fixnum
-        result[2].should be_a String
-        EM.stop
-      end
-    end
+    #it "should assert that a valid http file exists" do
+    #  EM.synchrony do
+    #    @valid_http.file_exists?[0].should be true
+    #    EM.stop
+    #  end
+    #end
+    #
+    #it "should also return the size and checksum of the file" do
+    #  EM.synchrony do
+    #    result = @valid_http.file_exists?
+    #    result[1].should be_a Fixnum
+    #    result[2].should be_a String
+    #    EM.stop
+    #  end
+    #end
 
     #it "should raise NotFound exception if file doesnt exist" do
     #  EM.synchrony do

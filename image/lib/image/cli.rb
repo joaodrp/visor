@@ -365,7 +365,7 @@ module Visor
 
       # Load configuration file options
       def load_conf_file
-        Visor::Common::Config.load_config(:visor_api, options[:conf_file])
+        Visor::Common::Config.load_config(:visor_image, options[:conf_file])
       rescue => e
         raise "There was an error loading the configuration file: #{e.message}"
       end

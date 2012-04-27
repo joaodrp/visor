@@ -379,7 +379,7 @@ Examples:
 
 # Load configuration file options
   def load_conf_file
-    config = Visor::Common::Config.load_config(:visor_api)
+    config = Visor::Common::Config.load_config(:visor_image)
     {host: config[:bind_host], port: config[:bind_port]}
   rescue => e
     raise "There was an error loading the configuration file: #{e.message}"
