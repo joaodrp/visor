@@ -97,7 +97,6 @@ module Visor
         rescue => e
           json_error 500, e.message
         end
-
       end
 
       # @method get_all_detail

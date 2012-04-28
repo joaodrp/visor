@@ -42,7 +42,7 @@ module Visor::Meta
       # Brief attributes used to return only brief information about images.
       BRIEF        = [:_id, :name, :architecture, :type, :format, :store, :size]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
-      DETAIL_EXC   = [:owner, :uploaded_at, :accessed_at, :access_count]
+      DETAIL_EXC   = [:uploaded_at, :accessed_at, :access_count]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
       FILTERS      = ALL + [:sort, :dir]
 
@@ -152,14 +152,14 @@ module Visor::Meta
         meta.merge!(updated_at: Time.now)
       end
 
-      # Build an URI for the given image _id based on VISoR Regisry Server configuration.
+      # Build an URI for the given image _id based on VISoR Image Server configuration.
       #
       # @param [String] id The _id of the image.
       #
       # @return [String] The generated URI.
       #
       def build_uri(id)
-        conf = Visor::Common::Config.load_config :visor_meta
+        conf = Visor::Common::Config.load_config :visor_image
         host = conf[:bind_host] || Visor::Meta::Server::DEFAULT_HOST
         port = conf[:bind_port] || Visor::Meta::Server::DEFAULT_PORT
         "http://#{host}:#{port}/images/#{id}"

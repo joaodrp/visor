@@ -28,8 +28,8 @@ module Visor
       #   metadata or an error code and its message if anything was raised.
       #
       def response(env)
-        authorize(env, vas)
-        meta = vms.get_images(params)
+        access_key = authorize(env, vas)
+        meta = vms.get_images(params, access_key)
         [200, {}, {images: meta}]
       rescue Forbidden => e
         exit_error(403, e.message)

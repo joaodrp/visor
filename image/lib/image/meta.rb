@@ -34,6 +34,7 @@ module Visor
       # Options for filtering the returned results can be passed in.
       #
       # @option query [String] :<attribute_name> The image attribute value to filter returned results.
+      # @param owner (nil) [String] The user's access key to look for its private images too.
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
@@ -42,9 +43,19 @@ module Visor
       #
       # @raise [NotFound] If there are no public images registered on the server.
       #
-      def get_images(query = {})
-        http = request.get path: '/images', query: query, head: get_headers
-        return_response(http)
+      def get_images(query = {}, owner=nil)
+        http    = request.get path: '/images', query: query.merge({access: 'public'}), head: get_headers
+        pub = return_response(http)
+        priv = []
+        if owner
+          http = request.get path: '/images', query: query.merge({access: 'private', owner: owner}), head: get_headers
+          begin
+            priv = return_response(http)
+          rescue => e
+            nil
+          end
+        end
+        pub + priv
       end
 
       # Retrieves detailed metadata of all public images.
@@ -53,6 +64,7 @@ module Visor
       # of disclosed attributes.
       #
       # @option query [String] :attribute_name The image attribute value to filter returned results.
+      # @param owner (nil) [String] The user's access_key to look for its private images too.
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
@@ -61,9 +73,19 @@ module Visor
       #
       # @raise [NotFound] If there are no public images registered on the server.
       #
-      def get_images_detail(query = {})
+      def get_images_detail(query = {}, owner=nil)
         http = request.get path: '/images/detail', query: query, head: get_headers
-        return_response(http)
+        pub = return_response(http)
+        priv = []
+        if owner
+          http = request.get path: '/images/detail', query: query.merge({access: 'private', owner: owner}), head: get_headers
+          begin
+            priv = return_response(http)
+          rescue => e
+            nil
+          end
+        end
+        pub + priv
       end
 
       # Retrieves detailed image metadata of the image with the given id.
@@ -152,10 +174,14 @@ module Visor
         parsed = JSON.parse(body, symbolize_names: true)
 
         case status
-        when 404 then raise NotFound, parsed[:message]
-        when 400 then raise Invalid, parsed[:message]
-        when 500 then raise InternalError, parsed[:message]
-        else parsed[:image] || parsed[:images]
+        when 404 then
+          raise NotFound, parsed[:message]
+        when 400 then
+          raise Invalid, parsed[:message]
+        when 500 then
+          raise InternalError, parsed[:message]
+        else
+          parsed[:image] || parsed[:images]
         end
       end
 

@@ -96,10 +96,10 @@ module Visor::Meta
         validate_query_filters filters unless filters.empty?
 
         sort   = [(filters.delete(:sort) || '_id'), (filters.delete(:dir) || 'asc')]
-        filter = {access: 'public'}.merge(filters)
+        filters.merge!({access: 'public'}) unless filters[:owner]
         fields = brief ? BRIEF : exclude
 
-        pub = @conn.find(filter, fields: fields, sort: sort).to_a
+        pub = @conn.find(filters, fields: fields, sort: sort).to_a
 
         raise NotFound, "No public images found." if pub.empty? && filters.empty?
         raise NotFound, "No public images found with given parameters." if pub.empty?
