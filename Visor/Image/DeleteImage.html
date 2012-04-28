@@ -150,6 +150,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#on_headers-instance_method" title="#on_headers (instance method)">- (Object) <strong>on_headers</strong>(env, headers) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Pre-process headers as they arrive and load them into a environment
+variable.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#response-instance_method" title="#response (instance method)">- (Array) <strong>response</strong>(env) </a>
     
 
@@ -182,7 +206,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Common/Util.html" title="Visor::Common::Util (module)">Common::Util</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Common/Util.html#is_date%3F-instance_method" title="Visor::Common::Util#is_date? (method)">#is_date?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_float%3F-instance_method" title="Visor::Common::Util#is_float? (method)">#is_float?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_integer%3F-instance_method" title="Visor::Common::Util#is_integer? (method)">#is_integer?</a></span>, <span class='object_link'><a href="../Common/Util.html#parse_value-instance_method" title="Visor::Common::Util#parse_value (method)">#parse_value</a></span>, <span class='object_link'><a href="../Common/Util.html#pull_meta_from_headers-instance_method" title="Visor::Common::Util#pull_meta_from_headers (method)">#pull_meta_from_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#push_meta_into_headers-instance_method" title="Visor::Common::Util#push_meta_into_headers (method)">#push_meta_into_headers</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../Common/Util.html#authorize-instance_method" title="Visor::Common::Util#authorize (method)">#authorize</a></span>, <span class='object_link'><a href="../Common/Util.html#canonical_description-instance_method" title="Visor::Common::Util#canonical_description (method)">#canonical_description</a></span>, <span class='object_link'><a href="../Common/Util.html#is_date%3F-instance_method" title="Visor::Common::Util#is_date? (method)">#is_date?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_float%3F-instance_method" title="Visor::Common::Util#is_float? (method)">#is_float?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_integer%3F-instance_method" title="Visor::Common::Util#is_integer? (method)">#is_integer?</a></span>, <span class='object_link'><a href="../Common/Util.html#parse_value-instance_method" title="Visor::Common::Util#parse_value (method)">#parse_value</a></span>, <span class='object_link'><a href="../Common/Util.html#pull_meta_from_headers-instance_method" title="Visor::Common::Util#pull_meta_from_headers (method)">#pull_meta_from_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#push_meta_into_headers-instance_method" title="Visor::Common::Util#push_meta_into_headers (method)">#push_meta_into_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#sign_request-instance_method" title="Visor::Common::Util#sign_request (method)">#sign_request</a></span></p>
 
   
   
@@ -273,17 +297,95 @@
       <pre class="lines">
 
 
-47
-48
-49
-50</pre>
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_image.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_image.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='id identifier rubyid_message'>message</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>code:</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_message'>message</span><span class='rbrace'>}</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="on_headers-instance_method">
+  
+    - (<tt>Object</tt>) <strong>on_headers</strong>(env, headers) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Pre-process headers as they arrive and load them into a environment
+variable.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>env</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Goliath environment variables.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>headers</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The incoming request HTTP headers.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_image.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_on_headers'>on_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Received headers: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_headers'>headers</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>headers</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_headers'>headers</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -353,15 +455,6 @@ messages if anything was raised.</p>
       <pre class="lines">
 
 
-21
-22
-23
-24
-25
-26
-27
-28
-29
 30
 31
 32
@@ -370,12 +463,21 @@ messages if anything was raised.</p>
 35
 36
 37
-38</pre>
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_image.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_image.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_response'>response</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_authorize'>authorize</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_vas'>vas</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='id identifier rubyid_vms'>vms</span><span class='period'>.</span><span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_uri'>uri</span>  <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:store</span><span class='rbracket'>]</span>
@@ -388,8 +490,6 @@ messages if anything was raised.</p>
   <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>403</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
   <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
-<span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-  <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 <span class='kw'>else</span>
   <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>image:</span> <span class='id identifier rubyid_meta'>meta</span><span class='rbrace'>}</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
@@ -403,7 +503,7 @@ messages if anything was raised.</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Apr 23 22:05:26 2012 by 
+  Generated on Sat Apr 28 14:04:22 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>

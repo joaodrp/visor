@@ -134,7 +134,7 @@ underlying database.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='comma'>,</span> <span class='symbol'>:password</span><span class='comma'>,</span> <span class='symbol'>:email</span><span class='rbracket'>]</span></pre></dd>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='comma'>,</span> <span class='symbol'>:email</span><span class='rbracket'>]</span></pre></dd>
       
         <dt id="READONLY-constant" class="">READONLY =
           <div class="docstring">
@@ -150,7 +150,7 @@ underlying database.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:_id</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span></pre></dd>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:_id</span><span class='comma'>,</span> <span class='symbol'>:secret_key</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span></pre></dd>
       
         <dt id="ALL-constant" class="">ALL =
           <div class="docstring">
@@ -698,17 +698,17 @@ and values.</p>
       <pre class="lines">
 
 
-35
-36
 37
 38
 39
 40
 41
-42</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='ivar'>@host</span>     <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span>
@@ -755,12 +755,12 @@ and values.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_conn'>conn</span>
   <span class='ivar'>@conn</span>
@@ -797,12 +797,12 @@ and values.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db'>db</span>
   <span class='ivar'>@db</span>
@@ -839,12 +839,12 @@ and values.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_host'>host</span>
   <span class='ivar'>@host</span>
@@ -881,12 +881,12 @@ and values.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_password'>password</span>
   <span class='ivar'>@password</span>
@@ -923,12 +923,12 @@ and values.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@port</span>
@@ -965,12 +965,12 @@ and values.</p>
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user'>user</span>
   <span class='ivar'>@user</span>
@@ -1070,15 +1070,15 @@ created_at.</p>
       <pre class="lines">
 
 
-78
-79
-80</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_protected_post'>set_protected_post</span><span class='lparen'>(</span><span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_info'>info</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>_id:</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span><span class='comma'>,</span> <span class='label'>created_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_info'>info</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>_id:</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_base64'>base64</span><span class='lparen'>(</span><span class='int'>30</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>created_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1147,12 +1147,12 @@ created_at.</p>
       <pre class="lines">
 
 
-89
-90
-91</pre>
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_protected_put'>set_protected_put</span><span class='lparen'>(</span><span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_info'>info</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>updated_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
@@ -1225,13 +1225,13 @@ values are surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-122
-123
 124
-125</pre>
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_insert'>to_sql_insert</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_surround'>surround</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>'</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_v'>v</span> <span class='rbrace'>}</span>
@@ -1305,12 +1305,12 @@ surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-111
-112
-113</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_update'>to_sql_update</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -1383,12 +1383,12 @@ surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-100
-101
-102</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_where'>to_sql_where</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> AND </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -1448,14 +1448,14 @@ do not respect the</p>
       <pre class="lines">
 
 
-51
-52
 53
 54
-55</pre>
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_data_post'>validate_data_post</span><span class='lparen'>(</span><span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_info'>info</span><span class='period'>.</span><span class='id identifier rubyid_assert_exclusion_keys'>assert_exclusion_keys</span><span class='lparen'>(</span><span class='const'>READONLY</span><span class='rparen'>)</span>
@@ -1517,13 +1517,13 @@ not respect the</p>
       <pre class="lines">
 
 
-64
-65
 66
-67</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_data_put'>validate_data_put</span><span class='lparen'>(</span><span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_info'>info</span><span class='period'>.</span><span class='id identifier rubyid_assert_exclusion_keys'>assert_exclusion_keys</span><span class='lparen'>(</span><span class='const'>READONLY</span><span class='rparen'>)</span>
@@ -1583,13 +1583,13 @@ fields do not respect the</p>
       <pre class="lines">
 
 
-134
-135
 136
-137</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/base.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_query_filters'>validate_query_filters</span><span class='lparen'>(</span><span class='id identifier rubyid_filters'>filters</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_filters'>filters</span><span class='period'>.</span><span class='id identifier rubyid_symbolize_keys!'>symbolize_keys!</span>
@@ -1605,7 +1605,7 @@ fields do not respect the</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Apr 23 22:05:24 2012 by 
+  Generated on Sat Apr 28 14:04:20 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>

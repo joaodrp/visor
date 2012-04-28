@@ -306,7 +306,7 @@ table if it does not exists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_user-instance_method" title="#delete_user (instance method)">- (hash) <strong>delete_user</strong>(username) </a>
+      <a href="#delete_user-instance_method" title="#delete_user (instance method)">- (hash) <strong>delete_user</strong>(access_key) </a>
     
 
     
@@ -329,7 +329,7 @@ table if it does not exists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_user-instance_method" title="#get_user (instance method)">- (Hash) <strong>get_user</strong>(username) </a>
+      <a href="#get_user-instance_method" title="#get_user (instance method)">- (Hash) <strong>get_user</strong>(access_key) </a>
     
 
     
@@ -423,7 +423,7 @@ table if it does not exists.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#put_user-instance_method" title="#put_user (instance method)">- (BSON::OrderedHash) <strong>put_user</strong>(username, update) </a>
+      <a href="#put_user-instance_method" title="#put_user (instance method)">- (BSON::OrderedHash) <strong>put_user</strong>(access_key, update) </a>
     
 
     
@@ -513,8 +513,8 @@ table if it does not exists.</p>
   <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='tstring'><span class='tstring_beg'>%[</span><span class='tstring_content'>
 CREATE TABLE IF NOT EXISTS `</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:db</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>`.`users` (
   `_id` VARCHAR(45) NOT NULL ,
-  `username` VARCHAR(45) NOT NULL ,
-  `password` VARCHAR(45) NOT NULL ,
+  `access_key` VARCHAR(45) NOT NULL ,
+  `secret_key` VARCHAR(45) NOT NULL ,
   `email` VARCHAR(45) NOT NULL ,
   `created_at` DATETIME NULL ,
   `updated_at` DATETIME NULL ,
@@ -836,7 +836,7 @@ table if it does not exists.</p>
       <div class="method_details ">
   <p class="signature " id="delete_user-instance_method">
   
-    - (<tt>hash</tt>) <strong>delete_user</strong>(username) 
+    - (<tt>hash</tt>) <strong>delete_user</strong>(access_key) 
   
 
   
@@ -854,7 +854,7 @@ table if it does not exists.</p>
   
     <li>
       
-        <span class='name'>username</span>
+        <span class='name'>access_key</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -863,7 +863,7 @@ table if it does not exists.</p>
       
         &mdash;
         <div class='inline'>
-<p>The user username.</p>
+<p>The user access_key.</p>
 </div>
       
     </li>
@@ -923,10 +923,10 @@ table if it does not exists.</p>
     <td>
       <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/mysql_db.rb', line 123</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_delete_user'>delete_user</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE username='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No user found with username '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
-  <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DELETE FROM users WHERE username='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_user'>delete_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE access_key='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No user found with access_key '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
+  <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DELETE FROM users WHERE access_key='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_user'>user</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -937,7 +937,7 @@ table if it does not exists.</p>
       <div class="method_details ">
   <p class="signature " id="get_user-instance_method">
   
-    - (<tt>Hash</tt>) <strong>get_user</strong>(username) 
+    - (<tt>Hash</tt>) <strong>get_user</strong>(access_key) 
   
 
   
@@ -955,7 +955,7 @@ table if it does not exists.</p>
   
     <li>
       
-        <span class='name'>username</span>
+        <span class='name'>access_key</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -964,7 +964,7 @@ table if it does not exists.</p>
       
         &mdash;
         <div class='inline'>
-<p>The user username.</p>
+<p>The user access_key.</p>
 </div>
       
     </li>
@@ -1023,9 +1023,9 @@ table if it does not exists.</p>
     <td>
       <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/mysql_db.rb', line 109</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE username='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No user found with username '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE access_key='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No user found with access_key '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
   <span class='id identifier rubyid_user'>user</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1223,7 +1223,7 @@ table if it does not exists.</p>
       
         &mdash;
         <div class='inline'>
-<p>If an username was already taken.</p>
+<p>If an access_key was already taken.</p>
 </div>
       
     </li>
@@ -1252,13 +1252,13 @@ table if it does not exists.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_post_user'>post_user</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_data_post'>validate_data_post</span> <span class='id identifier rubyid_user'>user</span>
-  <span class='id identifier rubyid_exists'>exists</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE username='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ConflictError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The username '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>' was already taken.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_exists'>exists</span>
+  <span class='id identifier rubyid_exists'>exists</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE access_key='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ConflictError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The access_key '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>' was already taken.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_exists'>exists</span>
 
   <span class='id identifier rubyid_set_protected_post'>set_protected_post</span> <span class='id identifier rubyid_user'>user</span>
   <span class='id identifier rubyid_keys_values'>keys_values</span> <span class='op'>=</span> <span class='id identifier rubyid_to_sql_insert'>to_sql_insert</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span>
   <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INSERT INTO users </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_keys_values'>keys_values</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> VALUES </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_keys_values'>keys_values</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1268,7 +1268,7 @@ table if it does not exists.</p>
       <div class="method_details ">
   <p class="signature " id="put_user-instance_method">
   
-    - (<tt>BSON::OrderedHash</tt>) <strong>put_user</strong>(username, update) 
+    - (<tt>BSON::OrderedHash</tt>) <strong>put_user</strong>(access_key, update) 
   
 
   
@@ -1286,7 +1286,7 @@ table if it does not exists.</p>
   
     <li>
       
-        <span class='name'>username</span>
+        <span class='name'>access_key</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -1295,7 +1295,7 @@ table if it does not exists.</p>
       
         &mdash;
         <div class='inline'>
-<p>The user username.</p>
+<p>The user access_key.</p>
 </div>
       
     </li>
@@ -1362,7 +1362,7 @@ table if it does not exists.</p>
       
         &mdash;
         <div class='inline'>
-<p>If an username was already taken.</p>
+<p>If an access_key was already taken.</p>
 </div>
       
     </li>
@@ -1407,19 +1407,19 @@ table if it does not exists.</p>
     <td>
       <pre class="code"><span class="info file"># File 'auth/lib/auth/backends/mysql_db.rb', line 167</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_put_user'>put_user</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_put_user'>put_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='comma'>,</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_data_put'>validate_data_put</span> <span class='id identifier rubyid_update'>update</span>
-  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE username='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No user found with username '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE access_key='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFound</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No user found with access_key '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_exists'>exists</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE username='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ConflictError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The username '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>' was already taken.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_exists'>exists</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_exists'>exists</span> <span class='op'>=</span> <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM users WHERE access_key='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>symbolize_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ConflictError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The access_key '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>' was already taken.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_exists'>exists</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_set_protected_put'>set_protected_put</span> <span class='id identifier rubyid_update'>update</span>
-  <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>UPDATE users SET </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to_sql_update'>to_sql_update</span><span class='lparen'>(</span><span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'> WHERE username='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
+  <span class='ivar'>@conn</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>UPDATE users SET </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to_sql_update'>to_sql_update</span><span class='lparen'>(</span><span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'> WHERE access_key='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_update'>update</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_access_key'>access_key</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1431,7 +1431,7 @@ table if it does not exists.</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Apr 23 22:05:24 2012 by 
+  Generated on Sat Apr 28 14:04:21 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>
