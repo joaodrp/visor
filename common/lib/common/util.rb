@@ -93,6 +93,7 @@ module Visor
         raise Forbidden, "No user found with access key '#{access_key}'." unless user
         sign = sign_request(user[:access_key], user[:secret_key], env['REQUEST_METHOD'], env['REQUEST_PATH'], env['headers'])
         raise Forbidden, "Invalid authorization, signatures do not match." unless auth == sign
+        access_key
       end
 
     end

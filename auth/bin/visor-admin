@@ -1,0 +1,283 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'uri'
+$:.unshift File.expand_path('../../../common/lib', __FILE__)
+require 'common'
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'auth/version'
+require 'auth/client'
+
+# VISoR administration command line interface script.
+#
+# Commands:
+#
+#list           Show all registered users
+#get            Show a specific user
+#add            Register a new user
+#update         Update an user
+#delete         Delete an user
+#clean          Delete all users
+#help <cmd>     Show help message for one of the above commands
+#
+# Run <visor -h> to get more usage help.
+#
+class VisorAdminCLI
+  include Visor::Common::Exception
+  include Visor::Common::Config
+
+  # VISoR Admin CLI version
+  VERSION = '0.0.1'
+
+  attr_reader :argv, :options, :parser, :command
+
+  # Initialize a new CLI
+  def initialize(argv=ARGV)
+    @argv    = argv
+    @options = load_conf_file
+    @parser  = parser
+    @command = parse!
+  end
+
+  # OptionParser parser
+  def parser
+    OptionParser.new do |opts|
+      opts.banner = "Usage: visor-admin <command> [options]"
+
+      opts.separator ""
+      opts.separator "Commands:"
+      opts.separator "     list           Show all registered users"
+      opts.separator "     get            Show a specific user"
+      opts.separator "     add            Register a new user"
+      opts.separator "     update         Update an user"
+      opts.separator "     delete         Delete an user"
+      opts.separator "     clean          Delete all users"
+      opts.separator "     help <cmd>     Show help message for one of the above commands"
+
+      opts.separator ""
+      opts.separator "Options:"
+      opts.on("-a", "--access KEY", "The user access key (username)") { |key| options[:access_key] = key }
+      opts.on("-e", "--email ADDRESS", "The user email address") { |addr| options[:email] = addr }
+      opts.on("-q", "--query QUERY", "HTTP query like string to filter results") do |query|
+        (options[:query] = URI.decode_www_form(query)) rescue abort "The provided query string is not valid."
+      end
+
+      opts.separator ""
+      opts.separator "Common options:"
+      opts.on_tail("-D", "--dry-run", "Don't persist results, just print what would it do") { options[:dry] = true }
+      opts.on_tail('-v', '--verbose', "Enable verbose") { options[:verbose] = true }
+      opts.on_tail("-h", "--help", "Show this help message") { puts opts; exit 0 }
+      opts.on_tail('-V', '--version', "Show version") { puts "VISoR Admin CLI v#{VERSION}"; exit 0 }
+    end
+  end
+
+  # Parse argv arguments
+  def parse!
+    parser.parse! ARGV
+    ARGV.shift
+  end
+
+  # Parse the current shell arguments and run the command
+  def run!
+    abort parser.to_s if command.nil?
+    start = Time.now
+    case command
+    when 'list' then
+      list
+    when 'get' then
+      get
+    when 'add' then
+      add
+    when 'update' then
+      update
+    when 'delete' then
+      delete
+    when 'help' then
+      help
+    else
+      abort "Unknown command '#{command}'"
+    end
+    finish = Time.now
+    printf("Done in %-0.4f seconds", finish - start) if verbose?
+    exit 0
+  end
+
+  # Show all registered users
+  def list
+    users = client.get_users(options[:query])
+    puts "Found #{users.size} users..."
+    print_users(users)
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'list':\n#{e.message}"
+  end
+
+  # Retrieve an user
+  def get
+    access_key = argv.shift
+    abort "No user access key provided as first argument, please provide it." unless access_key
+    user = client.get_user(access_key)
+    print_users(user)
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'get':\n#{e.message}"
+  end
+
+  # Add a new user
+  def add
+    begin
+      info = parse_info_from_args
+      user = client.post_user(info)
+      puts "Successfully added new user with access key '#{user[:access_key]}'."
+      print_users(user)
+    rescue NotFound => e
+      puts e.message
+    rescue => e
+      abort "Failure while executing 'add':\n#{e.message}"
+    end
+  end
+
+  # Update an user
+  def update
+    access_key = argv.shift
+    abort "No user access key provided as first argument, please provide it." unless access_key
+    begin
+      info = parse_info_from_args
+      user = client.put_user(access_key, info)
+      puts "Successfully updated the user #{access_key}."
+      print_users(user) if verbose?
+    rescue NotFound => e
+      puts e.message
+    rescue => e
+      abort "Failure while executing 'update':\n#{e.message}"
+    end
+  end
+
+  # Delete an user
+  def delete
+    begin
+      argv.each do |access_key|
+        abort "No user access key provided as first argument, please provide it." unless access_key
+        user = client.delete_user(access_key)
+        puts "Successfully deleted user #{access_key}."
+        print_users(user) if verbose?
+      end
+    end
+  rescue NotFound => e
+    puts e.message
+  rescue => e
+    abort "Failure while executing 'delete':\n#{e.message}"
+  end
+
+  # Show help message for one of the above commands
+  def help
+    cmd = argv[0]
+    abort "Please provide a command name as argument (example: visor-admin help list)." unless cmd
+
+    case cmd.to_sym
+    when :list
+      puts %q[Usage: visor-admin list [options]
+
+Returns a list of all registered users.
+
+You can filter results based on a query using the --query (-q) option.
+
+Examples:
+  $ visor-admin list
+  $ visor-admin list --query email=foo@bar.com]
+    when :get
+      puts %q[Usage: visor-admin get <ACCESS KEY> [options]
+
+Returns the account information of the user with the given access key.
+
+Examples:
+  $ visor get foo]
+    when :add
+      puts %q[Usage: visor-admin add <ATTRIBUTES> [options]
+
+Add a new user, providing its attributes.
+
+The following attributes can be specified as key/value pairs:
+
+  access_key: The wanted user access key (username)
+       email: The user email address
+
+Examples:
+  $ visor-admin add access_key=foo email=foo@bar.com]
+    when :update
+      puts %q[Usage: visor-admin update <ACCESS KEY> [options]
+
+Updates the account information of the user with the given access key.
+
+The following attributes can be specified as key/value pairs:
+
+  access_key: The wanted user access key (username)
+       email: The user email address
+
+Examples:
+  $ visor update foo email=bar@foo.com]
+    when :delete
+      puts %q[Usage: visor-admin delete <ACCESS KEY> [options]
+
+Deletes the account of the user with the given access key.
+
+Examples:
+  $ visor delete foo]
+    else
+      abort "Unknown command '#{cmd}'"
+    end
+  end
+
+  private
+
+# Pretty print users
+  def print_users(user)
+    str = "%-37s %-18s %-41s %-27s %-24s %-24s\n"
+    printf(str, 'ID', 'ACCESS KEY', 'SECRET KEY', 'EMAIL', 'CREATED AT', 'UPDATED AT')
+    puts "#{'-'*36+"  "+'-'*17+"  "+'-'*40+"  "+'-'*26+"  "+'-'*23+"  "+'-'*23}"
+
+    if user.is_a?(Array)
+      user.each { |u| printf(str, u[:_id], u[:access_key], u[:secret_key], u[:email] || '-', u[:created_at] || '-', u[:updated_at] || '-') }
+    else
+      printf(str, user[:_id], user[:access_key], user[:secret_key], user[:email] || '-', user[:created_at] || '-', user[:updated_at] || '-')
+    end
+  end
+
+# Load configuration file options
+  def load_conf_file
+    config = Visor::Common::Config.load_config(:visor_auth)
+    {host: config[:bind_host], port: config[:bind_port]}
+  rescue => e
+    raise "There was an error loading the configuration file: #{e.message}"
+  end
+
+# Get a new VISoR Auth Client instance
+  def client
+    Visor::Auth::Client.new(options)
+  end
+
+# Find if verbose mode is active
+  def verbose?
+    options[:verbose]
+  end
+
+# Parse key/value pair arguments to a valid hash
+  def parse_info_from_args
+    info = {}
+    raise "You should provide at least one key=value pair." if argv.empty?
+    argv.each do |arg|
+      k, v = arg.split('=')
+      raise "Arguments should be in the form of key=value pairs." unless k && v
+      info[k.downcase.sub('-', '_')] = v
+    end
+    info
+  end
+end
+
+# Execute if file is called
+if __FILE__ == $0
+  VisorAdminCLI.new.run!
+end
+

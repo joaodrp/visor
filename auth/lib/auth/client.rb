@@ -6,10 +6,9 @@ require 'json'
 module Visor
   module Auth
 
-    # The Client API for the VISoR Meta. This class supports all image metadata manipulation
-    # operations through a programmatically interface.
+    # The Client API for the VISoR Auth.
     #
-    # After Instantiate a Client object its possible to directly interact with the meta server and its
+    # After Instantiate a Client object its possible to directly interact with the auth server and its
     # database backend.
     #
     class Client
@@ -19,7 +18,7 @@ module Visor
       configs = Common::Config.load_config :visor_auth
 
       DEFAULT_HOST = configs[:bind_host] || '0.0.0.0'
-      DEFAULT_PORT = configs[:bind_port] || 4567
+      DEFAULT_PORT = configs[:bind_port] || 4566
 
       attr_reader :host, :port, :ssl
 
@@ -29,9 +28,9 @@ module Visor
         @ssl        = opts[:ssl] || false
       end
 
-      def get_users(query = {})
-        str     = build_query(query)
-        request = Net::HTTP::Get.new("/users#{str}")
+      def get_users(query={})
+        #str     = build_query(query)
+        request = Net::HTTP::Get.new("/users")
         do_request(request)
       end
 

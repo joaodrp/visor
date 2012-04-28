@@ -41,14 +41,15 @@ module Visor
       #
       def response(env)
         begin
-          authorize(env, vas)
+          access_key = authorize(env, vas)
         rescue Forbidden => e
           return exit_error(403, e.message)
         end
 
-        meta     = pull_meta_from_headers(env['headers'])
-        body     = env['body']
-        location = meta[:location]
+        meta         = pull_meta_from_headers(env['headers'])
+        meta[:owner] = access_key
+        body         = env['body']
+        location     = meta[:location]
 
         if location && body
           msg = 'When the location header is present no file content can be provided'
