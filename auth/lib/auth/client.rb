@@ -29,8 +29,8 @@ module Visor
       end
 
       def get_users(query={})
-        #str     = build_query(query)
-        request = Net::HTTP::Get.new("/users")
+        str     = build_query(query)
+        request = Net::HTTP::Get.new("/users#{str}")
         do_request(request)
       end
 
@@ -78,8 +78,8 @@ module Visor
       #
       # @return [String] The generated query in the form of "?k=v&k1=v1".
       #
-      def build_query(opts)
-        opts.empty? ? '' : '?' + URI.encode_www_form(opts)
+      def build_query(h)
+        (h.nil? or h.empty?) ? '' : '?' + URI.encode_www_form(h)
       end
 
       # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'
