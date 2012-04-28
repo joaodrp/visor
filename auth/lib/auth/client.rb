@@ -124,6 +124,8 @@ module Visor
           raise NotFound, parse(:message, response)
         when Net::HTTPBadRequest then
           raise Invalid, parse(:message, response)
+        when Net::HTTPConflict then
+          raise ConflictError, parse(:message, response)
         else
           parse(:user, response) or parse(:users, response)
         end
