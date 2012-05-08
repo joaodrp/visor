@@ -86,13 +86,13 @@ module Visor
 
       def authorize(env, vas)
         auth = env['headers']['Authorization']
-        raise Forbidden, "Authorization not provided." unless auth
+        raise Visor::Common::Exception::Forbidden, "Authorization not provided." unless auth
         access_key = auth.scan(/\ (\w+):/).flatten.first
-        raise Forbidden, "No access key found in Authorization." unless access_key
+        raise Visor::Common::Exception::Forbidden, "No access key found in Authorization." unless access_key
         user = vas.get_user(access_key) rescue nil
-        raise Forbidden, "No user found with access key '#{access_key}'." unless user
+        raise Visor::Common::Exception::Forbidden, "No user found with access key '#{access_key}'." unless user
         sign = sign_request(user[:access_key], user[:secret_key], env['REQUEST_METHOD'], env['REQUEST_PATH'], env['headers'])
-        raise Forbidden, "Invalid authorization, signatures do not match." unless auth == sign
+        raise Visor::Common::Exception::Forbidden, "Invalid authorization, signatures do not match." unless auth == sign
         access_key
       end
 

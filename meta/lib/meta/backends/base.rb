@@ -29,20 +29,20 @@ module Visor::Meta
       # Access options
       ACCESS       = %w[public private]
       # Possible disk formats
-      FORMAT       = %w[none iso vhd vdi vmdk ami aki ari]
+      FORMAT       = %w[iso vhd vdi vmdk ovf ami aki ari]
       # Possible types
-      TYPE         = %w[none kernel ramdisk amazon eucalyptus openstack opennebula nimbus]
+      TYPE         = %w[kernel ramdisk machine]
       # Possible status
       STATUS       = %w[locked uploading error available]
       # Possible storage
-      STORE        = %w[s3 cumulus walrus hdfs lunacloud http file]
+      STORE        = %w[s3 cumulus walrus hdfs lcs http file]
 
       # Presentation options
       #
       # Brief attributes used to return only brief information about images.
       BRIEF        = [:_id, :name, :architecture, :type, :format, :store, :size]
       # Attributes to exclude from get public images requests, allowing to show other custom attributes.
-      DETAIL_EXC   = [:uploaded_at, :accessed_at, :access_count]
+      DETAIL_EXC   = [:accessed_at, :access_count]
       # Valid parameters to filter results from requests query, add sort parameter and sort direction.
       FILTERS      = ALL + [:sort, :dir]
 
