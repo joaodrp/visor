@@ -4,7 +4,7 @@ require 'bundler/setup'
 Bundler.require :default, :test
 #SimpleCov.start
 
-require File.expand_path '../../lib/meta', __FILE__
+require File.expand_path '../../lib/visor-meta', __FILE__
 require File.expand_path '../../lib/meta/server', __FILE__
 
 ENV['RACK_ENV'] = 'test'

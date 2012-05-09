@@ -3,6 +3,6 @@
 # VISoR Meta command line interface script.
 # Run <visor-meta -h> to get more usage help.
 
-require File.expand_path('../../lib/meta', __FILE__)
+require File.expand_path('../../lib/visor-meta', __FILE__)
 
 Visor::Meta::CLI.new(Visor::Meta::Server, 'visor-meta').run!

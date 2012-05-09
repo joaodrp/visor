@@ -27,7 +27,7 @@ end
 
 desc "Generate YARD documentation"
 task :ydoc do
-  require File.join(File.dirname(__FILE__), 'lib/meta')
+  require File.join(File.dirname(__FILE__), 'lib/visor-meta')
   output = "~/workspace/gh-pages/visor/"
   #system "rm -rf #{output}*"
   system "yardoc #{meta} -o #{output} -t test --no-save --title VISoR --main README.md"

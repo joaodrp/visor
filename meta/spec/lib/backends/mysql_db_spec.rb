@@ -142,11 +142,11 @@ module Visor::Meta::Backends
       end
 
       it "should return a hash with updated image" do
-        update = {:name => 'updated', :type => 'none'}
+        update = {:name => 'updated', :type => 'kernel'}
         img = conn.put_image(@id, update)
         img.should be_a(Hash)
         img[:name].should == 'updated'
-        img[:type].should == 'none'
+        img[:type].should == 'kernel'
       end
 
       it "should update extra fields too" do

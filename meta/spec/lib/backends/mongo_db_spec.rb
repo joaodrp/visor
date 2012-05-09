@@ -136,11 +136,11 @@ module Visor::Meta::Backends
       end
 
       it "should return a bson hash with updated image meta" do
-        update = {:name => 'updated', :type => 'none'}
+        update = {:name => 'updated', :type => 'machine'}
         img = conn.put_image(@id, update)
         img.should be_a BSON::OrderedHash
         img['name'].should == 'updated'
-        img['type'].should == 'none'
+        img['type'].should == 'machine'
       end
 
       it "should raise an ArgumentError exception if meta validation fails" do
