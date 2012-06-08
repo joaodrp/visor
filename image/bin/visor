@@ -4,7 +4,7 @@ require 'optparse'
 require 'uri'
 require 'progressbar'
 $:.unshift File.expand_path('../../../common/lib', __FILE__)
-require 'common'
+require 'visor-common'
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'image/version'
 require 'image/client'

@@ -1,37 +1,27 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    backports (2.3.0)
+    backports (2.6.1)
+    daemons (1.1.8)
     diff-lcs (1.1.3)
     eventmachine (0.12.10)
-    ffi (1.0.11)
     google_visualr (2.1.2)
-    googlecharts (1.6.8)
-    guard (0.10.0)
-      ffi (>= 0.5.0)
-      thor (~> 0.14.6)
-    guard-rspec (0.6.0)
-      guard (>= 0.10.0)
-    haml (3.1.4)
-    multi_json (1.0.4)
+    multi_json (1.3.6)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rdiscount (1.6.8)
-    rspec (2.8.0)
-      rspec-core (~> 2.8.0)
-      rspec-expectations (~> 2.8.0)
-      rspec-mocks (~> 2.8.0)
-    rspec-core (2.8.0)
-    rspec-expectations (2.8.0)
-      diff-lcs (~> 1.1.2)
-    rspec-mocks (2.8.0)
-    ruby_gntp (0.3.4)
-    rubyvis (0.5.1)
-    simplecov (0.5.4)
-      multi_json (~> 1.0.3)
+    rspec (2.10.0)
+      rspec-core (~> 2.10.0)
+      rspec-expectations (~> 2.10.0)
+      rspec-mocks (~> 2.10.0)
+    rspec-core (2.10.1)
+    rspec-expectations (2.10.0)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.10.1)
+    simplecov (0.6.4)
+      multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     sinatra (1.3.2)
@@ -47,24 +37,19 @@ GEM
       tilt (~> 1.3)
     sinatra-reloader (1.0)
       sinatra-contrib
-    thor (0.14.6)
+    thin (1.3.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     tilt (1.3.3)
-    yard (0.7.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   google_visualr
-  googlecharts
-  guard
-  guard-rspec
-  haml
-  rdiscount
   rspec
-  ruby_gntp
-  rubyvis
   simplecov
   sinatra
   sinatra-reloader
-  yard
+  thin

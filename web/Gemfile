@@ -4,6 +4,7 @@ source 'http://rubygems.org'
 #gemspec
 
 gem 'sinatra'
+gem 'thin'
 gem 'google_visualr'
 
 group :development do
