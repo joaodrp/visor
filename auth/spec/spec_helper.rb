@@ -4,7 +4,7 @@ require 'bundler/setup'
 Bundler.require :default, :test
 #SimpleCov.start
 
-require File.expand_path '../../lib/auth', __FILE__
+require File.expand_path '../../lib/visor-auth', __FILE__
 require File.expand_path '../../lib/auth/server', __FILE__
 
 ENV['RACK_ENV'] = 'test'

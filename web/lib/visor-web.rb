@@ -1,4 +1,4 @@
-require File.expand_path('../../../common/lib/visor-common', __FILE__)
+require 'visor-common'
 
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'web/meta'

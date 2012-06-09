@@ -1,5 +1,3 @@
-#require File.expand_path('../../image', __FILE__)
-
 conf      = Visor::Common::Config.load_config
 
 meta_host = conf[:visor_meta][:bind_host]

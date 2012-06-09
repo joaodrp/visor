@@ -3,6 +3,6 @@
 # VISoR Meta command line interface script.
 # Run <visor-meta -h> to get more usage help.
 
-require File.expand_path('../../lib/auth', __FILE__)
+require File.expand_path('../../lib/visor-auth', __FILE__)
 
 Visor::Auth::CLI.new(Visor::Auth::Server, 'visor-auth').run!

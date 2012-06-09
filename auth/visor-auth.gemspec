@@ -1,21 +1,21 @@
-require File.expand_path '../lib/meta/version', __FILE__
+require File.expand_path '../lib/auth/version', __FILE__
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
 
-  s.name    = 'visor-meta'
-  s.version = Visor::Meta::VERSION
+  s.name    = 'visor-auth'
+  s.version = Visor::Auth::VERSION
 
   s.authors = 'João Pereira'
   s.email   = 'joaodrp@gmail.com'
 
   s.homepage = 'http://cvisor.org'
 
-  s.description = 'The VISOR Meta System, responsible for maintaining image metadata.'
+  s.description = 'The VISOR Auth System, responsible for maintaining VISOR users accounts.'
   s.summary     = 'VISOR: Virtual Images Management Service for Cloud Infrastructures'
 
-  s.executables        = ['visor-meta']
-  s.default_executable = 'visor-meta'
+  s.executables        = ['visor-auth']
+  s.default_executable = 'visor-auth'
 
   s.files      = Dir["lib/**/*.rb"]
   s.test_files = Dir["spec/**/*_spec.rb"]

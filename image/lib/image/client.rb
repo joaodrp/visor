@@ -439,6 +439,7 @@ module Visor
 
       # Prepare headers for request
       def prepare_headers(req)
+        sign_request(access_key, secret_key, req.method, req.path, req)
         req['User-Agent'] = 'VISoR Image Server client'
         req['Accept']     = "application/json"
       end
@@ -477,7 +478,6 @@ module Visor
 
       # Process requests
       def do_request(req, parse=true)
-        sign_request(access_key, secret_key, req.method, req.path, req)
         prepare_headers(req)
         http              = Net::HTTP.new(host, port)
         http.read_timeout = 600

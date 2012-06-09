@@ -3,7 +3,7 @@
 # VISoR Image Server command line interface script.
 # Run <visor-image -h> to get more usage help.
 
-require File.expand_path('../../lib/image', __FILE__)
+require File.expand_path('../../lib/visor-image', __FILE__)
 
 ENV['GOLIATH_CONF'] = File.expand_path('../../config/server.rb', __FILE__)
 

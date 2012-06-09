@@ -4,7 +4,7 @@ require 'bundler/setup'
 Bundler.require :default, :test
 #SimpleCov.start
 
-require File.expand_path '../../lib/image', __FILE__
+require File.expand_path '../../lib/visor-image', __FILE__
 #require File.expand_path '../../lib/image/server', __FILE__
 
 require 'goliath/test_helper'
