@@ -161,9 +161,9 @@ module Visor
       # Display current server status
       def status
         if running?
-          STDERR.puts "VISoR Image Server is running PID: #{fetch_pid} URL: #{fetch_url}"
+          STDERR.puts "VISOR Image Server is running PID: #{fetch_pid} URL: #{fetch_url}"
         else
-          STDERR.puts "VISoR Image Server is not running."
+          STDERR.puts "VISOR Image Server is not running."
         end
       end
 
@@ -171,11 +171,11 @@ module Visor
       def stop
         begin
           pid = File.read(pid_file)
-          put_and_log :warn, "Stopping VISoR Image Server with PID: #{pid.to_i} Signal: INT"
+          put_and_log :warn, "Stopping VISOR Image Server with PID: #{pid.to_i} Signal: INT"
           Process.kill(:INT, pid.to_i)
           File.delete(url_file)
         rescue
-          put_and_log :warn, "Cannot stop VISoR Image Server, is it running?"
+          put_and_log :warn, "Cannot stop VISOR Image Server, is it running?"
           exit! 1
         end
       end
@@ -189,14 +189,14 @@ module Visor
           write_url
           launch!
         rescue => e
-          put_and_log :warn, "Error starting VISoR Image Server: #{e.message}\n#{e.backtrace.to_s}"
+          put_and_log :warn, "Error starting VISOR Image Server: #{e.message}\n#{e.backtrace.to_s}"
           exit! 1
         end
       end
 
       # Launch the server
       def launch!
-        put_and_log :info, "Starting VISoR Image Server at #{options[:address]}:#{options[:port]}"
+        put_and_log :info, "Starting VISOR Image Server at #{options[:address]}:#{options[:port]}"
         debug_settings
 
         runner     = Goliath::Runner.new(opts_to_goliath, Visor::Image::Server.new)
@@ -243,9 +243,9 @@ module Visor
         exit
       end
 
-      # Show VISoR Image Server version
+      # Show VISOR Image Server version
       def show_version
-        puts "VISoR Image Server v#{Visor::Image::VERSION}"
+        puts "VISOR Image Server v#{Visor::Image::VERSION}"
         exit
       end
 
@@ -253,7 +253,7 @@ module Visor
       def is_it_running?
         if files_exist?(pid_file, url_file)
           if running?
-            put_and_log :warn, "VISoR Image Server is already running at #{fetch_url}"
+            put_and_log :warn, "VISOR Image Server is already running at #{fetch_url}"
             exit! 1
           else
             clean
@@ -330,7 +330,7 @@ module Visor
         conf_file.each { |k, v| logger.debug "#{k}: #{v}" unless k == :file }
         logger.debug "**************************************************************"
 
-        logger.debug "Configurations passed from VISoR Image Server CLI:"
+        logger.debug "Configurations passed from VISOR Image Server CLI:"
         logger.debug "**************************************************************"
         if new_opts.empty?
           logger.debug "none"

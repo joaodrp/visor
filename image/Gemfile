@@ -4,7 +4,7 @@ source 'http://rubygems.org'
 #gemspec
 gem 'goliath', :git => 'https://github.com/postrank-labs/goliath.git'
 gem 'em-http-request', :git => 'https://github.com/igrigorik/em-http-request.git'
-gem 's3-restful'
+gem 's3restful'
 gem 'progressbar'
 
 group :development do

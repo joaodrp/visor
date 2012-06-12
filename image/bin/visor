@@ -127,12 +127,12 @@ class VisorCLI
 
   # Show brief metadata of all public images
   def brief
-    str    = "%-37s %-21s %-13s %-12s %-8s %-10s %-10s\n"
+    str    = "%-37s %-17s %-13s %-10s %-8s %-10s %-10s\n"
     images = client.get_images(options[:query])
 
     puts "Found #{images.size} public images records..."
     printf(str, 'ID', 'NAME', 'ARCHITECTURE', 'TYPE', 'FORMAT', 'STORE', 'SIZE')
-    puts "#{'-'*36+"  "+'-'*20+"  "+'-'*12+"  "+'-'*11+"  "+'-'*6+"  "+'-'*10+"  "+'-'*10}"
+    puts "#{'-'*36+"  "+'-'*16+"  "+'-'*12+"  "+'-'*9+"  "+'-'*6+"  "+'-'*10+"  "+'-'*10}"
 
     images.each do |image|
       printf(str, image[:_id], image[:name], image[:architecture], image[:type] || '-', image[:format] || '-', image[:store] || '-', image[:size] || '-')
@@ -417,7 +417,7 @@ Examples:
 end
 
 # Execute if file is called
-if __FILE__ == $0
-  VisorCLI.new.run!
-end
+#if __FILE__ == $0
+VisorCLI.new.run!
+#end
 

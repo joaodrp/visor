@@ -1,5 +1,5 @@
 require 'uri'
-require 'happening'
+require 's3restful'
 require 'em-synchrony'
 require 'em-synchrony/em-http'
 
@@ -51,7 +51,7 @@ module Visor
         # @return [Happening::S3::Item] A new Cumulus connection object.
         #
         def connection
-          Happening::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',
+          S3restful::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',
                                   aws_access_key_id: access_key, aws_secret_access_key: secret_key)
         end
 

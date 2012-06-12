@@ -31,10 +31,10 @@ module Visor
         use Rack::CommonLogger, log
       end
 
-      configure :development do
-        require 'sinatra/reloader'
-        register Sinatra::Reloader
-      end
+      #configure :development do
+        #require 'sinatra/reloader'
+        #register Sinatra::Reloader
+      #end
 
       # Helpers
       #

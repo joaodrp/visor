@@ -88,7 +88,7 @@ module Visor
             exit
           end
           opts.on_tail('-v', '--version', "Show version") do
-            puts "VISoR Meta Server v#{Visor::Meta::VERSION}"
+            puts "VISOR Meta Server v#{Visor::Meta::VERSION}"
             exit
           end
         end

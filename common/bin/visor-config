@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+# VISoR configuration command line interface script.
+# Run <visor-config -h> to get more usage help.
+
+require File.expand_path('../../lib/visor-common', __FILE__)
+
+unless ARGV.empty?
+  puts %q[Usage: visor-config
+
+This script will generate the following VISOR configuration and logging directories and files:
+
+- ~/.visor                        The VISOR default configuration directory
+- ~/.visor/visor-config.yml       The VISOR configuration file template
+- ~/.visor/logs                   The VISOR default logging directory
+
+Run it without any arguments to generate the above directories and files.
+
+]
+  exit
+end
+
+dir = "#{ENV['HOME']}/.visor"
+
+if Dir.exists? dir
+  puts "Directory #{dir} already exists, do you want to override it and its files? (y/n)"
+  if gets.chomp.downcase == "n"
+    puts "Aborting configurations override."
+    exit
+  end
+end
+
+puts "\nGenerating VISOR configuration directories and files:\n\n"
+sleep (0.5)
+print "creating #{dir}..."
+system "mkdir #{dir}"
+puts " [DONE]"
+print "creating #{dir}/logs..."
+system "mkdir #{dir}/logs"
+puts " [DONE]"
+print "creating #{dir}/visor-config.yml..."
+system "echo '#{Visor::Common::Config::CONFIG_TEMPLATE}' > #{dir}/visor-config.yml"
+puts " [DONE]"
+puts "\nAll configurations were successful. Now open and customize the VISOR configuration file at #{dir}/visor-config.yml\n\n"

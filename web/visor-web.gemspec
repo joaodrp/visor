@@ -24,7 +24,21 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rack-test'
   s.add_development_dependency 'yard'
 
+  s.add_runtime_dependency 'visor-common'
   s.add_runtime_dependency 'sinatra'
   s.add_runtime_dependency 'thin'
   s.add_runtime_dependency 'google_visualr'
+
+  s.required_ruby_version = '>= 1.9.2'
+  s.post_install_message = %q[
+
+****************************** VISOR ******************************
+
+visor-web was successfully installed!
+
+Generate the VISOR configuration file for this machine (if not already done) by running the 'visor-config' command.
+
+*******************************************************************
+
+]
 end

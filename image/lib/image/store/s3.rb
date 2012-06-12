@@ -1,5 +1,5 @@
 require 'uri'
-require 's3-restful'
+require 's3restful'
 require 'em-synchrony'
 require 'em-synchrony/em-http'
 
@@ -47,7 +47,7 @@ module Visor
         # @return [Happening::S3::Item] A new S3 connection object.
         #
         def connection
-          S3Restful::S3::Item.new(bucket, file, aws_access_key_id: access_key, aws_secret_access_key: secret_key)
+          S3restful::S3::Item.new(bucket, file, aws_access_key_id: access_key, aws_secret_access_key: secret_key)
         end
 
         # Returns the image file to clients, streamed in chunks.

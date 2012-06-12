@@ -21,7 +21,140 @@ module Visor
       DEFAULT_LOG_DATETIME = "%Y-%m-%d %H:%M:%S"
       # Default log level
       DEFAULT_LOG_LEVEL = Logger::INFO
+      # Configuration file template
+      CONFIG_TEMPLATE = %q[
+# ========== Default always loaded configuration throughout VISOR sub-systems =====
+#
+default: &default
+    # Set the default log date time format
+    log_datetime_format: "%Y-%m-%d %H:%M:%S"
+    # Set the default log path
+    log_path: ~/.visor/logs
+    # VISoR access and secret key credentials, grab yours from $ visor-admin
+    access_key: XXXXXX
+    secret_key: XXXXXX
 
+# ================================ VISoR Auth ==================================
+#
+visor_auth:
+    # Merge default configuration
+    <<: *default
+    # Address to bind the meta server
+    bind_host: 0.0.0.0
+    # Port to bind the meta server
+    bind_port: 4566
+    # Backend connection string (syntax: name://user:pass@host:port/database)
+    backend: mongodb://:@127.0.0.1:27017/visor
+    # backend: mysql://visor:passwd@127.0.0.1:3306/visor
+    # Log file name (available: filename or empty for STDOUT)
+    log_file: visor-auth-server.log
+    # Log level to start logging above events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ================================ VISoR Meta =====================================
+#
+visor_meta:
+    # Merge default configuration
+    <<: *default
+    # Address to bind the meta server
+    bind_host: 0.0.0.0
+    # Port to bind the meta server
+    bind_port: 4567
+    # Backend connection string (syntax: name://user:pass@host:port/database)
+    backend: mongodb://:@127.0.0.1:27017/visor
+    # backend: mysql://visor:passwd@127.0.0.1:3306/visor
+    # Log file name (available: filename or empty for STDOUT)
+    log_file: visor-meta-server.log
+    # Log level to start logging above events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ================================ VISoR Image ====================================
+#
+visor_image:
+    # Merge default configuration
+    <<: *default
+    # Address to bind the meta server
+    bind_host: 0.0.0.0
+    # Port to bind the meta server
+    bind_port: 4568
+    # Log file name (available: filename or empty for STDOUT)
+    log_file: visor-api-server.log
+    # Log level to start logging equal and above events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ============================== VISoR Image Backends =============================
+#
+visor_store:
+    # Default store backend (available: s3, cumulus, walrus, lunacloud, hdfs, file)
+    default: file
+    #
+    # FileSystem store backend settings
+    #
+    file:
+        # Default directory to store image files in
+        directory: ~/VMs/
+    #
+    # Amazon Simple Storage (S3) store backend settings
+    #
+    s3:
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours on your AWS account settings page
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Nimbus Cumulus (Cumulus) store backend settings
+    #
+    cumulus:
+        # The Cumulus host address
+        host: XXXXXX
+        # The Cumulus port number
+        port: XXXXXX
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours with Nimbus cloud
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Eucalyptus Walrus (Walrus) store backend settings
+    #
+    walrus:
+        # The Walrus host address
+        host: XXXXXX
+        # The Walrus port number
+        port: XXXXXX
+        # A
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours with Eucalyptus cloud
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Lunacloud (Lunacloud) store backend settings
+    #
+    lunacloud:
+        # The Lunacloud host address
+        host: betalcs.lunacloud.com
+        # The Lunacloud port number
+        port: 80
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours with Lunacloud cloud
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Apache Hadoop HDFS (HDFS) store backend settings
+    #
+    hdfs:
+        # The HDFS host address
+        host: XXXXXX
+        # The HDFS port number
+        port: XXXXXX
+        # The bucket to store images in
+        bucket: XXXXXX
+        # Access credentials
+        username: XXXXXX
+]
 
       # Ordered search for a VISoR configuration file on default locations and return the first matched.
       #

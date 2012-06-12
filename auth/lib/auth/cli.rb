@@ -88,7 +88,7 @@ module Visor
             exit
           end
           opts.on_tail('-v', '--version', "Show version") do
-            puts "VISoR Auth Server v#{Visor::Auth::VERSION}"
+            puts "VISOR Auth Server v#{Visor::Auth::VERSION}"
             exit
           end
         end
