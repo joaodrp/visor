@@ -124,7 +124,7 @@ backend.</p>
   
   <h3 class="inherited">Constants included
      from <span class='object_link'><a href="../Common/Config.html" title="Visor::Common::Config (module)">Common::Config</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Common/Config.html#DEFAULT_CONFIG_DIRS-constant" title="Visor::Common::Config::DEFAULT_CONFIG_DIRS (constant)">Common::Config::DEFAULT_CONFIG_DIRS</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_CONFIG_FILE-constant" title="Visor::Common::Config::DEFAULT_CONFIG_FILE (constant)">Common::Config::DEFAULT_CONFIG_FILE</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_DATETIME-constant" title="Visor::Common::Config::DEFAULT_LOG_DATETIME (constant)">Common::Config::DEFAULT_LOG_DATETIME</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_LEVEL-constant" title="Visor::Common::Config::DEFAULT_LOG_LEVEL (constant)">Common::Config::DEFAULT_LOG_LEVEL</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_PATH-constant" title="Visor::Common::Config::DEFAULT_LOG_PATH (constant)">Common::Config::DEFAULT_LOG_PATH</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../Common/Config.html#CONFIG_TEMPLATE-constant" title="Visor::Common::Config::CONFIG_TEMPLATE (constant)">Common::Config::CONFIG_TEMPLATE</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_CONFIG_DIRS-constant" title="Visor::Common::Config::DEFAULT_CONFIG_DIRS (constant)">Common::Config::DEFAULT_CONFIG_DIRS</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_CONFIG_FILE-constant" title="Visor::Common::Config::DEFAULT_CONFIG_FILE (constant)">Common::Config::DEFAULT_CONFIG_FILE</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_DATETIME-constant" title="Visor::Common::Config::DEFAULT_LOG_DATETIME (constant)">Common::Config::DEFAULT_LOG_DATETIME</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_LEVEL-constant" title="Visor::Common::Config::DEFAULT_LOG_LEVEL (constant)">Common::Config::DEFAULT_LOG_LEVEL</a></span>, <span class='object_link'><a href="../Common/Config.html#DEFAULT_LOG_PATH-constant" title="Visor::Common::Config::DEFAULT_LOG_PATH (constant)">Common::Config::DEFAULT_LOG_PATH</a></span></p>
 
 
 
@@ -383,6 +383,7 @@ backend.</p>
       <pre class="lines">
 
 
+259
 260
 261
 262
@@ -391,11 +392,10 @@ backend.</p>
 265
 266
 267
-268
-269</pre>
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 259</span>
 
 <span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='kw'>begin</span>
@@ -646,8 +646,7 @@ additional image attribute not defined in the schema.</p>
 97
 98
 99
-100
-101</pre>
+100</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 91</span>
@@ -661,7 +660,6 @@ additional image attribute not defined in the schema.</p>
   <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='id identifier rubyid_json_error'>json_error</span> <span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
   <span class='kw'>end</span>
-
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -963,6 +961,7 @@ additional image attribute not defined in the schema.</p>
       <pre class="lines">
 
 
+146
 147
 148
 149
@@ -971,11 +970,10 @@ additional image attribute not defined in the schema.</p>
 152
 153
 154
-155
-156</pre>
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 146</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/detail</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='kw'>begin</span>
@@ -1092,6 +1090,7 @@ additional image attribute not defined in the schema.</p>
       <pre class="lines">
 
 
+186
 187
 188
 189
@@ -1100,11 +1099,10 @@ additional image attribute not defined in the schema.</p>
 192
 193
 194
-195
-196</pre>
+195</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 186</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
   <span class='kw'>begin</span>
@@ -1203,6 +1201,7 @@ additional image attribute not defined in the schema.</p>
       <pre class="lines">
 
 
+208
 209
 210
 211
@@ -1214,11 +1213,10 @@ additional image attribute not defined in the schema.</p>
 217
 218
 219
-220
-221</pre>
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 208</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='kw'>begin</span>
@@ -1336,6 +1334,7 @@ additional image attribute not defined in the schema.</p>
       <pre class="lines">
 
 
+234
 235
 236
 237
@@ -1347,11 +1346,10 @@ additional image attribute not defined in the schema.</p>
 243
 244
 245
-246
-247</pre>
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/server.rb', line 234</span>
 
 <span class='id identifier rubyid_put'>put</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
   <span class='kw'>begin</span>
@@ -1376,7 +1374,7 @@ additional image attribute not defined in the schema.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Apr 28 14:04:17 2012 by 
+  Generated on Tue Jun 12 20:47:12 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>

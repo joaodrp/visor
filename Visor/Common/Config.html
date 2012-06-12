@@ -182,6 +182,154 @@ configuration files and Logging.</p>
         </dt>
         <dd><pre class="code"><span class='const'>Logger</span><span class='op'>::</span><span class='const'>INFO</span></pre></dd>
       
+        <dt id="CONFIG_TEMPLATE-constant" class="">CONFIG_TEMPLATE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Configuration file template</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>%q[</span><span class='tstring_content'>
+# ========== Default always loaded configuration throughout VISOR sub-systems =====
+#
+default: &amp;default
+    # Set the default log date time format
+    log_datetime_format: &quot;%Y-%m-%d %H:%M:%S&quot;
+    # Set the default log path
+    log_path: ~/.visor/logs
+    # VISoR access and secret key credentials, grab yours from $ visor-admin
+    access_key: XXXXXX
+    secret_key: XXXXXX
+
+# ================================ VISoR Auth ==================================
+#
+visor_auth:
+    # Merge default configuration
+    &lt;&lt;: *default
+    # Address to bind the meta server
+    bind_host: 0.0.0.0
+    # Port to bind the meta server
+    bind_port: 4566
+    # Backend connection string (syntax: name://user:pass@host:port/database)
+    backend: mongodb://:@127.0.0.1:27017/visor
+    # backend: mysql://visor:passwd@127.0.0.1:3306/visor
+    # Log file name (available: filename or empty for STDOUT)
+    log_file: visor-auth-server.log
+    # Log level to start logging above events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ================================ VISoR Meta =====================================
+#
+visor_meta:
+    # Merge default configuration
+    &lt;&lt;: *default
+    # Address to bind the meta server
+    bind_host: 0.0.0.0
+    # Port to bind the meta server
+    bind_port: 4567
+    # Backend connection string (syntax: name://user:pass@host:port/database)
+    backend: mongodb://:@127.0.0.1:27017/visor
+    # backend: mysql://visor:passwd@127.0.0.1:3306/visor
+    # Log file name (available: filename or empty for STDOUT)
+    log_file: visor-meta-server.log
+    # Log level to start logging above events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ================================ VISoR Image ====================================
+#
+visor_image:
+    # Merge default configuration
+    &lt;&lt;: *default
+    # Address to bind the meta server
+    bind_host: 0.0.0.0
+    # Port to bind the meta server
+    bind_port: 4568
+    # Log file name (available: filename or empty for STDOUT)
+    log_file: visor-api-server.log
+    # Log level to start logging equal and above events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ============================== VISoR Image Backends =============================
+#
+visor_store:
+    # Default store backend (available: s3, cumulus, walrus, lunacloud, hdfs, file)
+    default: file
+    #
+    # FileSystem store backend settings
+    #
+    file:
+        # Default directory to store image files in
+        directory: ~/VMs/
+    #
+    # Amazon Simple Storage (S3) store backend settings
+    #
+    s3:
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours on your AWS account settings page
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Nimbus Cumulus (Cumulus) store backend settings
+    #
+    cumulus:
+        # The Cumulus host address
+        host: XXXXXX
+        # The Cumulus port number
+        port: XXXXXX
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours with Nimbus cloud
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Eucalyptus Walrus (Walrus) store backend settings
+    #
+    walrus:
+        # The Walrus host address
+        host: XXXXXX
+        # The Walrus port number
+        port: XXXXXX
+        # A
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours with Eucalyptus cloud
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Lunacloud (Lunacloud) store backend settings
+    #
+    lunacloud:
+        # The Lunacloud host address
+        host: betalcs.lunacloud.com
+        # The Lunacloud port number
+        port: 80
+        # The bucket to store images in, make sure you provide an already existing bucket
+        bucket: XXXXXX
+        # Access and secret key credentials, grab yours with Lunacloud cloud
+        access_key: XXXXXX
+        secret_key: XXXXXX
+    #
+    # Apache Hadoop HDFS (HDFS) store backend settings
+    #
+    hdfs:
+        # The HDFS host address
+        host: XXXXXX
+        # The HDFS port number
+        port: XXXXXX
+        # The bucket to store images in
+        bucket: XXXXXX
+        # Access credentials
+        username: XXXXXX
+</span><span class='tstring_end'>]</span></span></pre></dd>
+      
     </dl>
   
 
@@ -404,41 +552,41 @@ Visor::Common::Config#self#self.validate_logger.</p>
       <pre class="lines">
 
 
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107</pre>
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_build_logger'>build_logger</span><span class='lparen'>(</span><span class='id identifier rubyid_app_name'>app_name</span><span class='comma'>,</span> <span class='id identifier rubyid_configs'>configs</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_conf'>conf</span> <span class='op'>=</span> <span class='id identifier rubyid_configs'>configs</span> <span class='op'>||</span> <span class='id identifier rubyid_load_config'>load_config</span>
@@ -543,20 +691,20 @@ path to the found configuration file.</p>
       <pre class="lines">
 
 
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43</pre>
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_find_config_file'>find_config_file</span><span class='lparen'>(</span><span class='id identifier rubyid_other_file'>other_file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_other_file'>other_file</span>
@@ -678,20 +826,20 @@ settings.</p>
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66</pre>
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 189</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load_config'>load_config</span><span class='lparen'>(</span><span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_other_file'>other_file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='id identifier rubyid_find_config_file'>find_config_file</span><span class='lparen'>(</span><span class='id identifier rubyid_other_file'>other_file</span><span class='rparen'>)</span>
@@ -714,7 +862,7 @@ settings.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Apr 28 14:04:19 2012 by 
+  Generated on Tue Jun 12 20:47:13 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>
