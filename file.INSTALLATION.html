@@ -60,12 +60,11 @@
 
 <p>We will install VISOR by distributing its components across 3 machines, with two servers and one client machine. The enviroment arrangment goes as follows:</p>
 
-<ul>
-<li><p><strong>Server 1:</strong> This server will be used to deploy the VISOR Image System (VIS), which is VISOR's core and client's front-end. The VIS server will make use of a logging file in which it logs its operations. This machine will also contain a VISOR configuration file (VCF) which will contain the necessary configuration options for the VIS operation.</p></li>
-<li><p><strong>Server 2:</strong> This server will host both VISOR Meta System (VMS) and VISOR Auth System (VAS). Therefore it will use an underlying database to store both user accounts and image metadata. Both VMS and VAS will log their operations to a local log file. This server will also host another VCF which will contain the necessary parameters to configure both VMS and VAS.</p></li>
-<li><p><strong>Client:</strong> The Client machine will host the VIS command-line interface (CLI), which will communicate with the VIS hosted in Server 1. It will also contain a VCF containing the necessary parameters to configure the CLI.</p></li>
-</ul>
+<p><strong>Server 1:</strong> This server will be used to deploy the VISOR Image System (VIS), which is VISOR's core and client's front-end. The VIS server will make use of a logging file in which it logs its operations. This machine will also contain a VISOR configuration file (VCF) which will contain the necessary configuration options for the VIS operation.</p>
 
+<p><strong>Server 2:</strong> This server will host both VISOR Meta System (VMS) and VISOR Auth System (VAS). Therefore it will use an underlying database to store both user accounts and image metadata. Both VMS and VAS will log their operations to a local log file. This server will also host another VCF which will contain the necessary parameters to configure both VMS and VAS.</p>
+
+<p><strong>Client:</strong> The Client machine will host the VIS command-line interface (CLI), which will communicate with the VIS hosted in Server 1. It will also contain a VCF containing the necessary parameters to configure the CLI.</p>
 
 <p>Next we will present the VISOR installation requirements. We will indicate in which machines the necessary procedures should be conducted.</p>
 
@@ -426,7 +425,7 @@ prompt $&gt;
 </div></div>
     
     <div id="footer">
-  Generated on Tue Jun 12 20:52:24 2012 by 
+  Generated on Tue Jun 12 20:53:47 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>
