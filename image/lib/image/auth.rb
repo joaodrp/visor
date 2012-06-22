@@ -1,5 +1,5 @@
-require 'net/http'
-require 'net/https'
+require 'em-synchrony'
+require 'em-synchrony/em-http'
 require 'uri'
 require 'json'
 
@@ -12,13 +12,10 @@ module Visor
     # database backend.
     #
     class Auth
-
       include Visor::Common::Exception
 
-      configs = Common::Config.load_config :visor_auth
-
-      DEFAULT_HOST = configs[:bind_host] || '0.0.0.0'
-      DEFAULT_PORT = configs[:bind_port] || 4567
+      DEFAULT_HOST = '0.0.0.0'
+      DEFAULT_PORT = 4566
 
       attr_reader :host, :port, :ssl
 
@@ -29,70 +26,33 @@ module Visor
       end
 
       def get_users(query = {})
-        str     = build_query(query)
-        request = Net::HTTP::Get.new("/users#{str}")
-        do_request(request)
+        http = request.get path: '/users', query: query, head: get_headers
+        return_response(http)
       end
 
       def get_user(access_key)
-        request = Net::HTTP::Get.new("/users/#{access_key}")
-        do_request(request)
+        http = request.get path: "/users/#{access_key}", head: get_headers
+        return_response(http)
       end
 
       def post_user(info)
-        request      = Net::HTTP::Post.new('/users')
-        request.body = prepare_body(info)
-        do_request(request)
+        body = prepare_body(info)
+        http = request.post path: '/users', body: body, head: post_headers
+        return_response(http)
       end
 
       def put_user(access_key, info)
-        request      = Net::HTTP::Put.new("/users/#{access_key}")
-        request.body = prepare_body(info)
-        do_request(request)
+        body = prepare_body(info)
+        http = request.put path: "/users/#{access_key}", body: body, head: put_headers
+        return_response(http)
       end
 
       def delete_user(access_key)
-        request = Net::HTTP::Delete.new("/users/#{access_key}")
-        do_request(request)
+        http = request.delete path: "/users/#{access_key}", access_key: delete_headers
+        return_response(http)
       end
 
       private
-
-      # Parses a response body with the JSON parser and extracts and returns a single
-      # key value from it if defined, otherwise returns all the body.
-      #
-      # @param key (nil) [Symbol] The hash key to extract the wanted value.
-      # @param response [Net::HTTPResponse] The response which contains the body to parse.
-      #
-      # @return [String, Hash] If key is provided and exists on the response body, them return
-      #   its value, otherwise return all the body hash.
-      #
-      def parse(key=nil, response)
-        parsed = JSON.parse(response.body, symbolize_names: true)
-        key ? parsed[key] : parsed
-      end
-
-      # Generate a valid URI query string from key/value pairs of the given hash.
-      #
-      # @param opts [Hash] The hash with the key/value pairs to generate query from.
-      #
-      # @return [String] The generated query in the form of "?k=v&k1=v1".
-      #
-      def build_query(opts)
-        opts.empty? ? '' : '?' + URI.encode_www_form(opts)
-      end
-
-      # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'
-      # headers for every request and additionally sets the 'content-type' header
-      # for POST and PUT requests.
-      #
-      # @param request [Net::HTTPResponse] The request which will be modified in its headers.
-      #
-      def prepare_headers(request)
-        request['User-Agent'] = 'VISoR image server'
-        request['Accept']     = 'application/json'
-        request['content-type'] = 'application/json' if ['POST', 'PUT'].include?(request.method)
-      end
 
       # Generate a valid JSON request body for POST and PUT requests.
       # It generates a JSON object encapsulated inside a :image key and then returns it.
@@ -108,7 +68,7 @@ module Visor
 
       # Process requests by preparing its headers, launch them and assert or raise their response.
       #
-      # @param request [Net::HTTPResponse] The request which will be launched.
+      # @param request [EventMachine::HttpRequest] The request which will be launched.
       #
       # @return [String, Hash] If an error is raised, then it parses and returns its message,
       #   otherwise it properly parse and return the response body.
@@ -116,38 +76,59 @@ module Visor
       # @raise [NotFound] If required image was not found (on a GET, PUT or DELETE request).
       # @raise [Invalid] If image meta validation fails (on a POST or PUT request).
       #
-      def do_request(request)
-        STDERR.puts "************ hi ***************"
-        prepare_headers(request)
-        STDERR.puts "************ hi ***************"
-        begin
-          response = http_or_https.request(request)
-        rescue => e
+      def return_response(http)
+        body   = http.response
+        status = http.response_header.status.to_i
+
+        case status
+        when 0 then
           raise InternalError, "VISOR Auth System server not found. Is it running?"
-        end
-        case response
-        when Net::HTTPNotFound then
-          raise NotFound, parse(:message, response)
-        when Net::HTTPBadRequest then
-          raise Invalid, parse(:message, response)
+        when 404 then
+          raise NotFound, parse(body)
+        when 400 then
+          raise Invalid, parse(body)
+        when 500 then
+          raise InternalError, parse(body)
         else
-          parse(:user, response) or parse(:users, response)
+          parse(body)
         end
+      end
+
+      def parse(body)
+        parsed = JSON.parse(body, symbolize_names: true)
+        parsed[:user] || parsed[:users] || parsed[:message]
       end
 
       # Generate a new HTTP or HTTPS connection based on initialization parameters.
       #
-      # @return [Net::HTTP] A HTTP or HTTPS (not done yet) connection ready to use.
+      # @return [EventMachine::HttpRequest] A HTTP or HTTPS (not done yet) connection ready to use.
       #
-      def http_or_https
+      def request
         if @ssl
           #TODO: ssl connection
-          #https://github.com/augustl/net-http-cheat-sheet/blob/master/ssl_and_https.rb
         else
-          Net::HTTP.new(@host, @port)
+          EventMachine::HttpRequest.new("http://#{@host}:#{@port}")
         end
       end
 
+      # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'
+      # headers for every request and additionally sets the 'content-type' header
+      # for POST and PUT requests.
+      #
+      def get_headers
+        {'User-Agent' => 'VISOR Image System',
+         'Accept'     => 'application/json'}
+      end
+
+      def post_headers
+        {'User-Agent'   => 'VISOR Image System',
+         'Accept'       => 'application/json',
+         'content-type' => 'application/json'}
+      end
+
+      alias :delete_headers :get_headers
+      alias :put_headers :post_headers
     end
   end
 end
+
