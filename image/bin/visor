@@ -137,7 +137,7 @@ class VisorCLI
     str    = "%-37s %-17s %-13s %-10s %-8s %-10s %-10s\n"
     images = client.get_images(options[:query])
 
-    puts "Found #{images.size} public images records..."
+    puts "Found #{images.size} images records..."
     printf(str, 'ID', 'NAME', 'ARCHITECTURE', 'TYPE', 'FORMAT', 'STORE', 'SIZE')
     puts "#{'-'*36+"  "+'-'*16+"  "+'-'*12+"  "+'-'*9+"  "+'-'*6+"  "+'-'*10+"  "+'-'*10}"
 
@@ -149,7 +149,7 @@ class VisorCLI
   # Show detailed metadata of all public images
   def detail
     images = client.get_images_detail(options[:query])
-    puts "Found #{images.size} public images records..."
+    puts "Found #{images.size} images records..."
 
     images.each do |image|
       puts('-'*80)
