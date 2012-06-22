@@ -33,10 +33,10 @@ end
 puts "\nGenerating VISOR configuration directories and files:\n\n"
 sleep (0.5)
 print "creating #{dir}..."
-system "mkdir #{dir}"
+system "mkdir -p #{dir}"
 puts " [DONE]"
 print "creating #{dir}/logs..."
-system "mkdir #{dir}/logs"
+system "mkdir -p #{dir}/logs"
 puts " [DONE]"
 print "creating #{dir}/visor-config.yml..."
 system "echo '#{Visor::Common::Config::CONFIG_TEMPLATE}' > #{dir}/visor-config.yml"
