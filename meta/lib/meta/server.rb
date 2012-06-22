@@ -23,7 +23,12 @@ module Visor
         conf = Visor::Common::Config.load_config(:visor_meta)
         log  = Visor::Common::Config.build_logger(:visor_meta)
 
-        DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]
+        begin
+          DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]
+        rescue => e
+          STDERR.puts "ERROR starting visor-meta: (#{conf[:backend].split(':').first}) #{e}"
+          exit! 1
+        end
 
         #enable :threaded
         disable :show_exceptions, :logging #, :protection
