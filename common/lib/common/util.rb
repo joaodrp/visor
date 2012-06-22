@@ -89,7 +89,13 @@ module Visor
         raise Visor::Common::Exception::Forbidden, "Authorization not provided." unless auth
         access_key = auth.scan(/\ (\w+):/).flatten.first
         raise Visor::Common::Exception::Forbidden, "No access key found in Authorization." unless access_key
-        user = vas.get_user(access_key) rescue nil
+        begin
+          user = vas.get_user(access_key)
+        rescue Visor::Common::Exception::InternalError => e
+          raise Visor::Common::Exception::InternalError, e.message
+        rescue => e
+          nil
+        end
         raise Visor::Common::Exception::Forbidden, "No user found with access key '#{access_key}'." unless user
         sign = sign_request(user[:access_key], user[:secret_key], env['REQUEST_METHOD'], env['REQUEST_PATH'], env['headers'])
         raise Visor::Common::Exception::Forbidden, "Invalid authorization, signatures do not match." unless auth == sign
