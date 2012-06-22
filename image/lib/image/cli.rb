@@ -65,29 +65,29 @@ module Visor
             options[:address] = addr
             new_opts << :address
           end
-          opts.on("-p", "--port PORT", "Use PORT (default: #{options[:port]})") do |port|
+          opts.on("-p", "--port PORT", "Bind to PORT number (default: #{options[:port]})") do |port|
             options[:port] = port.to_i
             new_opts << :port
           end
-          opts.on("-e", "--env NAME", "Set the execution environment (default: #{options[:env]})") do |env|
+          opts.on("-e", "--env ENV", "Set execution environment (default: #{options[:env]})") do |env|
             options[:env] = env.to_sym
             new_opts << :env
           end
-
-          opts.separator ""
-          opts.on('-l', '--log FILE', "Log to file (default: #{@options[:log_file]})") do |file|
-            @options[:log_file] = file
-            new_opts << :log_file
-          end
-          opts.on('-u', '--user USER', "Run as specified user") do |v|
-            @options[:user] = v
-            new_opts << :user
-          end
-          opts.on("-f", "--foreground", "Do not daemonize") do
+          opts.on("-f", "--foreground", "Do not daemonize, run in foreground") do
             options[:daemonize]  = false
             options[:log_stdout] = true
             new_opts << :daemonize
           end
+
+          #opts.separator ""
+          #opts.on('-l', '--log FILE', "Log to file (default: #{@options[:log_file]})") do |file|
+          #  @options[:log_file] = file
+          #  new_opts << :log_file
+          #end
+          #opts.on('-u', '--user USER', "Run as specified user") do |v|
+          #  @options[:user] = v
+          #  new_opts << :user
+          #end
 
           #opts.separator ""
           #opts.separator "SSL options:"
@@ -99,16 +99,16 @@ module Visor
           opts.separator ""
           opts.separator "Common options:"
 
-          opts.on_tail("-d", "--debug", "Set debugging on") do
+          opts.on_tail("-d", "--debug", "Enable debugging") do
             options[:debug] = true
             new_opts << :debug
           end
-          opts.on_tail('-v', '--verbose', "Enable verbose logging") do
-            options[:verbose] = true
-            new_opts << :verbose
-          end
-          opts.on_tail("-h", "--help", "Show this message") { show_options(opts) }
-          opts.on_tail('-V', '--version', "Show version") { show_version }
+          #opts.on_tail('-v', '--verbose', "Enable verbose logging") do
+          #  options[:verbose] = true
+          #  new_opts << :verbose
+          #end
+          opts.on_tail("-h", "--help", "Show this help message") { show_options(opts) }
+          opts.on_tail('-v', '--version', "Show version") { show_version }
         end
       end
 
@@ -161,9 +161,9 @@ module Visor
       # Display current server status
       def status
         if running?
-          STDERR.puts "VISOR Image Server is running PID: #{fetch_pid} URL: #{fetch_url}"
+          STDERR.puts "visor-image is running PID: #{fetch_pid} URL: #{fetch_url}"
         else
-          STDERR.puts "VISOR Image Server is not running."
+          STDERR.puts "visor-image is not running."
         end
       end
 
@@ -171,11 +171,11 @@ module Visor
       def stop
         begin
           pid = File.read(pid_file)
-          put_and_log :warn, "Stopping VISOR Image Server with PID: #{pid.to_i} Signal: INT"
+          put_and_log :warn, "Stopping visor-image with PID: #{pid.to_i} Signal: INT"
           Process.kill(:INT, pid.to_i)
           File.delete(url_file)
         rescue
-          put_and_log :warn, "Cannot stop VISOR Image Server, is it running?"
+          put_and_log :warn, "Cannot stop visor-image, is it running?"
           exit! 1
         end
       end
@@ -189,14 +189,14 @@ module Visor
           write_url
           launch!
         rescue => e
-          put_and_log :warn, "Error starting VISOR Image Server: #{e.message}\n#{e.backtrace.to_s}"
+          put_and_log :warn, "Error starting visor-image: #{e.message}\n#{e.backtrace.to_s}"
           exit! 1
         end
       end
 
       # Launch the server
       def launch!
-        put_and_log :info, "Starting VISOR Image Server at #{options[:address]}:#{options[:port]}"
+        put_and_log :info, "Starting visor-image at #{options[:address]}:#{options[:port]}"
         debug_settings
 
         runner     = Goliath::Runner.new(opts_to_goliath, Visor::Image::Server.new)
@@ -243,9 +243,9 @@ module Visor
         exit
       end
 
-      # Show VISOR Image Server version
+      # Show VISOR Image System version
       def show_version
-        puts "VISOR Image Server v#{Visor::Image::VERSION}"
+        puts "visor-image #{Visor::Image::VERSION}"
         exit
       end
 
@@ -253,7 +253,7 @@ module Visor
       def is_it_running?
         if files_exist?(pid_file, url_file)
           if running?
-            put_and_log :warn, "VISOR Image Server is already running at #{fetch_url}"
+            put_and_log :warn, "visor-image is already running at #{fetch_url}"
             exit! 1
           else
             clean
@@ -330,7 +330,7 @@ module Visor
         conf_file.each { |k, v| logger.debug "#{k}: #{v}" unless k == :file }
         logger.debug "**************************************************************"
 
-        logger.debug "Configurations passed from VISOR Image Server CLI:"
+        logger.debug "Configurations passed from visor-image CLI:"
         logger.debug "**************************************************************"
         if new_opts.empty?
           logger.debug "none"

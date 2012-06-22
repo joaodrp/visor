@@ -20,8 +20,13 @@ module Visor
 
         #TODO: catch error when Config does not found a key (like :visor_auth) in config file:
         # /Users/joaodrp/workspace/visor/common/lib/common/config.rb:65:in `load_config': undefined method `merge' for nil:NilClass (NoMethodError)
-        conf = Visor::Common::Config.load_config(:visor_auth)
-        log  = Visor::Common::Config.build_logger(:visor_auth)
+        begin
+          conf = Visor::Common::Config.load_config(:visor_auth)
+          log  = Visor::Common::Config.build_logger(:visor_auth)
+        rescue => e
+          STDERR.puts "ERROR starting visor-auth: (config file) 'visor_auth' section not found"
+          exit! 1
+        end
 
         begin
           DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]

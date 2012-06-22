@@ -171,18 +171,24 @@ module Visor
       def return_response(http)
         body   = http.response
         status = http.response_header.status.to_i
-        parsed = JSON.parse(body, symbolize_names: true)
 
         case status
+        when 0 then
+          raise InternalError, "VISOR Meta System server not found. Is it running?"
         when 404 then
-          raise NotFound, parsed[:message]
+          raise NotFound, parse(body)
         when 400 then
-          raise Invalid, parsed[:message]
+          raise Invalid, parse(body)
         when 500 then
-          raise InternalError, parsed[:message]
+          raise InternalError, parse(body)
         else
-          parsed[:image] || parsed[:images]
+          parse(body)
         end
+      end
+
+      def parse(body)
+        parsed = JSON.parse(body, symbolize_names: true)
+        parsed[:image] || parsed[:images] || parsed[:message]
       end
 
       # Generate a new HTTP or HTTPS connection based on initialization parameters.
@@ -202,12 +208,12 @@ module Visor
       # for POST and PUT requests.
       #
       def get_headers
-        {'User-Agent' => 'VISoR Image Server',
+        {'User-Agent' => 'VISOR Image System',
          'Accept'     => 'application/json'}
       end
 
       def post_headers
-        {'User-Agent'   => 'VISoR Image Server',
+        {'User-Agent' => 'VISOR Image System',
          'Accept'       => 'application/json',
          'content-type' => 'application/json'}
       end

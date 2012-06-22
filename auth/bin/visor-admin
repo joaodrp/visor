@@ -63,7 +63,6 @@ class VisorAdminCLI
 
       opts.separator ""
       opts.separator "Common options:"
-      opts.on_tail("-D", "--dry-run", "Don't persist results, just print what would it do") { options[:dry] = true }
       opts.on_tail('-v', '--verbose', "Enable verbose") { options[:verbose] = true }
       opts.on_tail("-h", "--help", "Show this help message") { puts opts; exit 0 }
       opts.on_tail('-V', '--version', "Show version") { puts "VISoR Admin CLI v#{VERSION}"; exit 0 }
@@ -80,22 +79,31 @@ class VisorAdminCLI
   def run!
     abort parser.to_s if command.nil?
     start = Time.now
-    case command
-    when 'list' then
-      list
-    when 'get' then
-      get
-    when 'add' then
-      add
-    when 'update' then
-      update
-    when 'delete' then
-      delete
-    when 'help' then
-      help
-    else
-      abort "Unknown command '#{command}'"
+    begin
+      case command
+      when 'list' then
+        list
+      when 'get' then
+        get
+      when 'add' then
+        add
+      when 'update' then
+        update
+      when 'delete' then
+        delete
+      when 'help' then
+        help
+      else
+        abort "Unknown command '#{command}'"
+      end
+    rescue NotFound => e
+      puts e.message
+    rescue Errno::ECONNREFUSED
+      abort "Failure while executing '#{command}': VISOR Auth System server not found. Is it running?"
+    rescue => e
+      abort "Failure while executing '#{command}': #{e}"
     end
+
     finish = Time.now
     printf("Done in %-0.4f seconds", finish - start) if verbose?
     exit 0
@@ -106,10 +114,6 @@ class VisorAdminCLI
     users = client.get_users(options[:query])
     puts "Found #{users.size} users..."
     print_users(users)
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'list':\n#{e.message}"
   end
 
   # Retrieve an user
@@ -118,56 +122,34 @@ class VisorAdminCLI
     abort "No user access key provided as first argument, please provide it." unless access_key
     user = client.get_user(access_key)
     print_users(user)
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'get':\n#{e.message}"
   end
 
   # Add a new user
   def add
-    begin
-      info = parse_info_from_args
-      user = client.post_user(info)
-      puts "Successfully added new user with access key '#{user[:access_key]}'."
-      print_users(user)
-    rescue NotFound => e
-      puts e.message
-    rescue => e
-      abort "Failure while executing 'add':\n#{e.message}"
-    end
+    info = parse_info_from_args
+    user = client.post_user(info)
+    puts "Successfully added new user with access key '#{user[:access_key]}'."
+    print_users(user)
   end
 
   # Update an user
   def update
     access_key = argv.shift
     abort "No user access key provided as first argument, please provide it." unless access_key
-    begin
-      info = parse_info_from_args
-      user = client.put_user(access_key, info)
-      puts "Successfully updated the user #{access_key}."
-      print_users(user) if verbose?
-    rescue NotFound => e
-      puts e.message
-    rescue => e
-      abort "Failure while executing 'update':\n#{e.message}"
-    end
+    info = parse_info_from_args
+    user = client.put_user(access_key, info)
+    puts "Successfully updated the user #{access_key}."
+    print_users(user) if verbose?
   end
 
   # Delete an user
   def delete
-    begin
-      argv.each do |access_key|
-        abort "No user access key provided as first argument, please provide it." unless access_key
-        user = client.delete_user(access_key)
-        puts "Successfully deleted user #{access_key}."
-        print_users(user) if verbose?
-      end
+    argv.each do |access_key|
+      abort "No user access key provided as first argument, please provide it." unless access_key
+      user = client.delete_user(access_key)
+      puts "Successfully deleted user #{access_key}."
+      print_users(user) if verbose?
     end
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'delete':\n#{e.message}"
   end
 
   # Show help message for one of the above commands

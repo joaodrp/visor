@@ -440,7 +440,7 @@ module Visor
       # Prepare headers for request
       def prepare_headers(req)
         sign_request(access_key, secret_key, req.method, req.path, req)
-        req['User-Agent'] = 'VISoR Image Server client'
+        req['User-Agent'] = 'VISOR Image System client'
         req['Accept']     = "application/json"
       end
 
@@ -472,6 +472,8 @@ module Visor
         when Net::HTTPForbidden then
           raise Forbidden, parse_response(res)
         when Net::HTTPInternalServerError then
+          raise InternalError, parse_response(res)
+        when Net::HTTPServiceUnavailable then
           raise InternalError, parse_response(res)
         end
       end

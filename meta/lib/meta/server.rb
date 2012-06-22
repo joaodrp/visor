@@ -20,8 +20,13 @@ module Visor
         backend_map = {'mongodb' => Visor::Meta::Backends::MongoDB,
                        'mysql'   => Visor::Meta::Backends::MySQL}
 
-        conf = Visor::Common::Config.load_config(:visor_meta)
-        log  = Visor::Common::Config.build_logger(:visor_meta)
+        begin
+          conf = Visor::Common::Config.load_config(:visor_meta)
+          log  = Visor::Common::Config.build_logger(:visor_meta)
+        rescue => e
+          STDERR.puts "ERROR starting visor-meta: (config file) 'visor_meta' section not found"
+          exit! 1
+        end
 
         begin
           DB = backend_map[conf[:backend].split(':').first].connect uri: conf[:backend]

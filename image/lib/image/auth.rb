@@ -23,9 +23,9 @@ module Visor
       attr_reader :host, :port, :ssl
 
       def initialize(opts = {})
-        @host       = opts[:host] || DEFAULT_HOST
-        @port       = opts[:port] || DEFAULT_PORT
-        @ssl        = opts[:ssl] || false
+        @host = opts[:host] || DEFAULT_HOST
+        @port = opts[:port] || DEFAULT_PORT
+        @ssl  = opts[:ssl] || false
       end
 
       def get_users(query = {})
@@ -117,8 +117,14 @@ module Visor
       # @raise [Invalid] If image meta validation fails (on a POST or PUT request).
       #
       def do_request(request)
+        STDERR.puts "************ hi ***************"
         prepare_headers(request)
-        response = http_or_https.request(request)
+        STDERR.puts "************ hi ***************"
+        begin
+          response = http_or_https.request(request)
+        rescue => e
+          raise InternalError, "VISOR Auth System server not found. Is it running?"
+        end
         case response
         when Net::HTTPNotFound then
           raise NotFound, parse(:message, response)

@@ -61,34 +61,31 @@ module Visor
           opts.on("-c", "--config FILE", "Load a custom configuration file") do |file|
             options[:config] = File.expand_path(file)
           end
-          opts.on("-o", "--host HOST", "listen on HOST (default: #{DEFAULT_HOST})") do |host|
+          opts.on("-a", "--address HOST", "Bind to HOST address (default: #{DEFAULT_HOST})") do |host|
             options[:host] = host.to_s
           end
-          opts.on("-p", "--port PORT", "use PORT (default: #{DEFAULT_PORT})") do |port|
+          opts.on("-p", "--port PORT", "Bind to PORT number (default: #{DEFAULT_PORT})") do |port|
             options[:port] = port.to_i
           end
-          opts.on("-x", "--no-proxy", "ignore proxy settings if any") do
-            options[:no_proxy] = true
-          end
-          opts.on("-e", "--env ENVIRONMENT", "use ENVIRONMENT for defaults (default: #{DEFAULT_ENV})") do |env|
+          opts.on("-e", "--env ENV", "Set execution environment (default: #{DEFAULT_ENV})") do |env|
             options[:environment] = env.to_sym
           end
-          opts.on("-F", "--foreground", "don't daemonize, run in the foreground") do
+          opts.on("-f", "--foreground", "Do not daemonize, run in foreground") do
             options[:foreground] = true
           end
 
           opts.separator ""
           opts.separator "Common options:"
 
-          opts.on_tail("-d", "--debug", "Set debugging on (with foreground only)") do
+          opts.on_tail("-d", "--debug", "Enable debugging") do
             options[:debug] = true
           end
-          opts.on_tail("-h", "--help", "Show this message") do
+          opts.on_tail("-h", "--help", "Show this help message") do
             puts opts
             exit
           end
           opts.on_tail('-v', '--version', "Show version") do
-            puts "VISOR Meta Server v#{Visor::Meta::VERSION}"
+            puts "visor-meta #{Visor::Meta::VERSION}"
             exit
           end
         end

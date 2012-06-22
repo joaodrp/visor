@@ -38,6 +38,8 @@ module Visor
           return exit_error(403, e.message)
         rescue NotFound => e
           return exit_error(404, e.message)
+        rescue InternalError => e
+          exit_error(503, e.message)
         end
 
         custom  = {'Content-Type' => 'application/octet-stream', 'X-Stream' => 'Goliath'}

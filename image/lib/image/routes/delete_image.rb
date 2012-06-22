@@ -41,6 +41,8 @@ module Visor
         exit_error(403, e.message)
       rescue NotFound => e
         exit_error(404, e.message)
+      rescue InternalError => e
+        exit_error(503, e.message)
       else
         [200, {}, {image: meta}]
       end

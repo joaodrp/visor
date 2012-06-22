@@ -48,9 +48,9 @@ class VisorCLI
 
       opts.separator ""
       opts.separator "Commands:"
-      opts.separator "     brief          Show brief metadata of all public images"
-      opts.separator "     detail         Show detailed metadata of all public images"
-      opts.separator "     head           Show image detailed metadata"
+      opts.separator "     brief          Show brief metadata of all public and user's private images"
+      opts.separator "     detail         Show detailed metadata of all public and user's private images"
+      opts.separator "     head           Show an image detailed metadata"
       opts.separator "     get            Retrieve an image metadata and file"
       opts.separator "     add            Add a new image metadata and optionally upload its file"
       opts.separator "     update         Update an image metadata and/or upload its file"
@@ -61,8 +61,8 @@ class VisorCLI
 
       opts.separator ""
       opts.separator "Options:"
-      opts.on("-a", "--address HOST", "Address of VISoR Image host (default: #{options[:host]})") { |addr| options[:host] = addr }
-      opts.on("-p", "--port PORT", "Port were VISoR Image host listens (default: #{options[:port]})") { |port| options[:port] = port }
+      opts.on("-a", "--address HOST", "Address of the VISOR Image System server (default: #{options[:host]})") { |addr| options[:host] = addr }
+      opts.on("-p", "--port PORT", "Port where the VISOR Image System server listens (default: #{options[:port]})") { |port| options[:port] = port }
       opts.on("-q", "--query QUERY", "HTTP query like string to filter results") do |query|
         begin
           options[:query] = URI.decode_www_form(query)
@@ -83,10 +83,9 @@ class VisorCLI
 
       opts.separator ""
       opts.separator "Common options:"
-      opts.on_tail("-D", "--dry-run", "Don't persist results, just print what would it do") { options[:dry] = true }
       opts.on_tail('-v', '--verbose', "Enable verbose") { options[:verbose] = true }
       opts.on_tail("-h", "--help", "Show this help message") { puts opts; exit 0 }
-      opts.on_tail('-V', '--version', "Show version") { puts "VISoR Image CLI v#{VERSION}"; exit 0 }
+      opts.on_tail('-V', '--version', "Show version") { puts "visor CLI #{VERSION}"; exit 0 }
     end
   end
 
@@ -100,25 +99,33 @@ class VisorCLI
   def run!
     abort parser.to_s if command.nil?
     start = Time.now
-    case command
-    when 'brief' then
-      brief
-    when 'detail' then
-      detail
-    when 'head' then
-      head
-    when 'get' then
-      get
-    when 'add' then
-      add
-    when 'update' then
-      update
-    when 'delete' then
-      delete
-    when 'help' then
-      help
-    else
-      abort "Unknown command '#{command}'"
+    begin
+      case command
+      when 'brief' then
+        brief
+      when 'detail' then
+        detail
+      when 'head' then
+        head
+      when 'get' then
+        get
+      when 'add' then
+        add
+      when 'update' then
+        update
+      when 'delete' then
+        delete
+      when 'help' then
+        help
+      else
+        abort "Unknown command '#{command}'"
+      end
+    rescue NotFound => e
+      puts e.message
+    rescue Errno::ECONNREFUSED
+      abort "Failure while executing '#{command}': VISOR Image System server not found. Is it running?"
+    rescue => e
+      abort "Failure while executing '#{command}': #{e.message}"
     end
     finish = Time.now
     printf("Done in %-0.4f seconds", finish - start) if verbose?
@@ -137,10 +144,6 @@ class VisorCLI
     images.each do |image|
       printf(str, image[:_id], image[:name], image[:architecture], image[:type] || '-', image[:format] || '-', image[:store] || '-', image[:size] || '-')
     end
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'brief':\n#{e.message}"
   end
 
   # Show detailed metadata of all public images
@@ -152,10 +155,6 @@ class VisorCLI
       puts('-'*80)
       print_meta(image, false)
     end
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'detail':\n#{e.message}"
   end
 
   # Show image detailed metadata
@@ -164,10 +163,6 @@ class VisorCLI
     abort "No image ID provided as first argument, please provide it." unless id
     image = client.head_image(id)
     print_meta(image)
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'head':\n#{e.message}"
   end
 
   # Retrieve an image metadata and file
@@ -199,10 +194,6 @@ class VisorCLI
     end
     pbar.finish
     file.close
-  rescue NotFound => e
-    puts e.message
-  rescue => e
-    abort "Failure while executing 'get':\n#{e.message}"
   end
 
 # Add a new image metadata and optionally upload its file
@@ -214,17 +205,11 @@ class VisorCLI
       puts "Adding new metadata and uploading file..."
     end
 
-    begin
-      meta  = parse_meta_from_args
-      image = client.post_image(meta, file)
-      puts "Successfully added new metadata and image with ID #{image[:_id]}." if file
-      puts "Successfully added new metadata with ID #{image[:_id]}." unless file
-      print_meta(image)
-    rescue NotFound => e
-      puts e.message
-    rescue => e
-      abort "Failure while executing 'add':\n#{e.message}"
-    end
+    meta  = parse_meta_from_args
+    image = client.post_image(meta, file)
+    puts "Successfully added new metadata and image with ID #{image[:_id]}." if file
+    puts "Successfully added new metadata with ID #{image[:_id]}." unless file
+    print_meta(image)
   end
 
 # Update an image metadata and/or upload its file
@@ -238,37 +223,25 @@ class VisorCLI
       puts "Updating metadata and uploading file..."
     end
 
-    begin
-      meta  = parse_meta_from_args
-      image = client.put_image(id, meta, file)
-      puts "Successfully updated and uploaded image #{id}." if file
-      puts "Successfully updated image #{id}." unless file
-      print_meta(image) if verbose?
-    rescue NotFound => e
-      puts e.message
-    rescue => e
-      abort "Failure while executing 'update':\n#{e.message}"
-    end
+    meta  = parse_meta_from_args
+    image = client.put_image(id, meta, file)
+    puts "Successfully updated and uploaded image #{id}." if file
+    puts "Successfully updated image #{id}." unless file
+    print_meta(image) if verbose?
   end
 
 # Delete an image metadata and its file
   def delete
-    begin
-      if query = options[:query]
-        result = client.delete_by_query(query)
-        result.each { |image| puts "Successfully deleted image #{image[:_id]}." }
-      else
-        argv.each do |id|
-          abort "No image ID provided as first argument, please provide it." unless id
-          image = client.delete_image(id)
-          puts "Successfully deleted image #{id}."
-          print_meta(image) if verbose?
-        end
+    if query = options[:query]
+      result = client.delete_by_query(query)
+      result.each { |image| puts "Successfully deleted image #{image[:_id]}." }
+    else
+      argv.each do |id|
+        abort "No image ID provided as first argument, please provide it." unless id
+        image = client.delete_image(id)
+        puts "Successfully deleted image #{id}."
+        print_meta(image) if verbose?
       end
-    rescue NotFound => e
-      puts e.message
-    rescue => e
-      abort "Failure while executing 'delete':\n#{e.message}"
     end
   end
 

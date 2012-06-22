@@ -82,7 +82,7 @@ module Visor
         rescue InternalError => e
           body.close if body
           body.unlink if body
-          return exit_error(500, e.message)
+          return exit_error(503, e.message)
         end unless meta.empty?
 
         # if has body(image file), upload file and update meta or raise on error
@@ -96,6 +96,8 @@ module Visor
           return exit_error(409, e.message)
         rescue Duplicated => e
           return exit_error(409, e.message, true)
+        rescue InternalError => e
+          return exit_error(503, e.message, true)
         ensure
           body.close
           body.unlink

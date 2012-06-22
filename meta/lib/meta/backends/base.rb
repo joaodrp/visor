@@ -29,7 +29,7 @@ module Visor::Meta
       # Access options
       ACCESS       = %w[public private]
       # Possible disk formats
-      FORMAT       = %w[iso vhd vdi vmdk ovf ami aki ari]
+      FORMAT       = %w[iso vhd vdi vmdk ami aki ari]
       # Possible types
       TYPE         = %w[kernel ramdisk machine]
       # Possible status
