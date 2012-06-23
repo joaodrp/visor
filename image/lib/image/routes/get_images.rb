@@ -30,6 +30,7 @@ module Visor
       def response(env)
         access_key = authorize(env, vas)
         meta = vms.get_images(params, access_key)
+        env.params.delete('format')
         [200, {}, {images: meta}]
       rescue Forbidden => e
         exit_error(403, e.message)
