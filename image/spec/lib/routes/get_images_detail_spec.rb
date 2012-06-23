@@ -6,16 +6,17 @@ describe Visor::Image::Server do
   let(:err) { Proc.new { fail "API request failed" } }
   let(:accept_json) { {'Accept' => 'application/json'} }
   let(:accept_xml) { {'Accept' => 'application/xml'} }
+  let(:address) {"0.0.0.0:0000"}
   let(:parse_opts) { {symbolize_names: true} }
   let(:valid_post) { {name: 'server_spec', architecture: 'i386', access: 'public'} }
   let(:api_options) { {config: File.expand_path(File.join(File.dirname(__FILE__), '../../../', 'config/server.rb'))} }
 
   inserted = []
 
-  before(:all) do
+  before(:each) do
     EM.synchrony do
-      inserted << DB.post_image(valid_post)[:_id]
-      inserted << DB.post_image(valid_post.merge(architecture: 'x86_64'))[:_id]
+      inserted << DB.post_image(valid_post, address)[:_id]
+      inserted << DB.post_image(valid_post.merge(architecture: 'x86_64'), address)[:_id]
       EM.stop
     end
   end
@@ -74,10 +75,10 @@ describe Visor::Image::Server do
 
     it "should accept filter query parameters" do
       with_api(test_api, api_options) do
-        get_request({path: '/images/detail', head: accept_json, query: {architecture: 'i386'}}, err) do |c|
+        get_request({path: '/images/detail', head: accept_json, query: {architecture: 'x86_64'}}, err) do |c|
           body = parse_body c
           body.should be_a Array
-          body.each { |meta| meta[:architecture].should == 'i386' }
+          body.each { |meta| meta[:architecture].should == 'x86_64' }
         end
       end
     end
@@ -88,7 +89,6 @@ describe Visor::Image::Server do
           body = parse_body c
           body.should be_a Array
           body.first[:architecture].should == 'x86_64'
-          body.last[:architecture].should == 'i386'
         end
       end
     end

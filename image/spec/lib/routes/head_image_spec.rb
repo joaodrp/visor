@@ -4,6 +4,7 @@ describe Visor::Image::Server do
 
   let(:test_api) { Visor::Image::Server }
   let(:err) { Proc.new { fail "API request failed" } }
+  let(:address) {"0.0.0.0:0000"}
   let(:valid_post) { {name: 'server_spec', architecture: 'i386', access: 'public'} }
   let(:api_options) { {config: File.expand_path(File.join(File.dirname(__FILE__), '../../../', 'config/server.rb'))} }
 
@@ -11,7 +12,7 @@ describe Visor::Image::Server do
 
   before(:all) do
     EM.synchrony do
-      inserted << DB.post_image(valid_post)[:_id]
+      inserted << DB.post_image(valid_post, address)[:_id]
       EM.stop
     end
   end

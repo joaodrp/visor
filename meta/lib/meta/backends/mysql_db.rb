@@ -132,7 +132,7 @@ module Visor::Meta
         filters.merge!({access: 'public'}) unless filters[:owner]
         fields = brief ? BRIEF.join(', ') : '*'
 
-        pub = @conn.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)}
+        pub = @conn.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filters)}
                                 ORDER BY #{sort[0]} #{sort[1]}", symbolize_keys: true).to_a
 
         raise NotFound, "No public images found." if pub.empty? && filters.empty?

@@ -158,7 +158,11 @@ module Visor::Meta
       #
       # @return [String] The generated URI.
       #
-      def build_uri(id, vis_address)
+      def build_uri(id, vis_address = nil)
+        if vis_address.nil?
+          conf = Visor::Common::Config.load_config :visor_image
+          vis_address = "#{conf[:bind_host]}:#{conf[:bind_port]}"
+        end
         "http://#{vis_address}/images/#{id}"
       end
 

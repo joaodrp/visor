@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 # Specify your gem's dependencies in meta.gemspec
 #gemspec
-
+gem 'visor-common'
 gem 'sinatra'
 gem 'thin'
 gem 'google_visualr'

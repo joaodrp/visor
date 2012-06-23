@@ -68,7 +68,7 @@ module Visor::Common
 
       it "should return scoped configuration" do
         conf = Config.load_config :default
-        conf.keys.should == sample_conf[:default].keys << :file
+        conf.keys.should == sample_conf[:default].keys << :access_key << :secret_key << :file
       end
 
       it "should raise an exception if an error occurs during parsing" do
@@ -88,7 +88,7 @@ module Visor::Common
       
       it "should set the log level if provided" do
         log = Config.build_logger :visor_meta, sample_conf
-        log.level.should == Logger::DEBUG
+        log.level.should_not == Logger::DEBUG
       end
 
       it "should set the log level to the default if not provided" do

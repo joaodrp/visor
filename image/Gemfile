@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 # Specify your gem's dependencies in meta.gemspec
 #gemspec
+gem 'visor-common'
 gem 'goliath', :git => 'https://github.com/postrank-labs/goliath.git'
 gem 'em-http-request', :git => 'https://github.com/igrigorik/em-http-request.git'
 gem 's3restful'

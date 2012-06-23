@@ -129,7 +129,7 @@ module Visor::Meta::Backends
     
     describe "#build_uri" do
       it "should build a new URI" do
-        uri = @base.build_uri('some_id')
+        uri = @base.build_uri('some_id', 'localhost:1111')
         uri.should be_a String
         uri =~ %r{^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/}ix
       end

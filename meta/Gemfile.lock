@@ -51,6 +51,7 @@ GEM
       sinatra-contrib
     thor (0.14.6)
     tilt (1.3.3)
+    visor-common (0.0.1)
     yard (0.7.5)
 
 PLATFORMS
@@ -69,4 +70,5 @@ DEPENDENCIES
   simplecov
   sinatra
   sinatra-reloader
+  visor-common
   yard

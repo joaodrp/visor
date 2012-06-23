@@ -30,7 +30,7 @@ describe Visor::Meta::Server do
   end
 
   before(:each) do
-    post '/images', valid_post.to_json
+    post '/images', valid_post.to_json, 'USER-AGENT' => "Test - 0.0.0.0:1111"
     @valid_id = JSON.parse(last_response.body, parse_opts)[:image][:_id]
     inserted_ids << @valid_id
   end

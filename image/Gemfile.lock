@@ -10,13 +10,6 @@ GIT
       http_parser.rb (>= 0.5.3)
 
 GIT
-  remote: https://github.com/joaodrp/happening.git
-  revision: 6a47f9564e91b56abe7665bdc137399dc4f23ab9
-  specs:
-    happening (0.2.5)
-      em-http-request
-
-GIT
   remote: https://github.com/postrank-labs/goliath.git
   revision: f7a24c3d3df6d7e23461c8b425874f5184f5c98d
   specs:
@@ -78,6 +71,8 @@ GEM
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.9.0)
     ruby_gntp (0.3.4)
+    s3restful (0.2.7)
+      em-http-request (~> 1.0.2)
     simplecov (0.6.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
@@ -85,6 +80,7 @@ GEM
     thor (0.14.6)
     url_mount (0.2.1)
       rack
+    visor-common (0.0.1)
     yard (0.7.5)
 
 PLATFORMS
@@ -95,10 +91,11 @@ DEPENDENCIES
   goliath!
   guard
   guard-rspec
-  happening!
   progressbar
   rdiscount
   rspec
   ruby_gntp
+  s3restful
   simplecov
+  visor-common
   yard

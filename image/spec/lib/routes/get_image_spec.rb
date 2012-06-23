@@ -5,7 +5,7 @@ describe Visor::Image::Server do
 
   let(:test_api) { Visor::Image::Server }
   let(:err) { Proc.new { fail "API request failed" } }
-
+  let(:address) {"0.0.0.0:0000"}
   let(:accept_json) { {'Accept' => 'application/json'} }
   let(:accept_xml) { {'Accept' => 'application/xml'} }
 
@@ -17,7 +17,7 @@ describe Visor::Image::Server do
 
   before(:each) do
     EM.synchrony do
-      inserted << DB.post_image(valid_post)[:_id]
+      inserted << DB.post_image(valid_post, address)[:_id]
       EM.stop
     end
   end

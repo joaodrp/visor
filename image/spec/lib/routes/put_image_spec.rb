@@ -8,6 +8,7 @@ describe Visor::Image::Server do
 
   let(:accept_json) { {'Accept' => 'application/json'} }
   let(:accept_xml) { {'Accept' => 'application/xml'} }
+  let(:address) {"0.0.0.0:0000"}
 
   let(:parse_opts) { {symbolize_names: true} }
   let(:valid_post) { {name: 'server_spec', architecture: 'i386', access: 'public'} }
@@ -18,7 +19,7 @@ describe Visor::Image::Server do
 
   before(:all) do
     EM.synchrony do
-      inserted << DB.post_image(valid_post)[:_id]
+      inserted << DB.post_image(valid_post, address)[:_id]
       EM.stop
     end
     @id = inserted.sample
