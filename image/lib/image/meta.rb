@@ -44,18 +44,9 @@ module Visor
       # @raise [NotFound] If there are no public images registered on the server.
       #
       def get_images(query = {}, owner=nil)
-        http    = request.get path: '/images', query: query.merge({access: 'public'}), head: get_headers
-        pub = return_response(http)
-        priv = []
-        if owner
-          http = request.get path: '/images', query: query.merge({access: 'private', owner: owner}), head: get_headers
-          begin
-            priv = return_response(http)
-          rescue => e
-            nil
-          end
-        end
-        pub + priv
+        query.merge!(owner: owner) if owner
+        http = request.get path: '/images', query: query, head: get_headers
+        return_response(http)
       end
 
       # Retrieves detailed metadata of all public images.
@@ -74,18 +65,9 @@ module Visor
       # @raise [NotFound] If there are no public images registered on the server.
       #
       def get_images_detail(query = {}, owner=nil)
+        query.merge!(owner: owner) if owner
         http = request.get path: '/images/detail', query: query, head: get_headers
-        pub = return_response(http)
-        priv = []
-        if owner
-          http = request.get path: '/images/detail', query: query.merge({access: 'private', owner: owner}), head: get_headers
-          begin
-            priv = return_response(http)
-          rescue => e
-            nil
-          end
-        end
-        pub + priv
+        return_response(http)
       end
 
       # Retrieves detailed image metadata of the image with the given id.
@@ -213,13 +195,13 @@ module Visor
       end
 
       def put_headers
-        {'User-Agent' => "VISOR Image System",
+        {'User-Agent'   => "VISOR Image System",
          'Accept'       => 'application/json',
          'content-type' => 'application/json'}
       end
 
       def post_headers(address)
-        {'User-Agent' => "VISOR Image System - #{address}",
+        {'User-Agent'   => "VISOR Image System - #{address}",
          'Accept'       => 'application/json',
          'content-type' => 'application/json'}
       end
