@@ -218,7 +218,8 @@ module Visor
       post '/images' do
         begin
           meta  = JSON.parse(request.body.read, @parse_opts)
-          image = DB.post_image(meta[:image])
+          vis_address = request.user_agent.split(' - ').last
+          image = DB.post_image(meta[:image], :vis_address => vis_address)
           {image: image}.to_json
         rescue NotFound => e
           json_error 404, e.message

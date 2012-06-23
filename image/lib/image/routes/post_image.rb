@@ -129,7 +129,7 @@ module Visor
       # @return [Hash] The already inserted image metadata.
       #
       def insert_meta(meta)
-        image     = vms.post_image(meta)
+        image     = vms.post_image(meta, address)
         env['id'] = image[:_id]
 
         if image[:location]

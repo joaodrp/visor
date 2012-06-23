@@ -133,12 +133,12 @@ module Visor::Meta
       # @return [Hash] The image metadata filled with protected fields values.
       #
       def set_protected_post(meta, opts = {})
-        owner, size = opts[:owner], opts[:size]
+        owner, size, vis_address = opts[:owner], opts[:size], opts[:vis_address]
         meta.merge!(_id: SecureRandom.uuid)
         meta.merge!(access: 'public') unless meta[:access]
         meta.merge!(owner: owner) if owner
         meta.merge!(size: size) if size
-        meta.merge!(created_at: Time.now, uri: build_uri(meta[:_id]), status: 'locked')
+        meta.merge!(created_at: Time.now, uri: build_uri(meta[:_id], vis_address), status: 'locked')
       end
 
       # Set protected fields value from a get operation.
@@ -146,7 +146,7 @@ module Visor::Meta
       #
       # @param [Hash] meta The image metadata update.
       #
-      # @return [Hash] The image metadata update with protected fields setted.
+      # @return [Hash] The image metadata update with protected fields set.
       #
       def set_protected_put(meta)
         meta.merge!(updated_at: Time.now)
@@ -158,11 +158,8 @@ module Visor::Meta
       #
       # @return [String] The generated URI.
       #
-      def build_uri(id)
-        conf = Visor::Common::Config.load_config :visor_image
-        host = conf[:bind_host] || Visor::Meta::Server::DEFAULT_HOST
-        port = conf[:bind_port] || Visor::Meta::Server::DEFAULT_PORT
-        "http://#{host}:#{port}/images/#{id}"
+      def build_uri(id, vis_address)
+        "http://#{vis_address}/images/#{id}"
       end
 
       # Serializes with JSON and encapsulate additional (not on the table schema) image attributes

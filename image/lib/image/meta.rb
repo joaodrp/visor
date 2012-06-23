@@ -109,9 +109,9 @@ module Visor
       #
       # @raise [Invalid] If image meta validation fails.
       #
-      def post_image(meta)
+      def post_image(meta, address)
         body = prepare_body(meta)
-        http = request.post path: '/images', body: body, head: post_headers
+        http = request.post path: '/images', body: body, head: post_headers(address)
         return_response(http)
       end
 
@@ -212,14 +212,19 @@ module Visor
          'Accept'     => 'application/json'}
       end
 
-      def post_headers
-        {'User-Agent' => 'VISOR Image System',
+      def put_headers
+        {'User-Agent' => "VISOR Image System",
+         'Accept'       => 'application/json',
+         'content-type' => 'application/json'}
+      end
+
+      def post_headers(address)
+        {'User-Agent' => "VISOR Image System - #{address}",
          'Accept'       => 'application/json',
          'content-type' => 'application/json'}
       end
 
       alias :delete_headers :get_headers
-      alias :put_headers :post_headers
     end
   end
 end

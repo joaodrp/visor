@@ -12,3 +12,4 @@ logger.level      = (log_level == 'INFO' ? 1 : 0)
 config['vms']     = Visor::Image::Meta.new(host: meta_host, port: meta_port)
 config['vas']     = Visor::Image::Auth.new(host: auth_host, port: auth_port)
 config['configs'] = conf[:visor_store]
+config['address'] = "#{conf[:visor_image][:bind_host]}:#{conf[:visor_image][:bind_port]}"
