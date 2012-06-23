@@ -35,15 +35,13 @@ module Visor
             @secret_key = @uri.password
             @bucket     = @uri.path.split('/')[1]
             @file       = @uri.path.split('/')[2]
-            @host       = @uri.host
-            @port       = @uri.port
           else
             @access_key = @config[:access_key]
             @secret_key = @config[:secret_key]
             @bucket     = @config[:bucket]
-            @host       = @config[:host]
-            @port       = @config[:port]
           end
+          @host = 'lcs.lunacloud.com'
+          @port = 80
         end
 
         # Returns a Happening library S3 Lunacloud compatible connection object.
@@ -52,7 +50,7 @@ module Visor
         #
         def connection
           S3restful::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',
-                                  aws_access_key_id: access_key, aws_secret_access_key: secret_key)
+                                  aws_access_key_id:    access_key, aws_secret_access_key: secret_key)
         end
 
         # Returns the image file to clients, streamed in chunks.

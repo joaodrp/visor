@@ -167,7 +167,7 @@ You can filter results based on a query using the --query (-q) option.
 
 Examples:
   $ visor-admin list
-  $ visor-admin list --query email=foo@bar.com]
+  $ visor-admin list --query 'access_key=foo&email=foo@bar.com']
     when :get
       puts %q[Usage: visor-admin get <ACCESS KEY> [options]
 

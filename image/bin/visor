@@ -124,8 +124,8 @@ class VisorCLI
       puts e.message
     rescue Errno::ECONNREFUSED
       abort "Failure while executing '#{command}': VISOR Image System server not found. Is it running?"
-    rescue => e
-      abort "Failure while executing '#{command}': #{e.message}"
+    #rescue => e
+    #  abort "Failure while executing '#{command}': #{e.message}"
     end
     finish = Time.now
     printf("Done in %-0.4f seconds\n", finish - start) if verbose?
