@@ -36,7 +36,7 @@ module Visor
         # @return [Object] Yields the file, a chunk at time.
         #
         def get
-          http   = EventMachine::HttpRequest.new(uri).get
+          http   = EventMachine::HttpRequest.new(uri).aget
           finish = proc { yield nil }
 
           http.stream { |chunk| yield chunk }

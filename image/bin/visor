@@ -128,18 +128,18 @@ class VisorCLI
       abort "Failure while executing '#{command}': #{e.message}"
     end
     finish = Time.now
-    printf("Done in %-0.4f seconds", finish - start) if verbose?
+    printf("Done in %-0.4f seconds\n", finish - start) if verbose?
     exit 0
   end
 
   # Show brief metadata of all public images
   def brief
-    str    = "%-37s %-17s %-13s %-10s %-8s %-10s %-10s\n"
+    str    = "%-37s %-22s %-13s %-10s %-8s %-10s %-10s\n"
     images = client.get_images(options[:query])
 
     puts "Found #{images.size} images records..."
     printf(str, 'ID', 'NAME', 'ARCHITECTURE', 'TYPE', 'FORMAT', 'STORE', 'SIZE')
-    puts "#{'-'*36+"  "+'-'*16+"  "+'-'*12+"  "+'-'*9+"  "+'-'*6+"  "+'-'*10+"  "+'-'*10}"
+    puts "#{'-'*36+"  "+'-'*21+"  "+'-'*12+"  "+'-'*9+"  "+'-'*6+"  "+'-'*10+"  "+'-'*10}"
 
     images.each do |image|
       printf(str, image[:_id], image[:name], image[:architecture], image[:type] || '-', image[:format] || '-', image[:store] || '-', image[:size] || '-')
@@ -176,7 +176,7 @@ class VisorCLI
     fp   = File.expand_path(File.join(path, "#{id}.#{image[:format] || 'none'}"))
 
     raise "Cannot locate directory '#{path}'." unless Dir.exists? path
-    #raise "File #{fp} already exists." if File.exists? fp  #TODO: restore this
+    raise "File #{fp} already exists." if File.exists? fp
 
     if File.exists? fp
       require "securerandom"
@@ -262,7 +262,7 @@ It's possible to sort and order results with the --sort (-s) and --dir (-d) opti
 Examples:
   $ visor brief --query 'architecture=i386'
   $ visor brief --query 'architecture=i386&format=iso'
-  $ visor detail --sort name --dir desc]
+  $ visor brief --sort name --dir desc]
     when :detail
       %q[Usage: visor detail [options]
 
