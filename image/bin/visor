@@ -55,7 +55,6 @@ class VisorCLI
       opts.separator "     add            Add a new image metadata and optionally upload its file"
       opts.separator "     update         Update an image metadata and/or upload its file"
       opts.separator "     delete         Delete an image metadata and its file"
-      opts.separator "     clean          Delete all images metadata and files"
       opts.separator "     help <cmd>     Show help message for one of the above commands"
 
 

@@ -129,7 +129,7 @@ module Visor::Meta
         validate_query_filters filters unless filters.empty?
 
         sort   = [(filters.delete(:sort) || '_id'), (filters.delete(:dir) || 'asc')]
-        filter = {access: 'public'}.merge(filters)
+        filters.merge!({access: 'public'}) unless filters[:owner]
         fields = brief ? BRIEF.join(', ') : '*'
 
         pub = @conn.query("SELECT #{fields} FROM images WHERE #{to_sql_where(filter)}
