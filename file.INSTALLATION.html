@@ -72,7 +72,14 @@
 <p><img src="http://joaodrp.com/img/visor_install.png" alt="VISOR deployment" /></p>
 
 <ul>
-<li><p><strong>Server 1:</strong> This machine will host the VISOR Image System (VIS), which is VISOR’s core and client’s front-end. The VIS server application will create a log file in which it will log operations. This machine will also comprise a VISOR configuration file, which will contain the necessary configuration options for customizing VIS.</p></li>
+<li><strong>Server 1:</strong> This machine will host the VISOR Image System (VIS), which is VISOR’s core and client’s front-end. The VIS server application will create a log file in which it will log operations. This machine will also comprise a VISOR configuration file, which will contain the necessary configuration options for customizing VIS.</li>
+</ul>
+
+
+<br/>
+
+
+<ul>
 <li><p><strong>Server 2:</strong> This server will host both VISOR Meta System (VMS) and VISOR Auth System (VAS). Therefore, as they live in the same machine, they will use an underlying database to store both user accounts and image metadata. Both VMS and VAS will log to a local logging file. This server will host another VISOR configuration file which will contain the necessary parameters to configure both VMS and VAS.</p></li>
 <li><p><strong>Client:</strong> The Client machine will host the VIS CLI, which will communicate with the VIS server hosted in Server 1. It will also contain a VISOR configuration file, including the necessary parameters to configure the VIS CLI.</p></li>
 </ul>
@@ -694,7 +701,7 @@ visor_image:
 </div></div>
 
     <div id="footer">
-  Generated on Sun Jun 24 14:50:01 2012 by
+  Generated on Sun Jun 24 14:51:37 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>
