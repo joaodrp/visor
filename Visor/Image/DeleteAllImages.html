@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (D)</a> &raquo; 
+    <a href="../../_index.html">Index (D)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Image.html" title="Visor::Image (module)">Image</a></span></span>
      &raquo; 
     <span class="title">DeleteAllImages</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Image::DeleteAllImages
   
   
@@ -138,6 +145,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -153,6 +161,7 @@
 
     
   </span>
+  
   
   
   
@@ -183,6 +192,7 @@ variable.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -200,31 +210,34 @@ variable.</p>
   
   
   
+  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="exit_error-instance_method">
+  <h3 class="signature first" id="exit_error-instance_method">
   
     - (<tt>Object</tt>) <strong>exit_error</strong>(code, message) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-33
-34
 35
-36</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_all_images.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_all_images.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='id identifier rubyid_message'>message</span>
@@ -236,13 +249,15 @@ variable.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="on_headers-instance_method">
+  <h3 class="signature " id="on_headers-instance_method">
   
     - (<tt>Object</tt>) <strong>on_headers</strong>(env, headers) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Pre-process headers as they arrive and load them into a environment
@@ -252,7 +267,7 @@ variable.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -314,13 +329,15 @@ variable.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="response-instance_method">
+  <h3 class="signature " id="response-instance_method">
   
     - (<tt>Object</tt>) <strong>response</strong>(env) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -335,7 +352,9 @@ variable.</p>
 28
 29
 30
-31</pre>
+31
+32
+33</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'image/lib/image/routes/delete_all_images.rb', line 22</span>
@@ -349,6 +368,8 @@ variable.</p>
   <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>403</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
   <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+<span class='kw'>rescue</span> <span class='const'>InternalError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>503</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -358,11 +379,11 @@ variable.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:52 2012 by 
+  Generated on Sun Jun 24 12:30:48 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

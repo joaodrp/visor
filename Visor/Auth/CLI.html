@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (C)</a> &raquo; 
+    <a href="../../_index.html">Index (C)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Auth.html" title="Visor::Auth (module)">Auth</a></span></span>
      &raquo; 
     <span class="title">CLI</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Auth::CLI
   
   
@@ -212,7 +219,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -238,7 +248,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -264,7 +277,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -290,7 +306,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -316,7 +335,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -342,7 +364,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -368,7 +393,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -394,7 +422,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -420,7 +451,10 @@
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -459,6 +493,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -484,6 +519,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -501,6 +537,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -522,6 +559,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -549,6 +587,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -564,6 +603,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -587,6 +627,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -606,6 +647,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -629,6 +671,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -648,6 +691,7 @@
 
     
   </span>
+  
   
     <span class="note title constructor">constructor</span>
   
@@ -675,6 +719,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -700,6 +745,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -717,6 +763,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -740,6 +787,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -759,6 +807,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -782,6 +831,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -801,6 +851,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -824,6 +875,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -843,6 +895,7 @@
 
     
   </span>
+  
   
   
   
@@ -872,6 +925,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -889,6 +943,7 @@
 
     
   </span>
+  
   
   
   
@@ -914,6 +969,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -935,6 +991,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -954,6 +1011,7 @@
 
     
   </span>
+  
   
   
   
@@ -983,6 +1041,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -1000,6 +1059,7 @@
 
     
   </span>
+  
   
   
   
@@ -1025,6 +1085,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -1044,6 +1105,7 @@
 
     
   </span>
+  
   
   
   <span class="note title protected">protected</span>
@@ -1067,6 +1129,7 @@
   </span>
   
   
+  
   <span class="note title protected">protected</span>
   
   
@@ -1085,13 +1148,15 @@
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
-  <p class="signature first" id="initialize-instance_method">
+  <h3 class="signature first" id="initialize-instance_method">
   
     - (<tt><span class='object_link'><a href="" title="Visor::Auth::CLI (class)">CLI</a></span></tt>) <strong>initialize</strong>(app, cli_name, argv = ARGV) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Initialize a CLI</p>
@@ -1142,13 +1207,15 @@
       <span id=""></span>
       <span id="app-instance_method"></span>
       <div class="method_details first">
-  <p class="signature first" id="app-instance_method">
+  <h3 class="signature first" id="app-instance_method">
   
     - (<tt>Object</tt>) <strong>app</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute app</p>
@@ -1184,13 +1251,15 @@
       <span id=""></span>
       <span id="argv-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="argv-instance_method">
+  <h3 class="signature " id="argv-instance_method">
   
     - (<tt>Object</tt>) <strong>argv</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute argv</p>
@@ -1226,13 +1295,15 @@
       <span id=""></span>
       <span id="cli_name-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="cli_name-instance_method">
+  <h3 class="signature " id="cli_name-instance_method">
   
     - (<tt>Object</tt>) <strong>cli_name</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute cli_name</p>
@@ -1268,13 +1339,15 @@
       <span id=""></span>
       <span id="command-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="command-instance_method">
+  <h3 class="signature " id="command-instance_method">
   
     - (<tt>Object</tt>) <strong>command</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute command</p>
@@ -1310,13 +1383,15 @@
       <span id=""></span>
       <span id="env-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="env-instance_method">
+  <h3 class="signature " id="env-instance_method">
   
     - (<tt>Object</tt>) <strong>env</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute env</p>
@@ -1352,13 +1427,15 @@
       <span id=""></span>
       <span id="host-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="host-instance_method">
+  <h3 class="signature " id="host-instance_method">
   
     - (<tt>Object</tt>) <strong>host</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute host</p>
@@ -1394,13 +1471,15 @@
       <span id=""></span>
       <span id="options-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="options-instance_method">
+  <h3 class="signature " id="options-instance_method">
   
     - (<tt>Object</tt>) <strong>options</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute options</p>
@@ -1436,13 +1515,15 @@
       <span id=""></span>
       <span id="parser-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="parser-instance_method">
+  <h3 class="signature " id="parser-instance_method">
   
     - (<tt>Object</tt>) <strong>parser</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>OptionParser parser</p>
@@ -1461,105 +1542,13 @@
 
 47
 48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95</pre>
+49</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parser'>parser</span>
-  <span class='const'>OptionParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>|</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_banner'>banner</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Usage: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cli_name'>cli_name</span><span class='rbrace'>}</span><span class='tstring_content'> [OPTIONS] COMMAND</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Commands:</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>     start        start the server</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>     stop         stop the server</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>     restart      restart the server</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>     status       current server status</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Options:</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-c</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--config FILE</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Load a custom configuration file</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
-      <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-o</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--host HOST</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>listen on HOST (default: </span><span class='embexpr_beg'>#{</span><span class='const'>DEFAULT_HOST</span><span class='rbrace'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_host'>host</span><span class='op'>|</span>
-      <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_host'>host</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-p</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--port PORT</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>use PORT (default: </span><span class='embexpr_beg'>#{</span><span class='const'>DEFAULT_PORT</span><span class='rbrace'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_port'>port</span><span class='op'>|</span>
-      <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-x</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--no-proxy</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ignore proxy settings if any</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:no_proxy</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-e</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--env ENVIRONMENT</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>use ENVIRONMENT for defaults (default: </span><span class='embexpr_beg'>#{</span><span class='const'>DEFAULT_ENV</span><span class='rbrace'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_env'>env</span><span class='op'>|</span>
-      <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:environment</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-F</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--foreground</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>don't daemonize, run in the foreground</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:foreground</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
-    <span class='kw'>end</span>
-
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_separator'>separator</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Common options:</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on_tail'>on_tail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-d</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--debug</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Set debugging on (with foreground only)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:debug</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on_tail'>on_tail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-h</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--help</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Show this message</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_opts'>opts</span>
-      <span class='id identifier rubyid_exit'>exit</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_on_tail'>on_tail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-v</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>--version</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Show version</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>VISOR Auth Server v</span><span class='embexpr_beg'>#{</span><span class='const'>Visor</span><span class='op'>::</span><span class='const'>Auth</span><span class='op'>::</span><span class='const'>VERSION</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
-      <span class='id identifier rubyid_exit'>exit</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
+  <span class='ivar'>@parser</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1570,13 +1559,15 @@
       <span id=""></span>
       <span id="port-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="port-instance_method">
+  <h3 class="signature " id="port-instance_method">
   
     - (<tt>Object</tt>) <strong>port</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute port</p>
@@ -1613,16 +1604,18 @@
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="can_use_port?-instance_method">
+  <h3 class="signature first" id="can_use_port?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>can_use_port?</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -1630,7 +1623,7 @@
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1650,15 +1643,15 @@
       <pre class="lines">
 
 
+227
+228
+229
 230
 231
-232
-233
-234
-235</pre>
+232</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_can_use_port?'>can_use_port?</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_port_open?'>port_open?</span>
@@ -1672,13 +1665,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="clean-instance_method">
+  <h3 class="signature " id="clean-instance_method">
   
     - (<tt>Object</tt>) <strong>clean</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Remove all files created by the daemon.</p>
@@ -1695,18 +1690,18 @@
       <pre class="lines">
 
 
+129
+130
+131
 132
 133
 134
 135
 136
-137
-138
-139
-140</pre>
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 129</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clean'>clean</span>
   <span class='kw'>begin</span>
@@ -1723,13 +1718,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="daemonize?-instance_method">
+  <h3 class="signature " id="daemonize?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>daemonize?</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -1737,7 +1734,7 @@
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1757,12 +1754,12 @@
       <pre class="lines">
 
 
-248
-249
-250</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 248</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_daemonize?'>daemonize?</span>
   <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:foreground</span><span class='rbracket'>]</span>
@@ -1773,18 +1770,23 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="debug_settings-instance_method">
+  <h3 class="signature " id="debug_settings-instance_method">
   
     - (<tt>Object</tt>) <strong>debug_settings</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+275
+276
+277
 278
 279
 280
@@ -1792,13 +1794,10 @@
 282
 283
 284
-285
-286
-287
-288</pre>
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 275</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_debug_settings'>debug_settings</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Configurations loaded from </span><span class='embexpr_beg'>#{</span><span class='ivar'>@conf</span><span class='lbracket'>[</span><span class='symbol'>:file</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='tstring_end'>&quot;</span></span>
@@ -1817,13 +1816,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="default_opts-instance_method">
+  <h3 class="signature " id="default_opts-instance_method">
   
     - (<tt>Object</tt>) <strong>default_opts</strong> 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -1851,26 +1852,28 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="fetch_pid-instance_method">
+  <h3 class="signature " id="fetch_pid-instance_method">
   
     - (<tt>Object</tt>) <strong>fetch_pid</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+304
+305
+306
 307
-308
-309
-310
-311</pre>
+308</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 307</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 304</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fetch_pid'>fetch_pid</span>
   <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_pid_file'>pid_file</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -1883,26 +1886,28 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="fetch_url-instance_method">
+  <h3 class="signature " id="fetch_url-instance_method">
   
     - (<tt>Object</tt>) <strong>fetch_url</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+310
+311
+312
 313
-314
-315
-316
-317</pre>
+314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 313</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 310</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fetch_url'>fetch_url</span>
   <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_url_file'>url_file</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>//</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
@@ -1915,13 +1920,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="files_exist?-instance_method">
+  <h3 class="signature " id="files_exist?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>files_exist?</strong>(*files)  <span class="extras">(protected)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -1929,7 +1936,7 @@
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1949,13 +1956,13 @@
       <pre class="lines">
 
 
-290
-291
-292
-293</pre>
+287
+288
+289
+290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 290</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 287</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_files_exist?'>files_exist?</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_files'>files</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1967,24 +1974,26 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get_env-instance_method">
+  <h3 class="signature " id="get_env-instance_method">
   
     - (<tt>Object</tt>) <strong>get_env</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-252
-253
-254</pre>
+249
+250
+251</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 249</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_env'>get_env</span>
   <span class='id identifier rubyid_env'>env</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>development</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='id identifier rubyid_env'>env</span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>deployment</span><span class='tstring_end'>'</span></span>
@@ -1995,13 +2004,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="is_it_running?-instance_method">
+  <h3 class="signature " id="is_it_running?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>is_it_running?</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -2009,7 +2020,7 @@
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -2029,19 +2040,19 @@
       <pre class="lines">
 
 
+203
+204
+205
 206
 207
 208
 209
 210
 211
-212
-213
-214
-215</pre>
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 203</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_it_running?'>is_it_running?</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_files_exist?'>files_exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_pid_file'>pid_file</span><span class='comma'>,</span> <span class='id identifier rubyid_url_file'>url_file</span><span class='rparen'>)</span>
@@ -2059,13 +2070,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="launch!-instance_method">
+  <h3 class="signature " id="launch!-instance_method">
   
     - (<tt>Object</tt>) <strong>launch!</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Launch the server</p>
@@ -2082,6 +2095,9 @@
       <pre class="lines">
 
 
+189
+190
+191
 192
 193
 194
@@ -2089,13 +2105,10 @@
 196
 197
 198
-199
-200
-201
-202</pre>
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 189</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_launch!'>launch!</span>
   <span class='id identifier rubyid_put_and_log'>put_and_log</span> <span class='symbol'>:info</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Starting </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cli_name'>cli_name</span><span class='rbrace'>}</span><span class='tstring_content'> at </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_host'>host</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -2114,24 +2127,26 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="load_conf_file-instance_method">
+  <h3 class="signature " id="load_conf_file-instance_method">
   
     - (<tt>Object</tt>) <strong>load_conf_file</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-299
-300
-301</pre>
+296
+297
+298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 299</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 296</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_conf_file'>load_conf_file</span>
   <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Config</span><span class='period'>.</span><span class='id identifier rubyid_load_config'>load_config</span><span class='lparen'>(</span><span class='symbol'>:visor_auth</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -2142,18 +2157,23 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="logger-instance_method">
+  <h3 class="signature " id="logger-instance_method">
   
     - (<tt>Object</tt>) <strong>logger</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+253
+254
+255
 256
 257
 258
@@ -2161,13 +2181,10 @@
 260
 261
 262
-263
-264
-265
-266</pre>
+263</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 256</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 253</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_logger'>logger</span>
   <span class='ivar'>@conf</span> <span class='op'>||=</span> <span class='id identifier rubyid_load_conf_file'>load_conf_file</span>
@@ -2186,25 +2203,27 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="parse!-instance_method">
+  <h3 class="signature " id="parse!-instance_method">
   
     - (<tt>Object</tt>) <strong>parse!</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-273
-274
-275
-276</pre>
+270
+271
+272
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 270</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse!'>parse!</span>
   <span class='id identifier rubyid_parser'>parser</span><span class='period'>.</span><span class='id identifier rubyid_parse!'>parse!</span> <span class='id identifier rubyid_argv'>argv</span>
@@ -2216,24 +2235,26 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="pid_file-instance_method">
+  <h3 class="signature " id="pid_file-instance_method">
   
     - (<tt>Object</tt>) <strong>pid_file</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-319
-320
-321</pre>
+316
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 319</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 316</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pid_file'>pid_file</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>DEFAULT_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_safe_cli_name'>safe_cli_name</span><span class='rbrace'>}</span><span class='tstring_content'>.pid</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -2244,13 +2265,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="port_open?-instance_method">
+  <h3 class="signature " id="port_open?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>port_open?</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -2258,7 +2281,7 @@
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -2278,19 +2301,19 @@
       <pre class="lines">
 
 
+234
+235
+236
 237
 238
 239
 240
 241
 242
-243
-244
-245
-246</pre>
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 234</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port_open?'>port_open?</span>
   <span class='kw'>begin</span>
@@ -2308,25 +2331,27 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="put_and_log-instance_method">
+  <h3 class="signature " id="put_and_log-instance_method">
   
     - (<tt>Object</tt>) <strong>put_and_log</strong>(level, msg)  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-268
-269
-270
-271</pre>
+265
+266
+267
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 265</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_put_and_log'>put_and_log</span><span class='lparen'>(</span><span class='id identifier rubyid_level'>level</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span><span class='rparen'>)</span>
   <span class='const'>STDERR</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_msg'>msg</span>
@@ -2338,13 +2363,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="restart-instance_method">
+  <h3 class="signature " id="restart-instance_method">
   
     - (<tt>Object</tt>) <strong>restart</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Restart server</p>
@@ -2361,15 +2388,15 @@
       <pre class="lines">
 
 
+141
+142
+143
 144
 145
-146
-147
-148
-149</pre>
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_restart'>restart</span>
   <span class='ivar'>@restart</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -2383,13 +2410,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="run!-instance_method">
+  <h3 class="signature " id="run!-instance_method">
   
     - (<tt>Object</tt>) <strong>run!</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Parse the current shell arguments and run the command. Exits on error.</p>
@@ -2406,18 +2435,18 @@
       <pre class="lines">
 
 
+97
+98
+99
 100
 101
 102
 103
 104
-105
-106
-107
-108</pre>
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run!'>run!</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2434,13 +2463,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="run_command-instance_method">
+  <h3 class="signature " id="run_command-instance_method">
   
     - (<tt>Object</tt>) <strong>run_command</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Execute the command</p>
@@ -2457,6 +2488,9 @@
       <pre class="lines">
 
 
+109
+110
+111
 112
 113
 114
@@ -2470,13 +2504,10 @@
 122
 123
 124
-125
-126
-127
-128</pre>
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_command'>run_command</span>
   <span class='kw'>unless</span> <span class='const'>NO_CONF_COMMANDS</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
@@ -2501,13 +2532,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="running?-instance_method">
+  <h3 class="signature " id="running?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>running?</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -2515,7 +2548,7 @@
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -2535,6 +2568,9 @@
       <pre class="lines">
 
 
+214
+215
+216
 217
 218
 219
@@ -2543,13 +2579,10 @@
 222
 223
 224
-225
-226
-227
-228</pre>
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 214</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_running?'>running?</span>
   <span class='kw'>begin</span>
@@ -2569,24 +2602,26 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="safe_cli_name-instance_method">
+  <h3 class="signature " id="safe_cli_name-instance_method">
   
     - (<tt>Object</tt>) <strong>safe_cli_name</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-303
-304
-305</pre>
+300
+301
+302</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 300</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_safe_cli_name'>safe_cli_name</span>
   <span class='id identifier rubyid_cli_name'>cli_name</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -2597,13 +2632,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="start-instance_method">
+  <h3 class="signature " id="start-instance_method">
   
     - (<tt>Object</tt>) <strong>start</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Start the server</p>
@@ -2620,6 +2657,9 @@
       <pre class="lines">
 
 
+174
+175
+176
 177
 178
 179
@@ -2628,13 +2668,10 @@
 182
 183
 184
-185
-186
-187
-188</pre>
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start'>start</span>
   <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_mkpath'>mkpath</span><span class='lparen'>(</span><span class='const'>DEFAULT_DIR</span><span class='rparen'>)</span>
@@ -2654,13 +2691,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="status-instance_method">
+  <h3 class="signature " id="status-instance_method">
   
     - (<tt>Object</tt>) <strong>status</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Display current server status</p>
@@ -2677,16 +2716,16 @@
       <pre class="lines">
 
 
+150
+151
+152
 153
 154
 155
-156
-157
-158
-159</pre>
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_status'>status</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_running?'>running?</span>
@@ -2701,13 +2740,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="stop-instance_method">
+  <h3 class="signature " id="stop-instance_method">
   
     - (<tt>Object</tt>) <strong>stop</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Stop the server</p>
@@ -2724,6 +2765,9 @@
       <pre class="lines">
 
 
+160
+161
+162
 163
 164
 165
@@ -2731,13 +2775,10 @@
 167
 168
 169
-170
-171
-172
-173</pre>
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stop'>stop</span>
   <span class='kw'>begin</span>
@@ -2756,24 +2797,26 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="url-instance_method">
+  <h3 class="signature " id="url-instance_method">
   
     - (<tt>Object</tt>) <strong>url</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-327
-328
-329</pre>
+324
+325
+326</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 324</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_url'>url</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_host'>host</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -2784,24 +2827,26 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="url_file-instance_method">
+  <h3 class="signature " id="url_file-instance_method">
   
     - (<tt>Object</tt>) <strong>url_file</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-323
-324
-325</pre>
+320
+321
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 323</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 320</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_url_file'>url_file</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>DEFAULT_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_safe_cli_name'>safe_cli_name</span><span class='rbrace'>}</span><span class='tstring_content'>.url</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -2812,24 +2857,26 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="write_url-instance_method">
+  <h3 class="signature " id="write_url-instance_method">
   
     - (<tt>Object</tt>) <strong>write_url</strong>  <span class="extras">(protected)</span>
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-295
-296
-297</pre>
+292
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 295</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/cli.rb', line 292</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write_url'>write_url</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_url_file'>url_file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>w</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_url'>url</span> <span class='rbrace'>}</span>
@@ -2842,11 +2889,11 @@
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:48 2012 by 
+  Generated on Sun Jun 24 12:30:42 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

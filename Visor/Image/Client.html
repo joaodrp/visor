@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (C)</a> &raquo; 
+    <a href="../../_index.html">Index (C)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Image.html" title="Visor::Image (module)">Image</a></span></span>
      &raquo; 
     <span class="title">Client</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Image::Client
   
   
@@ -128,7 +135,10 @@ the image server and its store backends.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -154,7 +164,10 @@ the image server and its store backends.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -180,7 +193,10 @@ the image server and its store backends.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -206,7 +222,10 @@ the image server and its store backends.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -232,7 +251,10 @@ the image server and its store backends.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -275,6 +297,7 @@ the image server and its store backends.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -290,6 +313,7 @@ the image server and its store backends.</p>
 
     
   </span>
+  
   
   
   
@@ -319,6 +343,7 @@ the image server and its store backends.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -336,6 +361,7 @@ the image server and its store backends.</p>
 
     
   </span>
+  
   
   
   
@@ -365,6 +391,7 @@ the image server and its store backends.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -388,6 +415,7 @@ the image server and its store backends.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -405,6 +433,7 @@ the image server and its store backends.</p>
 
     
   </span>
+  
   
     <span class="note title constructor">constructor</span>
   
@@ -436,6 +465,7 @@ the image server and its store backends.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -455,6 +485,7 @@ to the already existing image file, stored somewhere.</p>
 
     
   </span>
+  
   
   
   
@@ -483,9 +514,11 @@ already existing image file, stored somewhere.</p>
   
   
   
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Common/Util.html" title="Visor::Common::Util (module)">Common::Util</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="../Common/Util.html#authorize-instance_method" title="Visor::Common::Util#authorize (method)">#authorize</a></span>, <span class='object_link'><a href="../Common/Util.html#canonical_description-instance_method" title="Visor::Common::Util#canonical_description (method)">#canonical_description</a></span>, <span class='object_link'><a href="../Common/Util.html#is_date%3F-instance_method" title="Visor::Common::Util#is_date? (method)">#is_date?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_float%3F-instance_method" title="Visor::Common::Util#is_float? (method)">#is_float?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_integer%3F-instance_method" title="Visor::Common::Util#is_integer? (method)">#is_integer?</a></span>, <span class='object_link'><a href="../Common/Util.html#parse_value-instance_method" title="Visor::Common::Util#parse_value (method)">#parse_value</a></span>, <span class='object_link'><a href="../Common/Util.html#pull_meta_from_headers-instance_method" title="Visor::Common::Util#pull_meta_from_headers (method)">#pull_meta_from_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#push_meta_into_headers-instance_method" title="Visor::Common::Util#push_meta_into_headers (method)">#push_meta_into_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#sign_request-instance_method" title="Visor::Common::Util#sign_request (method)">#sign_request</a></span></p>
 
+  
   
   
   
@@ -494,13 +527,15 @@ already existing image file, stored somewhere.</p>
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
-  <p class="signature first" id="initialize-instance_method">
+  <h3 class="signature first" id="initialize-instance_method">
   
     - (<tt><span class='object_link'><a href="" title="Visor::Image::Client (class)">Client</a></span></tt>) <strong>initialize</strong>(opts = {}) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Initializes a new new VISoR Image Client.</p>
@@ -511,20 +546,24 @@ already existing image file, stored somewhere.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Instantiate a client with default values:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Instantiate a client with custom host and port:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Image</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>127.0.0.1</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>port:</span> <span class='int'>3000</span><span class='rparen'>)</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -550,7 +589,7 @@ already existing image file, stored somewhere.</p>
   
     
     
-    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
     <ul class="option">
       
         <li>
@@ -562,9 +601,11 @@ already existing image file, stored somewhere.</p>
               <tt>DEFAULT_HOST</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The host address where VISoR image server resides.</p>
 </div>
+          
         </li>
       
         <li>
@@ -576,9 +617,11 @@ already existing image file, stored somewhere.</p>
               <tt>DEFAULT_PORT</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The host port where VISoR image server resides.</p>
 </div>
+          
         </li>
       
         <li>
@@ -590,9 +633,11 @@ already existing image file, stored somewhere.</p>
               <tt>false</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>If the connection should be made through HTTPS (SSL).</p>
 </div>
+          
         </li>
       
     </ul>
@@ -639,13 +684,15 @@ already existing image file, stored somewhere.</p>
       <span id=""></span>
       <span id="access_key-instance_method"></span>
       <div class="method_details first">
-  <p class="signature first" id="access_key-instance_method">
+  <h3 class="signature first" id="access_key-instance_method">
   
     - (<tt>Object</tt>) <strong>access_key</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute access_key</p>
@@ -681,13 +728,15 @@ already existing image file, stored somewhere.</p>
       <span id=""></span>
       <span id="host-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="host-instance_method">
+  <h3 class="signature " id="host-instance_method">
   
     - (<tt>Object</tt>) <strong>host</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute host</p>
@@ -723,13 +772,15 @@ already existing image file, stored somewhere.</p>
       <span id=""></span>
       <span id="port-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="port-instance_method">
+  <h3 class="signature " id="port-instance_method">
   
     - (<tt>Object</tt>) <strong>port</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute port</p>
@@ -765,13 +816,15 @@ already existing image file, stored somewhere.</p>
       <span id=""></span>
       <span id="secret_key-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="secret_key-instance_method">
+  <h3 class="signature " id="secret_key-instance_method">
   
     - (<tt>Object</tt>) <strong>secret_key</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute secret_key</p>
@@ -807,13 +860,15 @@ already existing image file, stored somewhere.</p>
       <span id=""></span>
       <span id="ssl-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="ssl-instance_method">
+  <h3 class="signature " id="ssl-instance_method">
   
     - (<tt>Object</tt>) <strong>ssl</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute ssl</p>
@@ -850,16 +905,18 @@ already existing image file, stored somewhere.</p>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="delete_by_query-instance_method">
+  <h3 class="signature first" id="delete_by_query-instance_method">
   
     - (<tt>Object</tt>) <strong>delete_by_query</strong>(query) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -893,13 +950,15 @@ already existing image file, stored somewhere.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="delete_image-instance_method">
+  <h3 class="signature " id="delete_image-instance_method">
   
     - (<tt>Hash</tt>) <strong>delete_image</strong>(id) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Removes an image record based on its _id and returns its metadata. If the
@@ -912,11 +971,13 @@ source store.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Delete an image metadata:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>66414330-bbb5-42be-8a0e-b336cf6665f4</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># delete the image metadata and file
@@ -942,7 +1003,7 @@ source store.</p>
   <span class='rbrace'>}</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -963,7 +1024,7 @@ source store.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -982,7 +1043,7 @@ delete.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1053,13 +1114,15 @@ delete.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get_image-instance_method">
+  <h3 class="signature " id="get_image-instance_method">
   
     - (<tt>Binary</tt>) <strong>get_image</strong>(id) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Retrieves the file of the image with the given id.</p>
@@ -1073,11 +1136,13 @@ file without buffering it all in memory.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve the image file with _id value:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>5e47a41e-7b94-4f65-824e-28f94e15bc6a</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># ask for that image file
@@ -1086,7 +1151,7 @@ file without buffering it all in memory.</p>
 </span><span class='kw'>end</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1107,7 +1172,7 @@ file without buffering it all in memory.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1125,7 +1190,7 @@ file without buffering it all in memory.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1196,13 +1261,15 @@ file without buffering it all in memory.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get_images-instance_method">
+  <h3 class="signature " id="get_images-instance_method">
   
     - (<tt>Array</tt>) <strong>get_images</strong>(query = {}) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Retrieves brief metadata of all public images. Options for filtering the
@@ -1214,19 +1281,23 @@ returned results can be passed in.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve all public images brief metadata:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code">client.get_images
 
   # returns:
   [&lt;all images brief metadata&gt;]</pre>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve all public 32bit images brief metadata:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images'>get_images</span><span class='lparen'>(</span><span class='label'>architecture:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>i386</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 
   <span class='comment'># returns something like:
@@ -1235,10 +1306,12 @@ returned results can be passed in.</p>
     <span class='lbrace'>{</span><span class='symbol'>:_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>8cb55bb6...</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i386</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ubuntu 11.10 Desktop</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
   <span class='rbracket'>]</span></pre>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve all public 64bit images brief metadata, descending sorted by their
 name:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images'>get_images</span><span class='lparen'>(</span><span class='label'>architecture:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>dir:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>desc</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 
   <span class='comment'># returns something like:
@@ -1248,7 +1321,7 @@ name:</p>
   <span class='rbracket'>]</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1274,7 +1347,7 @@ name:</p>
   
     
     
-    <h3>Options Hash (<tt>query</tt>):</h3>
+    <p class="tag_title">Options Hash (<tt>query</tt>):</p>
     <ul class="option">
       
         <li>
@@ -1283,9 +1356,11 @@ name:</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The image attribute value to filter returned results.</p>
 </div>
+          
         </li>
       
         <li>
@@ -1297,9 +1372,11 @@ name:</p>
               <tt>&quot;_id&quot;</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The image attribute to sort returned results.</p>
 </div>
+          
         </li>
       
         <li>
@@ -1311,15 +1388,17 @@ name:</p>
               <tt>&quot;asc&quot;</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The direction to sort results ("asc"/"desc").</p>
 </div>
+          
         </li>
       
     </ul>
   
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1337,7 +1416,7 @@ name:</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1396,17 +1475,19 @@ name:</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get_images_detail-instance_method">
+  <h3 class="signature " id="get_images_detail-instance_method">
   
     - (<tt>Array</tt>) <strong>get_images_detail</strong>(query = {}) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
   <div class="note notetag">
-    <strong>Note:</strong> 
+    <strong>Note:</strong>
     <div class='inline'>
 <p>Filtering and querying works the same as with <span class='object_link'><a href="#get_images-instance_method" title="Visor::Image::Client#get_images (method)">#get_images</a></span>. The only
 difference is the number</p>
@@ -1424,17 +1505,19 @@ difference is the number</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve all public images detailed metadata:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># request for it
 </span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images_detail'>get_images_detail</span>
 <span class='comment'># returns an array of hashes with all public images metadata.</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1460,7 +1543,7 @@ difference is the number</p>
   
     
     
-    <h3>Options Hash (<tt>query</tt>):</h3>
+    <p class="tag_title">Options Hash (<tt>query</tt>):</p>
     <ul class="option">
       
         <li>
@@ -1469,9 +1552,11 @@ difference is the number</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The image attribute value to filter returned results.</p>
 </div>
+          
         </li>
       
         <li>
@@ -1483,9 +1568,11 @@ difference is the number</p>
               <tt>&quot;_id&quot;</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The image attribute to sort returned results.</p>
 </div>
+          
         </li>
       
         <li>
@@ -1497,15 +1584,17 @@ difference is the number</p>
               <tt>&quot;asc&quot;</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The direction to sort results ("asc"/"desc").</p>
 </div>
+          
         </li>
       
     </ul>
   
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1525,7 +1614,7 @@ from results.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1584,13 +1673,15 @@ from results.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="head_image-instance_method">
+  <h3 class="signature " id="head_image-instance_method">
   
     - (<tt>Hash</tt>) <strong>head_image</strong>(id) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Retrieves detailed image metadata of the image with the given id.</p>
@@ -1601,11 +1692,13 @@ from results.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve the image metadata with _id value:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>5e47a41e-7b94-4f65-824e-28f94e15bc6a</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># ask for that image metadata
@@ -1624,7 +1717,7 @@ from results.</p>
   <span class='rbrace'>}</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1645,7 +1738,7 @@ from results.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1663,7 +1756,7 @@ from results.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1724,17 +1817,19 @@ from results.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="post_image-instance_method">
+  <h3 class="signature " id="post_image-instance_method">
   
     - (<tt>Hash</tt>) <strong>post_image</strong>(meta, file = nil) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
   <div class="note notetag">
-    <strong>Note:</strong> 
+    <strong>Note:</strong>
     <div class='inline'>
 <p>If the :location parameter is passed, you can not pass an image file and
 the other way around too.</p>
@@ -1756,11 +1851,13 @@ both clients and server.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Insert a sample image metadata:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># sample image metadata
 </span><span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>example</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>i386</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
 <span class='comment'># insert the new image metadata
@@ -1777,9 +1874,11 @@ both clients and server.</p>
      <span class='symbol'>:created_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-02-04 16:33:27 +0000</span><span class='tstring_end'>&quot;</span></span>
   <span class='rbrace'>}</span></pre>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Insert a sample image metadata and provide the location of its file:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># sample image poiting to the latest release of Ubuntu Server distro
 </span><span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:name</span>  <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ubuntu Server (Latest)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:format</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iso</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
         <span class='symbol'>:store</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>http</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:location</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>http://www.ubuntu.com/start-download?distro=server&amp;bits=64&amp;release=latest</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
@@ -1803,9 +1902,11 @@ both clients and server.</p>
      <span class='symbol'>:checksum</span>     <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>76264-2aa4b000-4af0618f1b180</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># it will also fetch the remote file checksum or etag
 </span>  <span class='rbrace'>}</span></pre>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Insert a sample image metadata and upload its file:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># sample image metadata
 </span><span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ubuntu 10.04 Server</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:store</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>s3</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:format</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iso</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
 <span class='comment'># sample image file path
@@ -1831,7 +1932,7 @@ both clients and server.</p>
   <span class='rbrace'>}</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1870,7 +1971,7 @@ both clients and server.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1888,7 +1989,7 @@ both clients and server.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -2027,17 +2128,19 @@ both clients and server.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="put_image-instance_method">
+  <h3 class="signature " id="put_image-instance_method">
   
     - (<tt>Hash</tt>) <strong>put_image</strong>(id, meta, file = nil) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
   <div class="note notetag">
-    <strong>Note:</strong> 
+    <strong>Note:</strong>
     <div class='inline'>
 <p>Only images with status set to 'locked' or 'error' can be updated with an
 image data file.</p>
@@ -2059,11 +2162,13 @@ both clients and server.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Update a sample image metadata:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># metadata to update
@@ -2083,9 +2188,11 @@ both clients and server.</p>
      <span class='symbol'>:updated_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-02-04 16:35:10 +0000</span><span class='tstring_end'>&quot;</span></span>
   <span class='rbrace'>}</span></pre>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Update a sample image metadata and provide the location of its file:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># metadata update
@@ -2110,9 +2217,11 @@ both clients and server.</p>
      <span class='symbol'>:updated_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-02-04 16:38:55 +0000</span><span class='tstring_end'>&quot;</span></span>
   <span class='rbrace'>}</span></pre>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Update image metadata and upload its file:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>d5bebdc8-66eb-4450-b8d1-d8127f50779d</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># metadata update
@@ -2140,7 +2249,7 @@ both clients and server.</p>
   <span class='rbrace'>}</span></pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -2195,7 +2304,7 @@ both clients and server.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -2213,7 +2322,7 @@ both clients and server.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -2382,11 +2491,11 @@ both clients and server.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:49 2012 by 
+  Generated on Sun Jun 24 12:30:44 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

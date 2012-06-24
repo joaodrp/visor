@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (P)</a> &raquo; 
+    <a href="../../_index.html">Index (P)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Image.html" title="Visor::Image (module)">Image</a></span></span>
      &raquo; 
     <span class="title">PostImage</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Image::PostImage
   
   
@@ -138,6 +145,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -155,6 +163,7 @@
 
     
   </span>
+  
   
   
   
@@ -184,6 +193,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -201,6 +211,7 @@
 
     
   </span>
+  
   
   
   
@@ -231,6 +242,7 @@ tempfile.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -248,6 +260,7 @@ tempfile.</p>
 
     
   </span>
+  
   
   
   
@@ -278,6 +291,7 @@ variable.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -296,6 +310,7 @@ managing image metadata and file data.</p>
 
     
   </span>
+  
   
   
   
@@ -322,6 +337,7 @@ managing image metadata and file data.</p>
   
   
   
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Common/Util.html" title="Visor::Common::Util (module)">Common::Util</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="../Common/Util.html#authorize-instance_method" title="Visor::Common::Util#authorize (method)">#authorize</a></span>, <span class='object_link'><a href="../Common/Util.html#canonical_description-instance_method" title="Visor::Common::Util#canonical_description (method)">#canonical_description</a></span>, <span class='object_link'><a href="../Common/Util.html#is_date%3F-instance_method" title="Visor::Common::Util#is_date? (method)">#is_date?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_float%3F-instance_method" title="Visor::Common::Util#is_float? (method)">#is_float?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_integer%3F-instance_method" title="Visor::Common::Util#is_integer? (method)">#is_integer?</a></span>, <span class='object_link'><a href="../Common/Util.html#parse_value-instance_method" title="Visor::Common::Util#parse_value (method)">#parse_value</a></span>, <span class='object_link'><a href="../Common/Util.html#pull_meta_from_headers-instance_method" title="Visor::Common::Util#pull_meta_from_headers (method)">#pull_meta_from_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#push_meta_into_headers-instance_method" title="Visor::Common::Util#push_meta_into_headers (method)">#push_meta_into_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#sign_request-instance_method" title="Visor::Common::Util#sign_request (method)">#sign_request</a></span></p>
 
@@ -331,19 +347,22 @@ managing image metadata and file data.</p>
   
   
   
+  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="do_upload-instance_method">
+  <h3 class="signature first" id="do_upload-instance_method">
   
     - (<tt>Array</tt>) <strong>do_upload</strong>(id, meta, body) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Upload image file to wanted store.</p>
@@ -352,7 +371,7 @@ managing image metadata and file data.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -405,7 +424,7 @@ managing image metadata and file data.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -423,7 +442,7 @@ managing image metadata and file data.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -448,8 +467,6 @@ managing image metadata and file data.</p>
       <pre class="lines">
 
 
-173
-174
 175
 176
 177
@@ -460,10 +477,12 @@ managing image metadata and file data.</p>
 182
 183
 184
-185</pre>
+185
+186
+187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 175</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_do_upload'>do_upload</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>headers</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
@@ -484,13 +503,15 @@ managing image metadata and file data.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="exit_error-instance_method">
+  <h3 class="signature " id="exit_error-instance_method">
   
     - (<tt>Array</tt>) <strong>exit_error</strong>(code, message, set_status = false) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Produce an HTTP response with an error code and message.</p>
@@ -499,7 +520,7 @@ managing image metadata and file data.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -554,7 +575,7 @@ managing image metadata and file data.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -579,18 +600,18 @@ managing image metadata and file data.</p>
       <pre class="lines">
 
 
-113
-114
 115
 116
 117
 118
 119
 120
-121</pre>
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_set_status'>set_status</span><span class='op'>=</span><span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='id identifier rubyid_message'>message</span>
@@ -607,13 +628,15 @@ managing image metadata and file data.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="insert_meta-instance_method">
+  <h3 class="signature " id="insert_meta-instance_method">
   
     - (<tt>Hash</tt>) <strong>insert_meta</strong>(meta) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Insert image metadata on database (which set its status to locked).</p>
@@ -622,7 +645,7 @@ managing image metadata and file data.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -643,7 +666,7 @@ managing image metadata and file data.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -668,8 +691,6 @@ managing image metadata and file data.</p>
       <pre class="lines">
 
 
-129
-130
 131
 132
 133
@@ -679,13 +700,15 @@ managing image metadata and file data.</p>
 137
 138
 139
-140</pre>
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert_meta'>insert_meta</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_image'>image</span>     <span class='op'>=</span> <span class='id identifier rubyid_vms'>vms</span><span class='period'>.</span><span class='id identifier rubyid_post_image'>post_image</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_image'>image</span>     <span class='op'>=</span> <span class='id identifier rubyid_vms'>vms</span><span class='period'>.</span><span class='id identifier rubyid_post_image'>post_image</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_image'>image</span><span class='lbracket'>[</span><span class='symbol'>:_id</span><span class='rbracket'>]</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_image'>image</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
@@ -702,13 +725,15 @@ managing image metadata and file data.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="on_body-instance_method">
+  <h3 class="signature " id="on_body-instance_method">
   
     - (<tt>Object</tt>) <strong>on_body</strong>(env, data) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Pre-process body as it arrives in streaming chunks and load them into a
@@ -718,7 +743,7 @@ tempfile.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -780,13 +805,15 @@ tempfile.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="on_close-instance_method">
+  <h3 class="signature " id="on_close-instance_method">
   
     - (<tt>Object</tt>) <strong>on_close</strong>(env) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>On connection close log a message.</p>
@@ -795,7 +822,7 @@ tempfile.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -823,12 +850,12 @@ tempfile.</p>
       <pre class="lines">
 
 
-101
-102
-103</pre>
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_close'>on_close</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Connection closed</span><span class='tstring_end'>'</span></span>
@@ -839,13 +866,15 @@ tempfile.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="on_headers-instance_method">
+  <h3 class="signature " id="on_headers-instance_method">
   
     - (<tt>Object</tt>) <strong>on_headers</strong>(env, headers) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Pre-process headers as they arrive and load them into a environment
@@ -855,7 +884,7 @@ variable.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -917,13 +946,15 @@ variable.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="response-instance_method">
+  <h3 class="signature " id="response-instance_method">
   
     - (<tt>Array</tt>) <strong>response</strong>(env) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Main response method which processes the received headers and body,
@@ -933,7 +964,7 @@ managing image metadata and file data.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -954,7 +985,7 @@ managing image metadata and file data.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1033,7 +1064,9 @@ error code and its message if anything was raised.</p>
 92
 93
 94
-95</pre>
+95
+96
+97</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 42</span>
@@ -1073,7 +1106,7 @@ error code and its message if anything was raised.</p>
   <span class='kw'>rescue</span> <span class='const'>InternalError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_close'>close</span> <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span>
     <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_unlink'>unlink</span> <span class='kw'>if</span> <span class='id identifier rubyid_body'>body</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>500</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>503</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># if has body(image file), upload file and update meta or raise on error
@@ -1085,6 +1118,8 @@ error code and its message if anything was raised.</p>
     <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span> <span class='const'>Duplicated</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>409</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>rescue</span> <span class='const'>InternalError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>503</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='kw'>ensure</span>
     <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_close'>close</span>
     <span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_unlink'>unlink</span>
@@ -1098,13 +1133,15 @@ error code and its message if anything was raised.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="upload_and_update-instance_method">
+  <h3 class="signature " id="upload_and_update-instance_method">
   
     - (<tt>Hash</tt>) <strong>upload_and_update</strong>(id, body) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Update image status and launch upload.</p>
@@ -1113,7 +1150,7 @@ error code and its message if anything was raised.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1150,7 +1187,7 @@ error code and its message if anything was raised.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1175,8 +1212,6 @@ error code and its message if anything was raised.</p>
       <pre class="lines">
 
 
-149
-150
 151
 152
 153
@@ -1187,10 +1222,12 @@ error code and its message if anything was raised.</p>
 158
 159
 160
-161</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/post_image.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_upload_and_update'>upload_and_update</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Setting image </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_content'> status to 'uploading'</span><span class='tstring_end'>&quot;</span></span>
@@ -1213,11 +1250,11 @@ error code and its message if anything was raised.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:51 2012 by 
+  Generated on Sun Jun 24 12:30:48 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

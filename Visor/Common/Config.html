@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (C)</a> &raquo; 
+    <a href="../../_index.html">Index (C)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Common.html" title="Visor::Common (module)">Common</a></span></span>
      &raquo; 
     <span class="title">Config</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Module: Visor::Common::Config
   
   
@@ -197,137 +204,121 @@ configuration files and Logging.</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>%q[</span><span class='tstring_content'>
-# ========== Default always loaded configuration throughout VISOR sub-systems =====
-#
+# ===== Default always loaded configuration throughout VISOR sub-systems ======
 default: &amp;default
     # Set the default log date time format
     log_datetime_format: &quot;%Y-%m-%d %H:%M:%S&quot;
-    # Set the default log path
+    # Set the default log files directory path
     log_path: ~/.visor/logs
-    # VISoR access and secret key credentials, grab yours from $ visor-admin
-    access_key: XXXXXX
-    secret_key: XXXXXX
+    # VISOR access and secret key credentials (from visor-admin command)
+    access_key:
+    secret_key:
 
-# ================================ VISoR Auth ==================================
-#
+# ================================ VISOR Auth =================================
 visor_auth:
-    # Merge default configuration
+    # Merge default configurations
     &lt;&lt;: *default
-    # Address to bind the meta server
+    # Address and port to bind the server
     bind_host: 0.0.0.0
-    # Port to bind the meta server
     bind_port: 4566
-    # Backend connection string (syntax: name://user:pass@host:port/database)
-    backend: mongodb://:@127.0.0.1:27017/visor
-    # backend: mysql://visor:passwd@127.0.0.1:3306/visor
-    # Log file name (available: filename or empty for STDOUT)
+    # Backend connection string (backend://user:pass@host:port/database)
+    #backend: mongodb://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:27017/visor
+    #backend: mysql://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:3306/visor
+    # Log file name (empty for STDOUT)
     log_file: visor-auth-server.log
-    # Log level to start logging above events (available: DEBUG, INFO)
+    # Log level to start logging events (available: DEBUG, INFO)
     log_level: INFO
 
-# ================================ VISoR Meta =====================================
-#
+# ================================ VISOR Meta =================================
 visor_meta:
-    # Merge default configuration
+    # Merge default configurations
     &lt;&lt;: *default
-    # Address to bind the meta server
+    # Address and port to bind the server
     bind_host: 0.0.0.0
-    # Port to bind the meta server
     bind_port: 4567
-    # Backend connection string (syntax: name://user:pass@host:port/database)
-    backend: mongodb://:@127.0.0.1:27017/visor
-    # backend: mysql://visor:passwd@127.0.0.1:3306/visor
-    # Log file name (available: filename or empty for STDOUT)
+    # Backend connection string (backend://user:pass@host:port/database)
+    #backend: mongodb://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:27017/visor
+    #backend: mysql://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:3306/visor
+    # Log file name (empty for STDOUT)
     log_file: visor-meta-server.log
-    # Log level to start logging above events (available: DEBUG, INFO)
+    # Log level to start logging events (available: DEBUG, INFO)
     log_level: INFO
 
-# ================================ VISoR Image ====================================
-#
+# ================================ VISOR Image ================================
 visor_image:
-    # Merge default configuration
+    # Merge default configurations
     &lt;&lt;: *default
-    # Address to bind the meta server
+    # Address and port to bind the server
     bind_host: 0.0.0.0
-    # Port to bind the meta server
     bind_port: 4568
-    # Log file name (available: filename or empty for STDOUT)
+    # Log file name (empty for STDOUT)
     log_file: visor-api-server.log
-    # Log level to start logging equal and above events (available: DEBUG, INFO)
+    # Log level to start logging events (available: DEBUG, INFO)
     log_level: INFO
 
-# ============================== VISoR Image Backends =============================
-#
+# =========================== VISOR Image Backends ============================
 visor_store:
-    # Default store backend (available: s3, cumulus, walrus, lunacloud, hdfs, file)
+    # Default store (available: s3, lcs, cumulus, walrus, hdfs, file)
     default: file
     #
-    # FileSystem store backend settings
+    # FileSystem store backend (file) settings
     #
     file:
         # Default directory to store image files in
         directory: ~/VMs/
     #
-    # Amazon Simple Storage (S3) store backend settings
+    # Amazon S3 store backend (s3) settings
     #
     s3:
-        # The bucket to store images in, make sure you provide an already existing bucket
-        bucket: XXXXXX
-        # Access and secret key credentials, grab yours on your AWS account settings page
-        access_key: XXXXXX
-        secret_key: XXXXXX
+        # The bucket to store images in, make sure it exists on S3
+        bucket:
+        # Access and secret key credentials, grab yours on your AWS account
+        access_key:
+        secret_key:
     #
-    # Nimbus Cumulus (Cumulus) store backend settings
+    # Lunacloud LCS store backend (lcs) settings
+    #
+    lcs:
+        # The bucket to store images in, make sure it exists on LCS
+        bucket:
+        # Access and secret key credentials, grab yours within Lunacloud
+        access_key:
+        secret_key:
+    #
+    # Nimbus Cumulus store backend (cumulus) settings
     #
     cumulus:
-        # The Cumulus host address
-        host: XXXXXX
-        # The Cumulus port number
-        port: XXXXXX
-        # The bucket to store images in, make sure you provide an already existing bucket
-        bucket: XXXXXX
-        # Access and secret key credentials, grab yours with Nimbus cloud
-        access_key: XXXXXX
-        secret_key: XXXXXX
+        # The Cumulus host address and port number
+        host:
+        port:
+        # The bucket to store images in, make sure it exists on Cumulus
+        bucket:
+        # Access and secret key credentials, grab yours within Nimbus
+        access_key:
+        secret_key:
     #
-    # Eucalyptus Walrus (Walrus) store backend settings
+    # Eucalyptus Walrus store backend (walrus) settings
     #
     walrus:
-        # The Walrus host address
-        host: XXXXXX
-        # The Walrus port number
-        port: XXXXXX
-        # A
-        # The bucket to store images in, make sure you provide an already existing bucket
-        bucket: XXXXXX
-        # Access and secret key credentials, grab yours with Eucalyptus cloud
-        access_key: XXXXXX
-        secret_key: XXXXXX
+        # The Walrus host address and port number
+        host:
+        port:
+        # The bucket to store images in, make sure it exists on Walrus
+        bucket:
+        # Access and secret key credentials, grab yours within Eucalyptus
+        access_key:
+        secret_key:
     #
-    # Lunacloud (Lunacloud) store backend settings
-    #
-    lunacloud:
-        # The Lunacloud host address
-        host: betalcs.lunacloud.com
-        # The Lunacloud port number
-        port: 80
-        # The bucket to store images in, make sure you provide an already existing bucket
-        bucket: XXXXXX
-        # Access and secret key credentials, grab yours with Lunacloud cloud
-        access_key: XXXXXX
-        secret_key: XXXXXX
-    #
-    # Apache Hadoop HDFS (HDFS) store backend settings
+    # Apache Hadoop HDFS store backend (hdfs) settings
     #
     hdfs:
-        # The HDFS host address
-        host: XXXXXX
-        # The HDFS port number
-        port: XXXXXX
+        # The HDFS host address and port number
+        host:
+        port:
         # The bucket to store images in
-        bucket: XXXXXX
-        # Access credentials
-        username: XXXXXX
+        bucket:
+        # Access credentials, grab yours within Hadoop
+        username:
 </span><span class='tstring_end'>]</span></span></pre></dd>
       
     </dl>
@@ -361,6 +352,7 @@ visor_store:
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -380,6 +372,7 @@ configuration file options, which are validated througth
 
     
   </span>
+  
   
   
   
@@ -410,6 +403,7 @@ return the first matched.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -430,19 +424,22 @@ settings.</p>
   
   
   
+  
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="build_logger-class_method">
+  <h3 class="signature first" id="build_logger-class_method">
   
     + (<tt><span class='object_link'><a href="../../Logger.html" title="Logger (class)">Logger</a></span></tt>) <strong>build_logger</strong>(app_name, configs = nil) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Build and return a Logger instance for a given VISoR sub-system, based on
@@ -453,7 +450,7 @@ Visor::Common::Config#self#self.validate_logger.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -497,7 +494,7 @@ Visor::Common::Config#self#self.validate_logger.</p>
     
     
     
-    <h3>Options Hash (<tt>configs</tt>):</h3>
+    <p class="tag_title">Options Hash (<tt>configs</tt>):</p>
     <ul class="option">
       
         <li>
@@ -506,15 +503,17 @@ Visor::Common::Config#self#self.validate_logger.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>configuration options to override config file ones.</p>
 </div>
+          
         </li>
       
     </ul>
   
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -532,7 +531,7 @@ Visor::Common::Config#self#self.validate_logger.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -552,6 +551,22 @@ Visor::Common::Config#self#self.validate_logger.</p>
       <pre class="lines">
 
 
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
 209
 210
 211
@@ -567,26 +582,10 @@ Visor::Common::Config#self#self.validate_logger.</p>
 221
 222
 223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240</pre>
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_build_logger'>build_logger</span><span class='lparen'>(</span><span class='id identifier rubyid_app_name'>app_name</span><span class='comma'>,</span> <span class='id identifier rubyid_configs'>configs</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_conf'>conf</span> <span class='op'>=</span> <span class='id identifier rubyid_configs'>configs</span> <span class='op'>||</span> <span class='id identifier rubyid_load_config'>load_config</span>
@@ -626,13 +625,15 @@ Visor::Common::Config#self#self.validate_logger.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="find_config_file-class_method">
+  <h3 class="signature " id="find_config_file-class_method">
   
     + (<tt>nil</tt>, <tt>String</tt>) <strong>find_config_file</strong>(other_file = nil) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Ordered search for a VISoR configuration file on default locations and
@@ -642,7 +643,7 @@ return the first matched.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -665,7 +666,7 @@ return the first matched.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -691,20 +692,20 @@ path to the found configuration file.</p>
       <pre class="lines">
 
 
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176</pre>
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_find_config_file'>find_config_file</span><span class='lparen'>(</span><span class='id identifier rubyid_other_file'>other_file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_other_file'>other_file</span>
@@ -723,13 +724,15 @@ path to the found configuration file.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="load_config-class_method">
+  <h3 class="signature " id="load_config-class_method">
   
     + (<tt>Hash</tt>) <strong>load_config</strong>(scope = nil, other_file = nil) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Looks for a VISoR configuration file througth Visor::Common::Config#self#self.find_config_file and
@@ -742,7 +745,7 @@ settings.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -783,7 +786,7 @@ settings.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -801,7 +804,7 @@ settings.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -826,20 +829,20 @@ settings.</p>
       <pre class="lines">
 
 
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199</pre>
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 189</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 173</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load_config'>load_config</span><span class='lparen'>(</span><span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_other_file'>other_file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='id identifier rubyid_find_config_file'>find_config_file</span><span class='lparen'>(</span><span class='id identifier rubyid_other_file'>other_file</span><span class='rparen'>)</span>
@@ -860,11 +863,11 @@ settings.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:49 2012 by 
+  Generated on Sun Jun 24 12:30:41 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

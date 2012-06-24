@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../../';
+  framesUrl = "../../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../../_index.html">Index (B)</a> &raquo; 
+    <a href="../../../_index.html">Index (B)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Meta.html" title="Visor::Meta (module)">Meta</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Backends.html" title="Visor::Meta::Backends (module)">Backends</a></span></span>
      &raquo; 
     <span class="title">Base</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Meta::Backends::Base
   
   
@@ -233,7 +240,7 @@ underlying database.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>iso</span><span class='words_sep'> </span><span class='tstring_content'>vhd</span><span class='words_sep'> </span><span class='tstring_content'>vdi</span><span class='words_sep'> </span><span class='tstring_content'>vmdk</span><span class='words_sep'> </span><span class='tstring_content'>ovf</span><span class='words_sep'> </span><span class='tstring_content'>ami</span><span class='words_sep'> </span><span class='tstring_content'>aki</span><span class='words_sep'> </span><span class='tstring_content'>ari</span><span class='words_sep'>]</span></pre></dd>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>iso</span><span class='words_sep'> </span><span class='tstring_content'>vhd</span><span class='words_sep'> </span><span class='tstring_content'>vdi</span><span class='words_sep'> </span><span class='tstring_content'>vmdk</span><span class='words_sep'> </span><span class='tstring_content'>ami</span><span class='words_sep'> </span><span class='tstring_content'>aki</span><span class='words_sep'> </span><span class='tstring_content'>ari</span><span class='words_sep'>]</span></pre></dd>
       
         <dt id="TYPE-constant" class="">TYPE =
           <div class="docstring">
@@ -354,7 +361,10 @@ and sort direction.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -380,7 +390,10 @@ and sort direction.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -406,7 +419,10 @@ and sort direction.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -432,7 +448,10 @@ and sort direction.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -458,7 +477,10 @@ and sort direction.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -484,7 +506,10 @@ and sort direction.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -516,11 +541,12 @@ and sort direction.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#build_uri-instance_method" title="#build_uri (instance method)">- (String) <strong>build_uri</strong>(id) </a>
+      <a href="#build_uri-instance_method" title="#build_uri (instance method)">- (String) <strong>build_uri</strong>(id, vis_address = nil) </a>
     
 
     
   </span>
+  
   
   
   
@@ -551,6 +577,7 @@ configuration.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -569,6 +596,7 @@ image attributes from the others schema field.</p>
 
     
   </span>
+  
   
     <span class="note title constructor">constructor</span>
   
@@ -600,6 +628,7 @@ image attributes from the others schema field.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -618,6 +647,7 @@ image attributes on the others schema field.</p>
 
     
   </span>
+  
   
   
   
@@ -647,6 +677,7 @@ image attributes on the others schema field.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -664,6 +695,7 @@ image attributes on the others schema field.</p>
 
     
   </span>
+  
   
   
   
@@ -693,6 +725,7 @@ image attributes on the others schema field.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -710,6 +743,7 @@ image attributes on the others schema field.</p>
 
     
   </span>
+  
   
   
   
@@ -739,6 +773,7 @@ image attributes on the others schema field.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -756,6 +791,7 @@ image attributes on the others schema field.</p>
 
     
   </span>
+  
   
   
   
@@ -786,6 +822,7 @@ and values.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -810,6 +847,7 @@ and values.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -826,13 +864,15 @@ and values.</p>
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
-  <p class="signature first" id="initialize-instance_method">
+  <h3 class="signature first" id="initialize-instance_method">
   
     - (<tt><span class='object_link'><a href="" title="Visor::Meta::Backends::Base (class)">Base</a></span></tt>) <strong>initialize</strong>(opts) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Initializes a Backend instance.</p>
@@ -841,7 +881,7 @@ and values.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -881,7 +921,7 @@ and values.</p>
   
     
     
-    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
     <ul class="option">
       
         <li>
@@ -890,9 +930,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The host address.</p>
 </div>
+          
         </li>
       
         <li>
@@ -901,9 +943,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The port to be used.</p>
 </div>
+          
         </li>
       
         <li>
@@ -912,9 +956,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The wanted database.</p>
 </div>
+          
         </li>
       
         <li>
@@ -923,9 +969,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The username to be authenticate db access.</p>
 </div>
+          
         </li>
       
         <li>
@@ -934,9 +982,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The password to be authenticate db access.</p>
 </div>
+          
         </li>
       
         <li>
@@ -945,9 +995,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The connection pool to access database.</p>
 </div>
+          
         </li>
       
     </ul>
@@ -994,13 +1046,15 @@ and values.</p>
       <span id=""></span>
       <span id="conn-instance_method"></span>
       <div class="method_details first">
-  <p class="signature first" id="conn-instance_method">
+  <h3 class="signature first" id="conn-instance_method">
   
     - (<tt>Object</tt>) <strong>conn</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute conn</p>
@@ -1036,13 +1090,15 @@ and values.</p>
       <span id=""></span>
       <span id="db-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="db-instance_method">
+  <h3 class="signature " id="db-instance_method">
   
     - (<tt>Object</tt>) <strong>db</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute db</p>
@@ -1078,13 +1134,15 @@ and values.</p>
       <span id=""></span>
       <span id="host-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="host-instance_method">
+  <h3 class="signature " id="host-instance_method">
   
     - (<tt>Object</tt>) <strong>host</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute host</p>
@@ -1120,13 +1178,15 @@ and values.</p>
       <span id=""></span>
       <span id="password-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="password-instance_method">
+  <h3 class="signature " id="password-instance_method">
   
     - (<tt>Object</tt>) <strong>password</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute password</p>
@@ -1162,13 +1222,15 @@ and values.</p>
       <span id=""></span>
       <span id="port-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="port-instance_method">
+  <h3 class="signature " id="port-instance_method">
   
     - (<tt>Object</tt>) <strong>port</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute port</p>
@@ -1204,13 +1266,15 @@ and values.</p>
       <span id=""></span>
       <span id="user-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="user-instance_method">
+  <h3 class="signature " id="user-instance_method">
   
     - (<tt>Object</tt>) <strong>user</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute user</p>
@@ -1247,16 +1311,18 @@ and values.</p>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="build_uri-instance_method">
+  <h3 class="signature first" id="build_uri-instance_method">
   
-    - (<tt>String</tt>) <strong>build_uri</strong>(id) 
+    - (<tt>String</tt>) <strong>build_uri</strong>(id, vis_address = nil) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Build an URI for the given image _id based on VISoR Image Server
@@ -1266,7 +1332,7 @@ configuration.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1287,7 +1353,7 @@ configuration.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1317,16 +1383,18 @@ configuration.</p>
 163
 164
 165
-166</pre>
+166
+167</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 161</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_build_uri'>build_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_conf'>conf</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Config</span><span class='period'>.</span><span class='id identifier rubyid_load_config'>load_config</span> <span class='symbol'>:visor_image</span>
-  <span class='id identifier rubyid_host'>host</span> <span class='op'>=</span> <span class='id identifier rubyid_conf'>conf</span><span class='lbracket'>[</span><span class='symbol'>:bind_host</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Server</span><span class='op'>::</span><span class='const'>DEFAULT_HOST</span>
-  <span class='id identifier rubyid_port'>port</span> <span class='op'>=</span> <span class='id identifier rubyid_conf'>conf</span><span class='lbracket'>[</span><span class='symbol'>:bind_port</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Server</span><span class='op'>::</span><span class='const'>DEFAULT_PORT</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_host'>host</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='rbrace'>}</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_build_uri'>build_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_vis_address'>vis_address</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_vis_address'>vis_address</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_conf'>conf</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Config</span><span class='period'>.</span><span class='id identifier rubyid_load_config'>load_config</span> <span class='symbol'>:visor_image</span>
+    <span class='id identifier rubyid_vis_address'>vis_address</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_conf'>conf</span><span class='lbracket'>[</span><span class='symbol'>:bind_host</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_conf'>conf</span><span class='lbracket'>[</span><span class='symbol'>:bind_port</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_vis_address'>vis_address</span><span class='rbrace'>}</span><span class='tstring_content'>/images/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1334,13 +1402,15 @@ configuration.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="deserialize_others-instance_method">
+  <h3 class="signature " id="deserialize_others-instance_method">
   
     - (<tt>Object</tt>) <strong>deserialize_others</strong>(meta) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Deserializes with JSON and decapsulate additional (not on the table schema)
@@ -1354,18 +1424,20 @@ image attributes from the others schema field.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Instantiate a client with default values:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"># So this:
 {name: &quot;example&quot;, access: &quot;public&quot;, others: &quot;{\&quot;extra_key\&quot;:\&quot;value\&quot;,\&quot;another\&quot;:\&quot;value\&quot;}&quot;}&quot;}
 # becomes this:
 {name: 'example', access: 'public', extra_key: 'value', another: 'value'}</pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1393,15 +1465,15 @@ image attributes from the others schema field.</p>
       <pre class="lines">
 
 
-203
 204
 205
 206
 207
-208</pre>
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 203</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 204</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deserialize_others'>deserialize_others</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:others</span><span class='rbracket'>]</span>
@@ -1415,13 +1487,15 @@ image attributes from the others schema field.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="serialize_others-instance_method">
+  <h3 class="signature " id="serialize_others-instance_method">
   
     - (<tt>Object</tt>) <strong>serialize_others</strong>(meta) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Serializes with JSON and encapsulate additional (not on the table schema)
@@ -1435,18 +1509,20 @@ image attributes on the others schema field.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Instantiate a client with default values:</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"># So this:
 {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
 # becomes this:
 {name: &quot;example&quot;, access: &quot;public&quot;, others: &quot;{\&quot;extra_key\&quot;:\&quot;value\&quot;,\&quot;another\&quot;:\&quot;value\&quot;}&quot;}&quot;}</pre>
     
   </div>
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1474,17 +1550,17 @@ image attributes on the others schema field.</p>
       <pre class="lines">
 
 
-181
 182
 183
 184
 185
 186
 187
-188</pre>
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serialize_others'>serialize_others</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_other_keys'>other_keys</span> <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span> <span class='op'>-</span> <span class='const'>ALL</span>
@@ -1500,13 +1576,15 @@ image attributes on the others schema field.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="set_protected_post-instance_method">
+  <h3 class="signature " id="set_protected_post-instance_method">
   
     - (<tt>Hash</tt>) <strong>set_protected_post</strong>(meta, opts = {}) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Set protected fields value from a post operation. Being them the _id, uri,
@@ -1516,7 +1594,7 @@ owner, size, access, status and created_at.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1576,7 +1654,7 @@ owner, size, access, status and created_at.</p>
     
     
     
-    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
     <ul class="option">
       
         <li>
@@ -1588,9 +1666,11 @@ owner, size, access, status and created_at.</p>
               <tt>Nil</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The image owner.</p>
 </div>
+          
         </li>
       
         <li>
@@ -1602,15 +1682,17 @@ owner, size, access, status and created_at.</p>
               <tt>Nil</tt>
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The image file size.</p>
 </div>
+          
         </li>
       
     </ul>
   
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1648,12 +1730,12 @@ owner, size, access, status and created_at.</p>
       <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_protected_post'>set_protected_post</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_owner'>owner</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:owner</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_owner'>owner</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='comma'>,</span> <span class='id identifier rubyid_vis_address'>vis_address</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:owner</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:vis_address</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>_id:</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>access:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>public</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:access</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>owner:</span> <span class='id identifier rubyid_owner'>owner</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_owner'>owner</span>
   <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span>
-  <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>created_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span> <span class='label'>uri:</span> <span class='id identifier rubyid_build_uri'>build_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>locked</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>created_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span> <span class='label'>uri:</span> <span class='id identifier rubyid_build_uri'>build_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_vis_address'>vis_address</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>locked</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1661,13 +1743,15 @@ owner, size, access, status and created_at.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="set_protected_put-instance_method">
+  <h3 class="signature " id="set_protected_put-instance_method">
   
     - (<tt>Hash</tt>) <strong>set_protected_put</strong>(meta) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Set protected fields value from a get operation. Being them the accessed_at
@@ -1677,7 +1761,7 @@ and access_count.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1698,7 +1782,7 @@ and access_count.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1710,7 +1794,7 @@ and access_count.</p>
       
         &mdash;
         <div class='inline'>
-<p>The image metadata update with protected fields setted.</p>
+<p>The image metadata update with protected fields set.</p>
 </div>
       
     </li>
@@ -1739,13 +1823,15 @@ and access_count.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="string_time_or_hash?-instance_method">
+  <h3 class="signature " id="string_time_or_hash?-instance_method">
   
     - (<tt>true</tt>, <tt>false</tt>) <strong>string_time_or_hash?</strong>(v) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Verifies if a given object is a String, a Time or a Hash.</p>
@@ -1754,7 +1840,7 @@ and access_count.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1775,7 +1861,7 @@ and access_count.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1800,12 +1886,12 @@ and access_count.</p>
       <pre class="lines">
 
 
-216
 217
-218</pre>
+218
+219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 217</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
@@ -1816,13 +1902,15 @@ and access_count.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="to_sql_insert-instance_method">
+  <h3 class="signature " id="to_sql_insert-instance_method">
   
     - (<tt>String</tt>) <strong>to_sql_insert</strong>(h) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Generates a compatible SQL INSERT string from a hash.</p>
@@ -1831,7 +1919,7 @@ and access_count.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1852,7 +1940,7 @@ and access_count.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1878,13 +1966,13 @@ values are surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-249
 250
 251
-252</pre>
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 250</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_insert'>to_sql_insert</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_surround'>surround</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>'</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_v'>v</span> <span class='rbrace'>}</span>
@@ -1896,13 +1984,15 @@ values are surrounded with '&lt;value&gt;'.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="to_sql_update-instance_method">
+  <h3 class="signature " id="to_sql_update-instance_method">
   
     - (<tt>String</tt>) <strong>to_sql_update</strong>(h) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Generates a compatible SQL UPDATE string from a hash.</p>
@@ -1911,7 +2001,7 @@ values are surrounded with '&lt;value&gt;'.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1932,7 +2022,7 @@ values are surrounded with '&lt;value&gt;'.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1958,12 +2048,12 @@ surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-238
 239
-240</pre>
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 239</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_update'>to_sql_update</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -1974,13 +2064,15 @@ surrounded with '&lt;value&gt;'.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="to_sql_where-instance_method">
+  <h3 class="signature " id="to_sql_where-instance_method">
   
     - (<tt>String</tt>) <strong>to_sql_where</strong>(h) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Generates a compatible SQL WHERE string from a hash.</p>
@@ -1989,7 +2081,7 @@ surrounded with '&lt;value&gt;'.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -2010,7 +2102,7 @@ surrounded with '&lt;value&gt;'.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -2036,12 +2128,12 @@ surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-227
 228
-229</pre>
+229
+230</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 228</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_where'>to_sql_where</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> AND </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -2052,13 +2144,15 @@ surrounded with '&lt;value&gt;'.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="validate_data_post-instance_method">
+  <h3 class="signature " id="validate_data_post-instance_method">
   
     - (<tt>Object</tt>) <strong>validate_data_post</strong>(meta) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Validates the image metadata for a post operation, based on possible keys
@@ -2073,7 +2167,7 @@ not respect the</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -2135,13 +2229,15 @@ not respect the</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="validate_data_put-instance_method">
+  <h3 class="signature " id="validate_data_put-instance_method">
   
     - (<tt>Object</tt>) <strong>validate_data_put</strong>(meta) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Validates the image metadata for a put operation, based on possible keys
@@ -2156,7 +2252,7 @@ not respect the</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -2216,13 +2312,15 @@ not respect the</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="validate_query_filters-instance_method">
+  <h3 class="signature " id="validate_query_filters-instance_method">
   
     - (<tt>Object</tt>) <strong>validate_query_filters</strong>(filters) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Validates that incoming query filters fields are valid.</p>
@@ -2236,7 +2334,7 @@ fields do not respect the</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -2286,11 +2384,11 @@ fields do not respect the</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:50 2012 by 
+  Generated on Sun Jun 24 12:30:45 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

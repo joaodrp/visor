@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (S)</a> &raquo; 
+    <a href="../../_index.html">Index (S)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Image.html" title="Visor::Image (module)">Image</a></span></span>
      &raquo; 
     <span class="title">Server</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Image::Server
   
   
@@ -97,37 +104,39 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The VISoR Image Server. This supports all image metadata manipulation
-operations, dispatched to the VISoR Meta Server and the image files storage
-operations.</p>
+<p>The VISOR Image System (VIS) server. This server is the VISOR front-end and
+supports all image metadata manipulation operations (dispatched to the
+VISOR Meta System) and the image files management too.</p>
 
-<p>*The Server API is a RESTful web service for image meta as follows:*</p>
+<p>**The Server is a RESTful Web service with the following API:**</p>
 
-<pre class="code ruby"><code>HEAD    /images/&lt;id&gt;    - Returns metadata about the image with the given id
-GET     /images         - Returns a set of brief metadata about all public images
-GET     /images/detail  - Returns a set of detailed metadata about all public images
-GET     /images/&lt;id&gt;    - Returns image data and metadata for the image with the given id
-POST    /images         - Stores a new image data and metadata and returns the registered metadata
-PUT     /images/&lt;id&gt;    - Update image metadata and/or data for the image with the given id
-DELETE  /images/&lt;id&gt;    - Delete the metadata and data of the image with the given id</code></pre>
+<pre class="code ruby"><code>HEAD    /images/&lt;id&gt;    - Return detailed metadata of a given image.
+GET     /images         - Return brief metadata of all public and user???s private images.
+GET     /images/detail  - Return detailed metadata of all public and user???s private images.
+GET     /images/&lt;id&gt;    - Return the metadata and file of a given image.
+POST    /images         - Add new metadata and optionally upload a file.
+PUT     /images/&lt;id&gt;    - Update the metadata and/or file of a given image.
+DELETE  /images/&lt;id&gt;    - Remove the metadata and file of a given image.</code></pre>
 
-<p>The Image is multi-format, most properly it supports response encoding in
+<p>The VIS API is multi-format, most properly it supports response encoding in
 JSON and XML formats. It will auto negotiate and encode the response
 metadata and error messages in the proper format, based on the request
 <b>Accept</b> header, being it 'application/json' or 'application/xml'. If
 no Accept header is provided, Image will encode and render it as JSON by
 default.</p>
 
-<p>This server routes all metadata operations to the <span class='object_link'><a href="../Meta/Server.html" title="Visor::Meta::Server (class)">Visor Meta Server</a></span>.</p>
+<p>This server routes all metadata operations to the <span class='object_link'><a href="../Meta/Server.html" title="Visor::Meta::Server (class)">Visor Meta System server</a></span>.</p>
 
 <p>The server will interact with the multiple supported backend store to
 manage the image files.</p>
 
-<p>*Currently we support the following store backend and operations:*</p>
+<p>**Currently we support the following store backend and operations:**</p>
 
 <pre class="code ruby"><code><span class='const'>Amazon</span> <span class='const'>Simple</span> <span class='const'>Storage</span> <span class='lparen'>(</span><span class='id identifier rubyid_s3'>s3</span><span class='rparen'>)</span>  <span class='op'>-</span> <span class='const'>GET</span><span class='comma'>,</span> <span class='const'>POST</span><span class='comma'>,</span> <span class='const'>PUT</span><span class='comma'>,</span> <span class='const'>DELETE</span>
+<span class='const'>Lunacloud</span> <span class='const'>Storage</span> <span class='lparen'>(</span><span class='id identifier rubyid_lcs'>lcs</span><span class='rparen'>)</span>     <span class='op'>-</span> <span class='const'>GET</span><span class='comma'>,</span> <span class='const'>POST</span><span class='comma'>,</span> <span class='const'>PUT</span><span class='comma'>,</span> <span class='const'>DELETE</span>
 <span class='const'>Nimbus</span> <span class='const'>Cumulus</span> <span class='lparen'>(</span><span class='id identifier rubyid_cumulus'>cumulus</span><span class='rparen'>)</span>    <span class='op'>-</span> <span class='const'>GET</span><span class='comma'>,</span> <span class='const'>POST</span><span class='comma'>,</span> <span class='const'>PUT</span><span class='comma'>,</span> <span class='const'>DELETE</span>
 <span class='const'>Eucalyptus</span> <span class='const'>Walrus</span> <span class='lparen'>(</span><span class='id identifier rubyid_walrus'>walrus</span><span class='rparen'>)</span>  <span class='op'>-</span> <span class='const'>GET</span><span class='comma'>,</span> <span class='const'>POST</span><span class='comma'>,</span> <span class='const'>PUT</span><span class='comma'>,</span> <span class='const'>DELETE</span>
+<span class='const'>Hadoop</span> <span class='const'>HDFS</span> <span class='lparen'>(</span><span class='id identifier rubyid_hdfs'>hdfs</span><span class='rparen'>)</span>          <span class='op'>-</span> <span class='const'>GET</span><span class='comma'>,</span> <span class='const'>POST</span><span class='comma'>,</span> <span class='const'>PUT</span><span class='comma'>,</span> <span class='const'>DELETE</span>
 <span class='const'>Local</span> <span class='const'>Filesystem</span> <span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>     <span class='op'>-</span> <span class='const'>GET</span><span class='comma'>,</span> <span class='const'>POST</span><span class='comma'>,</span> <span class='const'>PUT</span><span class='comma'>,</span> <span class='const'>DELETE</span>
 <span class='const'>Remote</span> <span class='const'>HTTP</span> <span class='lparen'>(</span><span class='id identifier rubyid_http'>http</span><span class='rparen'>)</span>          <span class='op'>-</span> <span class='const'>GET</span></code></pre>
 
@@ -166,10 +175,11 @@ manage the image files.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Delete the metadata and data of the image with the given id, see
+<p>Delete the metadata and file of the image with the given id, see
 <span class='object_link'><a href="DeleteImage.html" title="Visor::Image::DeleteImage (class)">DeleteImage</a></span>.</p>
 </div></span>
   
@@ -190,10 +200,11 @@ manage the image files.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get brief information about all public images, see
+<p>Get brief metadata of all public and user???s private images, see
 <span class='object_link'><a href="GetImages.html" title="Visor::Image::GetImages (class)">GetImages</a></span>.</p>
 </div></span>
   
@@ -214,10 +225,11 @@ manage the image files.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get detailed information about all public images, see
+<p>Get detailed metadata of all public and user???s private images, see
 <span class='object_link'><a href="GetImagesDetail.html" title="Visor::Image::GetImagesDetail (class)">GetImagesDetail</a></span>.</p>
 </div></span>
   
@@ -238,10 +250,11 @@ manage the image files.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get image data and detailed metadata for the given id, see
+<p>Get detailed metadata and file for the image with given id, see
 <span class='object_link'><a href="GetImage.html" title="Visor::Image::GetImage (class)">GetImage</a></span>.</p>
 </div></span>
   
@@ -256,6 +269,7 @@ manage the image files.</p>
 
     
   </span>
+  
   
   
   
@@ -286,6 +300,7 @@ manage the image files.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -310,6 +325,7 @@ manage the image files.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -328,19 +344,21 @@ manage the image files.</p>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="delete-instance_method">
+  <h3 class="signature first" id="delete-instance_method">
   
     - (<tt>JSON</tt>, <tt>XML</tt>) <strong>delete</strong>('/images/:id') 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
-<p>Delete the metadata and data of the image with the given id, see
+<p>Delete the metadata and file of the image with the given id, see
 <span class='object_link'><a href="DeleteImage.html" title="Visor::Image::DeleteImage (class)">DeleteImage</a></span>.</p>
 
 
@@ -349,17 +367,19 @@ manage the image files.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Delete the image with id '19b39ed6-6c43-41cc-8d59-d1a1ed24ac9d':</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>DELETE /images/19b39ed6-6c43-41cc-8d59-d1a1ed24ac9d</span><span class='tstring_end'>'</span></span></pre>
     
   </div>
 
   
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -380,7 +400,7 @@ manage the image files.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -398,19 +418,19 @@ manage the image files.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 404</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 403</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>If image meta or data not found.</p>
+<p>If user authentication has failed.</p>
 </div>
       
     </li>
@@ -432,13 +452,27 @@ manage the image files.</p>
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 500</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 404</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>On internal server error.</p>
+<p>If image metadata was not found.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 503</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If VIS or VAS servers were not found.</p>
 </div>
       
     </li>
@@ -451,10 +485,10 @@ manage the image files.</p>
       <pre class="lines">
 
 
-296</pre>
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 296</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 318</span>
 
 <span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>DeleteImage</span></pre>
     </td>
@@ -463,30 +497,30 @@ manage the image files.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get_all_brief-instance_method">
+  <h3 class="signature " id="get_all_brief-instance_method">
   
     - (<tt>JSON</tt>, <tt>XML</tt>) <strong>get</strong>('/images') 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
-<p>Get brief information about all public images, see
+<p>Get brief metadata of all public and user???s private images, see
 <span class='object_link'><a href="GetImages.html" title="Visor::Image::GetImages (class)">GetImages</a></span>.</p>
 
 <pre class="code ruby"><code>{ &quot;images&quot;:
   [
     {
       &quot;_id&quot;:&lt;_id&gt;,
-      &quot;uri&quot;:&lt;uri&gt;,
       &quot;name&quot;:&lt;name&gt;,
       &quot;architecture&quot;:&lt;architecture&gt;,
-      &quot;type&quot;:&lt;type&gt;,
+      &quot;access&quot;:&lt;access&gt;
       &quot;format&quot;:&lt;format&gt;,
-      &quot;store&quot;:&lt;type&gt;,
       &quot;size&quot;:&lt;size&gt;,
-      &quot;created_at&quot;:&lt;timestamp&gt;
+      &quot;store&quot;:&lt;store&gt;
     },
     ...
   ]
@@ -501,28 +535,33 @@ additional image attribute not defined in the schema.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
-<p>Retrieve all public images brief metadata:</p>
-</div></h4>
+      
+        <p class="example_title"><div class='inline'>
+<p>Retrieve all images brief metadata:</p>
+</div></p>
+      
       <pre class="example code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>GET /images</span><span class='tstring_end'>'</span></span></pre>
     
-      <h4><div class='inline'>
-<p>Retrieve all public `x86_64` images brief metadata:</p>
-</div></h4>
+      
+        <p class="example_title"><div class='inline'>
+<p>Retrieve all `x86_64` images brief metadata:</p>
+</div></p>
+      
       <pre class="example code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>GET /images?architecture=x86_64</span><span class='tstring_end'>'</span></span></pre>
     
-      <h4><div class='inline'>
-<p>Retrieve all public `.iso` images brief metadata, descending sorted by
-`size`:</p>
-</div></h4>
+      
+        <p class="example_title"><div class='inline'>
+<p>Retrieve all `.iso` images brief metadata, descending sorted by `size`:</p>
+</div></p>
+      
       <pre class="example code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>GET /images?format=iso&amp;sort=size&amp;dir=desc</span><span class='tstring_end'>'</span></span></pre>
     
   </div>
 
   
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -575,7 +614,7 @@ additional image attribute not defined in the schema.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -587,14 +626,28 @@ additional image attribute not defined in the schema.</p>
       
         &mdash;
         <div class='inline'>
-<p>The public images brief metadata.</p>
+<p>Images brief metadata.</p>
 </div>
       
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 403</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user authentication has failed.</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -605,7 +658,7 @@ additional image attribute not defined in the schema.</p>
       
         &mdash;
         <div class='inline'>
-<p>If there is no public images.</p>
+<p>If no images were found.</p>
 </div>
       
     </li>
@@ -613,13 +666,13 @@ additional image attribute not defined in the schema.</p>
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 500</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 503</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>On internal server error.</p>
+<p>If VIS or VAS servers were not found.</p>
 </div>
       
     </li>
@@ -632,10 +685,10 @@ additional image attribute not defined in the schema.</p>
       <pre class="lines">
 
 
-127</pre>
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 136</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>GetImages</span></pre>
     </td>
@@ -644,24 +697,26 @@ additional image attribute not defined in the schema.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get_all_detail-instance_method">
+  <h3 class="signature " id="get_all_detail-instance_method">
   
     - (<tt>JSON</tt>, <tt>XML</tt>) <strong>get</strong>('/images/detail') 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
   <div class="note notetag">
-    <strong>Note:</strong> 
+    <strong>Note:</strong>
     <div class='inline'>
-<p>Querying and ordering results are made as with #get_all_detail</p>
+<p>Querying and results sorting is made as with #get_all_brief</p>
 </div>
   </div>
 
 
-<p>Get detailed information about all public images, see
+<p>Get detailed metadata of all public and user???s private images, see
 <span class='object_link'><a href="GetImagesDetail.html" title="Visor::Image::GetImagesDetail (class)">GetImagesDetail</a></span>.</p>
 
 <pre class="code ruby"><code>{ &quot;images&quot;:
@@ -679,8 +734,8 @@ additional image attribute not defined in the schema.</p>
       &quot;store&quot;:&lt;store&gt;,
       &quot;created_at&quot;:&lt;timestamp&gt;
       &quot;updated_at&quot;:&lt;timestamp&gt;,
-      &quot;kernel&quot;:&lt;associated kernel&gt;,
-      &quot;ramdisk&quot;:&lt;associated ramdisk&gt;,
+      &quot;checksum&quot;:&lt;checksum&gt;,
+      &quot;owner&quot;:&lt;owner&gt;,
     },
     ...
   ]
@@ -695,17 +750,19 @@ additional image attribute not defined in the schema.</p>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
-<p>Retrieve all public images detailed metadata:</p>
-</div></h4>
+      
+        <p class="example_title"><div class='inline'>
+<p>Retrieve all images detailed metadata:</p>
+</div></p>
+      
       <pre class="example code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>GET /images/detail</span><span class='tstring_end'>'</span></span></pre>
     
   </div>
 
   
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -758,7 +815,7 @@ additional image attribute not defined in the schema.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -770,14 +827,28 @@ additional image attribute not defined in the schema.</p>
       
         &mdash;
         <div class='inline'>
-<p>The public images detailed metadata.</p>
+<p>Images detailed metadata.</p>
 </div>
       
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 403</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user authentication has failed.</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -788,7 +859,7 @@ additional image attribute not defined in the schema.</p>
       
         &mdash;
         <div class='inline'>
-<p>If there is no public images.</p>
+<p>If no images were found.</p>
 </div>
       
     </li>
@@ -796,13 +867,13 @@ additional image attribute not defined in the schema.</p>
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 500</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 503</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>On internal server error.</p>
+<p>If VIS or VAS servers were not found.</p>
 </div>
       
     </li>
@@ -815,10 +886,10 @@ additional image attribute not defined in the schema.</p>
       <pre class="lines">
 
 
-174</pre>
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 184</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/detail</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>GetImagesDetail</span></pre>
     </td>
@@ -827,41 +898,50 @@ additional image attribute not defined in the schema.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get_image-instance_method">
+  <h3 class="signature " id="get_image-instance_method">
   
     - (<tt>HTTP Headers</tt>, <tt>HTTP Body</tt>) <strong>get</strong>('/images/:id') 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
   <div class="note notetag">
-    <strong>Note:</strong> 
+    <strong>Note:</strong>
     <div class='inline'>
 <p>Undefined attributes are ignored and not included into response's header.</p>
 </div>
   </div>
 
 
-<p>Get image data and detailed metadata for the given id, see
+<p>Get detailed metadata and file for the image with given id, see
 <span class='object_link'><a href="GetImage.html" title="Visor::Image::GetImage (class)">GetImage</a></span>.</p>
 
-<p>The image data file is streamed as response's body. The server will return
-a 200 status code, with a special HTTP header, indicating that the response
-body will be streamed in chunks and connection shouldn't be closed until
-the transfer is complete.</p>
+<p>The image data file is streamed through the response body. The server will
+return a 200 status code, with a special HTTP header, indicating that the
+response body will be streamed in chunks and connection shouldn't be closed
+until the transfer is complete.</p>
 
 <p>Also, the image metadata is promptly passed as a set of HTTP headers, as
 the following example:</p>
 
-<pre class="code ruby"><code>x-image-meta-_id:           &lt;id&gt;
-x-image-meta-uri:           &lt;uri&gt;
-x-image-meta-name:          &lt;name&gt;
-x-image-meta-architecture:  &lt;architecture&gt;
-x-image-meta-access:        &lt;access&gt;
-x-image-meta-status:        &lt;status&gt;
-x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
+<pre class="code ruby"><code>x-image-meta-_id: &lt;id&gt;
+x-image-meta-uri: &lt;uri&gt;
+x-image-meta-name: &lt;name&gt;
+x-image-meta-architecture: &lt;architecture&gt;
+x-image-meta-access: &lt;access&gt;
+x-image-meta-status: &lt;status&gt;
+x-image-meta-size: &lt;size&gt;
+x-image-meta-format: &lt;format&gt;
+x-image-meta-store: &lt;store&gt;
+x-image-meta-location: &lt;location&gt;
+x-image-meta-created_at: &lt;timestamp&gt;
+x-image-meta-updated_at: &lt;timestamp&gt;
+x-image-meta-checksum: &lt;checksum&gt;
+x-image-meta-owner: &lt;owner&gt;</code></pre>
 
 
   </div>
@@ -869,17 +949,19 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve the image with id '19b39ed6-6c43-41cc-8d59-d1a1ed24ac9d':</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>GET /images/19b39ed6-6c43-41cc-8d59-d1a1ed24ac9d</span><span class='tstring_end'>'</span></span></pre>
     
   </div>
 
   
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -900,7 +982,7 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -912,7 +994,7 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
       
         &mdash;
         <div class='inline'>
-<p>The image data file.</p>
+<p>The image metadata.</p>
 </div>
       
     </li>
@@ -926,14 +1008,28 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
       
         &mdash;
         <div class='inline'>
-<p>The image data file.</p>
+<p>The image file.</p>
 </div>
       
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 403</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user authentication has failed.</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -944,7 +1040,7 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
       
         &mdash;
         <div class='inline'>
-<p>If image not found.</p>
+<p>If the image metadata was not found.</p>
 </div>
       
     </li>
@@ -952,13 +1048,27 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 500</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 404</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>On internal server error.</p>
+<p>If the image file was not found.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 503</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If VIS or VAS servers were not found.</p>
 </div>
       
     </li>
@@ -971,10 +1081,10 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
       <pre class="lines">
 
 
-209</pre>
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 228</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>GetImage</span></pre>
     </td>
@@ -983,20 +1093,22 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="head_image-instance_method">
+  <h3 class="signature " id="head_image-instance_method">
   
     - (<tt>HTTP Headers</tt>) <strong>head</strong>('/image/:id') 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
   <div class="note notetag">
-    <strong>Note:</strong> 
+    <strong>Note:</strong>
     <div class='inline'>
 <p>Undefined attributes are ignored and not included into response's header.
-Also any raised error will be passed through HTTP headers as expected.</p>
+Any raised error will be passed through HTTP headers too.</p>
 </div>
   </div>
 
@@ -1007,13 +1119,20 @@ Also any raised error will be passed through HTTP headers as expected.</p>
 <p>The image metadata is promptly passed as a set of HTTP headers, as the
 following example:</p>
 
-<pre class="code ruby"><code>x-image-meta-_id:           &lt;id&gt;
-x-image-meta-uri:           &lt;uri&gt;
-x-image-meta-name:          &lt;name&gt;
-x-image-meta-architecture:  &lt;architecture&gt;
-x-image-meta-access:        &lt;access&gt;
-x-image-meta-status:        &lt;status&gt;
-x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
+<pre class="code ruby"><code>x-image-meta-_id: &lt;id&gt;
+x-image-meta-uri: &lt;uri&gt;
+x-image-meta-name: &lt;name&gt;
+x-image-meta-architecture: &lt;architecture&gt;
+x-image-meta-access: &lt;access&gt;
+x-image-meta-status: &lt;status&gt;
+x-image-meta-size: &lt;size&gt;
+x-image-meta-format: &lt;format&gt;
+x-image-meta-store: &lt;store&gt;
+x-image-meta-location: &lt;location&gt;
+x-image-meta-created_at: &lt;timestamp&gt;
+x-image-meta-updated_at: &lt;timestamp&gt;
+x-image-meta-checksum: &lt;checksum&gt;
+x-image-meta-owner: &lt;owner&gt;</code></pre>
 
 
   </div>
@@ -1021,17 +1140,19 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
 <div class="tags">
   
   <div class="examples">
-    <h3>Examples:</h3>
+    <p class="tag_title">Examples:</p>
     
-      <h4><div class='inline'>
+      
+        <p class="example_title"><div class='inline'>
 <p>Retrieve the image metadata with id '19b39ed6-6c43-41cc-8d59-d1a1ed24ac9d':</p>
-</div></h4>
+</div></p>
+      
       <pre class="example code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HEAD /images/19b39ed6-6c43-41cc-8d59-d1a1ed24ac9d</span><span class='tstring_end'>'</span></span></pre>
     
   </div>
 
   
-<h3>Parameters:</h3>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1052,7 +1173,7 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1064,14 +1185,28 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
       
         &mdash;
         <div class='inline'>
-<p>The image data file.</p>
+<p>The image metadata.</p>
 </div>
       
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>HTTP Error 403</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user authentication has failed.</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -1082,7 +1217,7 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
       
         &mdash;
         <div class='inline'>
-<p>If image not found.</p>
+<p>If image metadata was not found.</p>
 </div>
       
     </li>
@@ -1090,13 +1225,13 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 500</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 503</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>On internal server error.</p>
+<p>If VIS or VAS servers were not found.</p>
 </div>
       
     </li>
@@ -1109,10 +1244,10 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
       <pre class="lines">
 
 
-81</pre>
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 91</span>
 
 <span class='id identifier rubyid_head'>head</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>HeadImage</span></pre>
     </td>
@@ -1121,13 +1256,15 @@ x-image-meta-created_at:    &lt;timestamp&gt;</code></pre>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="post-instance_method">
+  <h3 class="signature " id="post-instance_method">
   
     - (<tt>JSON</tt>, <tt>XML</tt>) <strong>post</strong>('/images') 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Post image data and metadata and returns the registered metadata, see
@@ -1142,9 +1279,9 @@ x-image-meta-store:         s3</code></pre>
 
 <p>If wanted, the image data file should be streamed through the request body.
 The server will receive that data in chunks, buffering them to a properly
-secured temporary file, avoiding buffering all the data into memory. Server
-will then handle the upload of that data to the definitive store location,
-cleaning then the generated temporary file.</p>
+secured temporary file, avoiding buffering all the data into memory. The
+server will then handle the upload of that file to the definitive store
+location, cleaning then the generated temporary file.</p>
 
 <p>Alternatively, a <b>x-image-meta-location</b> header can be passed, if the
 file is already stored in some provided location. If this header is
@@ -1157,7 +1294,7 @@ present, no body content can be passed in the request.</p>
   
   
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1175,7 +1312,7 @@ present, no body content can be passed in the request.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1237,13 +1374,27 @@ present, no body content can be passed in the request.</p>
     <li>
       
       
+        <span class='type'>(<tt>HTTP Error 403</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user authentication has failed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
         <span class='type'>(<tt>HTTP Error 404</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>If no image data is found at the provided location.</p>
+<p>If no image file is found at the provided location.</p>
 </div>
       
     </li>
@@ -1265,13 +1416,13 @@ present, no body content can be passed in the request.</p>
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 500</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 503</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>On internal server error.</p>
+<p>If VIS or VAS servers were not found.</p>
 </div>
       
     </li>
@@ -1284,10 +1435,10 @@ present, no body content can be passed in the request.</p>
       <pre class="lines">
 
 
-241</pre>
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 241</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 261</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>PostImage</span></pre>
     </td>
@@ -1296,17 +1447,19 @@ present, no body content can be passed in the request.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="put-instance_method">
+  <h3 class="signature " id="put-instance_method">
   
     - (<tt>JSON</tt>, <tt>XML</tt>) <strong>put</strong>('/images/:id') 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
   <div class="note notetag">
-    <strong>Note:</strong> 
+    <strong>Note:</strong>
     <div class='inline'>
 <p>Only images with status set to 'locked' or 'error' can be updated with an
 image data file.</p>
@@ -1341,7 +1494,7 @@ present, no body content can be passed in the request.</p>
   
   
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1359,7 +1512,7 @@ present, no body content can be passed in the request.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1435,6 +1588,20 @@ present, no body content can be passed in the request.</p>
     <li>
       
       
+        <span class='type'>(<tt>HTTP Error 403</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user authentication has failed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
         <span class='type'>(<tt>HTTP Error 404</tt>)</span>
       
       
@@ -1477,13 +1644,13 @@ present, no body content can be passed in the request.</p>
     <li>
       
       
-        <span class='type'>(<tt>HTTP Error 500</tt>)</span>
+        <span class='type'>(<tt>HTTP Error 503</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>On internal server error.</p>
+<p>If VIS or VAS servers were not found.</p>
 </div>
       
     </li>
@@ -1496,10 +1663,10 @@ present, no body content can be passed in the request.</p>
       <pre class="lines">
 
 
-277</pre>
+298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/server.rb', line 298</span>
 
 <span class='id identifier rubyid_put'>put</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/images/:id</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>PutImage</span></pre>
     </td>
@@ -1510,11 +1677,11 @@ present, no body content can be passed in the request.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:49 2012 by 
+  Generated on Sun Jun 24 12:30:44 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

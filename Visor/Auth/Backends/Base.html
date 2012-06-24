@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../../';
+  framesUrl = "../../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../../_index.html">Index (B)</a> &raquo; 
+    <a href="../../../_index.html">Index (B)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Auth.html" title="Visor::Auth (module)">Auth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Backends.html" title="Visor::Auth::Backends (module)">Backends</a></span></span>
      &raquo; 
     <span class="title">Base</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Auth::Backends::Base
   
   
@@ -187,7 +194,10 @@ underlying database.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -213,7 +223,10 @@ underlying database.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -239,7 +252,10 @@ underlying database.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -265,7 +281,10 @@ underlying database.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -291,7 +310,10 @@ underlying database.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -317,7 +339,10 @@ underlying database.</p>
   </span>
   
   
-    <span class="note title readonly">readonly</span>
+  
+    
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -355,6 +380,7 @@ underlying database.</p>
     
   </span>
   
+  
     <span class="note title constructor">constructor</span>
   
   
@@ -385,6 +411,7 @@ underlying database.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -402,6 +429,7 @@ underlying database.</p>
 
     
   </span>
+  
   
   
   
@@ -431,6 +459,7 @@ underlying database.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -448,6 +477,7 @@ underlying database.</p>
 
     
   </span>
+  
   
   
   
@@ -477,6 +507,7 @@ underlying database.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -494,6 +525,7 @@ underlying database.</p>
 
     
   </span>
+  
   
   
   
@@ -524,6 +556,7 @@ and values.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -548,6 +581,7 @@ and values.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -564,13 +598,15 @@ and values.</p>
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
-  <p class="signature first" id="initialize-instance_method">
+  <h3 class="signature first" id="initialize-instance_method">
   
     - (<tt><span class='object_link'><a href="" title="Visor::Auth::Backends::Base (class)">Base</a></span></tt>) <strong>initialize</strong>(opts) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Initializes a Backend instance.</p>
@@ -579,7 +615,7 @@ and values.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -619,7 +655,7 @@ and values.</p>
   
     
     
-    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
     <ul class="option">
       
         <li>
@@ -628,9 +664,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The host address.</p>
 </div>
+          
         </li>
       
         <li>
@@ -639,9 +677,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The port to be used.</p>
 </div>
+          
         </li>
       
         <li>
@@ -650,9 +690,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The wanted database.</p>
 </div>
+          
         </li>
       
         <li>
@@ -661,9 +703,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The username to be authenticate db access.</p>
 </div>
+          
         </li>
       
         <li>
@@ -672,9 +716,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The password to be authenticate db access.</p>
 </div>
+          
         </li>
       
         <li>
@@ -683,9 +729,11 @@ and values.</p>
           <span class="default">
             
           </span>
-          &mdash; <div class='inline'>
+          
+            &mdash; <div class='inline'>
 <p>The connection pool to access database.</p>
 </div>
+          
         </li>
       
     </ul>
@@ -732,13 +780,15 @@ and values.</p>
       <span id=""></span>
       <span id="conn-instance_method"></span>
       <div class="method_details first">
-  <p class="signature first" id="conn-instance_method">
+  <h3 class="signature first" id="conn-instance_method">
   
     - (<tt>Object</tt>) <strong>conn</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute conn</p>
@@ -774,13 +824,15 @@ and values.</p>
       <span id=""></span>
       <span id="db-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="db-instance_method">
+  <h3 class="signature " id="db-instance_method">
   
     - (<tt>Object</tt>) <strong>db</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute db</p>
@@ -816,13 +868,15 @@ and values.</p>
       <span id=""></span>
       <span id="host-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="host-instance_method">
+  <h3 class="signature " id="host-instance_method">
   
     - (<tt>Object</tt>) <strong>host</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute host</p>
@@ -858,13 +912,15 @@ and values.</p>
       <span id=""></span>
       <span id="password-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="password-instance_method">
+  <h3 class="signature " id="password-instance_method">
   
     - (<tt>Object</tt>) <strong>password</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute password</p>
@@ -900,13 +956,15 @@ and values.</p>
       <span id=""></span>
       <span id="port-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="port-instance_method">
+  <h3 class="signature " id="port-instance_method">
   
     - (<tt>Object</tt>) <strong>port</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute port</p>
@@ -942,13 +1000,15 @@ and values.</p>
       <span id=""></span>
       <span id="user-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="user-instance_method">
+  <h3 class="signature " id="user-instance_method">
   
     - (<tt>Object</tt>) <strong>user</strong>  <span class="extras">(readonly)</span>
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute user</p>
@@ -985,16 +1045,18 @@ and values.</p>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="set_protected_post-instance_method">
+  <h3 class="signature first" id="set_protected_post-instance_method">
   
     - (<tt>Hash</tt>) <strong>set_protected_post</strong>(info) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Set protected fields value from a post operation. Being them the _id and
@@ -1004,7 +1066,7 @@ created_at.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1045,7 +1107,7 @@ created_at.</p>
     
     
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1086,13 +1148,15 @@ created_at.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="set_protected_put-instance_method">
+  <h3 class="signature " id="set_protected_put-instance_method">
   
     - (<tt>Hash</tt>) <strong>set_protected_put</strong>(info) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Set protected field value from a get operation. Being it the updated_at.</p>
@@ -1101,7 +1165,7 @@ created_at.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1122,7 +1186,7 @@ created_at.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1163,13 +1227,15 @@ created_at.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="to_sql_insert-instance_method">
+  <h3 class="signature " id="to_sql_insert-instance_method">
   
     - (<tt>String</tt>) <strong>to_sql_insert</strong>(h) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Generates a compatible SQL INSERT string from a hash.</p>
@@ -1178,7 +1244,7 @@ created_at.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1199,7 +1265,7 @@ created_at.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1243,13 +1309,15 @@ values are surrounded with '&lt;value&gt;'.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="to_sql_update-instance_method">
+  <h3 class="signature " id="to_sql_update-instance_method">
   
     - (<tt>String</tt>) <strong>to_sql_update</strong>(h) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Generates a compatible SQL UPDATE string from a hash.</p>
@@ -1258,7 +1326,7 @@ values are surrounded with '&lt;value&gt;'.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1279,7 +1347,7 @@ values are surrounded with '&lt;value&gt;'.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1321,13 +1389,15 @@ surrounded with '&lt;value&gt;'.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="to_sql_where-instance_method">
+  <h3 class="signature " id="to_sql_where-instance_method">
   
     - (<tt>String</tt>) <strong>to_sql_where</strong>(h) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Generates a compatible SQL WHERE string from a hash.</p>
@@ -1336,7 +1406,7 @@ surrounded with '&lt;value&gt;'.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1357,7 +1427,7 @@ surrounded with '&lt;value&gt;'.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1399,13 +1469,15 @@ surrounded with '&lt;value&gt;'.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="validate_data_post-instance_method">
+  <h3 class="signature " id="validate_data_post-instance_method">
   
     - (<tt>Object</tt>) <strong>validate_data_post</strong>(info) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Validates the user information for a post operation, based on possible keys
@@ -1420,7 +1492,7 @@ do not respect the</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1468,13 +1540,15 @@ do not respect the</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="validate_data_put-instance_method">
+  <h3 class="signature " id="validate_data_put-instance_method">
   
     - (<tt>Object</tt>) <strong>validate_data_put</strong>(info) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Validates the user information for a put operation, based on possible keys
@@ -1489,7 +1563,7 @@ not respect the</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1535,13 +1609,15 @@ not respect the</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="validate_query_filters-instance_method">
+  <h3 class="signature " id="validate_query_filters-instance_method">
   
     - (<tt>Object</tt>) <strong>validate_query_filters</strong>(filters) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Validates that incoming query filters fields are valid.</p>
@@ -1555,7 +1631,7 @@ fields do not respect the</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1603,11 +1679,11 @@ fields do not respect the</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:50 2012 by 
+  Generated on Sun Jun 24 12:30:45 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

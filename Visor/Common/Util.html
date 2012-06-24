@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (U)</a> &raquo; 
+    <a href="../../_index.html">Index (U)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Common.html" title="Visor::Common (module)">Common</a></span></span>
      &raquo; 
     <span class="title">Util</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Module: Visor::Common::Util
   
   
@@ -126,6 +133,7 @@ sub-systems.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -141,6 +149,7 @@ sub-systems.</p>
 
     
   </span>
+  
   
   
   
@@ -168,6 +177,7 @@ sub-systems.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -183,6 +193,7 @@ sub-systems.</p>
 
     
   </span>
+  
   
   
   
@@ -210,6 +221,7 @@ sub-systems.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -225,6 +237,7 @@ sub-systems.</p>
 
     
   </span>
+  
   
   
   
@@ -252,6 +265,7 @@ sub-systems.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -267,6 +281,7 @@ sub-systems.</p>
 
     
   </span>
+  
   
   
   
@@ -296,6 +311,7 @@ sub-systems.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'></div></span>
@@ -310,16 +326,18 @@ sub-systems.</p>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="authorize-instance_method">
+  <h3 class="signature first" id="authorize-instance_method">
   
     - (<tt>Object</tt>) <strong>authorize</strong>(env, vas) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -327,7 +345,7 @@ sub-systems.</p>
 </div>
 <div class="tags">
   
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -357,7 +375,13 @@ sub-systems.</p>
 94
 95
 96
-97</pre>
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 87</span>
@@ -367,7 +391,13 @@ sub-systems.</p>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Exception</span><span class='op'>::</span><span class='const'>Forbidden</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Authorization not provided.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_auth'>auth</span>
   <span class='id identifier rubyid_access_key'>access_key</span> <span class='op'>=</span> <span class='id identifier rubyid_auth'>auth</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\ (\w+):</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Exception</span><span class='op'>::</span><span class='const'>Forbidden</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No access key found in Authorization.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_access_key'>access_key</span>
-  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_vas'>vas</span><span class='period'>.</span><span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_vas'>vas</span><span class='period'>.</span><span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rparen'>)</span>
+  <span class='kw'>rescue</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Exception</span><span class='op'>::</span><span class='const'>InternalError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Exception</span><span class='op'>::</span><span class='const'>InternalError</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Exception</span><span class='op'>::</span><span class='const'>Forbidden</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No user found with access key '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_content'>'.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
   <span class='id identifier rubyid_sign'>sign</span> <span class='op'>=</span> <span class='id identifier rubyid_sign_request'>sign_request</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:secret_key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>REQUEST_PATH</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>headers</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Common</span><span class='op'>::</span><span class='const'>Exception</span><span class='op'>::</span><span class='const'>Forbidden</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid authorization, signatures do not match.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_auth'>auth</span> <span class='op'>==</span> <span class='id identifier rubyid_sign'>sign</span>
@@ -379,13 +409,15 @@ sub-systems.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="canonical_description-instance_method">
+  <h3 class="signature " id="canonical_description-instance_method">
   
     - (<tt>Object</tt>) <strong>canonical_description</strong>(method, path, headers = {}) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -433,13 +465,15 @@ sub-systems.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="is_date?-instance_method">
+  <h3 class="signature " id="is_date?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>is_date?</strong>(object) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -447,7 +481,7 @@ sub-systems.</p>
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -485,13 +519,15 @@ sub-systems.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="is_float?-instance_method">
+  <h3 class="signature " id="is_float?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>is_float?</strong>(object) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -499,7 +535,7 @@ sub-systems.</p>
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -535,13 +571,15 @@ sub-systems.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="is_integer?-instance_method">
+  <h3 class="signature " id="is_integer?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>is_integer?</strong>(object) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 
@@ -549,7 +587,7 @@ sub-systems.</p>
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -585,13 +623,15 @@ sub-systems.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="parse_value-instance_method">
+  <h3 class="signature " id="parse_value-instance_method">
   
     - (<tt>Object</tt>) <strong>parse_value</strong>(string) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -629,13 +669,15 @@ sub-systems.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="pull_meta_from_headers-instance_method">
+  <h3 class="signature " id="pull_meta_from_headers-instance_method">
   
     - (<tt>Object</tt>) <strong>pull_meta_from_headers</strong>(headers) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -671,13 +713,15 @@ sub-systems.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="push_meta_into_headers-instance_method">
+  <h3 class="signature " id="push_meta_into_headers-instance_method">
   
     - (<tt>Hash</tt>) <strong>push_meta_into_headers</strong>(meta, headers = {}) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Push a hash containing image metadata into an HTTP header. Each key value
@@ -687,7 +731,7 @@ pair is pushed as a string of the form 'x-image-meta-&lt;key&gt;'.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -724,7 +768,7 @@ pair is pushed as a string of the form 'x-image-meta-&lt;key&gt;'.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -767,13 +811,15 @@ pair is pushed as a string of the form 'x-image-meta-&lt;key&gt;'.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="sign_request-instance_method">
+  <h3 class="signature " id="sign_request-instance_method">
   
     - (<tt>Object</tt>) <strong>sign_request</strong>(access_key, secret_key, method, path, headers = {}) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -805,11 +851,11 @@ pair is pushed as a string of the form 'x-image-meta-&lt;key&gt;'.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:49 2012 by 
+  Generated on Sun Jun 24 12:30:41 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

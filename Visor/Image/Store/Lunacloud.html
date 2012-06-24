@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../../';
+  framesUrl = "../../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../../_index.html">Index (L)</a> &raquo; 
+    <a href="../../../_index.html">Index (L)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Image.html" title="Visor::Image (module)">Image</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Store.html" title="Visor::Image::Store (module)">Store</a></span></span>
      &raquo; 
     <span class="title">Lunacloud</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Image::Store::Lunacloud
   
   
@@ -128,6 +135,7 @@ storage system, based on a URI like
   </span>
   
   
+  
     
     
   
@@ -152,6 +160,7 @@ storage system, based on a URI like
 
     
   </span>
+  
   
   
     
@@ -180,6 +189,7 @@ storage system, based on a URI like
   </span>
   
   
+  
     
     
   
@@ -204,6 +214,7 @@ storage system, based on a URI like
 
     
   </span>
+  
   
   
     
@@ -232,6 +243,7 @@ storage system, based on a URI like
   </span>
   
   
+  
     
     
   
@@ -256,6 +268,7 @@ storage system, based on a URI like
 
     
   </span>
+  
   
   
     
@@ -284,6 +297,7 @@ storage system, based on a URI like
   </span>
   
   
+  
     
     
   
@@ -308,6 +322,7 @@ storage system, based on a URI like
 
     
   </span>
+  
   
   
     
@@ -353,6 +368,7 @@ storage system, based on a URI like
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -370,6 +386,7 @@ storage system, based on a URI like
 
     
   </span>
+  
   
   
   
@@ -399,6 +416,7 @@ storage system, based on a URI like
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -422,6 +440,7 @@ storage system, based on a URI like
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -439,6 +458,7 @@ storage system, based on a URI like
 
     
   </span>
+  
   
     <span class="note title constructor">constructor</span>
   
@@ -470,6 +490,7 @@ storage system, based on a URI like
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -488,17 +509,20 @@ file created by the server at data reception time.</p>
   
   
   
+  
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
-  <p class="signature first" id="initialize-instance_method">
+  <h3 class="signature first" id="initialize-instance_method">
   
     - (<tt>Object</tt>) <strong>initialize</strong>(uri, config) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Initializes a new Lunacloud store client object. Lunacloud credentials are
@@ -509,7 +533,7 @@ configuration file for POST and PUT operation.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -570,9 +594,7 @@ configuration file.</p>
 42
 43
 44
-45
-46
-47</pre>
+45</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 29</span>
@@ -586,15 +608,13 @@ configuration file.</p>
     <span class='ivar'>@secret_key</span> <span class='op'>=</span> <span class='ivar'>@uri</span><span class='period'>.</span><span class='id identifier rubyid_password'>password</span>
     <span class='ivar'>@bucket</span>     <span class='op'>=</span> <span class='ivar'>@uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
     <span class='ivar'>@file</span>       <span class='op'>=</span> <span class='ivar'>@uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
-    <span class='ivar'>@host</span>       <span class='op'>=</span> <span class='ivar'>@uri</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span>
-    <span class='ivar'>@port</span>       <span class='op'>=</span> <span class='ivar'>@uri</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span>
   <span class='kw'>else</span>
     <span class='ivar'>@access_key</span> <span class='op'>=</span> <span class='ivar'>@config</span><span class='lbracket'>[</span><span class='symbol'>:access_key</span><span class='rbracket'>]</span>
     <span class='ivar'>@secret_key</span> <span class='op'>=</span> <span class='ivar'>@config</span><span class='lbracket'>[</span><span class='symbol'>:secret_key</span><span class='rbracket'>]</span>
     <span class='ivar'>@bucket</span>     <span class='op'>=</span> <span class='ivar'>@config</span><span class='lbracket'>[</span><span class='symbol'>:bucket</span><span class='rbracket'>]</span>
-    <span class='ivar'>@host</span>       <span class='op'>=</span> <span class='ivar'>@config</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span>
-    <span class='ivar'>@port</span>       <span class='op'>=</span> <span class='ivar'>@config</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
+  <span class='ivar'>@host</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>lcs.lunacloud.com</span><span class='tstring_end'>'</span></span>
+  <span class='ivar'>@port</span> <span class='op'>=</span> <span class='int'>80</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -610,13 +630,15 @@ configuration file.</p>
       <span id="access_key=-instance_method"></span>
       <span id="access_key-instance_method"></span>
       <div class="method_details first">
-  <p class="signature first" id="access_key-instance_method">
+  <h3 class="signature first" id="access_key-instance_method">
   
     - (<tt>Object</tt>) <strong>access_key</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute access_key</p>
@@ -652,13 +674,15 @@ configuration file.</p>
       <span id="bucket=-instance_method"></span>
       <span id="bucket-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="bucket-instance_method">
+  <h3 class="signature " id="bucket-instance_method">
   
     - (<tt>Object</tt>) <strong>bucket</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute bucket</p>
@@ -694,13 +718,15 @@ configuration file.</p>
       <span id="config=-instance_method"></span>
       <span id="config-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="config-instance_method">
+  <h3 class="signature " id="config-instance_method">
   
     - (<tt>Object</tt>) <strong>config</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute config</p>
@@ -736,13 +762,15 @@ configuration file.</p>
       <span id="file=-instance_method"></span>
       <span id="file-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="file-instance_method">
+  <h3 class="signature " id="file-instance_method">
   
     - (<tt>Object</tt>) <strong>file</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute file</p>
@@ -778,13 +806,15 @@ configuration file.</p>
       <span id="host=-instance_method"></span>
       <span id="host-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="host-instance_method">
+  <h3 class="signature " id="host-instance_method">
   
     - (<tt>Object</tt>) <strong>host</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute host</p>
@@ -820,13 +850,15 @@ configuration file.</p>
       <span id="port=-instance_method"></span>
       <span id="port-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="port-instance_method">
+  <h3 class="signature " id="port-instance_method">
   
     - (<tt>Object</tt>) <strong>port</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute port</p>
@@ -862,13 +894,15 @@ configuration file.</p>
       <span id="secret_key=-instance_method"></span>
       <span id="secret_key-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="secret_key-instance_method">
+  <h3 class="signature " id="secret_key-instance_method">
   
     - (<tt>Object</tt>) <strong>secret_key</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute secret_key</p>
@@ -904,13 +938,15 @@ configuration file.</p>
       <span id="uri=-instance_method"></span>
       <span id="uri-instance_method"></span>
       <div class="method_details ">
-  <p class="signature " id="uri-instance_method">
+  <h3 class="signature " id="uri-instance_method">
   
     - (<tt>Object</tt>) <strong>uri</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the value of attribute uri</p>
@@ -947,16 +983,18 @@ configuration file.</p>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="connection-instance_method">
+  <h3 class="signature first" id="connection-instance_method">
   
     - (<tt>Happening::S3::Item</tt>) <strong>connection</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns a Happening library S3 Lunacloud compatible connection object.</p>
@@ -966,7 +1004,7 @@ configuration file.</p>
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -991,17 +1029,17 @@ configuration file.</p>
       <pre class="lines">
 
 
+51
+52
 53
-54
-55
-56</pre>
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_connection'>connection</span>
   <span class='const'>S3restful</span><span class='op'>::</span><span class='const'>S3</span><span class='op'>::</span><span class='const'>Item</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_bucket'>bucket</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='label'>server:</span> <span class='id identifier rubyid_host'>host</span><span class='comma'>,</span> <span class='label'>port:</span> <span class='id identifier rubyid_port'>port</span><span class='comma'>,</span> <span class='label'>protocol:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>http</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
-                          <span class='label'>aws_access_key_id:</span> <span class='id identifier rubyid_access_key'>access_key</span><span class='comma'>,</span> <span class='label'>aws_secret_access_key:</span> <span class='id identifier rubyid_secret_key'>secret_key</span><span class='rparen'>)</span>
+                          <span class='label'>aws_access_key_id:</span>    <span class='id identifier rubyid_access_key'>access_key</span><span class='comma'>,</span> <span class='label'>aws_secret_access_key:</span> <span class='id identifier rubyid_secret_key'>secret_key</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1009,13 +1047,15 @@ configuration file.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="delete-instance_method">
+  <h3 class="signature " id="delete-instance_method">
   
     - (<tt>Object</tt>) <strong>delete</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Deletes the image file from its location.</p>
@@ -1025,7 +1065,7 @@ configuration file.</p>
 </div>
 <div class="tags">
   
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1050,12 +1090,12 @@ configuration file.</p>
       <pre class="lines">
 
 
-99
-100
-101</pre>
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
   <span class='id identifier rubyid_connection'>connection</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
@@ -1066,13 +1106,15 @@ configuration file.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="file_exists?-instance_method">
+  <h3 class="signature " id="file_exists?-instance_method">
   
     - (<tt>True</tt>, <tt>False</tt>) <strong>file_exists?</strong>(raise_exc = true) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Check if the image file exists.</p>
@@ -1081,7 +1123,7 @@ configuration file.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1105,7 +1147,7 @@ exists or not.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1123,7 +1165,7 @@ exists or not.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1148,18 +1190,18 @@ exists or not.</p>
       <pre class="lines">
 
 
+111
+112
 113
 114
 115
 116
 117
 118
-119
-120
-121</pre>
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_file_exists?'>file_exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_raise_exc'>raise_exc</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_exist'>exist</span>   <span class='op'>=</span> <span class='kw'>nil</span>
@@ -1176,13 +1218,15 @@ exists or not.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="get-instance_method">
+  <h3 class="signature " id="get-instance_method">
   
     - (<tt>Object</tt>) <strong>get</strong> 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Returns the image file to clients, streamed in chunks.</p>
@@ -1192,7 +1236,7 @@ exists or not.</p>
 </div>
 <div class="tags">
   
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1217,17 +1261,17 @@ exists or not.</p>
       <pre class="lines">
 
 
+60
+61
 62
 63
 64
 65
 66
-67
-68
-69</pre>
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get'>get</span>
   <span class='id identifier rubyid_s3'>s3</span>     <span class='op'>=</span> <span class='id identifier rubyid_connection'>connection</span><span class='period'>.</span><span class='id identifier rubyid_aget'>aget</span>
@@ -1243,13 +1287,15 @@ exists or not.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="save-instance_method">
+  <h3 class="signature " id="save-instance_method">
   
     - (<tt>String</tt>, <tt>Integer</tt>) <strong>save</strong>(id, tmp_file, format) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Saves the image file to the its final destination, based on the temporary
@@ -1259,7 +1305,7 @@ file created by the server at data reception time.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -1312,7 +1358,7 @@ file created by the server at data reception time.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -1330,7 +1376,7 @@ file created by the server at data reception time.</p>
     </li>
   
 </ul>
-<h3>Raises:</h3>
+<p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
@@ -1355,6 +1401,8 @@ file created by the server at data reception time.</p>
       <pre class="lines">
 
 
+80
+81
 82
 83
 84
@@ -1364,12 +1412,10 @@ file created by the server at data reception time.</p>
 88
 89
 90
-91
-92
-93</pre>
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/store/lunacloud.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_tmp_file'>tmp_file</span><span class='comma'>,</span> <span class='id identifier rubyid_format'>format</span><span class='rparen'>)</span>
   <span class='ivar'>@file</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_format'>format</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1391,11 +1437,11 @@ file created by the server at data reception time.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:50 2012 by 
+  Generated on Sun Jun 24 12:30:46 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>

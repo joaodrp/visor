@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
+
 
   <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
 
@@ -26,36 +28,41 @@
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (G)</a> &raquo; 
+    <a href="../../_index.html">Index (G)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Visor.html" title="Visor (module)">Visor</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Image.html" title="Visor::Image (module)">Image</a></span></span>
      &raquo; 
     <span class="title">GetImage</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
   
-    <a id="class_list_link" href="#">Class List</a>
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
   
-    <a id="method_list_link" href="#">Method List</a>
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
   
-    <a id="file_list_link" href="#">File List</a>
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
   
 </div>
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Class: Visor::Image::GetImage
   
   
@@ -138,6 +145,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -161,6 +169,7 @@
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -178,6 +187,7 @@
 
     
   </span>
+  
   
   
   
@@ -208,6 +218,7 @@ variable.</p>
   
   
   
+  
 
   
     <span class="summary_desc"><div class='inline'>
@@ -229,6 +240,7 @@ along with the image file, if any, streaming it in request body.</p>
   
   
   
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Common/Util.html" title="Visor::Common::Util (module)">Common::Util</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="../Common/Util.html#authorize-instance_method" title="Visor::Common::Util#authorize (method)">#authorize</a></span>, <span class='object_link'><a href="../Common/Util.html#canonical_description-instance_method" title="Visor::Common::Util#canonical_description (method)">#canonical_description</a></span>, <span class='object_link'><a href="../Common/Util.html#is_date%3F-instance_method" title="Visor::Common::Util#is_date? (method)">#is_date?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_float%3F-instance_method" title="Visor::Common::Util#is_float? (method)">#is_float?</a></span>, <span class='object_link'><a href="../Common/Util.html#is_integer%3F-instance_method" title="Visor::Common::Util#is_integer? (method)">#is_integer?</a></span>, <span class='object_link'><a href="../Common/Util.html#parse_value-instance_method" title="Visor::Common::Util#parse_value (method)">#parse_value</a></span>, <span class='object_link'><a href="../Common/Util.html#pull_meta_from_headers-instance_method" title="Visor::Common::Util#pull_meta_from_headers (method)">#pull_meta_from_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#push_meta_into_headers-instance_method" title="Visor::Common::Util#push_meta_into_headers (method)">#push_meta_into_headers</a></span>, <span class='object_link'><a href="../Common/Util.html#sign_request-instance_method" title="Visor::Common::Util#sign_request (method)">#sign_request</a></span></p>
 
@@ -238,19 +250,22 @@ along with the image file, if any, streaming it in request body.</p>
   
   
   
+  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
-    
+
     
       <div class="method_details first">
-  <p class="signature first" id="exit_error-instance_method">
+  <h3 class="signature first" id="exit_error-instance_method">
   
     - (<tt>Array</tt>) <strong>exit_error</strong>(code, message) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Produce an HTTP response with an error code and message.</p>
@@ -259,7 +274,7 @@ along with the image file, if any, streaming it in request body.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -296,7 +311,7 @@ along with the image file, if any, streaming it in request body.</p>
   
 </ul>
 
-<h3>Returns:</h3>
+<p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
@@ -321,13 +336,13 @@ along with the image file, if any, streaming it in request body.</p>
       <pre class="lines">
 
 
-71
-72
 73
-74</pre>
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/get_image.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/get_image.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='id identifier rubyid_message'>message</span>
@@ -339,13 +354,15 @@ along with the image file, if any, streaming it in request body.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="on_close-instance_method">
+  <h3 class="signature " id="on_close-instance_method">
   
     - (<tt>Object</tt>) <strong>on_close</strong>(env) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>On connection close log a message.</p>
@@ -354,7 +371,7 @@ along with the image file, if any, streaming it in request body.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -382,12 +399,12 @@ along with the image file, if any, streaming it in request body.</p>
       <pre class="lines">
 
 
-60
-61
-62</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/routes/get_image.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/routes/get_image.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on_close'>on_close</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Connection closed</span><span class='tstring_end'>'</span></span>
@@ -398,13 +415,15 @@ along with the image file, if any, streaming it in request body.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="on_headers-instance_method">
+  <h3 class="signature " id="on_headers-instance_method">
   
     - (<tt>Object</tt>) <strong>on_headers</strong>(env, headers) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Pre-process headers as they arrive and load them into a environment
@@ -414,7 +433,7 @@ variable.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -476,13 +495,15 @@ variable.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="response-instance_method">
+  <h3 class="signature " id="response-instance_method">
   
     - (<tt>Object</tt>) <strong>response</strong>(env) 
   
 
   
-</p><div class="docstring">
+
+  
+</h3><div class="docstring">
   <div class="discussion">
     
 <p>Query database to retrieve the wanted image meta and return it in headers,
@@ -492,7 +513,7 @@ along with the image file, if any, streaming it in request body.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  <p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -546,7 +567,9 @@ along with the image file, if any, streaming it in request body.</p>
 51
 52
 53
-54</pre>
+54
+55
+56</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'image/lib/image/routes/get_image.rb', line 28</span>
@@ -564,6 +587,8 @@ along with the image file, if any, streaming it in request body.</p>
     <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>403</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span> <span class='const'>NotFound</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>404</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='kw'>rescue</span> <span class='const'>InternalError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_exit_error'>exit_error</span><span class='lparen'>(</span><span class='int'>503</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_custom'>custom</span>  <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>application/octet-stream</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>X-Stream</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Goliath</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
@@ -586,11 +611,11 @@ along with the image file, if any, streaming it in request body.</p>
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Tue Jun 12 20:53:51 2012 by 
+  Generated on Sun Jun 24 12:30:47 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.5 (ruby-1.9.3).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>
