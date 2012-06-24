@@ -1093,29 +1093,29 @@ source store.</p>
 <p>Delete an image:</p>
 </div></p>
       
-      <pre class="example code"># wanted image _id
-id = &quot;edfa919a-0415-4d26-b54d-ae78ffc4dc79&quot;
+      <pre class="example code"><span class='comment'># wanted image _id
+</span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edfa919a-0415-4d26-b54d-ae78ffc4dc79</span><span class='tstring_end'>&quot;</span></span>
 
-# delete the image metadata and file
-client.delete_image(id)
+<span class='comment'># delete the image metadata and file
+</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
 
-  # returns:
-  {
-     :_id          =&gt; &quot;edfa919a-0415-4d26-b54d-ae78ffc4dc79&quot;,
-     :uri          =&gt; &quot;http://10.0.0.1:4568/images/edfa919a-0415-4d26-b54d-ae78ffc4dc79&quot;,
-     :name         =&gt; &quot;Ubuntu 12.04&quot;,
-     :architecture =&gt; &quot;i386&quot;,
-     :access       =&gt; &quot;public&quot;,
-     :status       =&gt; &quot;available&quot;,
-     :format       =&gt; &quot;iso&quot;,
-     :size         =&gt; 732213248,
-     :store        =&gt; &quot;http&quot;,
-     :location     =&gt; &quot;http://releases.ubuntu.com/12.04/ubuntu-12.04-desktop-amd64.iso&quot;,
-     :created_at   =&gt; &quot;2012-06-15 21:05:20 +0100&quot;,
-     :updated_at   =&gt; &quot;2012-06-15 21:10:36 +0100&quot;,
-     :checksum     =&gt; &quot;140f3-2ba4b000-4be8328106940&quot;
-     :owner        =&gt; &quot;foo&quot;
-  }</pre>
+  <span class='comment'># returns:
+</span>  <span class='lbrace'>{</span>
+     <span class='symbol'>:_id</span>          <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edfa919a-0415-4d26-b54d-ae78ffc4dc79</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:uri</span>          <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://10.0.0.1:4568/images/edfa919a-0415-4d26-b54d-ae78ffc4dc79</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:name</span>         <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ubuntu 12.04</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i386</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:access</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>public</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:status</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>available</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:format</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>iso</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:size</span>         <span class='op'>=&gt;</span> <span class='int'>732213248</span><span class='comma'>,</span>
+     <span class='symbol'>:store</span>        <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:location</span>     <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://releases.ubuntu.com/12.04/ubuntu-12.04-desktop-amd64.iso</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:created_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-06-15 21:05:20 +0100</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:updated_at</span>   <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2012-06-15 21:10:36 +0100</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:checksum</span>     <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>140f3-2ba4b000-4be8328106940</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+     <span class='symbol'>:owner</span>        <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foo</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -2740,7 +2740,7 @@ client.put_image(id, meta, file)
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 17:08:18 2012 by
+  Generated on Sun Jun 24 17:10:24 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>
