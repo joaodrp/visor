@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: USING_VISOR
+  
+    &mdash; VISoR
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: USING_VISOR</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>Using VISOR</h1>
+
+<p>In this appendix we will present some examples on how to use VISOR to manage VM images, using its main client tool: a CLI named <code>visor</code>. This CLI was already installed in the Client machine, previously configured in <a href="http://www.cvisor.org/file.INSTALLATION.html">Installing and Configuring VISOR</a>.</p>
+
+<br/>
+
+
+<p>To use VISOR, examples in this chapter should be reproduced in the <strong>Client</strong> machine, previously configured in <a href="http://www.cvisor.org/file.INSTALLATION.html">Installing and Configuring VISOR</a>.</p>
+
+<br/>
+
+
+<p>To see an help message about the client CLI, the <code>visor</code> command should be used with the <code>-h</code> option:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor -h
+Usage: visor &lt;command&gt; [options]
+
+Commands:
+     brief      Show brief metadata of all public and user's private images
+     detail     Show detailed metadata of all public and user's private images
+     head       Show an image detailed metadata
+     get        Retrieve an image metadata and file
+     add        Add a new image metadata and optionally upload its file
+     update     Update an image metadata and/or upload its file
+     delete     Delete an image metadata and its file
+     help       Show help message for one of the above commands
+
+Options:
+    -a, --address HOST      Address of the VISOR Image System server
+    -p, --port PORT         Port where the VISOR Image System server listens
+    -q, --query QUERY       HTTP query like string to filter results
+    -s, --sort ATTRIBUTE    Attribute to sort results (default: _id)
+    -d, --dir DIRECTION     Direction to sort results (asc/desc) (default: asc)
+    -f, --file IMAGE        Image file path to upload
+    -S, --save DIRECTORY    Directory to save downloaded image (default: './')
+
+Common options:
+    -v, --verbose            Enable verbose
+    -h, --help               Show this help message
+    -V, --version            Show version
+prompt $&gt;
+</code></pre>
+
+<h2>Assumptions</h2>
+
+<p>We need some VM images to register in VISOR. Therefore, we assume that users have down- loaded and placed the following sample images inside their home folder in the Client machine:</p>
+
+<ul>
+<li><p><a href="http://download.fedoraproject.org/pub/fedora/linux/releases/17/Live/x86_64/Fedora-17-x86_64-Live-Desktop.iso">Fedora-17-x86_64-Live-Desktop.iso</a>: Fedora Desktop 17 64-bit VM image.</p></li>
+<li><p><a href="http://mirrors.arsc.edu/centos/6.2/isos/i386/CentOS-6.2-i386-LiveCD.iso">CentOS-6.2-i386-LiveCD.iso</a>: CentOS 6.2 32-bit VM image.</p></li>
+</ul>
+
+
+<h2>Help Message</h2>
+
+<p>For displaying a detailed help message for a specific command, we can use the <code>help</code> command, followed by a specific command name for which we want to see a help message:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor help add
+Usage: visor add &lt;ATTRIBUTES&gt; [options]
+
+Add new metadata and optionally upload the image file.
+The following attributes can be specified as key/value pairs:
+
+        name: The image name
+architecture: The Image operating system architecture (available: i386 x86_64)
+      access: If the image is public or private (available: public private)
+      format: The image format (available: iso vhd vdi vmdk ami aki ari)
+        type: The image type (available: kernel ramdisk machine)
+       store: The storage backend (s3 lcs walrus cumulus hdfs http file)
+    location: The location URI of the already somewhere stored image
+
+Any other custom image property can be passed too as additional key/value pairs.
+
+Provide the --file option with the path to the image to be uploaded and the
+'store' attribute, defining the store where the image should be uploaded to.
+prompt $&gt;
+</code></pre>
+
+<h2>Register an Image</h2>
+
+<h3>Metadata Only</h3>
+
+<p>For registering only image metadata, without uploading or referencing an image file, users should use the command add, providing to it the image metadata as a set of key/value pairs arguments in any number, separated between them with a single space:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor add name='CentOS 6.2' architecture='i386' format='iso' access='private'
+Successfully added new metadata with ID 7583d669-8a65-41f1-b8ae-eb34ff6b322f.
+
+         _ID: 7583d669-8a65-41f1-b8ae-eb34ff6b322f
+         URI: http://10.0.0.1:4568/images/7583d669-8a65-41f1-b8ae-eb34ff6b322f
+        NAME: CentOS 6.2
+ARCHITECTURE: i386
+      ACCESS: private
+      STATUS: locked
+      FORMAT: iso
+  CREATED_AT: 2012-06-15 21:01:21 +0100
+       OWNER: foo
+prompt $&gt;
+</code></pre>
+
+<p>As can be seen in the above example, we have registered the metadata of the CentOS 6.2 VM image. We have set its access permission to ”private”, thus only user ”foo” can see and modify it. Status is automatically set to ”locked”, since we have not uploaded or referenced its image file but only registered its metadata.</p>
+
+<h3>Upload Image</h3>
+
+<p>For registering and uploading an image file, users can issue the command add, providing to it the image metadata as a set of key/value pairs arguments, and the <code>--file</code> option, followed by the VM image file path:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor add name='Fedora Desktop 17' architecture='x86_64' \
+format='iso' store='file' --file '~/Fedora-17-x86_64-Live-Desktop.iso'
+
+Adding new metadata and uploading file...
+Successfully added new image with ID e5fe8ea5-4704-48f1-905a-f5747cf8ba5e.
+
+         _ID: e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+         URI: http://10.0.0.1:4568/images/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+        NAME: Fedora Desktop 17
+ARCHITECTURE: x86_64
+      ACCESS: public
+      STATUS: available
+      FORMAT: iso
+        SIZE: 676331520
+       STORE: file
+    LOCATION: file:///home/joaodrp/VMs/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e.iso
+  CREATED_AT: 2012-06-15 21:03:32 +0100
+    CHECKSUM: 330dcb53f253acdf76431cecca0fefe7
+       OWNER: foo
+ UPLOADED_AT: 2012-06-15 21:03:50 +0100
+prompt $&gt;
+</code></pre>
+
+<h3>Reference Image Location</h3>
+
+<p>If users want to reference an already somewhere stored image file, it can be done by including
+the store and location attributes, with the latter being set to the VM image file URI:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor add name='Ubuntu 12.04 Server' architecture='x86_64' format='iso' store='http' location='http://releases.ubuntu.com/12.04/ubuntu-12.04-desktop-amd64.iso'
+
+Adding new metadata and uploading file...
+Successfully added new metadata with ID edfa919a-0415-4d26-b54d-ae78ffc4dc79.
+
+         _ID: edfa919a-0415-4d26-b54d-ae78ffc4dc79
+         URI: http://10.0.0.1:4568/images/edfa919a-0415-4d26-b54d-ae78ffc4dc79
+        NAME: Ubuntu 12.04 Server
+ARCHITECTURE: x86_64
+      ACCESS: public
+      STATUS: available
+      FORMAT: iso
+        SIZE: 732213248
+       STORE: http
+    LOCATION: http://releases.ubuntu.com/12.04/ubuntu-12.04-desktop-amd64.iso
+  CREATED_AT: 2012-06-15 21:05:20 +0100
+    CHECKSUM: 140f3-2ba4b000-4be8328106940
+       OWNER: foo
+prompt $&gt;
+</code></pre>
+
+<p>In the above example we have registered an Ubuntu Server 12.04 64-bit VM image, by ref- erencing its location through a HTTP URL. As can be observed, VISOR was able to locate that image file and find its size and checksum through the URL resource HTTP headers.</p>
+
+<h2>Retrieve Image Metadata</h2>
+
+<h3>Metadata Only</h3>
+
+<p>For retrieving an image metadata only, without the need to also download its file, users can use the head command, providing the image ID as first argument. The produced output is similar to that received when the image was registered.</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor head e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+
+         _ID: e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+         URI: http://10.0.0.1:4568/images/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+        NAME: Fedora Desktop 17
+ARCHITECTURE: x86_64
+      ACCESS: public
+      STATUS: available
+      FORMAT: iso
+        SIZE: 676331520
+       STORE: file
+    LOCATION: file:///home/joaodrp/VMs/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e.iso
+  CREATED_AT: 2012-06-15 21:03:32 +0100
+    CHECKSUM: 330dcb53f253acdf76431cecca0fefe7
+       OWNER: foo
+ UPLOADED_AT: 2012-06-15 21:03:50 +0100
+</code></pre>
+
+<h3>Brief Metadata</h3>
+
+<p>For requesting the brief metadata of all public and user’s private images, one can use the <code>brief</code> command:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor brief
+Found 3 image records...
+ID            NAME                 ARCHITECTURE  TYPE  FORMAT  STORE  SIZE      
+-----------  --------------------  ------------  ----  ------  -----  ---------
+e5fe8ea5...  Fedora Desktop 17     x86_64        -     iso     file   676331520 
+edfa919a...  Ubuntu 12.04 Server   x86_64        -     iso     http   732213248 
+7583d669...  CentOS 6.2            i386          -     iso     -      -
+</code></pre>
+
+<h3>Detailed Metadata</h3>
+
+<p>For requesting the detailed metadata of all public and user’s private images, one can use the <code>detail</code> command:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor detail
+Found 3 image records...
+--------------------------------------------------------------------------------
+         _ID: e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+         URI: http://10.0.0.1:4568/images/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+        NAME: Fedora Desktop 17
+ARCHITECTURE: x86_64
+      ACCESS: public
+      STATUS: available
+      FORMAT: iso
+        SIZE: 676331520
+       STORE: file
+    LOCATION: file:///home/joaodrp/VMs/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e.iso
+  CREATED_AT: 2012-06-15 21:03:32 +0100
+    CHECKSUM: 330dcb53f253acdf76431cecca0fefe7
+       OWNER: foo
+ UPLOADED_AT: 2012-06-15 21:03:50 +0100
+--------------------------------------------------------------------------------
+         _ID: edfa919a-0415-4d26-b54d-ae78ffc4dc79
+         URI: http://10.0.0.1:4568/images/edfa919a-0415-4d26-b54d-ae78ffc4dc79
+        NAME: Ubuntu 12.04 Server
+ARCHITECTURE: x86_64
+      ACCESS: public
+      STATUS: available
+      FORMAT: iso
+        SIZE: 732213248
+       STORE: http
+    LOCATION: http://releases.ubuntu.com/12.04/ubuntu-12.04-desktop-amd64.iso
+  CREATED_AT: 2012-06-15 21:05:20 +0100
+    CHECKSUM: 140f3-2ba4b000-4be8328106940
+       OWNER: foo
+--------------------------------------------------------------------------------
+         _ID: 7583d669-8a65-41f1-b8ae-eb34ff6b322f
+         URI: http://10.0.0.1:4568/images/7583d669-8a65-41f1-b8ae-eb34ff6b322f
+        NAME: CentOS 6.2
+ARCHITECTURE: i386
+      ACCESS: private
+      STATUS: locked
+      FORMAT: iso
+  CREATED_AT: 2012-06-15 21:01:21 +0100
+       OWNER: foo
+</code></pre>
+
+<h3>Filtering Results</h3>
+
+<p>It is also possible to filter results based in some query string. Such query string should conform to the HTTP query string format. Thus, for example, if we want to get brief metatada of all 64-bit images stored in the HTTP backend only, we would do it as follows:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor brief --query 'architecture=x86_64&amp;store=http'
+Found 1 image records...
+ID           NAME                  ARCHITECTURE  TYPE  FORMAT  STORE  SIZE      
+-----------  --------------------  ------------  ----  ------  -----  ---------
+edfa919a...  Ubuntu 12.04 Server   x86_64        -     iso     http   732213248
+</code></pre>
+
+<h2>Retrieve an Image</h2>
+
+<p>The ability to download an image file along with its metadata is exposed through the <code>get</code> command, providing to it the image ID string as first argument. If we do not want to save the image in the current directory, it is possible to provide the <code>--save</code> option, followed by the path to where we want to download the image.</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor get e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+
+         _ID: e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+         URI: http://10.0.0.1:4568/images/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e
+        NAME: Fedora Desktop 17
+ARCHITECTURE: x86_64
+      ACCESS: public
+      STATUS: available
+      FORMAT: iso
+        SIZE: 676331520
+       STORE: file
+    LOCATION: file:///home/joaodrp/VMs/e5fe8ea5-4704-48f1-905a-f5747cf8ba5e.iso
+  CREATED_AT: 2012-06-15 21:03:32 +0100
+  UPDATED_AT: 2012-06-15 21:07:14 +0100
+    CHECKSUM: 330dcb53f253acdf76431cecca0fefe7
+       OWNER: foo
+ UPLOADED_AT: 2012-06-15 21:03:50 +0100
+
+Downloading image e5fe8ea5-4704-48f1-905a-f5747cf8ba5e...      | ETA:  --:--:--
+Progress:      100% |=========================================| Time:   0:00:16
+</code></pre>
+
+<h2>Update an Image</h2>
+
+<h3>Metadata Only</h3>
+
+<p>For updating an image metadata, users can issue the command <code>update</code>, providing the image ID string as first argument, followed by any number of key/value pairs to update metadata. If wanting to receive the already updated metadata, the <code>-v</code> option should be passed:</p>
+
+<pre class="code ruby"><code>prompt $&gt;visor update edfa919a-0415-4d26-b54d-ae78ffc4dc79 name='Ubuntu 12.04' architecture='i386' -v
+
+Successfully updated image edfa919a-0415-4d26-b54d-ae78ffc4dc79.
+
+         _ID: edfa919a-0415-4d26-b54d-ae78ffc4dc79
+         URI: http://10.0.0.1:4568/images/edfa919a-0415-4d26-b54d-ae78ffc4dc79
+        NAME: Ubuntu 12.04
+ARCHITECTURE: i386
+      ACCESS: public
+      STATUS: available
+      FORMAT: iso
+        SIZE: 732213248
+       STORE: http
+    LOCATION: http://releases.ubuntu.com/12.04/ubuntu-12.04-desktop-amd64.iso
+  CREATED_AT: 2012-06-15 21:05:20 +0100
+  UPDATED_AT: 2012-06-15 21:10:36 +0100
+    CHECKSUM: 140f3-2ba4b000-4be8328106940
+       OWNER: foo
+</code></pre>
+
+<h3>Upload or Reference Image</h3>
+
+<p>If users want to upload or reference an image file to a registered metadata, it can be done by providing the <code>--file</code> option, or the location attribute, as done for the <code>add</code> command.</p>
+
+<pre class="code ruby"><code>prompt $&gt;visor update 7583d669-8a65-41f1-b8ae-eb34ff6b322f store='file' \
+format='iso' --file '~/CentOS-6.2-i386-LiveCD.iso' -v
+
+Updating metadata and uploading file...
+Successfully updated and uploaded image 7583d669-8a65-41f1-b8ae-eb34ff6b322f.
+
+         _ID: 7583d669-8a65-41f1-b8ae-eb34ff6b322f
+         URI: http://10.0.0.1:4568/images/7583d669-8a65-41f1-b8ae-eb34ff6b322f
+        NAME: CentOS 6.2
+ARCHITECTURE: i386
+      ACCESS: private
+      STATUS: available
+      FORMAT: iso
+        SIZE: 729808896
+       STORE: file
+    LOCATION: file:///home/joaodrp/VMs/7583d669-8a65-41f1-b8ae-eb34ff6b322f.iso
+  CREATED_AT: 2012-06-15 21:01:21 +0100
+  UPDATED_AT: 2012-06-15 21:12:27 +0100
+    CHECKSUM: 1b8441b6f4556be61c16d9750da42b3f
+       OWNER: foo
+prompt $&gt;
+</code></pre>
+
+<h2>Delete an Image</h2>
+
+<p>To receive as response the already deleted image metadata, the <code>-v</code> option should be used in the following <code>delete</code> command examples.</p>
+
+<h3>Delete a Single Image</h3>
+
+<p>To remove an image metadata along with its file (if any), we can use the <code>delete</code> command, followed by the image ID provided as its first argument:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor delete 7583d669-8a65-41f1-b8ae-eb34ff6b322f
+
+Successfully deleted image 7583d669-8a65-41f1-b8ae-eb34ff6b322f.
+prompt $&gt;
+</code></pre>
+
+<h3>Delete Multiple Images</h3>
+
+<p>It is also possible to remove more than one image at the same time, providing a set of IDs separated by a single space:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor delete e5fe8ea5-4704-48f1-905a-f5747cf8ba5e edfa919a-0415-4d26-b54d-ae78ffc4dc79
+
+Successfully deleted image e5fe8ea5-4704-48f1-905a-f5747cf8ba5e.
+Successfully deleted image edfa919a-0415-4d26-b54d-ae78ffc4dc79.
+prompt $&gt;
+</code></pre>
+
+<p>It is also possible to remove images that match a given query with the <code>--query</code> option. The images removed in the example above, could have also been removed using a query to match 64-bit (x86_64) images, as they were the only ones in the repository with that architecture:</p>
+
+<pre class="code ruby"><code>prompt $&gt; visor delete --query 'architecture=x86_64'
+
+Successfully deleted image e5fe8ea5-4704-48f1-905a-f5747cf8ba5e.
+Successfully deleted image edfa919a-0415-4d26-b54d-ae78ffc4dc79.
+prompt $&gt;
+</code></pre>
+</div></div>
+
+    <div id="footer">
+  Generated on Sun Jun 24 14:50:01 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

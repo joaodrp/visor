@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: CONFIGURATION_FILE
+  
+    &mdash; VISoR
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: CONFIGURATION_FILE</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>VISOR Configuration File Template</h1>
+
+<p>This guide lists the <a href="http://www.yaml.org/spec/1.2/spec.html">YAML format</a> VISOR configuration file template, which is generated at VISOR subsystems installation time, using the <code>visor-config</code> command. Fields with empty values are those which should be necessarily set by users when needed.</p>
+
+<pre class="code ruby"><code># ===== Default always loaded configuration throughout VISOR sub-systems ======
+default: &amp;default
+    # Set the default log date time format
+    log_datetime_format: &quot;%Y-%m-%d %H:%M:%S&quot;
+    # Set the default log files directory path
+    log_path: ~/.visor/logs
+    # VISOR access and secret key credentials (from visor-admin command)
+    access_key:
+    secret_key:
+
+# ================================ VISOR Auth =================================
+visor_auth:
+    # Merge default configurations
+    &lt;&lt;: *default
+    # Address and port to bind the server
+    bind_host: 0.0.0.0
+    bind_port: 4566
+    # Backend connection string (backend://user:pass@host:port/database)
+    #backend: mongodb://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:27017/visor
+    #backend: mysql://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:3306/visor
+    # Log file name (empty for STDOUT)
+    log_file: visor-auth-server.log
+    # Log level to start logging events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ================================ VISOR Meta =================================
+visor_meta:
+    # Merge default configurations
+    &lt;&lt;: *default
+    # Address and port to bind the server
+    bind_host: 0.0.0.0
+    bind_port: 4567
+    # Backend connection string (backend://user:pass@host:port/database)
+    #backend: mongodb://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:27017/visor
+    #backend: mysql://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:3306/visor
+    # Log file name (empty for STDOUT)
+    log_file: visor-meta-server.log
+    # Log level to start logging events (available: DEBUG, INFO)
+    log_level: INFO
+
+# ================================ VISOR Image ================================
+visor_image:
+    # Merge default configurations
+    &lt;&lt;: *default
+    # Address and port to bind the server
+    bind_host: 0.0.0.0
+    bind_port: 4568
+    # Log file name (empty for STDOUT)
+    log_file: visor-api-server.log
+    # Log level to start logging events (available: DEBUG, INFO)
+    log_level: INFO
+
+# =========================== VISOR Image Backends ============================
+visor_store:
+    # Default store (available: s3, lcs, cumulus, walrus, hdfs, file)
+    default: file
+    #
+    # FileSystem store backend (file) settings
+    #
+    file:
+        # Default directory to store image files in
+        directory: ~/VMs/
+    #
+    # Amazon S3 store backend (s3) settings
+    #
+    s3:
+        # The bucket to store images in, make sure it exists on S3
+        bucket:
+        # Access and secret key credentials, grab yours on your AWS account
+        access_key:
+        secret_key:
+    #
+    # Lunacloud LCS store backend (lcs) settings
+    #
+    lcs:
+        # The bucket to store images in, make sure it exists on LCS
+        bucket:
+        # Access and secret key credentials, grab yours within Lunacloud
+        access_key:
+        secret_key:
+    #
+    # Nimbus Cumulus store backend (cumulus) settings
+    #
+    cumulus:
+        # The Cumulus host address and port number
+        host:
+        port:
+        # The bucket to store images in, make sure it exists on Cumulus
+        bucket:
+        # Access and secret key credentials, grab yours within Nimbus
+        access_key:
+        secret_key:
+    #
+    # Eucalyptus Walrus store backend (walrus) settings
+    #
+    walrus:
+        # The Walrus host address and port number
+        host:
+        port:
+        # The bucket to store images in, make sure it exists on Walrus
+        bucket:
+        # Access and secret key credentials, grab yours within Eucalyptus
+        access_key:
+        secret_key:
+    #
+    # Apache Hadoop HDFS store backend (hdfs) settings
+    #
+    hdfs:
+        # The HDFS host address and port number
+        host:
+        port:
+        # The bucket to store images in
+        bucket:
+        # Access credentials, grab yours within Hadoop
+        username:
+</code></pre>
+</div></div>
+
+    <div id="footer">
+  Generated on Sun Jun 24 14:50:01 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
