@@ -22,6 +22,17 @@ VISOR, which stands for *Virtual Images Service Repository*, is an open source p
 - **Cross-Infrastructure:** Multi-infrastructure and unified image management service, sitting in the middle of different IaaS.
 - **Multi-Storage:** Compatibility with popular cloud storage systems.
 
+## Architecture
+
+![VISOR architecture](http://joaodrp.com/img/visor_architecture.png)
+
+
+## Guides
+
+- [Installing and Configuring VISOR](http://www.cvisor.org/file.INSTALLATION.html)
+- [Using VISOR](http://www.cvisor.org/file.USING_VISOR.html)
+- [VISOR Configuration File](http://www.cvisor.org/file.CONFIGURATION_FILE.html)
+
 ## License & Copyright
 
 VISOR is licensed under the GNU Lesser General Public License v3.

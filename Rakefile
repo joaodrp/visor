@@ -15,7 +15,7 @@ auth_spec  = " auth/spec/*.rb auth/spec/**/*.rb"
 common_spec = " common/spec/*.rb common/spec/**/*.rb"
 web_spec = " common/spec/*.rb common/spec/**/*.rb"
 
-files = "docs/INSTALLATION.md"
+files = "docs/INSTALLATION.md docs/CONFIGURATION_FILE.md docs/USING_VISOR.md"
 
 Rake::TestTask.new(:all) do |t|
   t.libs.push "lib"
