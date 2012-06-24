@@ -556,7 +556,7 @@ and sort direction.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Build an URI for the given image _id based on VISoR Image Server
+<p>Build an URI for the given image _id based on VISOR Image System
 configuration.</p>
 </div></span>
   
@@ -581,7 +581,7 @@ configuration.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Deserializes with JSON and decapsulate additional (not on the table schema)
+<p>Deserialize with JSON and decapsulate additional (not on the table schema)
 image attributes from the others schema field.</p>
 </div></span>
   
@@ -1012,17 +1012,17 @@ and values.</p>
       <pre class="lines">
 
 
+60
+61
 62
 63
 64
 65
 66
-67
-68
-69</pre>
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='ivar'>@host</span>     <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span>
@@ -1071,12 +1071,12 @@ and values.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_conn'>conn</span>
   <span class='ivar'>@conn</span>
@@ -1115,12 +1115,12 @@ and values.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_db'>db</span>
   <span class='ivar'>@db</span>
@@ -1159,12 +1159,12 @@ and values.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_host'>host</span>
   <span class='ivar'>@host</span>
@@ -1203,12 +1203,12 @@ and values.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_password'>password</span>
   <span class='ivar'>@password</span>
@@ -1247,12 +1247,12 @@ and values.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@port</span>
@@ -1291,12 +1291,12 @@ and values.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user'>user</span>
   <span class='ivar'>@user</span>
@@ -1325,7 +1325,7 @@ and values.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Build an URI for the given image _id based on VISoR Image Server
+<p>Build an URI for the given image _id based on VISOR Image System
 configuration.</p>
 
 
@@ -1378,16 +1378,16 @@ configuration.</p>
       <pre class="lines">
 
 
+158
+159
+160
 161
 162
 163
-164
-165
-166
-167</pre>
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_uri'>build_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_vis_address'>vis_address</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_vis_address'>vis_address</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1413,7 +1413,7 @@ configuration.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Deserializes with JSON and decapsulate additional (not on the table schema)
+<p>Deserialize with JSON and decapsulate additional (not on the table schema)
 image attributes from the others schema field.</p>
 
 <p>This is used for SQL Backends, as they are not schema free.</p>
@@ -1465,15 +1465,15 @@ image attributes from the others schema field.</p>
       <pre class="lines">
 
 
+201
+202
+203
 204
 205
-206
-207
-208
-209</pre>
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 201</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deserialize_others'>deserialize_others</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_meta'>meta</span><span class='lbracket'>[</span><span class='symbol'>:others</span><span class='rbracket'>]</span>
@@ -1550,17 +1550,17 @@ image attributes on the others schema field.</p>
       <pre class="lines">
 
 
+179
+180
+181
 182
 183
 184
 185
-186
-187
-188
-189</pre>
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serialize_others'>serialize_others</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_other_keys'>other_keys</span> <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span> <span class='op'>-</span> <span class='const'>ALL</span>
@@ -1717,17 +1717,17 @@ owner, size, access, status and created_at.</p>
       <pre class="lines">
 
 
+133
+134
 135
 136
 137
 138
 139
-140
-141
-142</pre>
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_protected_post'>set_protected_post</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_owner'>owner</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='comma'>,</span> <span class='id identifier rubyid_vis_address'>vis_address</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:owner</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:vis_address</span><span class='rbracket'>]</span>
@@ -1754,8 +1754,7 @@ owner, size, access, status and created_at.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Set protected fields value from a get operation. Being them the accessed_at
-and access_count.</p>
+<p>Set protected fields value from a get operation.</p>
 
 
   </div>
@@ -1807,12 +1806,12 @@ and access_count.</p>
       <pre class="lines">
 
 
-151
-152
-153</pre>
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_protected_put'>set_protected_put</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>updated_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
@@ -1886,12 +1885,12 @@ and access_count.</p>
       <pre class="lines">
 
 
-217
-218
-219</pre>
+214
+215
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 214</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Time</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
@@ -1966,13 +1965,13 @@ values are surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-250
-251
-252
-253</pre>
+247
+248
+249
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 247</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_insert'>to_sql_insert</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_surround'>surround</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>'</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_v'>v</span> <span class='rbrace'>}</span>
@@ -2048,12 +2047,12 @@ surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-239
-240
-241</pre>
+236
+237
+238</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 236</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_update'>to_sql_update</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -2128,12 +2127,12 @@ surrounded with '&lt;value&gt;'.</p>
       <pre class="lines">
 
 
-228
-229
-230</pre>
+225
+226
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sql_where'>to_sql_where</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_string_time_or_hash?'>string_time_or_hash?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>='</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_k'>k</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> AND </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -2195,6 +2194,8 @@ not respect the</p>
       <pre class="lines">
 
 
+76
+77
 78
 79
 80
@@ -2204,12 +2205,10 @@ not respect the</p>
 84
 85
 86
-87
-88
-89</pre>
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_data_post'>validate_data_post</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_assert_exclusion_keys'>assert_exclusion_keys</span><span class='lparen'>(</span><span class='const'>READONLY</span><span class='rparen'>)</span>
@@ -2280,6 +2279,8 @@ not respect the</p>
       <pre class="lines">
 
 
+96
+97
 98
 99
 100
@@ -2288,12 +2289,10 @@ not respect the</p>
 103
 104
 105
-106
-107
-108</pre>
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_data_put'>validate_data_put</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_assert_exclusion_keys'>assert_exclusion_keys</span><span class='lparen'>(</span><span class='const'>READONLY</span><span class='rparen'>)</span>
@@ -2362,14 +2361,14 @@ fields do not respect the</p>
       <pre class="lines">
 
 
+115
+116
 117
 118
-119
-120
-121</pre>
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'meta/lib/meta/backends/base.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_query_filters'>validate_query_filters</span><span class='lparen'>(</span><span class='id identifier rubyid_filters'>filters</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_filters'>filters</span><span class='period'>.</span><span class='id identifier rubyid_symbolize_keys!'>symbolize_keys!</span>
@@ -2386,7 +2385,7 @@ fields do not respect the</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 13:02:14 2012 by
+  Generated on Sun Jun 24 13:10:13 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>

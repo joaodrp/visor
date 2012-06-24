@@ -108,7 +108,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The VISoR Auth Server class. This class supports all users and groups
+<p>The VISoR Auth System (VAS) server class. This class supports all users
 management operations through the REST API implemented along the following
 routes.</p>
 
@@ -373,17 +373,17 @@ routes.</p>
       <pre class="lines">
 
 
+189
+190
 191
 192
 193
 194
 195
-196
-197
-198</pre>
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 189</span>
 
 <span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users/:access_key</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_access_key'>access_key</span><span class='op'>|</span>
   <span class='kw'>begin</span>
@@ -491,17 +491,17 @@ routes.</p>
       <pre class="lines">
 
 
+117
+118
 119
 120
 121
 122
 123
-124
-125
-126</pre>
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 117</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users/:access_key</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_access_key'>access_key</span><span class='op'>|</span>
   <span class='kw'>begin</span>
@@ -659,17 +659,17 @@ routes.</p>
       <pre class="lines">
 
 
+88
+89
 90
 91
 92
 93
 94
-95
-96
-97</pre>
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 88</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='kw'>begin</span>
@@ -796,6 +796,8 @@ routes.</p>
       <pre class="lines">
 
 
+139
+140
 141
 142
 143
@@ -806,12 +808,10 @@ routes.</p>
 148
 149
 150
-151
-152
-153</pre>
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 139</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='kw'>begin</span>
@@ -945,6 +945,8 @@ routes.</p>
       <pre class="lines">
 
 
+166
+167
 168
 169
 170
@@ -953,12 +955,10 @@ routes.</p>
 173
 174
 175
-176
-177
-178</pre>
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'auth/lib/auth/server.rb', line 166</span>
 
 <span class='id identifier rubyid_put'>put</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users/:access_key</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_access_key'>access_key</span><span class='op'>|</span>
   <span class='kw'>begin</span>
@@ -981,7 +981,7 @@ routes.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 13:02:11 2012 by
+  Generated on Sun Jun 24 13:10:10 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>
