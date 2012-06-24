@@ -106,10 +106,11 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The Client API for the VISoR Auth.</p>
+<p>The API for the VISOR Auth System (VAS) server. This class supports all
+user's manipulation operations.</p>
 
-<p>After Instantiate a Client object its possible to directly interact with
-the auth server and its database backend.</p>
+<p>After Instantiate a VAS API client object its possible to directly interact
+with the VAS server and its database backend.</p>
 
 
   </div>
@@ -118,23 +119,6 @@ the auth server and its database backend.</p>
   
 
 </div>
-  <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="DEFAULT_HOST-constant" class="">DEFAULT_HOST =
-          
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0.0.0.0</span><span class='tstring_end'>'</span></span></pre></dd>
-      
-        <dt id="DEFAULT_PORT-constant" class="">DEFAULT_PORT =
-          
-        </dt>
-        <dd><pre class="code"><span class='int'>4566</span></pre></dd>
-      
-    </dl>
-  
-
 
 
 
@@ -199,35 +183,6 @@ the auth server and its database backend.</p>
 </li>
 
     
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#ssl-instance_method" title="#ssl (instance method)">- (Object) <strong>ssl</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-      <span class="note title readonly">readonly</span>
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute ssl.</p>
-</div></span>
-  
-</li>
-
-    
   </ul>
 
 
@@ -244,7 +199,7 @@ the auth server and its database backend.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_user-instance_method" title="#delete_user (instance method)">- (Object) <strong>delete_user</strong>(access_key) </a>
+      <a href="#delete_user-instance_method" title="#delete_user (instance method)">- (Hash) <strong>delete_user</strong>(access_key) </a>
     
 
     
@@ -258,7 +213,9 @@ the auth server and its database backend.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Delete an user and returns its information.</p>
+</div></span>
   
 </li>
 
@@ -266,7 +223,7 @@ the auth server and its database backend.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_user-instance_method" title="#get_user (instance method)">- (Object) <strong>get_user</strong>(access_key) </a>
+      <a href="#get_user-instance_method" title="#get_user (instance method)">- (Hash) <strong>get_user</strong>(access_key) </a>
     
 
     
@@ -280,7 +237,9 @@ the auth server and its database backend.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Get information about a specific user.</p>
+</div></span>
   
 </li>
 
@@ -288,7 +247,7 @@ the auth server and its database backend.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_users-instance_method" title="#get_users (instance method)">- (Object) <strong>get_users</strong>(query = {}) </a>
+      <a href="#get_users-instance_method" title="#get_users (instance method)">- (Array) <strong>get_users</strong>(query = {}) </a>
     
 
     
@@ -302,7 +261,9 @@ the auth server and its database backend.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Get information about all registered users.</p>
+</div></span>
   
 </li>
 
@@ -336,7 +297,7 @@ the auth server and its database backend.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#post_user-instance_method" title="#post_user (instance method)">- (Object) <strong>post_user</strong>(info) </a>
+      <a href="#post_user-instance_method" title="#post_user (instance method)">- (Hash) <strong>post_user</strong>(info) </a>
     
 
     
@@ -350,7 +311,9 @@ the auth server and its database backend.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Register a new user account on VAS and return its data.</p>
+</div></span>
   
 </li>
 
@@ -358,7 +321,7 @@ the auth server and its database backend.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#put_user-instance_method" title="#put_user (instance method)">- (Object) <strong>put_user</strong>(access_key, info) </a>
+      <a href="#put_user-instance_method" title="#put_user (instance method)">- (Hash) <strong>put_user</strong>(access_key, info) </a>
     
 
     
@@ -372,7 +335,9 @@ the auth server and its database backend.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Update an existing user information and return it.</p>
+</div></span>
   
 </li>
 
@@ -415,19 +380,17 @@ the auth server and its database backend.</p>
       <pre class="lines">
 
 
-22
-23
-24
-25
-26</pre>
+19
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='ivar'>@host</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>DEFAULT_HOST</span>
-  <span class='ivar'>@port</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>DEFAULT_PORT</span>
-  <span class='ivar'>@ssl</span>  <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ssl</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>false</span>
+  <span class='ivar'>@host</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:host</span><span class='rbracket'>]</span>
+  <span class='ivar'>@port</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:port</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -468,12 +431,12 @@ the auth server and its database backend.</p>
       <pre class="lines">
 
 
-20
-21
-22</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_host'>host</span>
   <span class='ivar'>@host</span>
@@ -512,59 +475,15 @@ the auth server and its database backend.</p>
       <pre class="lines">
 
 
-20
-21
-22</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@port</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id=""></span>
-      <span id="ssl-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="ssl-instance_method">
-  
-    - (<tt>Object</tt>) <strong>ssl</strong>  <span class="extras">(readonly)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns the value of attribute ssl</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-20
-21
-22</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 20</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_ssl'>ssl</span>
-  <span class='ivar'>@ssl</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -581,25 +500,92 @@ the auth server and its database backend.</p>
       <div class="method_details first">
   <h3 class="signature first" id="delete_user-instance_method">
   
-    - (<tt>Object</tt>) <strong>delete_user</strong>(access_key) 
+    - (<tt>Hash</tt>) <strong>delete_user</strong>(access_key) 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete an user and returns its information.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>access_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The wanted user access_key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already deleted user detailed information.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user was not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-50
-51
-52
-53</pre>
+94
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_user'>delete_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/users/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>access_key:</span> <span class='id identifier rubyid_delete_headers'>delete_headers</span>
@@ -613,25 +599,92 @@ the auth server and its database backend.</p>
       <div class="method_details ">
   <h3 class="signature " id="get_user-instance_method">
   
-    - (<tt>Object</tt>) <strong>get_user</strong>(access_key) 
+    - (<tt>Hash</tt>) <strong>get_user</strong>(access_key) 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get information about a specific user.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>access_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The user access key (username).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The requested user account information.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user was not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-33
-34
-35
-36</pre>
+49
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_user'>get_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/users/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_access_key'>access_key</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>head:</span> <span class='id identifier rubyid_get_headers'>get_headers</span>
@@ -645,25 +698,150 @@ the auth server and its database backend.</p>
       <div class="method_details ">
   <h3 class="signature " id="get_users-instance_method">
   
-    - (<tt>Object</tt>) <strong>get_users</strong>(query = {}) 
+    - (<tt>Array</tt>) <strong>get_users</strong>(query = {}) 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get information about all registered users.</p>
+
+<p>Options for filtering the returned results can be passed in.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>query</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>query</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:<attribute_name></span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The user attribute value to filter returned results.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:sort</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>&quot;_id&quot;</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The image attribute to sort returned results.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:dir</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>&quot;asc&quot;</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The direction to sort results ("asc"/"desc").</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>All user's accounts.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there are no users registered on VAS.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-28
-29
-30
-31</pre>
+36
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_users'>get_users</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>query:</span> <span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>head:</span> <span class='id identifier rubyid_get_headers'>get_headers</span>
@@ -677,26 +855,121 @@ the auth server and its database backend.</p>
       <div class="method_details ">
   <h3 class="signature " id="post_user-instance_method">
   
-    - (<tt>Object</tt>) <strong>post_user</strong>(info) 
+    - (<tt>Hash</tt>) <strong>post_user</strong>(info) 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Register a new user account on VAS and return its data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>info</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The user information.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already created user detailed information.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/Invalid.html" title="Visor::Common::Exception::Invalid (class)">Invalid</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user data validation fails.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user was not found after registered.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/ConflictError.html" title="Visor::Common::Exception::ConflictError (class)">ConflictError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>access_key was already taken.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-38
-39
-40
-41
-42</pre>
+64
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_post_user'>post_user</span><span class='lparen'>(</span><span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='id identifier rubyid_prepare_body'>prepare_body</span><span class='lparen'>(</span><span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
@@ -711,26 +984,123 @@ the auth server and its database backend.</p>
       <div class="method_details ">
   <h3 class="signature " id="put_user-instance_method">
   
-    - (<tt>Object</tt>) <strong>put_user</strong>(access_key, info) 
+    - (<tt>Hash</tt>) <strong>put_user</strong>(access_key, info) 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Update an existing user information and return it.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>access_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The wanted user access_key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>info</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The user information.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already updated user detailed information.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/Invalid.html" title="Visor::Common::Exception::Invalid (class)">Invalid</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user data validation fails.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Exception/NotFound.html" title="Visor::Common::Exception::NotFound (class)">NotFound</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If user was not found.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-44
-45
-46
-47
-48</pre>
+80
+81
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'image/lib/image/auth.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_put_user'>put_user</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='comma'>,</span> <span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='id identifier rubyid_prepare_body'>prepare_body</span><span class='lparen'>(</span><span class='id identifier rubyid_info'>info</span><span class='rparen'>)</span>
@@ -747,7 +1117,7 @@ the auth server and its database backend.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 12:45:39 2012 by
+  Generated on Sun Jun 24 12:55:19 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>
