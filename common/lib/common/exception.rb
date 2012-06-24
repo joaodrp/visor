@@ -2,7 +2,7 @@ module Visor
   module Common
 
     # The Exceptions module introduces a set of custom exceptions used along
-    # all VISoR sub-systems.
+    # all VISOR subsystems.
     #
     module Exception
 

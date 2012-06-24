@@ -3,7 +3,7 @@ require 'uri'
 module Visor
   module Image
 
-    # Visor Image Store module encapsulates all store backend classes, plus a set of
+    # Visor Image System (VIS) Store module. This module encapsulates all store backend classes, plus a set of
     # utility methods common to all stores.
     #
     module Store

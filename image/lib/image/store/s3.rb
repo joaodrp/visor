@@ -42,9 +42,9 @@ module Visor
           end
         end
 
-        # Returns a Happening library S3 connection object.
+        # Returns a S3 connection object.
         #
-        # @return [Happening::S3::Item] A new S3 connection object.
+        # @return [S3restful::S3::Item] A new S3 connection object.
         #
         def connection
           S3restful::S3::Item.new(bucket, file, aws_access_key_id: access_key, aws_secret_access_key: secret_key)

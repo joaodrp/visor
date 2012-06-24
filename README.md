@@ -1,4 +1,4 @@
-# VISoR: Virtual Images Management Service for Cloud Infrastructures
+# VISOR: Virtual Images Management Service for Cloud Infrastructures
 
 **Author:** [João Pereira](http://joaodrp.com/) (MSc Student)  
 **Supervisor:** [Paula Prata](http://www.di.ubi.pt/~pprata/) (PhD)  
@@ -8,7 +8,7 @@
 
 ## Synopsis
 
-VISoR, which stands for *Virtual Images Service Repository*, is a work-in-progress project, whose main goal is to achieve an agnostic service for managing virtual machine images among different cloud offers.
+VISOR, which stands for *Virtual Images Service Repository*, is an open source project whose main goal is to achieve an agnostic service for managing virtual machine images among different cloud offers.
 
 ## Features
 
@@ -22,13 +22,9 @@ VISoR, which stands for *Virtual Images Service Repository*, is a work-in-progre
 - **Cross-Infrastructure:** Multi-infrastructure and unified image management service, sitting in the middle of different IaaS.
 - **Multi-Storage:** Compatibility with popular cloud storage systems.
 
-## How to Contribute
-
-Closed till the first public release.
-
 ## License & Copyright
 
-VISoR will be licensed under the GNU Lesser General Public License v3.
+VISOR is licensed under the GNU Lesser General Public License v3.
 
 Copyright © 2012 by [João Pereira](mailto:joaodrp@gmail.com), [Paula Prata](mailto:pprata@di.ubi.pt), University of Beira Interior (Department of Informatics)
 

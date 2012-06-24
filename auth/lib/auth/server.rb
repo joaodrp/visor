@@ -5,7 +5,7 @@ require 'uri'
 module Visor
   module Auth
 
-    # The VISoR Auth Server class. This class supports all users and groups management
+    # The VISoR Auth System (VAS) server class. This class supports all users management
     # operations through the REST API implemented along the following routes.
     #
     class Server < Sinatra::Base
@@ -18,8 +18,6 @@ module Visor
         backend_map = {'mongodb' => Visor::Auth::Backends::MongoDB,
                        'mysql'   => Visor::Auth::Backends::MySQL}
 
-        #TODO: catch error when Config does not found a key (like :visor_auth) in config file:
-        # /Users/joaodrp/workspace/visor/common/lib/common/config.rb:65:in `load_config': undefined method `merge' for nil:NilClass (NoMethodError)
         begin
           conf = Visor::Common::Config.load_config(:visor_auth)
           log  = Visor::Common::Config.build_logger(:visor_auth)

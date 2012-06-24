@@ -44,9 +44,9 @@ module Visor
           @port = 80
         end
 
-        # Returns a Happening library S3 Lunacloud compatible connection object.
+        # Returns a Lunacloud connection object.
         #
-        # @return [Happening::S3::Item] A new Lunacloud connection object.
+        # @return [S3restful::S3::Item] A new Lunacloud connection object.
         #
         def connection
           S3restful::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',

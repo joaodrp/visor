@@ -8,8 +8,6 @@ module Visor::Meta
     # from Base and them implement the specific methods for querying the underlying database.
     #
     class Base
-      # TODO validate owner user
-
       # Keys validation
       #
       # Mandatory attributes
@@ -142,7 +140,6 @@ module Visor::Meta
       end
 
       # Set protected fields value from a get operation.
-      # Being them the accessed_at and access_count.
       #
       # @param [Hash] meta The image metadata update.
       #
@@ -152,7 +149,7 @@ module Visor::Meta
         meta.merge!(updated_at: Time.now)
       end
 
-      # Build an URI for the given image _id based on VISoR Image Server configuration.
+      # Build an URI for the given image _id based on VISOR Image System configuration.
       #
       # @param [String] id The _id of the image.
       #
@@ -188,7 +185,7 @@ module Visor::Meta
         end
       end
 
-      # Deserializes with JSON and decapsulate additional (not on the table schema) image attributes
+      # Deserialize with JSON and decapsulate additional (not on the table schema) image attributes
       # from the others schema field.
       #
       # This is used for SQL Backends, as they are not schema free.

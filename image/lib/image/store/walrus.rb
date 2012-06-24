@@ -50,9 +50,9 @@ module Visor
           end
         end
 
-        # Returns a Happening library S3 Walrus compatible connection object.
+        # Returns a Walrus connection object.
         #
-        # @return [Happening::S3::Item] A new Walrus connection object.
+        # @return [S3restful::S3::Item] A new Walrus connection object.
         #
         def connection
           S3restful::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',

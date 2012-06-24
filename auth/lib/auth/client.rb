@@ -74,7 +74,7 @@ module Visor
 
       # Generate a valid URI query string from key/value pairs of the given hash.
       #
-      # @param opts [Hash] The hash with the key/value pairs to generate query from.
+      # @param h [Hash] The hash with the key/value pairs to generate query from.
       #
       # @return [String] The generated query in the form of "?k=v&k1=v1".
       #

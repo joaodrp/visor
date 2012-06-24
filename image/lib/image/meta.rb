@@ -5,32 +5,27 @@ require 'json'
 module Visor
   module Image
 
-    # The API for the VISoR Meta Server. This class supports all image metadata manipulation operations.
+    # The API for the VISOR Meta System (VMS) server. This class supports all image metadata manipulation operations.
     #
-    # This is the entry-point for the VISoR Image Server to communicate with the VISoR Meta Server,
-    # here are processed and logged all the calls to the meta server coming from it.
+    # This is the API used by the VISOR Image System (VIS) to communicate with the VMS in order to accomplish
+    # metadata retrieving and registering operations.
     #
     class Meta
       include Visor::Common::Exception
 
-      DEFAULT_HOST = '0.0.0.0'
-      DEFAULT_PORT = 4567
+      attr_reader :host, :port
 
-      attr_reader :host, :port, :ssl
-
-      # Initializes a new new VISoR Meta Image.
+      # Initializes a new new VMS interface.
       #
-      # @option opts [String] :host (DEFAULT_HOST) The host address where VISoR meta server resides.
-      # @option opts [String] :port (DEFAULT_PORT) The host port where VISoR meta server resides.
-      # @option opts [String] :ssl (false) If the connection should be made through HTTPS (SSL).
+      # @option opts [String] :host The host address where VMS server resides.
+      # @option opts [String] :port The host port where VMS server listens.
       #
       def initialize(opts = {})
-        @host = opts[:host] || DEFAULT_HOST
-        @port = opts[:port] || DEFAULT_PORT
-        @ssl  = opts[:ssl] || false
+        @host = opts[:host]
+        @port = opts[:port]
       end
 
-      # Retrieves brief metadata of all public images.
+      # Retrieves all public and user’s private images brief metadata.
       # Options for filtering the returned results can be passed in.
       #
       # @option query [String] :<attribute_name> The image attribute value to filter returned results.
@@ -38,10 +33,10 @@ module Visor
       # @option query [String] :sort ("_id") The image attribute to sort returned results.
       # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
       #
-      # @return [Array] All public images brief metadata.
-      #   Just {Visor::Meta::Backends::Base::BRIEF BRIEF} fields are returned.
+      # @return [Array] All images brief metadata.
+      #   Just {Visor::Meta::Backends::Base::BRIEF BRIEF} attributes are returned.
       #
-      # @raise [NotFound] If there are no public images registered on the server.
+      # @raise [NotFound] If there are no images registered on VMS.
       #
       def get_images(query = {}, owner=nil)
         query.merge!(owner: owner) if owner
@@ -49,7 +44,7 @@ module Visor
         return_response(http)
       end
 
-      # Retrieves detailed metadata of all public images.
+      # Retrieves all public and user’s private images detailed metadata.
       #
       # Filtering and querying works the same as with {#get_images}. The only difference is the number
       # of disclosed attributes.
@@ -62,7 +57,7 @@ module Visor
       # @return [Array] All public images detailed metadata.
       #   The {Visor::Meta::Backends::Base::DETAIL_EXC DETAIL_EXC} fields are excluded from results.
       #
-      # @raise [NotFound] If there are no public images registered on the server.
+      # @raise [NotFound] If there are no images registered on the server.
       #
       def get_images_detail(query = {}, owner=nil)
         query.merge!(owner: owner) if owner
@@ -70,26 +65,26 @@ module Visor
         return_response(http)
       end
 
-      # Retrieves detailed image metadata of the image with the given id.
+      # Retrieves detailed metadata of the image with the given id.
       #
       # @param id [String] The wanted image's _id.
       #
-      # @return [Hash] The requested image metadata.
+      # @return [Hash] The requested image detailed metadata.
       #
-      # @raise [NotFound] If image not found.
+      # @raise [NotFound] If image metadata was not found.
       #
       def get_image(id)
         http = request.get path: "/images/#{id}", head: get_headers
         return_response(http)
       end
 
-      # Register a new image on the server with the given metadata and returns its metadata.
+      # Register a new image metadata on VMS and return it.
       #
       # @param meta [Hash] The image metadata.
       #
-      # @return [Hash] The already inserted image metadata.
+      # @return [Hash] The already inserted detailed image metadata.
       #
-      # @raise [Invalid] If image meta validation fails.
+      # @raise [Invalid] If image metadata validation fails.
       #
       def post_image(meta, address)
         body = prepare_body(meta)
@@ -97,15 +92,15 @@ module Visor
         return_response(http)
       end
 
-      # Updates an image record with the given metadata and returns its metadata.
+      # Updates an image metadata with the given metadata and returns it.
       #
       # @param id [String] The image's _id which will be updated.
       # @param meta [Hash] The image metadata.
       #
-      # @return [Hash] The already updated image metadata.
+      # @return [Hash] The already updated detailed image metadata.
       #
       # @raise [Invalid] If image meta validation fails.
-      # @raise [NotFound] If required image was not found.
+      # @raise [NotFound] If the target image metadata was not found.
       #
       def put_image(id, meta)
         body = prepare_body(meta)
@@ -117,9 +112,9 @@ module Visor
       #
       # @param id [String] The image's _id which will be deleted.
       #
-      # @return [Hash] The already deleted image metadata. This is useful for recover on accidental delete.
+      # @return [Hash] The already deleted detailed image metadata. This is useful for recovery on accidental delete.
       #
-      # @raise [NotFound] If required image was not found.
+      # @raise [NotFound] If the target image metadata was not found.
       #
       def delete_image(id)
         http = request.delete path: "/images/#{id}", head: delete_headers
@@ -142,7 +137,7 @@ module Visor
 
       # Process requests by preparing its headers, launch them and assert or raise their response.
       #
-      # @param request [EventMachine::HttpRequest] The request which will be launched.
+      # @param http [EventMachine::HttpRequest] The request which will be launched.
       #
       # @return [String, Hash] If an error is raised, then it parses and returns its message,
       #   otherwise it properly parse and return the response body.
@@ -178,11 +173,11 @@ module Visor
       # @return [EventMachine::HttpRequest] A HTTP or HTTPS (not done yet) connection ready to use.
       #
       def request
-        if @ssl
+        #if @ssl
           #TODO: ssl connection
-        else
+        #else
           EventMachine::HttpRequest.new("http://#{@host}:#{@port}")
-        end
+        #end
       end
 
       # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'

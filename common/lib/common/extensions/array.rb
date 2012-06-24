@@ -2,7 +2,7 @@ module Visor
   module Common
 
     # The Module Extensions provides a set of functions to extend the Standard Core Libraries
-    # with custom usefull methods used allong all VISoR sub-systems.
+    # with custom useful methods used along all VISOR subsystems.
     #
     module Extensions
       #

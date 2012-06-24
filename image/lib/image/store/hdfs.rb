@@ -72,7 +72,7 @@ module Visor
           #STDERR.puts "URL #{url}"
           # ...
 
-          # This solves it by manually defining the final location (try to solve the error above)
+          # This solves it by manually defining the final location
           uri.port = 50075
           uri      = uri.to_s + '&offset=0'
 

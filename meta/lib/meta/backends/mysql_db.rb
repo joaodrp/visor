@@ -223,7 +223,6 @@ module Visor::Meta
       # Being them the accessed_at and access_count.
       #
       # @param [String] id The _id of the image being retrieved.
-      # @param [Mysql2::Client] conn The connection to the database.
       #
       def set_protected_get(id)
         @conn.query "UPDATE images SET accessed_at='#{Time.now}', access_count=access_count+1 WHERE _id='#{id}'"

@@ -140,7 +140,7 @@ visor_store:
         username:
 ]
 
-      # Ordered search for a VISoR configuration file on default locations and return the first matched.
+      # Ordered search for a VISOR configuration file on default locations and return the first matched.
       #
       # @param other_file [String] Other file to use instead of default config files.
       #
@@ -159,17 +159,16 @@ visor_store:
         end
       end
 
-      # Looks for a VISoR configuration file througth {#self.find_config_file} and returns a hash with
-      # all configuration settings or just a sub-system scoped settings.
+      # Looks for a VISOR configuration file through {#self.find_config_file} and returns a hash with
+      # all configuration settings or just a subsystem scoped settings.
       #
-      # @param scope [String] Used to return just the settings about a specific sub-system.
+      # @param scope [String] Used to return just the settings about a specific subsystem.
       # @param other_file [String] Other file to use instead of default config files.
       #
       # @return [Hash] Global or scoped settings.
       #
       # @raise [RuntimeError] If there is no configuration files or if errors occur during parsing.
       #
-      #TODO: YAML.load_openstruct(File.read(file))
       def self.load_config(scope = nil, other_file = nil)
         file = find_config_file(other_file)
         raise ConfigError, "Could not found any configuration file." unless file
@@ -182,10 +181,10 @@ visor_store:
         config.merge(file: file)
       end
 
-      # Build and return a Logger instance for a given VISoR sub-system, based on configuration
-      # file options, which are validated througth {#self.validate_logger}.
+      # Build and return a Logger instance for a given VISOR subsystem, based on configuration
+      # file options, which are validated through {#self.validate_logger}.
       #
-      # @param app_name [Symbol] The VISoR sub-system app name to build a log for.
+      # @param app_name [Symbol] The VISOR subsystem app name to build a log for.
       # @option configs [Hash] Optional configuration options to override config file ones.
       #
       # @return [Logger] A logger instance already properly configured.

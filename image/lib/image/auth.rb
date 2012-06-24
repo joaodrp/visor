@@ -6,47 +6,91 @@ require 'json'
 module Visor
   module Image
 
-    # The Client API for the VISoR Auth.
+    # The API for the VISOR Auth System (VAS) server. This class supports all user's manipulation operations.
     #
-    # After Instantiate a Client object its possible to directly interact with the auth server and its
+    # After Instantiate a VAS API client object its possible to directly interact with the VAS server and its
     # database backend.
     #
     class Auth
       include Visor::Common::Exception
 
-      DEFAULT_HOST = '0.0.0.0'
-      DEFAULT_PORT = 4566
-
-      attr_reader :host, :port, :ssl
+      attr_reader :host, :port
 
       def initialize(opts = {})
-        @host = opts[:host] || DEFAULT_HOST
-        @port = opts[:port] || DEFAULT_PORT
-        @ssl  = opts[:ssl] || false
+        @host = opts[:host]
+        @port = opts[:port]
       end
 
+      # Get information about all registered users.
+      #
+      # Options for filtering the returned results can be passed in.
+      #
+      # @option query [String] :<attribute_name> The user attribute value to filter returned results.
+      # @option query [String] :sort ("_id") The image attribute to sort returned results.
+      # @option query [String] :dir ("asc") The direction to sort results ("asc"/"desc").
+      #
+      # @return [Array] All user's accounts.
+      #
+      # @raise [NotFound] If there are no users registered on VAS.
+      #
       def get_users(query = {})
         http = request.get path: '/users', query: query, head: get_headers
         return_response(http)
       end
 
+      # Get information about a specific user.
+      #
+      # @param access_key [String] The user access key (username).
+      #
+      # @return [Hash] The requested user account information.
+      #
+      # @raise [NotFound] If user was not found.
+      #
       def get_user(access_key)
         http = request.get path: "/users/#{access_key}", head: get_headers
         return_response(http)
       end
 
+      # Register a new user account on VAS and return its data.
+      #
+      # @param info [Hash] The user information.
+      #
+      # @return [Hash] The already created user detailed information.
+      #
+      # @raise [Invalid] If user data validation fails.
+      # @raise [NotFound] If user was not found after registered.
+      # @raise [ConflictError] access_key was already taken.
+      #
       def post_user(info)
         body = prepare_body(info)
         http = request.post path: '/users', body: body, head: post_headers
         return_response(http)
       end
 
+      # Update an existing user information and return it.
+      #
+      # @param access_key [String] The wanted user access_key.
+      # @param info [Hash] The user information.
+      #
+      # @return [Hash] The already updated user detailed information.
+      #
+      # @raise [Invalid] If user data validation fails.
+      # @raise [NotFound] If user was not found.
+      #
       def put_user(access_key, info)
         body = prepare_body(info)
         http = request.put path: "/users/#{access_key}", body: body, head: put_headers
         return_response(http)
       end
 
+      # Delete an user and returns its information.
+      #
+      # @param access_key [String] The wanted user access_key.
+      #
+      # @return [Hash] The already deleted user detailed information.
+      #
+      # @raise [NotFound] If user was not found.
+      #
       def delete_user(access_key)
         http = request.delete path: "/users/#{access_key}", access_key: delete_headers
         return_response(http)
@@ -68,7 +112,7 @@ module Visor
 
       # Process requests by preparing its headers, launch them and assert or raise their response.
       #
-      # @param request [EventMachine::HttpRequest] The request which will be launched.
+      # @param http [EventMachine::HttpRequest] The request which will be launched.
       #
       # @return [String, Hash] If an error is raised, then it parses and returns its message,
       #   otherwise it properly parse and return the response body.
@@ -104,11 +148,11 @@ module Visor
       # @return [EventMachine::HttpRequest] A HTTP or HTTPS (not done yet) connection ready to use.
       #
       def request
-        if @ssl
+        #if @ssl
           #TODO: ssl connection
-        else
+        #else
           EventMachine::HttpRequest.new("http://#{@host}:#{@port}")
-        end
+        #end
       end
 
       # Fill common header keys before each request. This sets the 'User-Agent' and 'Accept'

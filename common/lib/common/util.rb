@@ -5,7 +5,7 @@ require 'base64'
 module Visor
   module Common
 
-    # The Util module provides a set of utility functions used along all VISoR sub-systems.
+    # The Util module provides a set of utility functions used along all VISOR subsystems.
     #
     module Util
       extend self
@@ -14,7 +14,7 @@ module Visor
       # Each key value pair is pushed as a string of the form 'x-image-meta-<key>'.
       #
       # @param meta [Hash] The image metadata
-      # @param header [Hash] (nil) The HTTP headers hash
+      # @param headers [Hash] (nil) The HTTP headers hash
       #
       # @return [Hash] The header containing the metadata headers
       #
@@ -23,6 +23,12 @@ module Visor
         headers
       end
 
+      # Pull image metadata from HTTP headers to a hash.
+      #
+      # @param headers [Hash] (nil) The HTTP headers hash
+      #
+      # @return [Hash] The header containing the metadata
+      #
       def pull_meta_from_headers(headers)
         meta = {}
         headers.each do |k, v|
@@ -34,6 +40,13 @@ module Visor
         meta
       end
 
+      # Find if a string value is an integer, a float or a date. If it matches a type,
+      # then it is converted to that type and returned.
+      #
+      # @param string [String] The string to be parsed.
+      #
+      # @return [Object] The already converted string value.
+      #
       def parse_value(string)
         if is_integer?(string) then
           Integer(string)
@@ -46,19 +59,45 @@ module Visor
         end
       end
 
+      # Find if a an object can be converted to an integer.
+      #
+      # @param object [Object] The object to be converted to integer.
+      #
+      # @return [Integer,NilClass] The converted integer, or nil if it can not be converted to integer.
+      #
       def is_integer?(object)
         true if Integer(object) rescue false
       end
 
+      # Find if a an object can be converted to a float.
+      #
+      # @param object [Object] The object to be converted to a float.
+      #
+      # @return [Float,NilClass] The converted float, or nil if it can not be converted to a float.
+      #
       def is_float?(object)
         true if Float(object) rescue false
       end
 
+      # Find if a an object can be converted to a date.
+      #
+      # @param object [Object] The object to be converted to a date.
+      #
+      # @return [Date,NilClass] The converted float, or nil if it can not be converted to a date.
+      #
       def is_date?(object)
         regexp = /\d{4}[-\/]\d{1,2}[-\/]\d{1,2}\s\d{2}:\d{2}:\d{2}\s\W\d{4}/
         object.match(regexp) ? true : false
       end
 
+      # Sign a request by generating an authorization string and embedding it in the request headers.
+      #
+      # @param access_key [String] The requester user access key.
+      # @param secret_key [String] The requester user secret key.
+      # @param method [String] The request method.
+      # @param path [String] The request path.
+      # @param headers [Hash] The request headers.
+      #
       def sign_request(access_key, secret_key, method, path, headers={})
         headers['Date'] ||= Time.now.utc.httpdate
         desc            = canonical_description(method, path, headers)
@@ -67,6 +106,14 @@ module Visor
         headers['Authorization'] = "VISOR #{access_key}:#{signature}"
       end
 
+      # Generate a request canonical description, which will be used by {#sign_request}.
+      #
+      # @param method [String] The request method.
+      # @param path [String] The request path.
+      # @param headers [Hash] The request headers.
+      #
+      # @return [String] The request canonical description string.
+      #
       def canonical_description(method, path, headers={})
         attributes = {}
         headers.each do |key, value|
@@ -84,6 +131,19 @@ module Visor
         desc << path.gsub(/\?.*$/, '')
       end
 
+      # Authenticate an user request by analysing the request authorization string.
+      #
+      # @param env [Hash] The request attributes.
+      # @param vas [Visor::Image::Auth] A VAS interface object, used to query for user credentials.
+      #
+      # @return [String] The authenticated user access key.
+      #
+      # @raise [Forbidden] If authorization header was not provided along the request.
+      # @raise [Forbidden] If no access key found in the authorization header string.
+      # @raise [Forbidden] If no user found with the given access key.
+      # @raise [Forbidden] If signatures do not match.
+      # @raise [InternalError] If VAS server was not found.
+      #
       def authorize(env, vas)
         auth = env['headers']['Authorization']
         raise Visor::Common::Exception::Forbidden, "Authorization not provided." unless auth
@@ -105,5 +165,3 @@ module Visor
     end
   end
 end
-
-#sign_request('key', 'secret', 'GET', '/users/joaodrp', {'x-image-meta-name' => 'hi'})

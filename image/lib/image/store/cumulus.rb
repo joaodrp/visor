@@ -46,9 +46,9 @@ module Visor
           end
         end
 
-        # Returns a Happening library S3 Cumulus compatible connection object.
+        # Returns a Cumulus connection object.
         #
-        # @return [Happening::S3::Item] A new Cumulus connection object.
+        # @return [S3restful::S3::Item] A new Cumulus connection object.
         #
         def connection
           S3restful::S3::Item.new(bucket, file, server: host, port: port, protocol: 'http',
