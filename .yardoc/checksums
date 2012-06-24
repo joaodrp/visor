@@ -5,7 +5,7 @@ web/lib/web/version.rb b744a5d484b0167e06bf1a8b4d34a52915c7f4d1
 image/lib/image/cli.rb e789975bbedd34fef590f5d1130b949e5e225942
 auth/lib/auth/server.rb 4de10ba8aa7376d080dab6ae2e39e5c3e5fcc099
 auth/lib/auth/client.rb b7a7ca5209e9124e22931cd0ad3e0b6e652b2607
-image/lib/image/meta.rb 09a4672593e215778640ddcb28e23912631f128b
+image/lib/image/meta.rb cd506c4a4b38c60bd559b2ef09a34e59b809b167
 image/lib/image/auth.rb e9f050f6a3e21bc3b5ca0552d59e8bfee73b1ad4
 meta/lib/meta/client.rb b3e95229caa737f1614b12a5fd090e339b8df281
 meta/lib/meta/server.rb 4a2f88de9f2fd09672d3b31e11ff023b899c95a7
