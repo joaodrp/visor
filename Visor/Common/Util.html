@@ -95,8 +95,8 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The Util module provides a set of utility functions used along all VISoR
-sub-systems.</p>
+<p>The Util module provides a set of utility functions used along all VISOR
+subsystems.</p>
 
 
   </div>
@@ -122,7 +122,7 @@ sub-systems.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#authorize-instance_method" title="#authorize (instance method)">- (Object) <strong>authorize</strong>(env, vas) </a>
+      <a href="#authorize-instance_method" title="#authorize (instance method)">- (String) <strong>authorize</strong>(env, vas) </a>
     
 
     
@@ -136,7 +136,9 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Authenticate an user request by analysing the request authorization string.</p>
+</div></span>
   
 </li>
 
@@ -144,7 +146,7 @@ sub-systems.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#canonical_description-instance_method" title="#canonical_description (instance method)">- (Object) <strong>canonical_description</strong>(method, path, headers = {}) </a>
+      <a href="#canonical_description-instance_method" title="#canonical_description (instance method)">- (String) <strong>canonical_description</strong>(method, path, headers = {}) </a>
     
 
     
@@ -158,7 +160,10 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generate a request canonical description, which will be used by
+<span class='object_link'><a href="#sign_request-instance_method" title="Visor::Common::Util#sign_request (method)">#sign_request</a></span>.</p>
+</div></span>
   
 </li>
 
@@ -166,7 +171,7 @@ sub-systems.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_date%3F-instance_method" title="#is_date? (instance method)">- (Boolean) <strong>is_date?</strong>(object) </a>
+      <a href="#is_date%3F-instance_method" title="#is_date? (instance method)">- (Date, NilClass) <strong>is_date?</strong>(object) </a>
     
 
     
@@ -180,7 +185,9 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Find if a an object can be converted to a date.</p>
+</div></span>
   
 </li>
 
@@ -188,7 +195,7 @@ sub-systems.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_float%3F-instance_method" title="#is_float? (instance method)">- (Boolean) <strong>is_float?</strong>(object) </a>
+      <a href="#is_float%3F-instance_method" title="#is_float? (instance method)">- (Float, NilClass) <strong>is_float?</strong>(object) </a>
     
 
     
@@ -202,7 +209,9 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Find if a an object can be converted to a float.</p>
+</div></span>
   
 </li>
 
@@ -210,7 +219,7 @@ sub-systems.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_integer%3F-instance_method" title="#is_integer? (instance method)">- (Boolean) <strong>is_integer?</strong>(object) </a>
+      <a href="#is_integer%3F-instance_method" title="#is_integer? (instance method)">- (Integer, NilClass) <strong>is_integer?</strong>(object) </a>
     
 
     
@@ -224,7 +233,9 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Find if a an object can be converted to an integer.</p>
+</div></span>
   
 </li>
 
@@ -246,7 +257,9 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Find if a string value is an integer, a float or a date.</p>
+</div></span>
   
 </li>
 
@@ -254,7 +267,7 @@ sub-systems.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#pull_meta_from_headers-instance_method" title="#pull_meta_from_headers (instance method)">- (Object) <strong>pull_meta_from_headers</strong>(headers) </a>
+      <a href="#pull_meta_from_headers-instance_method" title="#pull_meta_from_headers (instance method)">- (Hash) <strong>pull_meta_from_headers</strong>(headers) </a>
     
 
     
@@ -268,7 +281,9 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Pull image metadata from HTTP headers to a hash.</p>
+</div></span>
   
 </li>
 
@@ -314,7 +329,10 @@ sub-systems.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Sign a request by generating an authorization string and embedding it in
+the request headers.</p>
+</div></span>
   
 </li>
 
@@ -331,7 +349,7 @@ sub-systems.</p>
       <div class="method_details first">
   <h3 class="signature first" id="authorize-instance_method">
   
-    - (<tt>Object</tt>) <strong>authorize</strong>(env, vas) 
+    - (<tt>String</tt>) <strong>authorize</strong>(env, vas) 
   
 
   
@@ -340,20 +358,137 @@ sub-systems.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Authenticate an user request by analysing the request authorization string.</p>
+
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>env</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request attributes.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>vas</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Image/Auth.html" title="Visor::Image::Auth (class)">Visor::Image::Auth</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A VAS interface object, used to query for user credentials.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The authenticated user access key.</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Raises:</p>
 <ul class="raise">
   
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Exception/Forbidden.html" title="Visor::Common::Exception::Forbidden (class)">Visor::Common::Exception::Forbidden</a></span></tt>)</span>
+        <span class='type'>(<tt>Forbidden</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>If authorization header was not provided along the request.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Forbidden</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If no access key found in the authorization header string.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Forbidden</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If no user found with the given access key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Forbidden</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If signatures do not match.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>InternalError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If VAS server was not found.</p>
+</div>
       
     </li>
   
@@ -365,26 +500,26 @@ sub-systems.</p>
       <pre class="lines">
 
 
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103</pre>
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 147</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorize'>authorize</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_vas'>vas</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_auth'>auth</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>headers</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Authorization</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
@@ -411,37 +546,121 @@ sub-systems.</p>
       <div class="method_details ">
   <h3 class="signature " id="canonical_description-instance_method">
   
-    - (<tt>Object</tt>) <strong>canonical_description</strong>(method, path, headers = {}) 
+    - (<tt>String</tt>) <strong>canonical_description</strong>(method, path, headers = {}) 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate a request canonical description, which will be used by
+<span class='object_link'><a href="#sign_request-instance_method" title="Visor::Common::Util#sign_request (method)">#sign_request</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>method</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request method.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request path.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>headers</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request headers.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request canonical description string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85</pre>
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_canonical_description'>canonical_description</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -467,7 +686,7 @@ sub-systems.</p>
       <div class="method_details ">
   <h3 class="signature " id="is_date?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>is_date?</strong>(object) 
+    - (<tt>Date</tt>, <tt>NilClass</tt>) <strong>is_date?</strong>(object) 
   
 
   
@@ -476,20 +695,47 @@ sub-systems.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Find if a an object can be converted to a date.</p>
+
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>object</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The object to be converted to a date.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>Date</tt>, <tt>NilClass</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The converted float, or nil if it can not be converted to a date.</p>
+</div>
       
     </li>
   
@@ -501,13 +747,13 @@ sub-systems.</p>
       <pre class="lines">
 
 
-57
-58
-59
-60</pre>
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_date?'>is_date?</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_regexp'>regexp</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\d{4}[-\/]\d{1,2}[-\/]\d{1,2}\s\d{2}:\d{2}:\d{2}\s\W\d{4}</span><span class='regexp_end'>/</span></span>
@@ -521,7 +767,7 @@ sub-systems.</p>
       <div class="method_details ">
   <h3 class="signature " id="is_float?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>is_float?</strong>(object) 
+    - (<tt>Float</tt>, <tt>NilClass</tt>) <strong>is_float?</strong>(object) 
   
 
   
@@ -530,20 +776,47 @@ sub-systems.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Find if a an object can be converted to a float.</p>
+
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>object</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The object to be converted to a float.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>Float</tt>, <tt>NilClass</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The converted float, or nil if it can not be converted to a float.</p>
+</div>
       
     </li>
   
@@ -555,12 +828,12 @@ sub-systems.</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_float?'>is_float?</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span>
   <span class='kw'>true</span> <span class='kw'>if</span> <span class='const'>Float</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='kw'>false</span>
@@ -573,7 +846,7 @@ sub-systems.</p>
       <div class="method_details ">
   <h3 class="signature " id="is_integer?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>is_integer?</strong>(object) 
+    - (<tt>Integer</tt>, <tt>NilClass</tt>) <strong>is_integer?</strong>(object) 
   
 
   
@@ -582,20 +855,47 @@ sub-systems.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Find if a an object can be converted to an integer.</p>
+
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>object</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The object to be converted to integer.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>Integer</tt>, <tt>NilClass</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The converted integer, or nil if it can not be converted to integer.</p>
+</div>
       
     </li>
   
@@ -607,12 +907,12 @@ sub-systems.</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_integer?'>is_integer?</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span>
   <span class='kw'>true</span> <span class='kw'>if</span> <span class='const'>Integer</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='kw'>false</span>
@@ -631,26 +931,76 @@ sub-systems.</p>
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Find if a string value is an integer, a float or a date. If it matches a
+type, then it is converted to that type and returned.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>string</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The string to be parsed.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The already converted string value.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47</pre>
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_value'>parse_value</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_is_integer?'>is_integer?</span><span class='lparen'>(</span><span class='id identifier rubyid_string'>string</span><span class='rparen'>)</span> <span class='kw'>then</span>
@@ -671,31 +1021,80 @@ sub-systems.</p>
       <div class="method_details ">
   <h3 class="signature " id="pull_meta_from_headers-instance_method">
   
-    - (<tt>Object</tt>) <strong>pull_meta_from_headers</strong>(headers) 
+    - (<tt>Hash</tt>) <strong>pull_meta_from_headers</strong>(headers) 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Pull image metadata from HTTP headers to a hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>headers</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>(nil) The HTTP headers hash</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The header containing the metadata</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-26
-27
-28
-29
-30
-31
 32
 33
 34
-35</pre>
+35
+36
+37
+38
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pull_meta_from_headers'>pull_meta_from_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_headers'>headers</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -821,22 +1220,120 @@ pair is pushed as a string of the form 'x-image-meta-&lt;key&gt;'.</p>
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Sign a request by generating an authorization string and embedding it in
+the request headers.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>access_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The requester user access key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>secret_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The requester user secret key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>method</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request method.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request path.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>headers</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The request headers.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-62
-63
-64
-65
-66
-67
-68</pre>
+101
+102
+103
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/util.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign_request'>sign_request</span><span class='lparen'>(</span><span class='id identifier rubyid_access_key'>access_key</span><span class='comma'>,</span> <span class='id identifier rubyid_secret_key'>secret_key</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_headers'>headers</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Date</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_utc'>utc</span><span class='period'>.</span><span class='id identifier rubyid_httpdate'>httpdate</span>
@@ -855,7 +1352,7 @@ pair is pushed as a string of the form 'x-image-meta-&lt;key&gt;'.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 13:10:08 2012 by
+  Generated on Sun Jun 24 13:40:21 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>

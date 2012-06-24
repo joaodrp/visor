@@ -356,8 +356,8 @@ visor_store:
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Build and return a Logger instance for a given VISoR sub-system, based on
-configuration file options, which are validated througth
+<p>Build and return a Logger instance for a given VISOR subsystem, based on
+configuration file options, which are validated through
 #self#self.validate_logger.</p>
 </div></span>
   
@@ -382,7 +382,7 @@ configuration file options, which are validated througth
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Ordered search for a VISoR configuration file on default locations and
+<p>Ordered search for a VISOR configuration file on default locations and
 return the first matched.</p>
 </div></span>
   
@@ -407,8 +407,8 @@ return the first matched.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Looks for a VISoR configuration file througth #self#self.find_config_file and
-returns a hash with all configuration settings or just a sub-system scoped
+<p>Looks for a VISOR configuration file through #self#self.find_config_file and
+returns a hash with all configuration settings or just a subsystem scoped
 settings.</p>
 </div></span>
   
@@ -442,8 +442,8 @@ settings.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Build and return a Logger instance for a given VISoR sub-system, based on
-configuration file options, which are validated througth
+<p>Build and return a Logger instance for a given VISOR subsystem, based on
+configuration file options, which are validated through
 Visor::Common::Config#self#self.validate_logger.</p>
 
 
@@ -464,7 +464,7 @@ Visor::Common::Config#self#self.validate_logger.</p>
       
         &mdash;
         <div class='inline'>
-<p>The VISoR sub-system app name to build a log for.</p>
+<p>The VISOR subsystem app name to build a log for.</p>
 </div>
       
     </li>
@@ -551,6 +551,7 @@ Visor::Common::Config#self#self.validate_logger.</p>
       <pre class="lines">
 
 
+192
 193
 194
 195
@@ -581,11 +582,10 @@ Visor::Common::Config#self#self.validate_logger.</p>
 220
 221
 222
-223
-224</pre>
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 193</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_build_logger'>build_logger</span><span class='lparen'>(</span><span class='id identifier rubyid_app_name'>app_name</span><span class='comma'>,</span> <span class='id identifier rubyid_configs'>configs</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_conf'>conf</span> <span class='op'>=</span> <span class='id identifier rubyid_configs'>configs</span> <span class='op'>||</span> <span class='id identifier rubyid_load_config'>load_config</span>
@@ -636,7 +636,7 @@ Visor::Common::Config#self#self.validate_logger.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Ordered search for a VISoR configuration file on default locations and
+<p>Ordered search for a VISOR configuration file on default locations and
 return the first matched.</p>
 
 
@@ -735,11 +735,9 @@ path to the found configuration file.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Looks for a VISoR configuration file througth Visor::Common::Config#self#self.find_config_file and
-returns a hash with all configuration settings or just a sub-system scoped
+<p>Looks for a VISOR configuration file through Visor::Common::Config#self#self.find_config_file and
+returns a hash with all configuration settings or just a subsystem scoped
 settings.</p>
-
-<p>TODO: YAML.load_openstruct(File.read(file))</p>
 
 
   </div>
@@ -761,7 +759,7 @@ settings.</p>
       
         &mdash;
         <div class='inline'>
-<p>Used to return just the settings about a specific sub-system.</p>
+<p>Used to return just the settings about a specific subsystem.</p>
 </div>
       
     </li>
@@ -829,6 +827,7 @@ settings.</p>
       <pre class="lines">
 
 
+172
 173
 174
 175
@@ -838,11 +837,10 @@ settings.</p>
 179
 180
 181
-182
-183</pre>
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'common/lib/common/config.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load_config'>load_config</span><span class='lparen'>(</span><span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_other_file'>other_file</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='id identifier rubyid_find_config_file'>find_config_file</span><span class='lparen'>(</span><span class='id identifier rubyid_other_file'>other_file</span><span class='rparen'>)</span>
@@ -865,7 +863,7 @@ settings.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 13:10:08 2012 by
+  Generated on Sun Jun 24 13:40:21 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>
