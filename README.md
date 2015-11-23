@@ -1,7 +1,6 @@
 # VISOR: Virtual Images Management Service for Cloud Infrastructures
 
 **Author:** [João Pereira](http://joaodrp.com/) (MSc Student)  
-**Supervisor:** [Paula Prata](http://www.di.ubi.pt/~pprata/) (PhD)  
 **Source Repository:** [http://github.com/joaodrp/visor](http://github.com/joaodrp/visor)  
 **Copyright:** 2012  
 **License:** GNU LGPL v3
@@ -29,9 +28,9 @@ VISOR, which stands for *Virtual Images Service Repository*, is an open source p
 
 ## Guides
 
-- [Installing and Configuring VISOR](https://github.com/joaodrp/visor/blob/master/docs/INSTALLATION.html)
-- [Using VISOR](https://github.com/joaodrp/visor/blob/master/docs/USING_VISOR.html)
-- [VISOR Configuration File](https://github.com/joaodrp/visor/blob/master/docs/CONFIGURATION_FILE.md)
+- [Installing and Configuring VISOR](visor/docs/INSTALLATION.md)
+- [Using VISOR](visor/docs/USING_VISOR.md)
+- [VISOR Configuration File](visor/docs/CONFIGURATION_FILE.md)
 - {Visor::Image::Client VISOR programming API}
 
 ## License & Copyright
