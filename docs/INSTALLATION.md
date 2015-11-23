@@ -151,7 +151,7 @@ To generate a template configuration file for the VAS and VMS host machine, the 
 As listed in the output above, the VISOR configuration file and directories were success- fully generated. These include the YAML format [YAML format](http://www.yaml.org/spec/1.2/spec.html) VISOR configuration file named `visor-config.yml`, the `logs` directory to where both VAS and VMS servers will log, and the parent `.visor` directory placed in the user's home folder, in this case `/Users/joaodrp/`.
 
 #### Customizing Server 2 Configuration File
-The generated configuration file should now be opened and customized. The full generated configuration file template is listed in [VISOR Configuration File](http://www.cvisor.org/file.CONFIGURATION_FILE.html).  Here we will only address the parts of the configuration file that should be customized within the VMS and VAS host machine. The remain parameters can be leaved with their default values.
+The generated configuration file should now be opened and customized. The full generated configuration file template is listed in [VISOR Configuration File](docs/CONFIGURATION_FILE.md).  Here we will only address the parts of the configuration file that should be customized within the VMS and VAS host machine. The remain parameters can be leaved with their default values.
 
 ##### Bind Host
 
@@ -554,4 +554,4 @@ Users should fill the access_key and secret_key parameters with the creden- tial
 	    secret_key: P1qGJkJqWNEwwpSyWbh4cUljxkxbdTwen6m/pwF2
 	...
 	
-We have finished all VISOR installation procedures. VAS, VMS and VIS servers should now be up and running in order to proceed with the usage examples described in [Using VISOR](http://www.cvisor.org/file.USING_VISOR.html).
+We have finished all VISOR installation procedures. VAS, VMS and VIS servers should now be up and running in order to proceed with the usage examples described in [Using VISOR](docs/USING_VISOR.md).
