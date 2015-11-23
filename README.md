@@ -2,7 +2,6 @@
 
 **Author:** [João Pereira](http://joaodrp.com/) (MSc Student)  
 **Source Repository:** [http://github.com/joaodrp/visor](http://github.com/joaodrp/visor)  
-**Copyright:** 2012  
 **License:** GNU LGPL v3
 
 ## Synopsis
@@ -36,8 +35,3 @@ VISOR, which stands for *Virtual Images Service Repository*, is an open source p
 ## License & Copyright
 
 VISOR is licensed under the GNU Lesser General Public License v3.
-
-Copyright © 2012 by [João Pereira](mailto:joaodrp@gmail.com), [Paula Prata](mailto:pprata@di.ubi.pt), University of Beira Interior (Department of Informatics)
-
-![Department of Informatics](http://joaodrp.com/img/di.png)
-![University of Beira Interior](http://joaodrp.com/img/ubi.png)
