@@ -1,9 +1,9 @@
 # Using VISOR
 
-In this appendix we will present some examples on how to use VISOR to manage VM images, using its main client tool: a CLI named `visor`. This CLI was already installed in the Client machine, previously configured in [Installing and Configuring VISOR](http://www.cvisor.org/file.INSTALLATION.html).
+In this appendix we will present some examples on how to use VISOR to manage VM images, using its main client tool: a CLI named `visor`. This CLI was already installed in the Client machine, previously configured in [Installing and Configuring VISOR](http://www.vmvisor.info/file.INSTALLATION.html).
 
 <hr/>
-To use VISOR, examples in this chapter should be reproduced in the **Client** machine, previously configured in [Installing and Configuring VISOR](http://www.cvisor.org/file.INSTALLATION.html).
+To use VISOR, examples in this chapter should be reproduced in the **Client** machine, previously configured in [Installing and Configuring VISOR](http://www.vmvisor.info/file.INSTALLATION.html).
 <hr/>
 
 To see an help message about the client CLI, the `visor` command should be used with the `-h` option:
@@ -38,7 +38,7 @@ To see an help message about the client CLI, the `visor` command should be used 
 	
 ## Assumptions
 
-We need some VM images to register in VISOR. Therefore, we assume that users have down- loaded and placed the following sample images inside their home folder in the Client machine:
+We need some VM images to register in VISOR. Therefore, we assume that users have downloaded and placed the following sample images inside their home folder in the Client machine:
 
 - [Fedora-17-x86_64-Live-Desktop.iso](http://download.fedoraproject.org/pub/fedora/linux/releases/17/Live/x86_64/Fedora-17-x86_64-Live-Desktop.iso): Fedora Desktop 17 64-bit VM image.
 

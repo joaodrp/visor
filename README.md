@@ -27,11 +27,13 @@ VISOR, which stands for *Virtual Images Service Repository*, is an open source p
 
 ## Guides
 
-- [Installing and Configuring VISOR](docs/INSTALLATION.md)
-- [Using VISOR](docs/USING_VISOR.md)
-- [VISOR Configuration File](docs/CONFIGURATION_FILE.md)
-- {Visor::Image::Client VISOR programming API}
+- [Installing and Configuring VISOR](http://vmvisor.info/file.INSTALLATION.html)
+- [Using VISOR](http://vmvisor.info/file.USING_VISOR.html)
+- [VISOR Configuration File](http://vmvisor.info/file.CONFIGURATION_FILE.html)
+- [VISOR programming API](http://vmvisor.info/Visor/Image/Client.html)
 
 ## License & Copyright
 
 VISOR is licensed under the GNU Lesser General Public License v3.
+
+Copyright © 2015 by João Pereira
