@@ -10,14 +10,14 @@
   
 </title>
 
-  <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../../../';
-  framesUrl = "../../../frames.html#!" + escape(window.location.href);
+  framesUrl = "../../../frames.html#!Visor/Meta/Backends/Base.html";
 </script>
 
 
@@ -1044,7 +1044,6 @@ and values.</p>
     
       
       <span id=""></span>
-      <span id="conn-instance_method"></span>
       <div class="method_details first">
   <h3 class="signature first" id="conn-instance_method">
   
@@ -1088,7 +1087,6 @@ and values.</p>
     
       
       <span id=""></span>
-      <span id="db-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="db-instance_method">
   
@@ -1132,7 +1130,6 @@ and values.</p>
     
       
       <span id=""></span>
-      <span id="host-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="host-instance_method">
   
@@ -1176,7 +1173,6 @@ and values.</p>
     
       
       <span id=""></span>
-      <span id="password-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="password-instance_method">
   
@@ -1220,7 +1216,6 @@ and values.</p>
     
       
       <span id=""></span>
-      <span id="port-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="port-instance_method">
   
@@ -1264,7 +1259,6 @@ and values.</p>
     
       
       <span id=""></span>
-      <span id="user-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="user-instance_method">
   
@@ -1431,10 +1425,10 @@ image attributes from the others schema field.</p>
 <p>Instantiate a client with default values:</p>
 </div></p>
       
-      <pre class="example code"># So this:
+      <pre class="example code"><code># So this:
 {name: &quot;example&quot;, access: &quot;public&quot;, others: &quot;{\&quot;extra_key\&quot;:\&quot;value\&quot;,\&quot;another\&quot;:\&quot;value\&quot;}&quot;}&quot;}
 # becomes this:
-{name: 'example', access: 'public', extra_key: 'value', another: 'value'}</pre>
+{name: 'example', access: 'public', extra_key: 'value', another: 'value'}</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1516,10 +1510,10 @@ image attributes on the others schema field.</p>
 <p>Instantiate a client with default values:</p>
 </div></p>
       
-      <pre class="example code"># So this:
+      <pre class="example code"><code># So this:
 {name: 'example', access: 'public', extra_key: 'value', another: 'value'}
 # becomes this:
-{name: &quot;example&quot;, access: &quot;public&quot;, others: &quot;{\&quot;extra_key\&quot;:\&quot;value\&quot;,\&quot;another\&quot;:\&quot;value\&quot;}&quot;}&quot;}</pre>
+{name: &quot;example&quot;, access: &quot;public&quot;, others: &quot;{\&quot;extra_key\&quot;:\&quot;value\&quot;,\&quot;another\&quot;:\&quot;value\&quot;}&quot;}&quot;}</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1951,8 +1945,8 @@ owner, size, access, status and created_at.</p>
       
         &mdash;
         <div class='inline'>
-<p>A string as "(k, k1) VALUES ('v', 'v1')", only Strings Times or Hashes
-values are surrounded with '&lt;value&gt;'.</p>
+<p>A string as “(k, k1) VALUES (‘v’, ‘v1’)”, only Strings Times or Hashes
+values are surrounded with ‘&lt;value&gt;’.</p>
 </div>
       
     </li>
@@ -2033,8 +2027,8 @@ values are surrounded with '&lt;value&gt;'.</p>
       
         &mdash;
         <div class='inline'>
-<p>A string as "k='v', k1='v1'", only Strings Times or Hashes values are
-surrounded with '&lt;value&gt;'.</p>
+<p>A string as “k=‘v’, k1=‘v1’”, only Strings Times or Hashes values are
+surrounded with ‘&lt;value&gt;’.</p>
 </div>
       
     </li>
@@ -2113,8 +2107,8 @@ surrounded with '&lt;value&gt;'.</p>
       
         &mdash;
         <div class='inline'>
-<p>A string as "k='v' AND k1='v1'", only Strings Times or Hashes values are
-surrounded with '&lt;value&gt;'.</p>
+<p>A string as “k=‘v’ AND k1=‘v1’”, only Strings Times or Hashes values are
+surrounded with ‘&lt;value&gt;’.</p>
 </div>
       
     </li>
@@ -2160,7 +2154,7 @@ and values.</p>
 <p>@<a href="http://ArgumentError">raise</a> If some of the metadata fields do
 not respect the</p>
 
-<pre class="code ruby"><code>possible values, contains any read-only or misses any mandatory field.</code></pre>
+<pre class="code ruby"><code class="ruby">possible values, contains any read-only or misses any mandatory field.</code></pre>
 
 
   </div>
@@ -2245,7 +2239,7 @@ and values.</p>
 <p>@<a href="http://ArgumentError">raise</a> If some of the metadata fields do
 not respect the</p>
 
-<pre class="code ruby"><code>possible values, contains any read-only or misses any mandatory field.</code></pre>
+<pre class="code ruby"><code class="ruby">possible values, contains any read-only or misses any mandatory field.</code></pre>
 
 
   </div>
@@ -2327,7 +2321,7 @@ not respect the</p>
 <p>@<a href="http://ArgumentError">raise</a> If some of the query filter
 fields do not respect the</p>
 
-<pre class="code ruby"><code>possible values.</code></pre>
+<pre class="code ruby"><code class="ruby">possible values.</code></pre>
 
 
   </div>
@@ -2385,9 +2379,9 @@ fields do not respect the</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 17:13:06 2012 by
+  Generated on Sat Nov 28 18:33:53 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.1 (ruby-1.9.3).
+  0.8.7.6 (ruby-1.9.3).
 </div>
 
   </body>

@@ -10,14 +10,14 @@
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  framesUrl = "frames.html#!" + escape(window.location.href);
+  framesUrl = "frames.html#!file.INSTALLATION.html";
 </script>
 
 
@@ -69,28 +69,15 @@
 
 <p>We will install VISOR by distributing its subsystems across three independent machines, with two host servers and one client. However, any other subsystems arrangement can be made by administrators (e.g. a subsystem per machine, all subsystems in the same machine). During the installation procedures we will always indicate in which machines a specific procedure should be reproduced. The deployment environment is pictured in following figure:</p>
 
-<p><img src="http://joaodrp.com/img/visor_install.png" alt="VISOR deployment" /></p>
+<p><img src="http://joaodrp.com/img/visor_install.png" alt="VISOR deployment"></p>
 
 <ul>
-<li><strong>Server 1:</strong> This machine will host the VISOR Image System (VIS), which is VISOR’s core and client’s front-end. The VIS server application will create a log file in which it will log operations. This machine will also comprise a VISOR configuration file, which will contain the necessary configuration options for customizing VIS.</li>
-</ul>
-
-
-<br/>
-
-
-<ul>
-<li><strong>Server 2:</strong> This server will host both VISOR Meta System (VMS) and VISOR Auth System (VAS). Therefore, as they live in the same machine, they will use an underlying database to store both user accounts and image metadata. Both VMS and VAS will log to a local logging file. This server will host another VISOR configuration file which will contain the necessary parameters to configure both VMS and VAS.</li>
-</ul>
-
-
-<br/>
-
-
-<ul>
+<li><strong>Server 1:</strong> This machine will host the VISOR Image System (VIS), which is VISOR’s core and client’s front-end. The VIS server application will create a log file in which it will log operations. This machine will also comprise a VISOR configuration file, which will contain the necessary configuration options for customizing VIS.
+<br/></li>
+<li><strong>Server 2:</strong> This server will host both VISOR Meta System (VMS) and VISOR Auth System (VAS). Therefore, as they live in the same machine, they will use an underlying database to store both user accounts and image metadata. Both VMS and VAS will log to a local logging file. This server will host another VISOR configuration file which will contain the necessary parameters to configure both VMS and VAS.
+<br/></li>
 <li><strong>Client:</strong> The Client machine will host the VIS CLI, which will communicate with the VIS server hosted in Server 1. It will also contain a VISOR configuration file, including the necessary parameters to configure the VIS CLI.</li>
 </ul>
-
 
 <h2>Installing Dependencies</h2>
 
@@ -102,22 +89,20 @@
 
 <hr/>
 
-
 <p>These procedures should be reproduced in all machines (<strong>Server 1</strong>, <strong>Server 2</strong> and <strong>Client</strong>).</p>
 
 <hr/>
 
+<p>VISOR depends on the <a href="http://www.ruby-lang.org/en/">Ruby programming language</a>, thus all machines used to host VISOR need to have the Ruby binaries installed. Since VISOR targets Unix systems, most up-to-date Linux and Mac OSX OSs are equipped with Ruby installed by default. However, VISOR requires Ruby to be at least in version 1.9.2. To ensure that host machines fulfil this requirement, users should open a terminal window and issue the following command (”prompt $&gt;” indicates the terminal prompt position):</p>
 
-<p>VISOR depends on the <a href="http://www.ruby-lang.org/en/">Ruby programming language</a>, thus all machines used to host VISOR need to have the Ruby binaries installed. Since VISOR targets Unix systems, most up-to-date Linux and Mac OSX OSs are equipped with Ruby installed by default. However, VISOR requires Ruby to be at least in version 1.9.2. To ensure that host machines fulfil this requirement, users should open a terminal window and issue the following command (”prompt $>” indicates the terminal prompt position):</p>
-
-<pre class="code ruby"><code>prompt $&gt; ruby -v
+<pre class="code ruby"><code class="ruby">prompt $&gt; ruby -v
 </code></pre>
 
 <p>If users’ machines have Ruby installed, they should see a message displaying ”ruby” followed by its version number. If receiving a ”command not found” error, that machines do not have Ruby installed. If seeing a Ruby version lower than 1.9.2 or machines do not have Ruby installed at all, it should be installed as follows (depending on the used OS):</p>
 
 <h4>Ubuntu</h4>
 
-<pre class="code ruby"><code>prompt $&gt; sudo apt-get update
+<pre class="code ruby"><code class="ruby">prompt $&gt; sudo apt-get update
 prompt $&gt; sudo apt-get install build-essential ruby1.9.3
 </code></pre>
 
@@ -125,7 +110,7 @@ prompt $&gt; sudo apt-get install build-essential ruby1.9.3
 
 <p>In Mac OSX, users should make sure that they have already installed Apple’s Xcode (a developer library which should have come with Mac OSX installation disk) on machines before proceeding.</p>
 
-<pre class="code ruby"><code># First, install Homebrew, a free Mac OSX package manager
+<pre class="code ruby"><code class="ruby"># First, install Homebrew, a free Mac OSX package manager
 prompt $&gt; /usr/bin/ruby -e &quot;$(/usr/bin/curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)&quot;
 # Now install Ruby with Homebrew
 prompt $&gt; brew install ruby
@@ -135,17 +120,15 @@ prompt $&gt; brew install ruby
 
 <hr/>
 
-
 <p>These procedures should be reproduced in <strong>Server 2</strong>.</p>
 
 <hr/>
-
 
 <p>Since both VMS and VAS register data on a database, it is required to install a database system. Both VMS and VAS support MongoDB and MySQL databases, therefore it is user’s responsibility to choose which one to install and use. Users can install either MongoDB or MySQL as follows:</p>
 
 <h4>Ubuntu</h4>
 
-<pre class="code ruby"><code># Install MongoDB
+<pre class="code ruby"><code class="ruby"># Install MongoDB
 prompt&gt; sudo apt-get install mongodb
 # Or install MySQL
 prompt&gt; sudo apt-get install mysql-server mysql-client libmysqlclient-dev
@@ -153,7 +136,7 @@ prompt&gt; sudo apt-get install mysql-server mysql-client libmysqlclient-dev
 
 <h4>Mac OSX</h4>
 
-<pre class="code ruby"><code># Install MongoDB
+<pre class="code ruby"><code class="ruby"># Install MongoDB
 prompt $&gt; brew install mongodb 
 # Or install MySQL
 prompt $&gt; brew install mysql
@@ -163,11 +146,9 @@ prompt $&gt; brew install mysql
 
 <hr/>
 
-
 <p>These procedures should be reproduced in <strong>Server 2</strong>.</p>
 
 <hr/>
-
 
 <p>ow that all dependencies are satisfied, it is time to configure a database for VISOR. Users should follow these instructions if they have chosen either MongoDB or MySQL:</p>
 
@@ -176,7 +157,7 @@ prompt $&gt; brew install mysql
 <p>We just need to make sure that MongoDB was successfully installed, since MongoDB lets VISOR
 create a database automatically. Users should open a terminal window and type <code>mongo</code>:</p>
 
-<pre class="code ruby"><code>prompt $&gt; mongo
+<pre class="code ruby"><code class="ruby">prompt $&gt; mongo
 MongoDB shell version: 2.0.4
 connecting to: test
 </code></pre>
@@ -187,16 +168,13 @@ connecting to: test
 
 <p>If users have chosen to run VISOR backed by MySQL, they need to create and configure a database and an user account for it. To enter in the MySQL shell, the following command should be issued:</p>
 
-<pre class="code ruby"><code>prompt $&gt; mysql -u root
+<pre class="code ruby"><code class="ruby">prompt $&gt; mysql -u root
 </code></pre>
 
 <p>The following SQL queries should be used to create a database and an user account for VISOR. Users can provide a different database name, username (we will use ”visor” for both) and password (”passwd”), making sure to note those credentials as they will be further required:</p>
 
-<pre class="code ruby"><code>CREATE DATABASE visor;
-CREATE USER 'visor'@'localhost' IDENTIFIED BY 'passwd';
-GRANT ALL PRIVILEGES ON *.* TO 'visor'@'localhost';
-FLUSH PRIVILEGES;
-</code></pre>
+<pre class="code ruby"><code class="ruby"><span class='const'>CREATE</span> <span class='const'>DATABASE</span> <span class='id identifier rubyid_visor'>visor</span><span class='semicolon'>;</span>
+<span class='const'>CREATE</span> <span class='const'>USER</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>visor</span><span class='tstring_end'>'</span></span></code></pre>
 
 <p>If everything went without errors, we have already completed the database configurations (VISOR will handle tables creation). By typing <code>exit;</code> we will quit from the MySQL shell.</p>
 
@@ -204,11 +182,9 @@ FLUSH PRIVILEGES;
 
 <hr/>
 
-
 <p>From now on, all the presented commands are compatible with all popular Unix-based OSs, such as Ubuntu, Fedora, CentOS, RedHat, Mac OSX and others.</p>
 
 <hr/>
-
 
 <p>We have already prepared Server 1, Server 2 and Client machines to host VISOR. Thus, we can now download and install it. The VISOR service is currently distributed as a set of subsystems packaged in Ruby libraries, which are commonly known as gems. Therefore we will install each subsystem with a single command, downloading the required gem that will be automatically installed and configured.</p>
 
@@ -216,20 +192,18 @@ FLUSH PRIVILEGES;
 
 <hr/>
 
-
 <p>These procedures should be reproduced in <strong>Server 2</strong>.</p>
 
 <hr/>
 
-
 <p>We will now install VAS and VMS subsystems in Server 2. To install these subsystems, users should issue the following command on a terminal window:</p>
 
-<pre class="code ruby"><code>prompt $&gt; sudo gem install visor-auth visor-meta
+<pre class="code ruby"><code class="ruby">prompt $&gt; sudo gem install visor-auth visor-meta
 </code></pre>
 
 <p>This command will automatically download, install and configure the last releases of the VAS and VMS from the Ruby gems on-line repository. During VAS and VMS installation, the VISOR Common System (VCS) will be automatically fetched and installed too (being <code>visor-common</code> gem), as all VISOR subsystems depend on it. After the installation completes, we will see a similar terminal output as the one below:</p>
 
-<pre class="code ruby"><code>prompt $&gt; sudo gem install visor-auth visor-meta
+<pre class="code ruby"><code class="ruby">prompt $&gt; sudo gem install visor-auth visor-meta
 Successfully installed visor-common-0.0.2
 ****************************** VISOR ******************************
 visor-auth was successfully installed!
@@ -252,7 +226,7 @@ prompt $&gt;
 
 <p>To generate a template configuration file for the VAS and VMS host machine, the <code>visor-config</code> command should be used:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-config
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-config
 Generating VISOR configuration directories and files:
 creating /Users/joaodrp/.visor...                  [DONE]
 creating /Users/joaodrp/.visor/logs...             [DONE]
@@ -262,17 +236,17 @@ configuration file at /Users/joaodrp/.visor/visor-config.yml
 prompt $&gt;
 </code></pre>
 
-<p>As listed in the output above, the VISOR configuration file and directories were success- fully generated. These include the YAML format <a href="http://www.yaml.org/spec/1.2/spec.html">YAML format</a> VISOR configuration file named <code>visor-config.yml</code>, the <code>logs</code> directory to where both VAS and VMS servers will log, and the parent <code>.visor</code> directory placed in the user's home folder, in this case <code>/Users/joaodrp/</code>.</p>
+<p>As listed in the output above, the VISOR configuration file and directories were success- fully generated. These include the YAML format <a href="http://www.yaml.org/spec/1.2/spec.html">YAML format</a> VISOR configuration file named <code>visor-config.yml</code>, the <code>logs</code> directory to where both VAS and VMS servers will log, and the parent <code>.visor</code> directory placed in the user&#39;s home folder, in this case <code>/Users/joaodrp/</code>.</p>
 
 <h4>Customizing Server 2 Configuration File</h4>
 
-<p>The generated configuration file should now be opened and customized. The full generated configuration file template is listed in <a href="http://www.cvisor.org/file.CONFIGURATION_FILE.html">VISOR Configuration File</a>.  Here we will only address the parts of the configuration file that should be customized within the VMS and VAS host machine. The remain parameters can be leaved with their default values.</p>
+<p>The generated configuration file should now be opened and customized. The full generated configuration file template is listed in <a href="http://vmvisor.info/file.CONFIGURATION_FILE.html">VISOR Configuration File</a>.  Here we will only address the parts of the configuration file that should be customized within the VMS and VAS host machine. The remain parameters can be leaved with their default values.</p>
 
 <h5>Bind Host</h5>
 
 <p>Users should change the host address to bind the VAS and VMS servers through the bind_host parameters (lines 6 and 13) to their Server 2 IP address (which in our case is 10.0.0.2):</p>
 
-<pre class="code ruby"><code>...
+<pre class="code ruby"><code class="ruby">...
 # ================================ VISOR Auth =================================
 visor_auth:
 ...
@@ -295,7 +269,7 @@ visor_meta:
 
 <p>If users have chosen to use MongoDB, and considering that it is listening on its default host and port address (127.0.0.1:27017), with no authentication and using <em>visor</em> as the database name, the <code>backend</code> option for both VAS and VMS should be set as follows:</p>
 
-<pre class="code ruby"><code>...
+<pre class="code ruby"><code class="ruby">...
 # ============================= VISOR Auth ===============================
 visor_auth:
 ...
@@ -312,7 +286,7 @@ visor_meta:
 
 <p>If users have chosen MySQL, and considering that it is listening on its default host and port address (127.0.0.1:3306), the <code>backend</code> option for both VAS and VMS should be set (with user’s credentials previously obtained) as follows:</p>
 
-<pre class="code ruby"><code>...
+<pre class="code ruby"><code class="ruby">...
 # ============================= VISOR Auth ===============================
 visor_auth:
 ...
@@ -333,7 +307,7 @@ visor_meta:
 
 <p>After completed all configurations, we can now launch the VAS server. Users should open a new terminal window (<strong>keeping it open during the rest of this guide</strong>) and use the following command:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-auth start -d -f
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-auth start -d -f
 [2012-06-14 13:04:15] INFO - Starting visor-auth at 10.0.0.2:4566
 [2012-06-14 13:04:15] DEBUG - Configs /Users/joaodrp/.visor/visor-config.yml:
 [2012-06-14 13:04:15] DEBUG - *************************************************
@@ -354,20 +328,20 @@ visor_meta:
 
 <p>In the above output we have started the VAS server in debug mode. We have also started it in foreground, therefore the process will remain yielding logging output to the terminal. If wanting to start it in background (daemon process), it can be done by omitting the <code>-f</code> flag:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-auth start
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-auth start
 Starting visor-auth at 10.0.0.2:4566
 prompt $&gt;
 </code></pre>
 
 <p>To stop the VAS when it was started as a daemon process, the <code>stop</code> command should be used:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-auth stop
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-auth stop
 Stopping visor-auth with PID: 41466 Signal: INT
 </code></pre>
 
 <p>In this case, the VAS server process was running with the identifier (PID) 41466 and was killed using a system interrupt (INT). Passing the <code>-h</code> option to <code>visor-auth</code> displays an help message:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-auth -h
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-auth -h
 Usage: visor-auth [OPTIONS] COMMAND
 
 Commands:
@@ -392,22 +366,20 @@ prompt $&gt;
 
 <p>If users have stopped VAS during the above examples, they should open a terminal window (<strong>keeping it open during the rest of this guide</strong>) and start it again:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-auth start -d -f
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-auth start -d -f
 </code></pre>
 
 <hr/>
-
 
 <p>All the above operations on how to manage the VAS server apply to all VISOR subsystems server’s management. The only difference is the command name. For managing VIS it is <code>visor-image</code>, for VMS it is <code>visor-meta</code> and for VAS it is the <code>visor-auth</code> command.</p>
 
 <hr/>
 
-
 <h4>Generating an User Account</h4>
 
 <p>In order to authenticate against VISOR, one should first create an user account. This is done in VAS, using the <code>visor-admin</code> command. On a new terminal window, users can see an help message on how to use <code>visor-admin</code> by calling it with the <code>-h</code> parameter:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-admin -h
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-admin -h
 Usage: visor-admin &lt;command&gt; [options]
 
 Commands:
@@ -433,7 +405,7 @@ prompt $&gt;
 
 <p>It is also possible to ask for a detailed help message for a given command. For example, to know more about how to add a new user, the following command can be used:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-admin help add
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-admin help add
 Usage: visor-admin add &lt;ATTRIBUTES&gt; [options]
 
 Add a new user, providing its attributes.
@@ -450,7 +422,7 @@ prompt $&gt;
 
 <p>We will follow the above example to add a new user account for user ’foo’:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-admin add access_key=foo email=foo@bar.com
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-admin add access_key=foo email=foo@bar.com
 Successfully added new user with access key 'foo'.
         ID: 8a65ab69-59b3-4efc-859a-200e6341786e
 ACCESS_KEY: foo
@@ -466,7 +438,7 @@ prompt $&gt;
 
 <p>To start the VMS, user should open a new terminal window (<strong>keeping it open during the rest of this guide</strong>) and use the <code>visor-meta</code> command:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-meta start -d -f
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-meta start -d -f
 </code></pre>
 
 <p>Now we have finished both VAS and VMS configurations, and their servers are up and running.</p>
@@ -475,20 +447,17 @@ prompt $&gt;
 
 <hr/>
 
-
-<p>These procedures should be reproduced in <strong>Server 1</strong>.</p>
-
-<br/>
-
+<p>These procedures should be reproduced in <strong>Server 1</strong>.
+<br/></p>
 
 <p>We will now install the VIS subsystem. Users should open a terminal window on Server 1 and issue the following command:</p>
 
-<pre class="code ruby"><code>prompt $&gt; sudo gem install visor-image
+<pre class="code ruby"><code class="ruby">prompt $&gt; sudo gem install visor-image
 </code></pre>
 
 <p>This command will automatically download, install and configure the last releases of the VIS subsystem from the Ruby gems on-line repository. During VIS installation, and as for VAS and VMS installation, the VCS subsystem will be automatically downloaded and installed.</p>
 
-<pre class="code ruby"><code>prompt $&gt; sudo gem install visor-image
+<pre class="code ruby"><code class="ruby">prompt $&gt; sudo gem install visor-image
 Successfully installed visor-common-0.0.2
 ****************************** VISOR ******************************
 visor-image was successfully installed!
@@ -506,7 +475,7 @@ prompt $&gt;
 
 <p>We need to generate a configuration file for Server 1 machine in order to customize the VIS. To generate a template configuration file (as done previously for Server 2) the <code>visor-config</code> command should be used:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-config
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-config
 </code></pre>
 
 <h4>Customizing Server 1 Configuration File</h4>
@@ -517,7 +486,7 @@ prompt $&gt;
 
 <p>Users should change the host address to bind the VIS server (line 6) to their Server 1 IP address, which in our case is 10.0.0.1:</p>
 
-<pre class="code ruby"><code>...
+<pre class="code ruby"><code class="ruby">...
 # ================================ VISOR Image ================================
 visor_image:
 ...
@@ -531,7 +500,7 @@ visor_image:
 
 <p>Since VIS needs to communicate with the VMS and VAS, users should indicate in the Server 1 configuration file what is the Server 2 IP address, and the ports where VMS and VAS servers are listening for incoming requests:</p>
 
-<pre class="code ruby"><code>...
+<pre class="code ruby"><code class="ruby">...
 # ================================ VISOR Auth =================================
 visor_auth:
 ...
@@ -554,7 +523,7 @@ visor_meta:
 
 <p>Besides the VIS server, it is also needed to pay attention to the image storage backends configuration. The output below contains the excerpt of the configuration file that should be addressed to customize the storage backends:</p>
 
-<pre class="code ruby"><code>...
+<pre class="code ruby"><code class="ruby">...
 # =========================== VISOR Image Backends ============================
 visor_store:
     # Default store (available: s3, lcs, cumulus, walrus, hdfs, file)
@@ -628,12 +597,11 @@ visor_store:
 <li><p>Cumulus, Walrus and HDFS configurations are similar. Users should provide the host address and port where these storage services are listening in. For Cumulus and Walrus they should also provide the access and secret key credentials. For HDFS users should provide their username in Hadoop.</p></li>
 </ul>
 
-
 <h4>Starting VISOR Image System</h4>
 
 <p>After customizing the VIS configuration file, users should open a new terminal window (<strong>keeping it open during the rest of this guide</strong>) and launch the VIS server with the <code>visor-image</code> command:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-image start -d -f
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-image start -d -f
 [INFO] 2012-06-14 14:10:57 :: Starting visor-image at 10.0.0.1:4568
 [DEBUG] 2012-06-14 14:10:57 :: Configs /Users/joaodrp/.visor/visor-config.yml:
 [DEBUG] 2012-06-14 14:10:57 :: ***********************************************
@@ -657,22 +625,20 @@ visor_store:
 
 <hr/>
 
-
 <p>These procedures should be reproduced in <strong>Client</strong> machine.</p>
 
 <hr/>
 
-
 <p>The VIS subsystem contains the VISOR client tools, thus we need to install it on Client machine by simply issuing the following command:</p>
 
-<pre class="code ruby"><code>prompt $&gt; sudo gem install visor-image
+<pre class="code ruby"><code class="ruby">prompt $&gt; sudo gem install visor-image
 </code></pre>
 
 <h4>Generating Client Configuration File</h4>
 
 <p>We need to generate a configuration file for Client machine in order to customize the VISOR client tools. To generate a template configuration file (as done previously for Server 2) use the <code>visor-config</code> command:</p>
 
-<pre class="code ruby"><code>prompt $&gt; visor-config
+<pre class="code ruby"><code class="ruby">prompt $&gt; visor-config
 </code></pre>
 
 <h4>Customizing Client Configuration File</h4>
@@ -683,7 +649,7 @@ visor_store:
 
 <p>We need to indicate where does the VIS CLI can find the VIS server. Therefore users should indicate in the configuration file the host address and the port number where the VIS server is listening. In our case it is 10.0.0.1:4568. Users should customize these attributes accordingly to the IP address and port number that they have used to deploy the VIS server:</p>
 
-<pre class="code ruby"><code>...
+<pre class="code ruby"><code class="ruby">...
 # ================================ VISOR Image ================================
 visor_image:
 ...
@@ -695,7 +661,7 @@ visor_image:
 
 <p>Users should fill the access_key and secret_key parameters with the creden- tials obtained by them previously. In our case, the obtained credentials were the following (make sure to fill the configuration file with your own credentials):</p>
 
-<pre class="code ruby"><code># ===== Default always loaded configuration throughout VISOR sub-systems ======
+<pre class="code ruby"><code class="ruby"># ===== Default always loaded configuration throughout VISOR sub-systems ======
 ...
     # VISOR access and secret key credentials (from visor-admin command)
     access_key: foo
@@ -703,13 +669,13 @@ visor_image:
 ...
 </code></pre>
 
-<p>We have finished all VISOR installation procedures. VAS, VMS and VIS servers should now be up and running in order to proceed with the usage examples described in <a href="http://www.cvisor.org/file.USING_VISOR.html">Using VISOR</a>.</p>
+<p>We have finished all VISOR installation procedures. VAS, VMS and VIS servers should now be up and running in order to proceed with the usage examples described in <a href="http://vmvisor.info/file.USING_VISOR.html">Using VISOR</a>.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Sun Jun 24 17:13:01 2012 by
+  Generated on Sat Nov 28 18:33:47 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.1 (ruby-1.9.3).
+  0.8.7.6 (ruby-1.9.3).
 </div>
 
   </body>

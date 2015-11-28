@@ -10,14 +10,14 @@
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../../';
-  framesUrl = "../../frames.html#!" + escape(window.location.href);
+  framesUrl = "../../frames.html#!Visor/Meta/Client.html";
 </script>
 
 
@@ -452,21 +452,21 @@ metadata.</p>
 <p>Instantiate a client with default values:</p>
 </div></p>
       
-      <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
 <p>Instantiate a client with default values and SSL enabled:</p>
 </div></p>
       
-      <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>ssl:</span> <span class='kw'>true</span><span class='rparen'>)</span></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>ssl:</span> <span class='kw'>true</span><span class='rparen'>)</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
 <p>Instantiate a client with custom host and port:</p>
 </div></p>
       
-      <pre class="example code"><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>127.0.0.1</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>port:</span> <span class='int'>3000</span><span class='rparen'>)</span></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>Visor</span><span class='op'>::</span><span class='const'>Meta</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>host:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>127.0.0.1</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>port:</span> <span class='int'>3000</span><span class='rparen'>)</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -582,7 +582,6 @@ metadata.</p>
     
       
       <span id=""></span>
-      <span id="host-instance_method"></span>
       <div class="method_details first">
   <h3 class="signature first" id="host-instance_method">
   
@@ -626,7 +625,6 @@ metadata.</p>
     
       
       <span id=""></span>
-      <span id="port-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="port-instance_method">
   
@@ -670,7 +668,6 @@ metadata.</p>
     
       
       <span id=""></span>
-      <span id="ssl-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="ssl-instance_method">
   
@@ -746,10 +743,10 @@ metadata.</p>
 <p>Delete an image metadata:</p>
 </div></p>
       
-      <pre class="example code"><span class='comment'># wanted image _id
+      <pre class="example code"><code><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># delete the image metadata, which returns it as it was before deletion
-</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span></pre>
+</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_delete_image'>delete_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -766,7 +763,7 @@ metadata.</p>
       
         &mdash;
         <div class='inline'>
-<p>The image's _id which will be deleted.</p>
+<p>The image’s _id which will be deleted.</p>
 </div>
       
     </li>
@@ -861,7 +858,7 @@ accidental delete.</p>
 <p>Retrieve the image metadata with _id value:</p>
 </div></p>
       
-      <pre class="example code"><span class='comment'># wanted image _id
+      <pre class="example code"><code><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>5e47a41e-7b94-4f65-824e-28f94e15bc6a</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># ask for that image metadata
 </span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_image'>get_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
@@ -876,7 +873,7 @@ accidental delete.</p>
      <span class='symbol'>:format</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>iso</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
      <span class='symbol'>:status</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>available</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
      <span class='symbol'>:store</span>        <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file</span><span class='tstring_end'>&quot;</span></span>
-  <span class='rbrace'>}</span></pre>
+  <span class='rbrace'>}</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -893,7 +890,7 @@ accidental delete.</p>
       
         &mdash;
         <div class='inline'>
-<p>The wanted image's _id.</p>
+<p>The wanted image’s _id.</p>
 </div>
       
     </li>
@@ -988,23 +985,23 @@ returned results can be passed in.</p>
 <p>Retrieve all public images brief metadata:</p>
 </div></p>
       
-      <pre class="example code">client.get_images
+      <pre class="example code"><code>client.get_images
 
   # returns:
-  [&lt;all images brief metadata&gt;]</pre>
+  [&lt;all images brief metadata&gt;]</code></pre>
     
       
         <p class="example_title"><div class='inline'>
 <p>Retrieve all public 32bit images brief metadata:</p>
 </div></p>
       
-      <pre class="example code"><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images'>get_images</span><span class='lparen'>(</span><span class='label'>architecture:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>i386</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images'>get_images</span><span class='lparen'>(</span><span class='label'>architecture:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>i386</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 
   <span class='comment'># returns something like:
 </span>  <span class='lbracket'>[</span>
     <span class='lbrace'>{</span><span class='symbol'>:_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>28f94e15...</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i386</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Fedora 16</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
     <span class='lbrace'>{</span><span class='symbol'>:_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>8cb55bb6...</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i386</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ubuntu 11.10 Desktop</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
-  <span class='rbracket'>]</span></pre>
+  <span class='rbracket'>]</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
@@ -1012,13 +1009,13 @@ returned results can be passed in.</p>
 name:</p>
 </div></p>
       
-      <pre class="example code"><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images'>get_images</span><span class='lparen'>(</span><span class='label'>architecture:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>dir:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>desc</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images'>get_images</span><span class='lparen'>(</span><span class='label'>architecture:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>sort:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>name</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>dir:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>desc</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 
   <span class='comment'># returns something like:
 </span>  <span class='lbracket'>[</span>
     <span class='lbrace'>{</span><span class='symbol'>:_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>5e47a41e...</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ubuntu 10.04 Server</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
     <span class='lbrace'>{</span><span class='symbol'>:_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>069320f0...</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:architecture</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x86_64</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CentOS 6</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
-  <span class='rbracket'>]</span></pre>
+  <span class='rbracket'>]</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1090,7 +1087,7 @@ name:</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>The direction to sort results ("asc"/"desc").</p>
+<p>The direction to sort results (“asc”/“desc”).</p>
 </div>
           
         </li>
@@ -1190,9 +1187,9 @@ difference is the number of disclosed attributes.</p>
 <p>Retrieve all public images detailed metadata:</p>
 </div></p>
       
-      <pre class="example code"><span class='comment'># request for it
+      <pre class="example code"><code><span class='comment'># request for it
 </span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_get_images_detail'>get_images_detail</span>
-<span class='comment'># returns an array of hashes with all public images metadata.</span></pre>
+<span class='comment'># returns an array of hashes with all public images metadata.</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1264,7 +1261,7 @@ difference is the number of disclosed attributes.</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>The direction to sort results ("asc"/"desc").</p>
+<p>The direction to sort results (“asc”/“desc”).</p>
 </div>
           
         </li>
@@ -1364,7 +1361,7 @@ metadata.</p>
 <p>Insert a sample image metadata:</p>
 </div></p>
       
-      <pre class="example code"><span class='comment'># sample image metadata
+      <pre class="example code"><code><span class='comment'># sample image metadata
 </span><span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>example</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>architecture:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>i386</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='label'>access:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>public</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
 <span class='comment'># insert the new image metadata
 </span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_post_image'>post_image</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
@@ -1376,7 +1373,7 @@ metadata.</p>
     <span class='symbol'>:access</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>public</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='symbol'>:uri</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://0.0.0.0:4567/images/2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='symbol'>:status</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>locked</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='symbol'>:created_at</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2011-12-13 19:19:26 UTC</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span></pre>
+    <span class='symbol'>:created_at</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2011-12-13 19:19:26 UTC</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1489,7 +1486,7 @@ metadata.</p>
 <p>Update a sample image metadata:</p>
 </div></p>
       
-      <pre class="example code"><span class='comment'># wanted image _id
+      <pre class="example code"><code><span class='comment'># wanted image _id
 </span><span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span>
 <span class='comment'># update the image metadata with some new values
 </span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_put_image'>put_image</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>update example</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -1502,7 +1499,7 @@ metadata.</p>
     <span class='symbol'>:uri</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://0.0.0.0:4567/images/2373c3e5-b302-4529-8e23-c4ffc85e7613</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='symbol'>:status</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>locked</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='symbol'>:created_at</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2011-12-13 19:19:26 UTC</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='symbol'>:updated_at</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2011-12-13 19:24:37 +0000</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span></pre>
+    <span class='symbol'>:updated_at</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2011-12-13 19:24:37 +0000</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1519,7 +1516,7 @@ metadata.</p>
       
         &mdash;
         <div class='inline'>
-<p>The image's _id which will be updated.</p>
+<p>The image’s _id which will be updated.</p>
 </div>
       
     </li>
@@ -1623,9 +1620,9 @@ metadata.</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Jun 24 17:13:03 2012 by
+  Generated on Sat Nov 28 18:33:50 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.1 (ruby-1.9.3).
+  0.8.7.6 (ruby-1.9.3).
 </div>
 
   </body>
