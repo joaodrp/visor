@@ -22,15 +22,12 @@ VISOR, which stands for *Virtual Images Service Repository*, is an open source p
 
 ## Architecture
 
-![VISOR architecture](http://joaodrp.com/img/visor_architecture.png)
+![VISOR architecture](https://github.com/joaodrp/visor/blob/master/docs/visor_architecture.png)
 
 
-## Guides
+## Documentation
 
-- [Installing and Configuring VISOR](http://vmvisor.info/file.INSTALLATION.html)
-- [Using VISOR](http://vmvisor.info/file.USING_VISOR.html)
-- [VISOR Configuration File](http://vmvisor.info/file.CONFIGURATION_FILE.html)
-- [VISOR programming API](http://vmvisor.info/Visor/Image/Client.html)
+See the [docs](https://github.com/joaodrp/visor/blob/master/docs) folder for documentation.
 
 ## License & Copyright
 
